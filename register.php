@@ -23,7 +23,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Set a success message and redirect to login
         $_SESSION['registration_success'] = "Registration successful. You can now log in.";
-        header("Location: login.php");
+        sleep(3);
+        header("Location: login.php" ,);
         exit();
     } else {
         $_SESSION['registration_error'] = "Invalid email or password.";
