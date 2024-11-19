@@ -1,3 +1,36 @@
+<?php
+session_start();
+
+// Simple in-memory storage (replace with a database in real-world scenarios)//we will update it when we do the database
+if (!isset($_SESSION["users"])) {
+    $_SESSION["users"] = [];
+}
+
+$users = &$_SESSION["users"]; // Reference users array in session
+
+// Handle form submission
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    // Validate email and password inputs
+    if (filter_var($email, FILTER_VALIDATE_EMAIL) && !empty($password)) {
+        // Hash the password
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+        // Store user in session (replace with database storage in real applications)//we will update it when we do the database
+        $users[$email] = $hashed_password;
+
+        // Set a success message and redirect to login
+        $_SESSION['registration_success'] = "Registration successful. You can now log in.";
+        header("Location: login.php");
+        exit();
+    } else {
+        $_SESSION['registration_error'] = "Invalid email or password.";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
