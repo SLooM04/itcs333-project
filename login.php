@@ -45,6 +45,7 @@ session_start(); // Ensure session is started at the top of the file
           <button type="submit" class="contrast">Login</button>
         </div>
       </form>
+      <p>Don't have an account? <a href="register.php">Register here</a></p>
     </section>
   </main>
   <!-- Footer Section -->
