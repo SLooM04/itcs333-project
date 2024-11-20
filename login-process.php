@@ -9,7 +9,7 @@ if (!isset($_SESSION["users"])) {
 
 $users = $_SESSION["users"];
 
-if ($_SERVER["REQUEST_METHOD"] == "POSuT") {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
     $password = $_POST['password'];
 
@@ -25,6 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POSuT") {
             $_SESSION['user_id'] = $email; // Use email as the user ID (or replace with database ID)
             $_SESSION['username'] = $username;
             $_SESSION["login_success"] = "Welcome, $username!";
+            sleep(seconds: 2);
             header("Location: test.php");
             exit();
         }

@@ -167,7 +167,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
     </form>
     </form>
-
+    <p>Already have an account? <a href="login.php">Login here</a></p>
     <?php if (isset($_SESSION['registration_error'])){ 
      echo "<p style= color: red;> ". $_SESSION['registration_error'] ."</p>";
        unset($_SESSION['registration_error']); }?>

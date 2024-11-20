@@ -18,9 +18,9 @@ session_start(); // Ensure session is started at the top of the file
         echo "<p style='color: red;'>" . htmlspecialchars($_SESSION['login_error']) . "</p>";
         unset($_SESSION['login_error']); // Clear the message after displaying it
     }
-    if (isset($_SESSION['registration_success'])) {
-        echo "<p style='color: green;'>" . htmlspecialchars($_SESSION['registration_success']) . "</p>";
-        unset($_SESSION['registration_success']);
+    if (isset($_SESSION['login_success'])) {
+        echo "<p style='color: green;'>" . htmlspecialchars($_SESSION['login_success']) . "</p>";
+        unset($_SESSION['login_success']);
     }
     ?>
 
