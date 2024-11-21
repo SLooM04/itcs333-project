@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$dbname = 'itcs333_project';
+$dbname = 'itcs333 project';
 $username = 'root';
 $password = '';
 

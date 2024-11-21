@@ -1,14 +1,7 @@
 <?php
 session_start();
+require 'db.php';
 
-// Simple in-memory storage (replace with a database in real-world scenarios)
-if (!isset($_SESSION["users"])) {
-    $_SESSION["users"] = [];
-}
-
-$users = &$_SESSION["users"]; // Reference users array in session
-
-// Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $firstName = $_POST['first_name'];
     $lastName = $_POST['last_name'];
@@ -24,11 +17,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mobileNumber = $_POST['mobile_number'];
     $contactEmail = $_POST['contact_email'];
 
-    // Validation checks
     if (
         filter_var($email, FILTER_VALIDATE_EMAIL) &&
         $email === $confirmEmail &&
-        !empty($username) &&
         $password === $confirmPassword &&
         !empty($companyTitle) &&
         !empty($contactName) &&
@@ -37,30 +28,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         !empty($mobileNumber) &&
         filter_var($contactEmail, FILTER_VALIDATE_EMAIL)
     ) {
-        // Hash the password
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        // Store user in session (replace with database storage in real applications)
-        $users[$email] = [
-            'first_name' => $firstName,
-            'last_name' => $lastName,
-            'username' => $username,
-            'password' => $hashed_password,
-            'company_title' => $companyTitle,
-            'contact_name' => $contactName,
-            'job_title' => $jobTitle,
-            'office_phone' => $officePhone,
-            'mobile_number' => $mobileNumber,
-            'contact_email' => $contactEmail,
-        ];
+        $stmt = $pdo->prepare("
+            INSERT INTO users (first_name, last_name, email, username, password, company_title, contact_name, job_title, office_phone, mobile_number, contact_email)
+            VALUES (:first_name, :last_name, :email, :username, :password, :company_title, :contact_name, :job_title, :office_phone, :mobile_number, :contact_email)
+        ");
+        $stmt->execute([
+            ':first_name' => $firstName,
+            ':last_name' => $lastName,
+            ':email' => $email,
+            ':username' => $username,
+            ':password' => $hashed_password,
+            ':company_title' => $companyTitle,
+            ':contact_name' => $contactName,
+            ':job_title' => $jobTitle,
+            ':office_phone' => $officePhone,
+            ':mobile_number' => $mobileNumber,
+            ':contact_email' => $contactEmail,
+        ]);
 
         $_SESSION['registration_success'] = "Registration successful. You can now log in.";
-        sleep(2);
         header("Location: login.php");
         exit();
     } else {
         $_SESSION['registration_error'] = "Invalid input. Please check all fields.";
-        echo "<p class = invalid>". $_SESSION['registration_error']. "</p>";
     }
 }
 ?>
