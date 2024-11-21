@@ -103,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 // Set success message and redirect to login page
                 $_SESSION['registration_success'] = "Registration successful. You can now log in.";
-                header("Location: login.php");
+                header("Location: student-login.php");
                 exit();
             }
         } catch (PDOException $e) {
@@ -366,7 +366,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
             </fieldset>
         </form>
-        <p class ="already">Already have an account? <a href="login.php">Login here</a></p>
+        <p class ="already">Already have an account? <a href="student-login.php">Login here</a></p>
   </div>
 </main>
 

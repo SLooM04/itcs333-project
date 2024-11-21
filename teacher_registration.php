@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mobile = trim($_POST['mobile']);
 
     // Define validation patterns
-    $emailRegex = "/^[0-9]{9}@stu\.uob\.edu\.bh$|^[a-zA-Z]+@uob\.edu\.bh$/i";
+    $emailRegex = "/^[a-zA-Z0-9]+@uob\.edu\.bh$/";
     $passRegex = "/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/";
     $mobileRegex = "/^\+?[0-9]{7,15}$/"; // Adjust as per your mobile number format
 
@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($errors)) {
         try {
             // Check if email or username already exists
-            $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE email = :email OR username = :username");
+            $stmt = $pdo->prepare("SELECT COUNT(*) FROM teachers WHERE email = :email OR username = :username");
             $stmt->execute([':email' => $email, ':username' => $username]);
             $count = $stmt->fetchColumn();
 
@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 // Set success message and redirect to login page
                 $_SESSION['registration_success'] = "Registration successful. You can now log in.";
-                header("Location: login.php");
+                header("Location: teacher-login.php");
                 exit();
             }
         } catch (PDOException $e) {
@@ -345,7 +345,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
             </fieldset>
         </form>
-        <p class = "already">Already have an account? <a href="login.php">Login here</a></p>
+        <p class = "already">Already have an account? <a href="teacher-login.php">Login here</a></p>
   </div>
 </main>
 

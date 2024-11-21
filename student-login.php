@@ -171,7 +171,7 @@ footer p {
     <!-- Login Form -->
     <section class="login-section">
       <h1>Login</h1>
-      <form action="login-process.php" method="POST" id="login-form" class="login-form">
+      <form action="student-login-process.php" method="POST" id="login-form" class="login-form">
         <!-- Email -->
         <div class="form-group" id="email-container">
           <label for="login-email">UoB Email</label>
@@ -189,7 +189,7 @@ footer p {
           <button type="submit" class="contrast">Login</button>
         </div>
       </form>
-      <p>Don't have an account? <a href="register.php">Register here</a></p>
+      <p>Don't have an account? <a href="account_type.php">Register here</a></p>
     </section>
   </main>
   <!-- Footer Section -->

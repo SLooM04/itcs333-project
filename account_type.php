@@ -6,29 +6,125 @@
     <title>Choose Account Type</title>
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.5.7/css/pico.min.css">
     <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9fafb;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 3rem;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: #444;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
         .account-type-container {
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 2rem;
-            margin-top: 2rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
         }
+
         .account-card {
             width: 200px;
             text-align: center;
-            padding: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            transition: transform 0.2s, box-shadow 0.2s;
+            padding: 1.5rem;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
+
         .account-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transform: translateY(-8px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
         }
+
         .account-card img {
-            width: 60px;
-            height: 60px;
-            margin-bottom: 1rem;
+            width: 70px;
+            height: 70px;
+            margin-bottom: 1.2rem;
+        }
+
+        .account-card h2 {
+            font-size: 1.3rem;
+            color: #555;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+        }
+
+        .account-card a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .account-card a:hover h2 {
+            color: #6c757d;
+        }
+
+        p {
+            margin-top: 2.5rem;
+            font-size: 1rem;
+            color: #555;
+        }
+
+        p a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        p a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background-color: #ffffff;
+            color: #555;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* For small screen responsiveness */
+        @media screen and (max-width: 768px) {
+            .account-type-container {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .account-card {
+                width: 100%;
+                max-width: 300px;
+            }
         }
     </style>
 </head>
@@ -51,8 +147,15 @@
                     <h2>Teacher</h2>
                 </a>
             </div>
-        </div>
-        <p>Already have an account? <a href="login.php">Log in</a></p>
+      </div>
     </main>
+    <footer>
+        <p>&copy; <?php echo date("Y"); ?> ITCS333 Project | All rights reserved.</p>
+        <ul>
+            <li><a href="#privacy-policy">Privacy Policy</a></li>
+            <li><a href="#terms-of-service">Terms of Service</a></li>
+            <li><a href="#contact">Contact Us</a></li>
+        </ul>
+    </footer>
 </body>
 </html>
