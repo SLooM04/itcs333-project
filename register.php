@@ -16,10 +16,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $officePhone = $_POST['office_phone'];
     $mobileNumber = $_POST['mobile_number'];
     $contactEmail = $_POST['contact_email'];
+    $emailRegex = "/^[0-9]{9}@stu\.uob\.edu\.bh$|^[a-z]+@uob\.edu\.bh$/i";
+    $passRegex = "/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/";
+
+
 
     if (
-        filter_var($email, FILTER_VALIDATE_EMAIL) &&
+        preg_match($emailRegex, $email) &&
         $email === $confirmEmail &&
+        preg_match($$passRegex, $password) &&
         $password === $confirmPassword &&
         !empty($companyTitle) &&
         !empty($contactName) &&
@@ -49,12 +54,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ]);
 
         $_SESSION['registration_success'] = "Registration successful. You can now log in.";
+        echo "<p class = success-message>" . $_SESSION['registration_success'] . "</p>";
+        sleep(2);
         header("Location: login.php");
         exit();
-    } else {
-        $_SESSION['registration_error'] = "Invalid input. Please check all fields.";
+    }else{
+      $_SESSION['registration_error'] = "Invalid input. Please check all fields.";
+      echo "<p class = invalid>" . $_SESSION['registration_error'] . "</p>";
     }
-}
+
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -71,8 +81,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     margin: 0;
     padding: 0;
     color: #333;
-    font-size: 16px; /* A good base size for readability */
-    line-height: 1.6; /* Add spacing between lines for easier reading */
+    font-size: 16px; 
+    line-height: 1.6; 
   }
 
   main {
@@ -219,7 +229,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     border: 1px solid red;
   }
 
-  .success-message {
+  p.success-message {
     background-color: #e6ffe6;
     color: green;
     border: 1px solid green;
