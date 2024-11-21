@@ -66,6 +66,7 @@ session_start(); // Ensure session is started at the top of the file
     border: 2px solid #ddd;
     border-radius: 8px;
     background-color: #f9f9f9;
+    color: #333;
     transition: all 0.3s;
   }
 
@@ -91,6 +92,15 @@ session_start(); // Ensure session is started at the top of the file
     background-color: #004bb5;
   }
 
+  .login-section p{
+    color: #333;
+  }
+
+  .login-section a{
+    color:#0061f2;
+   font-weight: bold;
+  }
+ 
   /* Error/Sucess messages */
   .error-message,
   .success-message {
@@ -137,6 +147,10 @@ session_start(); // Ensure session is started at the top of the file
 
   footer ul li a:hover {
     text-decoration: underline;
+  }
+
+footer p {
+  color: #333;
   }
 </style>
 </head>

@@ -141,6 +141,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     border-radius: 8px;
     width: 100%;
     background-color: #f9f9f9;
+    color: #333;
     transition: all 0.3s;
   }
 
