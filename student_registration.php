@@ -131,6 +131,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Student Registration</title>
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.5.7/css/pico.min.css">
     <style>
+        
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #f4f7f6;
@@ -219,23 +220,58 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             outline: none;
         }
 
-        button {
-            padding: 18px;
-            font-size: 1.3em;
-            font-weight: bold;
-            font-family: 'Roboto', sans-serif;
-            background-color: #0061f2;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            width: 100%;
-        }
+      
+    /* Enhanced Button Styling */
+    button {
+        padding: 18px;
+        font-size: 1.3em;
+        font-weight: bold;
+        font-family: 'Roboto', sans-serif;
+        background: linear-gradient(to right, #0061f2, #4facfe);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        width: 100%;
+        transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+        position: relative;
+        overflow: hidden;
+    }
 
-        button:hover {
-            background-color: #004bb5;
-        }
+    /* Ripple Effect */
+    button::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        width: 300%;
+        height: 300%;
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 20%;
+        transition: transform 0.3s ease, opacity 0.6s ease;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    button:active::before {
+        transform: translate(-40%, -50%) scale(1);
+        opacity: 011;
+    }
+
+    button:hover {
+        background: linear-gradient(to left, #0061f2, #4facfe);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Responsive Button Adjustments */
+    @media (max-width: 768px) {
+        button {
+            padding: 15px;
+            font-size: 1.2em;
+        }}
+
         /* Footer styling */
         footer {
             margin-top: 30px;
@@ -289,7 +325,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border: 1px solid green;
         }
     </style>
-    </style>
+    
 </head>
 <body>
     <main class="container">
