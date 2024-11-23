@@ -7,32 +7,60 @@ $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
 $stmt->execute([$userId]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $name = trim($_POST['name']);
-    $bio = trim($_POST['bio']);
-    $email = trim($_POST['email']);
-    $password = $_POST['password'];
-    $profilePicture = $user['profile_picture'];
+$emailRegex = "/^[a-zA-Z0-9]+@uob\.edu\.bh$/";  
+$usernameRegex = "/^[a-zA-Z0-9_]{3,20}$/";    
+$passRegex = "/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/"; 
 
-    if ($_FILES['profile_picture']['name']) {
-        $targetDir = "uploads/";
-        $fileName = basename($_FILES['profile_picture']['name']);
-        $targetFilePath = $targetDir . $fileName;
-        move_uploaded_file($_FILES['profile_picture']['tmp_name'], $targetFilePath);
-        $profilePicture = $targetFilePath; // Update with new file path
+// Restrictions
+$errors = [];
+    
+if (empty($name)) {
+    $errors[] = "Name is required.";
+}
+
+if (empty($username)) {
+    $errors[] = "Username is required.";
+} elseif (!preg_match($usernameRegex, $username)) {
+    $errors[] = "Username must be alphanumeric, 3-20 characters, and may include underscores.";
+}
+
+if (empty($email)) {
+    $errors[] = "Email is required.";
+} elseif (!preg_match($emailRegex, $email)) {
+    $errors[] = "Invalid email format. Please use a valid University of Bahrain email.";
+}
+
+if (!empty($password) && !preg_match($passRegex, $password)) {
+    $errors[] = "Password must be at least 8 characters long, include uppercase and lowercase letters, a number, and a special character.";
+}
+
+if (!empty($errors)) {
+    foreach ($errors as $error) {
+        echo "<p style='color:red'>$error</p>";
     }
+}
 
-    $hashedPassword = !empty($password) ? password_hash($password, PASSWORD_DEFAULT) : $user['password'];
+if ($_FILES['profile_picture']['name']) {
+    $targetDir = "uploads/";
+    $fileName = basename($_FILES['profile_picture']['name']);
+    $targetFilePath = $targetDir . $fileName;
+    move_uploaded_file($_FILES['profile_picture']['tmp_name'], $targetFilePath);
+    $profilePicture = $targetFilePath; 
+}
 
-    $stmt = $pdo->prepare("UPDATE users SET name = ?, bio = ?, email = ?, password = ?, profile_picture = ? WHERE id = ?");
-    $stmt->execute([$name, $bio, $email, $hashedPassword, $profilePicture, $userId]);
+ $hashedPassword = !empty($password) ? password_hash($password, PASSWORD_DEFAULT) : $user['password'];
+
+if (empty($errors)) {
+    $stmt = $pdo->prepare("UPDATE users SET name = ?, bio = ?, email = ?, username = ?, password = ?, profile_picture = ? WHERE id = ?");
+    $stmt->execute([$name, $bio, $email, $username, $hashedPassword, $profilePicture, $userId]);
 
     $_SESSION['profile_update_success'] = "Profile updated successfully!";
     header("Location: profile.php");
     exit();
-   }
+}
 
-    ?>
+
+?>
 
 
 <!-- HTML for editing the profile -->
