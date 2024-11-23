@@ -24,6 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $hashedPassword = !empty($password) ? password_hash($password, PASSWORD_DEFAULT) : $user['password'];
 
+    $stmt = $pdo->prepare("UPDATE users SET name = ?, bio = ?, email = ?, password = ?, profile_picture = ? WHERE id = ?");
+    $stmt->execute([$name, $bio, $email, $hashedPassword, $profilePicture, $userId]);
 }
 
     ?>
