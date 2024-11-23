@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['username'] = $teachers['username'];
             $_SESSION["login_success"] = "Welcome, " . $teachers['username'] . "!";
             sleep(seconds: 2);
-            header("Location: test.php");
+            header("Location: rooms.php");
             exit();
         }
     
