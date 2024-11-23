@@ -12,4 +12,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $bio = trim($_POST['bio']);
     $email = trim($_POST['email']);
     $password = $_POST['password'];
-    $profilePicture = $user['profile_picture'];}
+    $profilePicture = $user['profile_picture'];
+}
+
+    ?>
+
+
+<!-- HTML for editing the profile -->
+ <form action="edit_profile.php" method="POST" enctype="multipart/form-data">
+    <label for="name">Name:</label>
+    <input type="text" name="name" value="<?= htmlspecialchars($user['name']) ?>" required>
+
+    <label for="bio">Bio:</label>
+    <textarea name="bio"><?= htmlspecialchars($user['bio']) ?></textarea>
+
+    <label for="email">Email:</label>
+    <input type="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" required>
+
+    <label for="password">New Password (Leave blank to keep current):</label>
+    <input type="password" name="password">
+
+    <label for="profile_picture">Profile Picture:</label>
+    <input type="file" name="profile_picture">
+
+    <button type="submit">Save Changes</button>
+</form>
