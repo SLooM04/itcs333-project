@@ -21,6 +21,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         move_uploaded_file($_FILES['profile_picture']['tmp_name'], $targetFilePath);
         $profilePicture = $targetFilePath; // Update with new file path
     }
+
+    $hashedPassword = !empty($password) ? password_hash($password, PASSWORD_DEFAULT) : $user['password'];
+
 }
 
     ?>
