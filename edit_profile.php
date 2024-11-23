@@ -26,7 +26,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $stmt = $pdo->prepare("UPDATE users SET name = ?, bio = ?, email = ?, password = ?, profile_picture = ? WHERE id = ?");
     $stmt->execute([$name, $bio, $email, $hashedPassword, $profilePicture, $userId]);
-}
+
+    $_SESSION['profile_update_success'] = "Profile updated successfully!";
+    header("Location: profile.php");
+    exit();
+   }
 
     ?>
 
