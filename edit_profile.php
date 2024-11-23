@@ -13,6 +13,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = trim($_POST['email']);
     $password = $_POST['password'];
     $profilePicture = $user['profile_picture'];
+
+    if ($_FILES['profile_picture']['name']) {
+        $targetDir = "uploads/";
+        $fileName = basename($_FILES['profile_picture']['name']);
+        $targetFilePath = $targetDir . $fileName;
+        move_uploaded_file($_FILES['profile_picture']['tmp_name'], $targetFilePath);
+        $profilePicture = $targetFilePath; // Update with new file path
+    }
 }
 
     ?>
