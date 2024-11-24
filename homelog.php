@@ -336,7 +336,7 @@ $username = $_SESSION['username'] ?? 'User';
             <div class="dropdown-content">
                 <a href="profile.php">My Profile</a>
                 <a href="settings.php">Settings</a>
-                <a href="logout.php">Logout</a>
+                <a href="logout.php"  class="logout-button" onclick="return confirm('Are you sure you want to log out?')">Logout</a>
             </div>
         </div>
     </header>
