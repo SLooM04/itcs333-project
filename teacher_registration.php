@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 // Set success message and redirect to login page
                 $_SESSION['registration_success'] = "Registration successful. You can now log in.";
-                header("Location: teacher-login.php");
+                header("Location: success.php");
                 exit();
             }
         } catch (PDOException $e) {

@@ -103,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 // Set success message and redirect to login page
                 $_SESSION['registration_success'] = "Registration successful. You can now log in.";
-                header("Location: student-login.php");
+                header("Location: success.php");
                 exit();
             }
         } catch (PDOException $e) {
@@ -116,8 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($errors)) {
         $_SESSION['registration_error'] = implode("<br>", $errors);
         echo "<p class = invalid>" . $_SESSION['registration_error'] . "</p>";
-        //header("Location: student_registration.php"); // Replace with your actual form page
-        //exit();
+       
     }
 }
 ?>
