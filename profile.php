@@ -2,12 +2,13 @@
 session_start();
 require 'db.php';
 
-// Ensure session is active and student_id exists
-if (!isset($_SESSION['student_id'])) {
-    die("You are not logged in. Please log in first.");
-}
+// Check if the student ID exists in the session
+$studentId = $_SESSION['student_id'] ?? null;
 
-$studentId = $_SESSION['student_id'];
+if (!$studentId) {
+    header("Location: login.php"); // Redirect to login page
+    exit();
+}
 
 // Fetch student details from the database
 $stmt = $pdo->prepare("SELECT * FROM students WHERE student_id = ?");
@@ -15,7 +16,7 @@ $stmt->execute([$studentId]);
 $student = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$student) {
-    die("Student not found.");
+    die("Student not found in the database.");
 }
 ?>
 
