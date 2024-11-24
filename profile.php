@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_id'])) {
     die("You are not logged in. Please log in to view your profile.");
 }
 
-$userId = $_SESSION['user_id']; // Get logged-in student's ID
+$userId = $_SESSION['user_id'];
 $stmt = $pdo->prepare("SELECT * FROM students WHERE student_id = ?");
 $stmt->execute([$userId]);
 $student = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -28,7 +28,7 @@ if (!$student) {
     <div class="profile-container">
         <div class="profile-header">
             <h1>Welcome, <?= htmlspecialchars($student['first_name']) ?> <?= htmlspecialchars($student['last_name']) ?></h1>
-            <img src="<?= htmlspecialchars($student['profile_picture']) ?>" alt="Profile Picture" class="profile-image">
+            <img src="<?= !empty($student['profile_picture']) ? htmlspecialchars($student['profile_picture']) : 'uploads/Temp-user-face.jpg' ?>" alt="Profile Picture" class="profile-image">
         </div>
 
         <div class="profile-info">
