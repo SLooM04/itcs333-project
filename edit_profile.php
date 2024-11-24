@@ -8,12 +8,10 @@ $stmt = $pdo->prepare("SELECT * FROM students WHERE student_id = ?");
 $stmt->execute([$studentId]);
 $student = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Define validation patterns
 $emailRegex = "/^[a-zA-Z0-9]+@stu\.uob\.edu\.bh$/";
 $usernameRegex = "/^[a-zA-Z0-9_]{3,50}$/";
 $passRegex = "/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/";
 
-// Handle form submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $firstName = trim($_POST['first_name']);
     $lastName = trim($_POST['last_name']);
@@ -25,7 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $yearJoined = trim($_POST['year_joined']);
     $errors = [];
 
-    // Validation
     if (empty($firstName)) {
         $errors[] = "First name is required.";
     }
@@ -49,10 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if (empty($errors)) {
-        // Hash password if provided
         $hashedPassword = !empty($password) ? password_hash($password, PASSWORD_DEFAULT) : $student['password'];
 
-        // Update the database
         $stmt = $pdo->prepare("UPDATE students SET first_name = ?, last_name = ?, username = ?, email = ?, password = ?, major = ?, mobile = ?, year_joined = ? WHERE student_id = ?");
         $stmt->execute([$firstName, $lastName, $username, $email, $hashedPassword, $major, $mobile, $yearJoined, $studentId]);
 
@@ -63,7 +58,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 ?>
 
-<!-- HTML Form -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
