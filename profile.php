@@ -2,7 +2,11 @@
 session_start();
 require 'db.php';
 
-// Fetch student data from the session
+// Ensure session is active and student_id exists
+if (!isset($_SESSION['student_id'])) {
+    die("You are not logged in. Please log in first.");
+}
+
 $studentId = $_SESSION['student_id'];
 
 // Fetch student details from the database
