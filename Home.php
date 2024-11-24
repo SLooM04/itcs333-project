@@ -161,7 +161,7 @@ if (isset($_POST['reserve_now'])) {
     <nav class="menu">
     <a href="Home.php" class="button">Home</a>
     <a href="rooms.php" class="button">Rooms</a>
-    <a href="account_type.php" class="button">Login</a>
+    <a href="combined_login.php" class="button">Login</a>
     <a href="account_type.php" class="button">Register</a>
 </nav>
 
