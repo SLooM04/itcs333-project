@@ -1,12 +1,12 @@
 <?php
 session_start();
 require 'db.php';
-
+/*
 // Get all rooms from the database
 $stmt = $pdo->prepare("SELECT * FROM rooms");
 $stmt->execute();
 $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+*/
 // Check if the button is clicked
 if (isset($_POST['reserve_now'])) {
     // Add a delay if you want

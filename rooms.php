@@ -81,7 +81,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['Home'])) {
             justify-content: center;
             margin: 20px 0;
             grid-template-columns: repeat(2, 1fr);
-            /* 2 columns, equal width */
             gap: 99px;
         }
 
@@ -192,25 +191,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['Home'])) {
         .room-gallery {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            /* 2 columns, equal width */
             gap: 20px;
-            /* Space between room cards */
             margin: 20px auto;
             max-width: 800px;
-            /* Limit overall width */
         }
 
         .room {
             border: 2px solid #ccc;
-            /* Add border to each card */
             border-radius: 8px;
-            /* Rounded corners */
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            /* Subtle shadow */
             overflow: hidden;
-            /* Ensure content doesn't overflow */
             background-color: #fff;
-            /* White background */
         }
 
         .room figure {
@@ -248,29 +239,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['Home'])) {
         <div class="department" onclick="showRooms('information')">Information Systems</div>
         <div class="department" onclick="showRooms('computer')">Computer Science</div>
         <div class="department" onclick="showRooms('network')">Network Engineering</div>
+        
     </div>
 
     <!-- Room Selection (Dynamic Content) -->
     <div id="rooms" class="rooms">
-        <div id="floors" class="floor">
-            <!-- Floor buttons will be injected here -->
-        </div>
-
-        <div id="roomSelection" class="room-selection">
-            <!-- Room buttons will be injected here -->
-        </div>
+        <div id="floors" class="floor"></div>
+        <div id="roomSelection" class="room-selection"></div>
     </div>
 
     <!-- Navigation -->
     <nav class="menu">
-        <form method="POST" style="display: inline;">
-            <button type="submit" name="Home" class="button">Home</button>
-        </form>
+        <a href="home.php" class="button">home</a>
         <a href="rooms.php" class="button">Rooms</a>
         <a href="profile.php" class="button">Profile</a>
         <a href="logout.php" class="button">Logout</a>
     </nav>
-
 
     <!-- Footer -->
     <footer>
@@ -317,230 +301,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['Home'])) {
 
             // Show rooms based on the department clicked
             if (department === 'network') {
-                roomSelection.innerHTML = `
-            <a href="room1.php" class="room">
-            <figure>
-                <img src="https://placehold.co/300x200/blue/white?text=Room+1" alt="Room Image">
-                <figcaption>
-                    <h2>Room Name: Conference Room 1</h2>
-                    <p>Capacity: 20 People</p>
-                    <p>Available Timeslot: 9:00 AM - 5:00 PM</p>
-                    <p>Equipment: Projector, Whiteboard, Wi-Fi</p>
-                </figcaption>
-            </figure>
-        </a>
-
-            <a href="room1.php" class="room">
-            <figure>
-                <img src="https://placehold.co/300x200/blue/white?text=Room+2" alt="Room Image">
-                <figcaption>
-                    <h2>Room Name: Conference Room 1</h2>
-                    <p>Capacity: 20 People</p>
-                    <p>Available Timeslot: 9:00 AM - 5:00 PM</p>
-                    <p>Equipment: Projector, Whiteboard, Wi-Fi</p>
-                </figcaption>
-            </figure>
-        </a>
-
-            <a href="room1.php" class="room">
-            <figure>
-                <img src="https://placehold.co/300x200/blue/white?text=Room+3" alt="Room Image">
-                <figcaption>
-                    <h2>Room Name: Conference Room 1</h2>
-                    <p>Capacity: 20 People</p>
-                    <p>Available Timeslot: 9:00 AM - 5:00 PM</p>
-                    <p>Equipment: Projector, Whiteboard, Wi-Fi</p>
-                </figcaption>
-            </figure>
-        </a>
-
-            <a href="room1.php" class="room">
-            <figure>
-                <img src="https://placehold.co/300x200/blue/white?text=Room+4" alt="Room Image">
-                <figcaption>
-                    <h2>Room Name: Conference Room 1</h2>
-                    <p>Capacity: 20 People</p>
-                    <p>Available Timeslot: 9:00 AM - 5:00 PM</p>
-                    <p>Equipment: Projector, Whiteboard, Wi-Fi</p>
-                </figcaption>
-            </figure>
-        </a>
-            <a href="room1.php" class="room">
-            <figure>
-                <img src="https://placehold.co/300x200/blue/white?text=Room+5" alt="Room Image">
-                <figcaption>
-                    <h2>Room Name: Conference Room 1</h2>
-                    <p>Capacity: 20 People</p>
-                    <p>Available Timeslot: 9:00 AM - 5:00 PM</p>
-                    <p>Equipment: Projector, Whiteboard, Wi-Fi</p>
-                </figcaption>
-            </figure>
-        </a>
-
-            <a href="room1.php" class="room">
-            <figure>
-                <img src="https://placehold.co/300x200/blue/white?text=Room+6" alt="Room Image">
-                <figcaption>
-                    <h2>Room Name: Conference Room 1</h2>
-                    <p>Capacity: 20 People</p>
-                    <p>Available Timeslot: 9:00 AM - 5:00 PM</p>
-                    <p>Equipment: Projector, Whiteboard, Wi-Fi</p>
-                </figcaption>
-            </figure>
-        </a>
-
-
-                `;
+                roomSelection.innerHTML = getRoomHTML('Network Engineering');
             } else if (department === 'information') {
-                roomSelection.innerHTML = `
-            <a href="room1.php" class="room">
-            <figure>
-                <img src="https://placehold.co/300x200/blue/white?text=Room+1" alt="Room Image">
-                <figcaption>
-                    <h2>Room Name: Conference Room 1</h2>
-                    <p>Capacity: 20 People</p>
-                    <p>Available Timeslot: 9:00 AM - 5:00 PM</p>
-                    <p>Equipment: Projector, Whiteboard, Wi-Fi</p>
-                </figcaption>
-            </figure>
-        </a>
-
-            <a href="room1.php" class="room">
-            <figure>
-                <img src="https://placehold.co/300x200/blue/white?text=Room+2" alt="Room Image">
-                <figcaption>
-                    <h2>Room Name: Conference Room 1</h2>
-                    <p>Capacity: 20 People</p>
-                    <p>Available Timeslot: 9:00 AM - 5:00 PM</p>
-                    <p>Equipment: Projector, Whiteboard, Wi-Fi</p>
-                </figcaption>
-            </figure>
-        </a>
-
-            <a href="room1.php" class="room">
-            <figure>
-                <img src="https://placehold.co/300x200/blue/white?text=Room+3" alt="Room Image">
-                <figcaption>
-                    <h2>Room Name: Conference Room 1</h2>
-                    <p>Capacity: 20 People</p>
-                    <p>Available Timeslot: 9:00 AM - 5:00 PM</p>
-                    <p>Equipment: Projector, Whiteboard, Wi-Fi</p>
-                </figcaption>
-            </figure>
-        </a>
-
-            <a href="room1.php" class="room">
-            <figure>
-                <img src="https://placehold.co/300x200/blue/white?text=Room+4" alt="Room Image">
-                <figcaption>
-                    <h2>Room Name: Conference Room 1</h2>
-                    <p>Capacity: 20 People</p>
-                    <p>Available Timeslot: 9:00 AM - 5:00 PM</p>
-                    <p>Equipment: Projector, Whiteboard, Wi-Fi</p>
-                </figcaption>
-            </figure>
-        </a>
-            <a href="room1.php" class="room">
-            <figure>
-                <img src="https://placehold.co/300x200/blue/white?text=Room+5" alt="Room Image">
-                <figcaption>
-                    <h2>Room Name: Conference Room 1</h2>
-                    <p>Capacity: 20 People</p>
-                    <p>Available Timeslot: 9:00 AM - 5:00 PM</p>
-                    <p>Equipment: Projector, Whiteboard, Wi-Fi</p>
-                </figcaption>
-            </figure>
-        </a>
-
-            <a href="room1.php" class="room">
-            <figure>
-                <img src="https://placehold.co/300x200/blue/white?text=Room+6" alt="Room Image">
-                <figcaption>
-                    <h2>Room Name: Conference Room 1</h2>
-                    <p>Capacity: 20 People</p>
-                    <p>Available Timeslot: 9:00 AM - 5:00 PM</p>
-                    <p>Equipment: Projector, Whiteboard, Wi-Fi</p>
-                </figcaption>
-            </figure>
-        </a>
-                `;
+                roomSelection.innerHTML = getRoomHTML('Information Systems');
             } else if (department === 'computer') {
-                roomSelection.innerHTML = `
-            <a href="room1.php" class="room">
-            <figure>
-                <img src="https://placehold.co/300x200/blue/white?text=Room+1" alt="Room Image">
-                <figcaption>
-                    <h2>Room Name: Conference Room 1</h2>
-                    <p>Capacity: 20 People</p>
-                    <p>Available Timeslot: 9:00 AM - 5:00 PM</p>
-                    <p>Equipment: Projector, Whiteboard, Wi-Fi</p>
-                </figcaption>
-            </figure>
-        </a>
-
-            <a href="room1.php" class="room">
-            <figure>
-                <img src="https://placehold.co/300x200/blue/white?text=Room+2" alt="Room Image">
-                <figcaption>
-                    <h2>Room Name: Conference Room 1</h2>
-                    <p>Capacity: 20 People</p>
-                    <p>Available Timeslot: 9:00 AM - 5:00 PM</p>
-                    <p>Equipment: Projector, Whiteboard, Wi-Fi</p>
-                </figcaption>
-            </figure>
-        </a>
-
-            <a href="room1.php" class="room">
-            <figure>
-                <img src="https://placehold.co/300x200/blue/white?text=Room+3" alt="Room Image">
-                <figcaption>
-                    <h2>Room Name: Conference Room 1</h2>
-                    <p>Capacity: 20 People</p>
-                    <p>Available Timeslot: 9:00 AM - 5:00 PM</p>
-                    <p>Equipment: Projector, Whiteboard, Wi-Fi</p>
-                </figcaption>
-            </figure>
-        </a>
-
-            <a href="room1.php" class="room">
-            <figure>
-                <img src="https://placehold.co/300x200/blue/white?text=Room+4" alt="Room Image">
-                <figcaption>
-                    <h2>Room Name: Conference Room 1</h2>
-                    <p>Capacity: 20 People</p>
-                    <p>Available Timeslot: 9:00 AM - 5:00 PM</p>
-                    <p>Equipment: Projector, Whiteboard, Wi-Fi</p>
-                </figcaption>
-            </figure>
-        </a>
-            <a href="room1.php" class="room">
-            <figure>
-                <img src="https://placehold.co/300x200/blue/white?text=Room+5" alt="Room Image">
-                <figcaption>
-                    <h2>Room Name: Conference Room 1</h2>
-                    <p>Capacity: 20 People</p>
-                    <p>Available Timeslot: 9:00 AM - 5:00 PM</p>
-                    <p>Equipment: Projector, Whiteboard, Wi-Fi</p>
-                </figcaption>
-            </figure>
-        </a>
-
-            <a href="room1.php" class="room">
-            <figure>
-                <img src="https://placehold.co/300x200/blue/white?text=Room+6" alt="Room Image">
-                <figcaption>
-                    <h2>Room Name: Conference Room 1</h2>
-                    <p>Capacity: 20 People</p>
-                    <p>Available Timeslot: 9:00 AM - 5:00 PM</p>
-                    <p>Equipment: Projector, Whiteboard, Wi-Fi</p>
-                </figcaption>
-            </figure>
-        </a>
-                `;
+                roomSelection.innerHTML = getRoomHTML('Computer Science');
             }
 
             // Show the rooms container
             roomsSection.style.display = 'block';
+        }
+
+        function getRoomHTML(department) {
+            let roomsHTML = '';
+for (let i = 1; i <= 6; i++) {
+    roomsHTML += `
+        <a href="room${i}.php" class="room">
+        <figure>
+            <!-- Replace the room image with your own picture -->
+            <img src="s44-106.jpg" alt="Room ${i}">
+            <figcaption>
+                <h2>Room ${i}</h2>
+                <p>${department} Room</p>
+                <p>Available for booking</p>
+            </figcaption>
+        </figure>
+    </a>`;
+}
+
+            return roomsHTML;
         }
     </script>
 
