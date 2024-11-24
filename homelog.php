@@ -127,8 +127,8 @@ $username = $_SESSION['username'] ?? 'User';
             right: 0;
             background-color: white;
             min-width: 150px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+            border-radius: 0;
             z-index: 2000;
         }
 
@@ -154,6 +154,20 @@ $username = $_SESSION['username'] ?? 'User';
                 flex-direction: column;
                 gap: 10px;
             }
+            .logo {
+            font-size: 1.0em; 
+        }
+        .logo img {
+            width: 100px; 
+            height: auto; 
+
+        }
+        .dropdown-content{
+            min-width: 100px;
+        }
+      
+
+
         }
         /* Main content section */
         main {

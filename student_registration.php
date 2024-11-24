@@ -223,20 +223,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       
     /* Enhanced Button Styling */
     button {
-        padding: 18px;
-        font-size: 1.3em;
-        font-weight: bold;
-        font-family: 'Roboto', sans-serif;
-        background: linear-gradient(to right, #0061f2, #4facfe);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        width: 100%;
-        transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
-        position: relative;
-        overflow: hidden;
-    }
+            padding: 18px;
+            font-size: 1.3em;
+            font-weight: bold;
+            font-family: 'Roboto', sans-serif;
+            background-color: #0061f2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #004bb5;
+        }
 
     /* Ripple Effect */
     button::before {
@@ -259,11 +261,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         opacity: 011;
     }
 
-    button:hover {
-        background: linear-gradient(to left, #0061f2, #4facfe);
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
+
 
     /* Responsive Button Adjustments */
     @media (max-width: 768px) {
@@ -272,36 +270,96 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             font-size: 1.2em;
         }}
 
-        /* Footer styling */
-        footer {
-            margin-top: 30px;
+               /* Footer styles */
+               footer {
+            background-color: #222;
+            color: #f0f4f7;
             text-align: center;
-            font-size: 0.9em;
-            color: #888;
+            padding: 1rem 1rem; /* Reduced padding */
+            margin-top: 4rem; /* Added space between content and footer */
+            font-size: 0.9rem; /* Reduced font size */
         }
 
-        footer ul {
-            list-style: none;
+        footer .footer-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        footer .footer-section {
+            flex: 1 1 200px;
+            padding: 1rem;
+            margin-bottom: 1rem; /* Reduced margin for footer sections */
+            text-align: left; /* Ensure text aligns properly */
+        }
+
+        footer .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        footer .footer-section ul {
+            list-style-type: none;
             padding: 0;
-            margin-top: 10px;
+            margin: 0;
         }
 
-        footer ul li {
-            display: inline-block;
-            margin-right: 15px;
+        footer .footer-section ul li {
+            margin: 0.4rem 0;
         }
 
-        footer ul li a {
-            color: #0061f2;
+        footer .footer-section ul li a {
+            color: #d1d1d1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 1rem;
+        }
+
+        footer .footer-section ul li a:hover {
+            color: #007bff;
+        }
+
+        footer .footer-bottom {
+            font-size: 0.85rem;
+            margin-top: 1rem; /* Reduced margin */
+            color: #d1d1d1;
+        }
+
+        footer .footer-bottom a {
+            color: #d1d1d1;
             text-decoration: none;
         }
 
-        footer ul li a:hover {
-            text-decoration: underline;
+        footer .footer-bottom a:hover {
+            color: #007bff;
         }
 
-        footer p {
-        color: #333;
+        /* Responsive design for the footer */
+        @media (max-width: 768px) {
+            footer .footer-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            footer .footer-section {
+                margin-bottom: 1.5rem; /* Reduced margin */
+                text-align: center;
+            }
+
+            footer .footer-section ul li {
+                margin: 0.2rem 0;
+            }
+        }
+
+        /* Remove bullets from lists */
+        footer .footer-section ul {
+            list-style-type: none !important;
+            padding-left: 0;
         }
         p.already{
              color: #333;
@@ -406,15 +464,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
 </main>
 
-<!-- Footer Section -->
-<footer class="container">
-  <hr>
-  <p>&copy; <?php echo date("Y"); ?> ITCS333 Project | All rights reserved.</p>
-  <ul>
-    <li><a href="#privacy-policy">Privacy Policy</a></li>
-    <li><a href="#terms-of-service">Terms of Service</a></li>
-    <li><a href="#contact">Contact Us</a></li>
-  </ul>
-</footer>
+ <!-- Footer -->
+ <footer>
+        <div class="footer-container">
+            <!-- University Info -->
+            <div class="footer-section">
+                <h3>University Info</h3>
+                <ul>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="https://www.uob.edu.bh/locations">Campus Locations</a></li>
+                    <li><a href="#events">Upcoming Events</a></li>
+                </ul>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="https://www.uob.edu.bh/admission-requirements">Join UOB</a></li>
+                    <li><a href="https://www.uob.edu.bh/deanship-of-graduate-studies-scientific-research">Research</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li>Email: <a href="mailto:info@university.com">info@university.com</a></li>
+                    <li>Phone: +123 456 789</li>
+                    <li>Address: Sakhir – Kingdom of Bahrain <br>1017 Road 5418 <br>Zallaq 1054</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; <?php echo date("Y"); ?> UOB Rooms Reservation | All rights reserved.</p>
+            <p>
+                <a href="https://www.uob.edu.bh/privacy-policy">Privacy Policy</a> | 
+                <a href="https://www.uob.edu.bh/terms-and-conditions">Terms of Service</a> 
+            </p>
+        </div>
+    </footer>
 </body>
 </html>
