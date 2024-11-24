@@ -3,7 +3,13 @@ session_start();
 require 'db.php';
 
 // Fetch current student details
-$studentId = $_SESSION['student_id'];
+$studentId = $_SESSION['student_id'] ?? null;
+
+if (!$studentId) {
+    header("Location: login.php"); // Redirect to login page
+    exit();
+}
+
 $stmt = $pdo->prepare("SELECT * FROM students WHERE student_id = ?");
 $stmt->execute([$studentId]);
 $student = $stmt->fetch(PDO::FETCH_ASSOC);
