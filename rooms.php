@@ -2,12 +2,34 @@
 session_start();
 require 'db.php'; // Include the DB connection file
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['Home'])) {
-    // Redirect to Home.php
-    header("Location: Home.php");
-    exit();
+// Function to fetch rooms from the database based on department
+function fetchRooms($department = null) {
+    global $pdo;
+    
+    // If department is provided, fetch rooms by department
+    if ($department) {
+        $sql = "SELECT * FROM rooms WHERE department = :department";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(['department' => $department]);
+    } else {
+        // Fetch all rooms if no department is specified
+        $sql = "SELECT * FROM rooms";
+        $stmt = $pdo->query($sql);
+    }
+    
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Fetch rooms if a department is selected
+$rooms = [];
+if (isset($_GET['department'])) {
+    $department = $_GET['department'];
+    $rooms = fetchRooms($department); // Fetch rooms by department
+} else {
+    $rooms = fetchRooms(); // Fetch all rooms
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -50,144 +72,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['Home'])) {
         }
 
         .rooms {
-            display: none;
+            display: block;
             margin-top: 30px;
             text-align: center;
         }
 
-        .room-selection {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .room-selection button {
-            margin: 10px;
-            width: 120px;
-            height: 60px;
-            background-color: #003366;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        .room-selection button:hover {
-            background-color: #0055a5;
-        }
-
-        #roomSelection {
-            display: grid;
-            justify-content: center;
-            margin: 20px 0;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 99px;
-        }
-
-        nav {
-            background-color: #003366;
-            padding: 10px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 100;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-        }
-
-        nav a {
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            font-size: 1.2em;
-            margin: 0 15px;
-            border-radius: 5px;
-        }
-
-        nav a:hover {
-            background-color: #0055a5;
-        }
-
-        nav .button {
-            background-color: #003366;
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            font-size: 1.2em;
-            margin: 0 15px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        nav .button:hover {
-            background-color: #0055a5;
-        }
-
-        /* Footer styles */
-        footer {
-            background-color: #222;
-            color: #f0f4f7;
-            text-align: center;
-            padding: 1rem 1rem;
-            margin-top: 4rem;
-            font-size: 0.9rem;
-        }
-
-        footer .footer-container {
-            display: flex;
-            justify-content: space-around;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        footer .footer-section {
-            flex: 1 1 200px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            text-align: left;
-        }
-
-        footer .footer-section h3 {
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            color: #ffffff;
-        }
-
-        footer .footer-section ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        footer .footer-section ul li {
-            margin: 0.4rem 0;
-        }
-
-        footer .footer-section ul li a {
-            color: #d1d1d1;
-            text-decoration: none;
-            font-size: 1rem;
-        }
-
-        footer .footer-bottom {
-            font-size: 0.85rem;
-            margin-top: 1rem;
-            color: #d1d1d1;
-        }
-
-        footer .footer-bottom a {
-            color: #d1d1d1;
-            text-decoration: none;
-        }
-
-        footer .footer-bottom a:hover {
-            color: #007bff;
-        }
-
-        /* Room Gallery Styles */
         .room-gallery {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -229,6 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['Home'])) {
             font-size: 1em;
             color: #555;
         }
+
     </style>
 </head>
 
@@ -236,100 +126,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['Home'])) {
 
     <!-- Department Selection -->
     <div class="container">
-        <div class="department" onclick="showRooms('information')">Information Systems</div>
-        <div class="department" onclick="showRooms('computer')">Computer Science</div>
-        <div class="department" onclick="showRooms('network')">Network Engineering</div>
-        
+        <div class="department" onclick="showRooms('Information Systems')">Information Systems</div>
+        <div class="department" onclick="showRooms('Computer Science')">Computer Science</div>
+        <div class="department" onclick="showRooms('Network Engineering')">Network Engineering</div>
     </div>
 
     <!-- Room Selection (Dynamic Content) -->
     <div id="rooms" class="rooms">
         <div id="floors" class="floor"></div>
-        <div id="roomSelection" class="room-selection"></div>
+        <div id="roomSelection" class="room-gallery">
+            <?php if ($rooms): ?>
+                <?php foreach ($rooms as $room): ?>
+                    <div class="room">
+                        <figure>
+                            <!-- Display image if available -->
+                            <?php if ($room['S44-106-1.jpg']): ?>
+                                <img src="images/<?php echo htmlspecialchars($room['S44-106-1.jpg']); ?>" alt="<?php echo htmlspecialchars($room['room_name']); ?>">
+                            <?php else: ?>
+                                <img src="images/default.jpg" alt="Room Image">
+                            <?php endif; ?>
+                            <figcaption>
+                                <h2><?php echo htmlspecialchars($room['room_name']); ?></h2>
+                                <p><strong>Capacity:</strong> <?php echo htmlspecialchars($room['capacity']); ?></p>
+                                <p><strong>Available Timeslot:</strong> <?php echo htmlspecialchars($room['available_timeslot']); ?></p>
+                                <p><strong>Equipment:</strong> <?php echo htmlspecialchars($room['equipment']); ?></p>
+                                <p><strong>Department:</strong> <?php echo htmlspecialchars($room['department']); ?></p>
+                            </figcaption>
+                        </figure>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>No rooms available for the selected department.</p>
+            <?php endif; ?>
+        </div>
     </div>
-
-    <!-- Navigation -->
-    <nav class="menu">
-        <a href="home.php" class="button">home</a>
-        <a href="rooms.php" class="button">Rooms</a>
-        <a href="profile.php" class="button">Profile</a>
-        <a href="logout.php" class="button">Logout</a>
-    </nav>
-
-    <!-- Footer -->
-    <footer>
-        <div class="footer-container">
-            <div class="footer-section">
-                <h3>About Us</h3>
-                <ul>
-                    <li><a href="#">Company</a></li>
-                    <li><a href="#">Careers</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Contact</h3>
-                <ul>
-                    <li><a href="#">Support</a></li>
-                    <li><a href="#">Sales</a></li>
-                    <li><a href="#">Location</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Follow Us</h3>
-                <ul>
-                    <li><a href="#">Facebook</a></li>
-                    <li><a href="#">Twitter</a></li>
-                    <li><a href="#">Instagram</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            &copy; 2024 Room Booking System | All rights reserved.
-        </div>
-    </footer>
 
     <script>
         function showRooms(department) {
-            let roomsSection = document.getElementById('rooms');
-            let roomSelection = document.getElementById('roomSelection');
-            let floorsSection = document.getElementById('floors');
-
-            // Clear existing content
-            roomSelection.innerHTML = '';
-            floorsSection.innerHTML = '';
-
-            // Show rooms based on the department clicked
-            if (department === 'network') {
-                roomSelection.innerHTML = getRoomHTML('Network Engineering');
-            } else if (department === 'information') {
-                roomSelection.innerHTML = getRoomHTML('Information Systems');
-            } else if (department === 'computer') {
-                roomSelection.innerHTML = getRoomHTML('Computer Science');
-            }
-
-            // Show the rooms container
-            roomsSection.style.display = 'block';
-        }
-
-        function getRoomHTML(department) {
-            let roomsHTML = '';
-for (let i = 1; i <= 6; i++) {
-    roomsHTML += `
-        <a href="room${i}.php" class="room">
-        <figure>
-            <!-- Replace the room image with your own picture -->
-            <img src="s44-106.jpg" alt="Room ${i}">
-            <figcaption>
-                <h2>Room ${i}</h2>
-                <p>${department} Room</p>
-                <p>Available for booking</p>
-            </figcaption>
-        </figure>
-    </a>`;
-}
-
-            return roomsHTML;
+            // Fetch rooms data based on the selected department
+            window.location.href = '?department=' + department;
         }
     </script>
 
