@@ -460,7 +460,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
             </fieldset>
         </form>
-        <p class ="already">Already have an account? <a href="student-login.php">Login here</a></p>
+        <p class ="already">Already have an account? <a href="combined_login.php">Login here</a></p>
   </div>
 </main>
 
