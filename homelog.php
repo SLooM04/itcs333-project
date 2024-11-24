@@ -362,10 +362,7 @@ $username = $_SESSION['username'] ?? 'User';
             <h1>Welcome, <?php echo htmlspecialchars($username); ?>!</h1>
             <p>Your personalized dashboard awaits.</p>
         </section>
-        <!-- Background Video -->
-        <video class="background-video" autoplay muted loop>
-            <source src="homevid.mp4" type="video/mp4">
-        </video>
+
         <!-- Action Buttons -->
         <section class="action-buttons">
             <a href="rooms.php">View Available Rooms</a>
