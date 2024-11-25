@@ -343,28 +343,27 @@ if (isset($_GET['department'])) {
 
 <!-- Room Selection (Dynamic Content) -->
 <div id="rooms" class="rooms">
-    <div id="floors" class="floor"></div>
     <div id="roomSelection" class="room-gallery">
         <?php if ($rooms): ?>
             <?php foreach ($rooms as $room): ?>
                 <div class="room">
-                <a style="list-style: none" href="profile.php">
-                    <figure>
-                        <!-- Display image if available -->
-                        <?php if (!empty($room['image'])): ?>
-                            <img src="<?php echo htmlspecialchars($room['image']); ?>" alt="<?php echo htmlspecialchars($room['room_name']); ?>">
-                        <?php else: ?>
-                            <img src="images/.jpg" alt="Default Room Image">
-                        <?php endif; ?>
-                        <figcaption>
-                            <h2><?php echo htmlspecialchars($room['room_name']); ?></h2>
-                            <p><strong>Capacity:</strong> <?php echo htmlspecialchars($room['capacity']); ?></p>
-                            <p><strong>Available Timeslot:</strong> <?php echo htmlspecialchars($room['available_timeslot']); ?></p>
-                            <p><strong>Equipment:</strong> <?php echo htmlspecialchars($room['equipment']); ?></p>
-                            <p><strong>Department:</strong> <?php echo htmlspecialchars($room['department']); ?></p>
-                        </figcaption>
-                    </figure>
-                </div></a>
+                    <a href="room_details.php?id=<?php echo htmlspecialchars($room['id']); ?>">
+                        <figure>
+                            <?php if (!empty($room['image'])): ?>
+                                <img src="<?php echo htmlspecialchars($room['image']); ?>" alt="<?php echo htmlspecialchars($room['room_name']); ?>">
+                            <?php else: ?>
+                                <img src=".jpg" alt="Default Room Image">
+                            <?php endif; ?>
+                            <figcaption>
+                                <h2><?php echo htmlspecialchars($room['room_name']); ?></h2>
+                                <p><strong>Capacity:</strong> <?php echo htmlspecialchars($room['capacity']); ?></p>
+                                <p><strong>Available Timeslot:</strong> <?php echo htmlspecialchars($room['available_timeslot']); ?></p>
+                                <p><strong>Equipment:</strong> <?php echo htmlspecialchars($room['equipment']); ?></p>
+                                <p><strong>Department:</strong> <?php echo htmlspecialchars($room['department']); ?></p>
+                            </figcaption>
+                        </figure>
+                    </a>
+                </div>
             <?php endforeach; ?>
         <?php else: ?>
             <p>No rooms available for the selected department.</p>
@@ -372,12 +371,12 @@ if (isset($_GET['department'])) {
     </div>
 </div>
 
-    <script>
-        function showRooms(department) {
-            // Fetch rooms data based on the selected department
-            window.location.href = '?department=' + department;
-        }
-    </script>
+<script>
+    function showRooms(department) {
+        // Fetch rooms data based on the selected department
+        window.location.href = '?department=' + department;
+    }
+</script>
 
 
 

@@ -35,9 +35,9 @@ $username = $_SESSION['username'] ?? 'User';
             background-color: #222;
             display: flex;
             align-items: center;
-            justify-content:space-around;
+            justify-content: space-around;
             padding: 15px 30px;
-            font-family: "Libre Baskerville" , Garamond, sans-serif;
+            font-family: "Libre Baskerville", Garamond, sans-serif;
             font-size: auto;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             top: 0;
@@ -45,36 +45,37 @@ $username = $_SESSION['username'] ?? 'User';
         }
 
         .logo {
-            font-size: 1.8em; 
-            font-weight: 600; 
+            font-size: 1.8em;
+            font-weight: 600;
             color: white;
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 20px; 
-            padding: 15px 20px; 
-            background: linear-gradient(90deg, #d1d1d1, #222); /* Gradient background */
-            border-radius: 12px; 
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3); 
+            gap: 20px;
+            padding: 15px 20px;
+            background: linear-gradient(90deg, #d1d1d1, #222);
+            /* Gradient background */
+            border-radius: 12px;
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .logo:hover {
-            transform: scale(1.05); 
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.4); 
+            transform: scale(1.05);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.4);
         }
 
         .logo img {
-            width: 200px; 
-            height: auto; 
-            border-radius: 10%; 
-            border: 3px solid white; 
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
-            transition: transform 0.3s ease; 
+            width: 200px;
+            height: auto;
+            border-radius: 10%;
+            border: 3px solid white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
         }
 
         .logo img:hover {
-            transform: scale(1.15); 
+            transform: scale(1.15);
         }
 
         /* Navigation Links */
@@ -102,7 +103,7 @@ $username = $_SESSION['username'] ?? 'User';
             display: flex;
             align-items: center;
             gap: 15px;
-            color:antiquewhite;
+            color: antiquewhite;
         }
 
         .user-profile img {
@@ -117,13 +118,13 @@ $username = $_SESSION['username'] ?? 'User';
         }
 
         .dropdown {
-    position: relative;
+            position: relative;
         }
 
         .dropdown-content {
             display: none;
             position: absolute;
-            top: 100%; 
+            top: 100%;
             right: 0;
             background-color: white;
             min-width: 150px;
@@ -154,21 +155,25 @@ $username = $_SESSION['username'] ?? 'User';
                 flex-direction: column;
                 gap: 10px;
             }
+
             .logo {
-            font-size: 1.0em; 
-        }
-        .logo img {
-            width: 100px; 
-            height: auto; 
+                font-size: 1.0em;
+            }
+
+            .logo img {
+                width: 100px;
+                height: auto;
+
+            }
+
+            .dropdown-content {
+                min-width: 100px;
+            }
+
+
 
         }
-        .dropdown-content{
-            min-width: 100px;
-        }
-      
 
-
-        }
         /* Main content section */
         main {
             display: grid;
@@ -177,23 +182,23 @@ $username = $_SESSION['username'] ?? 'User';
             position: relative;
         }
 
-  /* Make sure the video covers the whole background */
-  video.background-video {
-           
-           top: 0;
-           left: 0;
-           width: 100%;
-           height: 100vh;
-           object-fit: cover;
-           z-index: 10;
-  
-       }
+        /* Make sure the video covers the whole background */
+        video.background-video {
+
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            object-fit: cover;
+            z-index: 10;
+
+        }
 
         /* Welcome section */
         .welcome-section {
             text-align: center;
             margin: 20px 0;
-            color:#003366;
+            color: #003366;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
         }
 
@@ -208,94 +213,109 @@ $username = $_SESSION['username'] ?? 'User';
             color: black;
         }
 
-                /* Container for Buttons */
-    .action-buttons {
-        display: flex;
-        justify-content: space-evenly;
-        gap: 20px;
-        padding: 20px;
-        flex-wrap: wrap;
-        margin: 40px 10px;
-    }
-
-    /* Container for Buttons */
-    .action-buttons {
-        display: flex;
-        justify-content: space-evenly;
-        gap: 20px;
-        padding: 20px;
-        flex-wrap: wrap;
-        margin: 40px 10px;
-    }
-
-    /* Button Styles */
-    .action-buttons a {
-        flex: 1;
-        max-width: 300px; /* Consistent size for buttons */
-        height: 500px; /* Consistent height */
-        position: relative;
-        text-decoration: none;
-        color: #222; /* Text color changed for better contrast on background */
-        font-weight: bold;
-        font-size: 1.2em;
-        font-family:'Roboto', sans-serif;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        border: 2px solid #000; 
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-        transition: transform 0.3s, box-shadow 0.3s;
-        
-        /* Background Image Settings */
-        background-size:cover; /* Ensures background image covers the entire card */
-        background-position: center; 
-        background-repeat: no-repeat; 
-    }
-
-
-    /* Text Placement */
-    .action-buttons a span {
-        position: relative;
-        z-index: 2; /* Ensures the text appears above the overlay */
-    }
-
-    /* Hover Effects */
-    .action-buttons a:hover {
-        transform: scale(1.05);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); /* Lifted shadow */
-        border: 3px solid #003366; 
-        animation: glowing 1.5s ease-in-out infinite; /* Animation for the glowing effect */
-    }
-
-    /* Glowing effect */
-    @keyframes glowing {
-        0% {
-            border-color: #222; /* Initial border color */
-            box-shadow: 0 0 5px #003366, 0 0 10px #003366, 0 0 15px #003366; 
-        }
-        50% {
-            border-color: #222; 
-            box-shadow: 0 0 10px #222, 0 0 20px #222, 0 0 30px #222; /* More intense green glow */
-        }
-        100% {
-            border-color: darkslategray; /* End border color */
-            box-shadow: 0 0 5px #003366, 0 0 10px #003366, 0 0 15px #003366; /* Soft green glow */
-        }
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
+        /* Container for Buttons */
         .action-buttons {
-            flex-direction:row;
-            align-items: center;
+            display: flex;
+            justify-content: space-evenly;
+            gap: 20px;
+            padding: 20px;
+            flex-wrap: wrap;
+            margin: 40px 10px;
         }
+
+        /* Container for Buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: space-evenly;
+            gap: 20px;
+            padding: 20px;
+            flex-wrap: wrap;
+            margin: 40px 10px;
+        }
+
+        /* Button Styles */
         .action-buttons a {
-            max-width: 100%; 
-            height: 500px; 
-            background-image: url('uploads/card-background.jpg');
+            flex: 1;
+            max-width: 300px;
+            /* Consistent size for buttons */
+            height: 500px;
+            /* Consistent height */
+            position: relative;
+            text-decoration: none;
+            color: #222;
+            /* Text color changed for better contrast on background */
+            font-weight: bold;
+            font-size: 1.2em;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border: 2px solid #000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            /* Subtle shadow */
+            transition: transform 0.3s, box-shadow 0.3s;
+
+            /* Background Image Settings */
+            background-size: cover;
+            /* Ensures background image covers the entire card */
+            background-position: center;
+            background-repeat: no-repeat;
         }
-    }
+
+
+        /* Text Placement */
+        .action-buttons a span {
+            position: relative;
+            z-index: 2;
+            /* Ensures the text appears above the overlay */
+        }
+
+        /* Hover Effects */
+        .action-buttons a:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            /* Lifted shadow */
+            border: 3px solid #003366;
+            animation: glowing 1.5s ease-in-out infinite;
+            /* Animation for the glowing effect */
+        }
+
+        /* Glowing effect */
+        @keyframes glowing {
+            0% {
+                border-color: #222;
+                /* Initial border color */
+                box-shadow: 0 0 5px #003366, 0 0 10px #003366, 0 0 15px #003366;
+            }
+
+            50% {
+                border-color: #222;
+                box-shadow: 0 0 10px #222, 0 0 20px #222, 0 0 30px #222;
+                /* More intense green glow */
+            }
+
+            100% {
+                border-color: darkslategray;
+                /* End border color */
+                box-shadow: 0 0 5px #003366, 0 0 10px #003366, 0 0 15px #003366;
+                /* Soft green glow */
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .action-buttons {
+                flex-direction: row;
+                align-items: center;
+            }
+
+            .action-buttons a {
+                max-width: 100%;
+                height: 500px;
+                background-image: url('uploads/card-background.jpg');
+            }
+        }
 
 
 
@@ -307,9 +327,12 @@ $username = $_SESSION['username'] ?? 'User';
             background-color: #222;
             color: #f0f4f7;
             text-align: center;
-            padding: 1rem 1rem; /* Reduced padding */
-            margin-top: 4rem; /* Added space between content and footer */
-            font-size: 0.9rem; /* Reduced font size */
+            padding: 1rem 1rem;
+            /* Reduced padding */
+            margin-top: 4rem;
+            /* Added space between content and footer */
+            font-size: 0.9rem;
+            /* Reduced font size */
         }
 
         footer .footer-container {
@@ -324,8 +347,8 @@ $username = $_SESSION['username'] ?? 'User';
         footer .footer-section {
             flex: 1 1 200px;
             padding: 1rem;
-            margin-bottom: 1rem; 
-            text-align: left; 
+            margin-bottom: 1rem;
+            text-align: left;
         }
 
         footer .footer-section h3 {
@@ -358,7 +381,8 @@ $username = $_SESSION['username'] ?? 'User';
 
         footer .footer-bottom {
             font-size: 0.85rem;
-            margin-top: 1rem; /* Reduced margin */
+            margin-top: 1rem;
+            /* Reduced margin */
             color: #d1d1d1;
         }
 
@@ -379,7 +403,8 @@ $username = $_SESSION['username'] ?? 'User';
             }
 
             footer .footer-section {
-                margin-bottom: 1.5rem; /* Reduced margin */
+                margin-bottom: 1.5rem;
+                /* Reduced margin */
                 text-align: center;
             }
 
@@ -393,13 +418,12 @@ $username = $_SESSION['username'] ?? 'User';
             list-style-type: none !important;
             padding-left: 0;
         }
-
     </style>
 </head>
 
 <body>
 
-<header>
+    <header>
         <!-- Logo Section -->
         <a href="homelog.php" class="logo">
             <img src="https://cdn.discordapp.com/attachments/791220541376692234/1310228238240583690/UOBandSilverJubilee-Colleges-new-logo-1.png?ex=674474a2&is=67432322&hm=48b965ce1457aa8031fb40b08ab17ffb6fcdc7924a004aaebf258e485756497b&" alt="Logo">
@@ -421,29 +445,30 @@ $username = $_SESSION['username'] ?? 'User';
             <div class="dropdown-content">
                 <a href="profile.php">My Profile</a>
                 <a href="settings.php">Settings</a>
-                <a href="logout.php"  class="logout-button" onclick="return confirm('Are you sure you want to log out?')">Logout</a>
+                <a href="logout.php" class="logout-button" onclick="return confirm('Are you sure you want to log out?')">Logout</a>
             </div>
         </div>
     </header>
 
     <!-- Main Content -->
     <main>
-         <!-- Welcome Section -->
-         <section class="welcome-section">
+
+        <!-- Welcome Section -->
+        <section class="welcome-section">
             <h1>Welcome, <?php echo htmlspecialchars($username); ?>!</h1>
             <p>Your personalized dashboard awaits.</p>
         </section>
 
         <!-- Action Buttons -->
-            <section class="action-buttons">
-        <a href="rooms.php" ><span>View Available Rooms</span></a>
-        <a href="reservations.php" ><span>My Reservations</span></a>
-        <a href="support.php" ><span>Contact Support</span></a>
-</section>
+        <section class="action-buttons">
+            <a href="rooms.php"><span>View Available Rooms</span></a>
+            <a href="reservations.php"><span>My Reservations</span></a>
+            <a href="support.php"><span>Contact Support</span></a>
+        </section>
     </main>
 
-     <!-- Footer -->
-     <footer>
+    <!-- Footer -->
+    <footer>
         <div class="footer-container">
             <!-- University Info -->
             <div class="footer-section">
@@ -478,8 +503,8 @@ $username = $_SESSION['username'] ?? 'User';
         <div class="footer-bottom">
             <p>&copy; <?php echo date("Y"); ?> UOB Rooms Reservation | All rights reserved.</p>
             <p>
-                <a href="https://www.uob.edu.bh/privacy-policy">Privacy Policy</a> | 
-                <a href="https://www.uob.edu.bh/terms-and-conditions">Terms of Service</a> 
+                <a href="https://www.uob.edu.bh/privacy-policy">Privacy Policy</a> |
+                <a href="https://www.uob.edu.bh/terms-and-conditions">Terms of Service</a>
             </p>
         </div>
     </footer>
