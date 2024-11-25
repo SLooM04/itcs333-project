@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         $_SESSION['profile_update_success'] = "Profile updated successfully!";
-        header("Location: " . ($userRole == 'student' ? 'STU-profile.php' : 'TECH-profile.php'));
+        header("Location: " . ($userRole == 'student' ? 'profile.php' : 'profile.php'));
         exit();
     } else {
         $_SESSION['profile_update_error'] = implode("<br>", $errors);
@@ -93,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         ?>
 
-        <form action="<?= $userRole == 'student' ? 'STU-edit_profile.php' : 'TECH-edit_profile.php' ?>" method="POST" enctype="multipart/form-data">
+        <form action="<?= $userRole == 'student' ? 'edit_profile.php' : 'edit_profile.php' ?>" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="first_name">First Name:</label>
                 <input type="text" name="first_name" value="<?= htmlspecialchars($user['first_name']) ?>" required>
