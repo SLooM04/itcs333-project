@@ -46,12 +46,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Validate inputs
     $errors = [];
-    if (!preg_match("/^[0-9]{9}@stu\.uob\.edu\.bh$/", $email)) {
-        $errors[] = "Invalid email format.";
+    if ($userRole == 'student') {
+        // Email format for student accounts
+        if (!preg_match("/^[0-9]{9}@stu\.uob\.edu\.bh$/", $email)) {
+            $errors[] = "Invalid student email format.";
+        }
+        // Ensure teacher email doesn't get used by student
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM teachers WHERE email = ?");
+        $stmt->execute([$email]);
+        if ($stmt->fetchColumn() > 0) {
+            $errors[] = "This email is reserved for teacher accounts.";
+        }
+    } else {
+        // Email format for teacher accounts
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errors[] = "Invalid email format for teacher.";
+        }
+        // Ensure student email doesn't get used by teacher
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM students WHERE email = ?");
+        $stmt->execute([$email]);
+        if ($stmt->fetchColumn() > 0) {
+            $errors[] = "This email is reserved for student accounts.";
+        }
     }
+    
     if (empty($username)) {
         $errors[] = "Username is required.";
     }
+    
     if (!empty($password) && $password !== $confirmPassword) {
         $errors[] = "Passwords do not match.";
     }
