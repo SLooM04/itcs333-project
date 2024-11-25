@@ -46,7 +46,7 @@ if (!$user) {
             <?php else: ?>
                 <p><strong>Department:</strong> <?= htmlspecialchars($user['department']) ?></p>
             <?php endif; ?>
-            <a href="<?= $userRole == 'student' ? 'STU-edit_profile.php' : 'TECH-edit_profile.php' ?>" class="edit-btn">Edit Profile</a>
+            <a href="<?= $userRole == 'student' ? 'edit_profile.php' : 'edit_profile.php' ?>" class="edit-btn">Edit Profile</a>
         </div>
 
         <a href="HomeLog.php" class="back-home-btn">Back to Home</a>
