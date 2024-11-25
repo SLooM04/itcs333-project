@@ -208,28 +208,99 @@ $username = $_SESSION['username'] ?? 'User';
             color: black;
         }
 
-        /* Action buttons */
+                /* Container for Buttons */
+    .action-buttons {
+        display: flex;
+        justify-content: space-evenly;
+        gap: 20px;
+        padding: 20px;
+        flex-wrap: wrap;
+        margin: 40px 10px;
+    }
+
+    /* Container for Buttons */
+    .action-buttons {
+        display: flex;
+        justify-content: space-evenly;
+        gap: 20px;
+        padding: 20px;
+        flex-wrap: wrap;
+        margin: 40px 10px;
+    }
+
+    /* Button Styles */
+    .action-buttons a {
+        flex: 1;
+        max-width: 300px; /* Consistent size for buttons */
+        height: 500px; /* Consistent height */
+        position: relative;
+        text-decoration: none;
+        color: #222; /* Text color changed for better contrast on background */
+        font-weight: bold;
+        font-size: 1.2em;
+        font-family:'Roboto', sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        border: 2px solid #000; 
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+        transition: transform 0.3s, box-shadow 0.3s;
+        
+        /* Background Image Settings */
+        background-size:cover; /* Ensures background image covers the entire card */
+        background-position: center; 
+        background-repeat: no-repeat; 
+    }
+
+
+    /* Text Placement */
+    .action-buttons a span {
+        position: relative;
+        z-index: 2; /* Ensures the text appears above the overlay */
+    }
+
+    /* Hover Effects */
+    .action-buttons a:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); /* Lifted shadow */
+        border: 3px solid #003366; 
+        animation: glowing 1.5s ease-in-out infinite; /* Animation for the glowing effect */
+    }
+
+    /* Glowing effect */
+    @keyframes glowing {
+        0% {
+            border-color: #222; /* Initial border color */
+            box-shadow: 0 0 5px #003366, 0 0 10px #003366, 0 0 15px #003366; 
+        }
+        50% {
+            border-color: #222; 
+            box-shadow: 0 0 10px #222, 0 0 20px #222, 0 0 30px #222; /* More intense green glow */
+        }
+        100% {
+            border-color: darkslategray; /* End border color */
+            box-shadow: 0 0 5px #003366, 0 0 10px #003366, 0 0 15px #003366; /* Soft green glow */
+        }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
         .action-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
+            flex-direction:row;
+            align-items: center;
         }
-
         .action-buttons a {
-            padding: 15px 30px;
-            font-size: 1.2em;
-            color:aliceblue;
-            text-decoration: none;
-            border-radius: 5px;
-            background:#222; 
-            transition: background 1s;
+            max-width: 100%; 
+            height: 500px; 
+            background-image: url('uploads/card-background.jpg');
         }
+    }
 
-        .action-buttons a:hover {
-            background: linear-gradient(60deg, #d1d1d1, #222); /* Gradient background */
-            font-weight: bolder;
-        }
+
+
+
+
 
         /* Footer styles */
         footer {
@@ -364,11 +435,11 @@ $username = $_SESSION['username'] ?? 'User';
         </section>
 
         <!-- Action Buttons -->
-        <section class="action-buttons">
-            <a href="rooms.php">View Available Rooms</a>
-            <a href="reservations.php">My Reservations</a>
-            <a href="support.php">Contact Support</a>
-        </section>
+            <section class="action-buttons">
+        <a href="rooms.php" ><span>View Available Rooms</span></a>
+        <a href="reservations.php" ><span>My Reservations</span></a>
+        <a href="support.php" ><span>Contact Support</span></a>
+</section>
     </main>
 
      <!-- Footer -->
