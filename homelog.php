@@ -455,7 +455,12 @@ $username = $_SESSION['username'] ?? 'User';
 
         <!-- Welcome Section -->
         <section class="welcome-section">
-            <h1>Welcome, <?php echo htmlspecialchars($username); ?>!</h1>
+            <?php
+            if($_SESSION['role'] == 'student'){
+            echo "<h1>Welcome, " . htmlspecialchars($username). "!</h1>";
+            }else if ($_SESSION['role'] == 'teacher'){
+                echo "<h1>Welcome Dr.". htmlspecialchars($username). "!</h1>";}
+                ?>
             <p>Your personalized dashboard awaits.</p>
         </section>
 

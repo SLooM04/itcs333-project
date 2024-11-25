@@ -6,13 +6,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
     $password = $_POST['password'];
 
-    $stmt = $pdo->prepare("SELECT * FROM teachers WHERE email = :email");
-    $stmt->execute([':email' => $email]);
-    $teacher = $stmt->fetch(PDO::FETCH_ASSOC);
+        // Check if the user is a teacher
+        $stmt = $pdo->prepare("SELECT * FROM teachers WHERE email = :email");
+        $stmt->execute([':email' => $email]);
+        $teacher = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    $stmt = $pdo->prepare("SELECT * FROM students WHERE email = :email");
-    $stmt->execute([':email' => $email]);
-    $student = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($teacher) {
+            $user = $teacher;
+            $user['role'] = 'teacher';
+        } else {
+            // If not a teacher, check if the user is a student
+            $stmt = $pdo->prepare("SELECT * FROM students WHERE email = :email");
+            $stmt->execute([':email' => $email]);
+            $student = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($student) {
+                $user = $student;
+                $user['role'] = 'student';
+            } else {
+                // No user found
+                $user = null;
+            }
+        }
 
  
 
@@ -20,6 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($student && password_verify($password, $student['password'])) {
             $_SESSION['user_id'] = $student['student_id'];
             $_SESSION['username'] = $student['username'];
+            $_SESSION['role'] = $user['role'];
             $_SESSION["login_success"] = "Welcome, " . $student['username'] . "!";
             sleep(seconds: 2);
             header("Location: homelog.php");
@@ -33,6 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         elseif ($teacher && password_verify($password, $teacher['password'])) {
             $_SESSION['user_id'] = $teacher['teacher_id'];
             $_SESSION['username'] = $teacher['username'];
+            $_SESSION['role'] = $user['role'];
             $_SESSION["login_success"] = "Welcome, " . $teacher['username'] . "!";
             sleep(seconds: 2);
             header("Location: homelog.php");
