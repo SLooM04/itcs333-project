@@ -1,19 +1,25 @@
 <?php
 session_start();
-require 'db.php'; // Ensure session and database connection
+require 'db.php'; 
 
-// Check if the student is logged in
+// Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
     die("You are not logged in. Please log in to view your profile.");
 }
 
 $userId = $_SESSION['user_id'];
-$stmt = $pdo->prepare("SELECT * FROM students WHERE student_id = ?");
-$stmt->execute([$userId]);
-$student = $stmt->fetch(PDO::FETCH_ASSOC);
+$userRole = $_SESSION['role']; // 'student' or 'teacher'
 
-if (!$student) {
-    die("Student not found.");
+if ($userRole == 'student') {
+    $stmt = $pdo->prepare("SELECT * FROM students WHERE student_id = ?");
+} else {
+    $stmt = $pdo->prepare("SELECT * FROM teachers WHERE teacher_id = ?");
+}
+$stmt->execute([$userId]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$user) {
+    die("User not found.");
 }
 ?>
 
@@ -22,28 +28,31 @@ if (!$student) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Profile</title>
+    <title>Profile</title>
 </head>
 <body>
     <div class="profile-container">
         <div class="profile-header">
-            <h1>Welcome, <?= htmlspecialchars($student['first_name']) ?> <?= htmlspecialchars($student['last_name']) ?></h1>
-            <img src="<?= !empty($student['profile_picture']) ? htmlspecialchars($student['profile_picture']) : 'uploads/Temp-user-face.jpg' ?>" alt="Profile Picture" class="profile-image">
+            <h1>Welcome, <?= htmlspecialchars($user['first_name']) ?> <?= htmlspecialchars($user['last_name']) ?></h1>
+            <img src="<?= !empty($user['profile_picture']) ? htmlspecialchars($user['profile_picture']) : 'uploads/Temp-user-face.jpg' ?>" alt="Profile Picture" class="profile-image">
         </div>
 
         <div class="profile-info">
-            <p><strong>Username:</strong> <?= htmlspecialchars($student['username']) ?></p>
-            <p><strong>Email:</strong> <?= htmlspecialchars($student['email']) ?></p>
-            <p><strong>Major:</strong> <?= htmlspecialchars($student['major']) ?></p>
-            <p><strong>Mobile:</strong> <?= htmlspecialchars($student['mobile']) ?></p>
-            <p><strong>Year Joined:</strong> <?= htmlspecialchars($student['year_joined']) ?></p>
-            <a href="STU-edit_profile.php" class="edit-btn">Edit Profile</a>
+            <p><strong>Username:</strong> <?= htmlspecialchars($user['username']) ?></p>
+            <p><strong>Email:</strong> <?= htmlspecialchars($user['email']) ?></p>
+            <p><strong>Role:</strong> <?= $userRole == 'student' ? 'Student' : 'Teacher' ?></p>
+            <?php if ($userRole == 'student'): ?>
+                <p><strong>Year Joined:</strong> <?= htmlspecialchars($user['year_joined']) ?></p>
+            <?php else: ?>
+                <p><strong>Department:</strong> <?= htmlspecialchars($user['department']) ?></p>
+            <?php endif; ?>
+            <a href="<?= $userRole == 'student' ? 'STU-edit_profile.php' : 'TECH-edit_profile.php' ?>" class="edit-btn">Edit Profile</a>
         </div>
 
-        <!-- Add back to Home button -->
         <a href="HomeLog.php" class="back-home-btn">Back to Home</a>
     </div>
 
+    <!-- Styling for profile -->
     <style>
         body {
             font-family: 'Arial', sans-serif;
