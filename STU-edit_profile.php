@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'db.php';
+require 'db.php'; 
 
 // Check if the student is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -31,16 +31,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Handle profile picture upload or deletion
     $profilePicture = $student['profile_picture'];
     if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
+        // New profile picture uploaded
         $targetDir = "uploads/";
         $fileName = basename($_FILES['profile_picture']['name']);
         $targetFilePath = $targetDir . $fileName;
+
+        // Move the uploaded file to the server
         move_uploaded_file($_FILES['profile_picture']['tmp_name'], $targetFilePath);
         $profilePicture = $targetFilePath;
     } elseif (isset($_POST['delete_picture']) && $_POST['delete_picture'] == '1') {
+        // Delete the current picture and reset to default
         $profilePicture = 'uploads/Temp-user-face.jpg';
     }
 
-    // Validate inputs
+    // Validate the inputs
     $errors = [];
     if (!preg_match("/^[0-9]{9}@stu\.uob\.edu\.bh$/", $email)) {
         $errors[] = "Invalid email format.";
@@ -59,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute([$firstName, $lastName, $email, $username, $hashedPassword, $mobile, $major, $year, $profilePicture, $userId]);
 
         $_SESSION['profile_update_success'] = "Profile updated successfully!";
-        header("Location: STU-profile.php");
+        header("Location: profile.php");
         exit();
     } else {
         $_SESSION['profile_update_error'] = implode("<br>", $errors);
@@ -83,23 +87,72 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             unset($_SESSION['profile_update_error']);
         }
         ?>
-
-        <form action="STU-edit_profile.php" method="POST" enctype="multipart/form-data">
+        
+        <form action="edit_profile.php" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="first_name">First Name:</label>
                 <input type="text" name="first_name" value="<?= htmlspecialchars($student['first_name']) ?>" required>
             </div>
-            <!-- Other form fields -->
+
+            <div class="form-group">
+                <label for="last_name">Last Name:</label>
+                <input type="text" name="last_name" value="<?= htmlspecialchars($student['last_name']) ?>" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" name="email" value="<?= htmlspecialchars($student['email']) ?>" required>
+            </div>
+
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" name="username" value="<?= htmlspecialchars($student['username']) ?>" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">New Password:</label>
+                <input type="password" name="password" placeholder="Leave blank to keep current password">
+            </div>
+
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password:</label>
+                <input type="password" name="confirm_password">
+            </div>
+
+            <div class="form-group">
+                <label for="mobile">Mobile:</label>
+                <input type="text" name="mobile" value="<?= htmlspecialchars($student['mobile']) ?>">
+            </div>
+
+            <div class="form-group">
+                <label for="major">Major:</label>
+                <select name="major" required>
+                    <option value="CY" <?= $student['major'] == 'CY' ? 'selected' : '' ?>>Cybersecurity</option>
+                    <option value="CS" <?= $student['major'] == 'CS' ? 'selected' : '' ?>>Computer Science</option>
+                    <option value="NE" <?= $student['major'] == 'NE' ? 'selected' : '' ?>>Network Engineering</option>
+                    <option value="CE" <?= $student['major'] == 'CE' ? 'selected' : '' ?>>Computer Engineering</option>
+                    <option value="SE" <?= $student['major'] == 'SE' ? 'selected' : '' ?>>Software Engineering</option>
+                    <option value="IS" <?= $student['major'] == 'IS' ? 'selected' : '' ?>>Information Systems</option>
+                    <option value="CC" <?= $student['major'] == 'CC' ? 'selected' : '' ?>>Cloud Computing</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="year">Year Joined:</label>
+                <input type="number" name="year" value="<?= htmlspecialchars($student['year_joined']) ?>" required>
+            </div>
+
             <div class="form-group">
                 <label>Profile Picture:</label><br>
                 <img src="<?= !empty($student['profile_picture']) ? htmlspecialchars($student['profile_picture']) : 'uploads/Temp-user-face.jpg' ?>" alt="Profile Picture" class="profile-image">
                 <br>
                 <label for="profile_picture">Change Picture:</label>
                 <input type="file" name="profile_picture">
-                <br>
+                <br><br>
                 <label for="delete_picture">Delete Picture:</label>
                 <input type="checkbox" name="delete_picture" value="1">
             </div>
+
             <button type="submit" class="submit-btn">Save Changes</button>
         </form>
     </div>
