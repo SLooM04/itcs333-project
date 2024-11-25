@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'db.php'; 
+require 'db.php';
 
 // Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirm_password'];
     $mobile = trim($_POST['mobile']);
-    $profilePicture = $user['profile_picture'];
+    $profilePicture = $user['profile_picture'] ? $user['profile_picture'] : 'uploads/Temp-user-face.jpg';
 
     // Handle profile picture upload or deletion
     if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
@@ -219,45 +219,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         .submit-btn {
-            background-color: #0061f2;
-            color: #fff;
-            padding: 12px 20px;
-            font-size: 18px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            width: 100%;
-        }
+    background-color: #0061f2;
+    color: #fff;
+    padding: 12px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+}
 
-        .submit-btn:hover {
-            background-color: #004bb5;
-        }
+.submit-btn:hover {
+    background-color: #004bb5;
+}
 
-        .error-message {
-            color: red;
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
+.error-message {
+    color: red;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
 
-        .profile-image {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            border: 5px solid #2863AE;
-            object-fit: cover;
-        }
+.profile-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 5px solid #2863AE;
+    object-fit: cover;
+}
 
-        @media (max-width: 768px) {
-            .edit-profile-container {
-                width: 90%;
-                padding: 20px;
-            }
+@media (max-width: 768px) {
+    .edit-profile-container {
+        width: 90%;
+        padding: 20px;
+    }
 
-            h1 {
-                font-size: 24px;
-            }
-        }
-    </style>
+    h1 {
+        font-size: 24px;
+    }
+}
+</style>
 </body>
 </html>
+

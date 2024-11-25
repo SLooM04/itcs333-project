@@ -9,6 +9,21 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 // Get user details from session
+$userId = $_SESSION['user_id'];
+$userRole = $_SESSION['role']; // 'student' or 'teacher'
+
+if ($userRole == 'student') {
+    $stmt = $pdo->prepare("SELECT * FROM students WHERE student_id = ?");
+} else {
+    $stmt = $pdo->prepare("SELECT * FROM teachers WHERE teacher_id = ?");
+}
+$stmt->execute([$userId]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$user) {
+    die("User not found.");
+}
+
 $username = $_SESSION['username'] ?? 'User';
 ?>
 
@@ -467,7 +482,7 @@ $username = $_SESSION['username'] ?? 'User';
 
         <!-- User Profile Section -->
         <div class="user-profile dropdown">
-            <img src="https://cdn.pixabay.com/photo/2021/07/02/04/48/user-6380868_1280.png" alt="User Avatar">
+            <img src="<?= htmlspecialchars($user['profile_picture']) ?>" alt="User Avatar" class="profile-avatar">
             <span> <?php echo htmlspecialchars($username); ?></span>
             <div class="dropdown-content">
                 <a href="profile.php">My Profile</a>
