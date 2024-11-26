@@ -175,7 +175,7 @@ footer p {
         <!-- Email -->
         <div class="form-group" id="email-container">
           <label for="login-email">UoB Email</label>
-          <input type="email" id="login-email" name="email" placeholder="Enter your email" required>
+          <input type="email" id="login-email" name="email" placeholder="Enter your email"  required>
         </div>
 
         <!-- Password -->
