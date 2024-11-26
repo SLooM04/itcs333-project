@@ -50,6 +50,20 @@ $username = $_SESSION['username'] ?? 'User';
             color: white;
         }
 
+        body.dark-mode h1, 
+        body.dark-mode h2, 
+        body.dark-mode h3, 
+        body.dark-mode p, 
+        body.dark-mode a {
+            color: white; /* Ensures all text turns white in dark mode */
+        }
+
+        body.dark-mode .recommendation-card{
+            background-color: gray;
+        }
+
+        
+
         header.dark-mode {
             background-color: #1e1e1e;
         }
@@ -64,6 +78,9 @@ $username = $_SESSION['username'] ?? 'User';
 
         .dropdown-content a.dark-mode {
             color: #f0f0f0;
+        }
+        body.dark-mode .dropdown-content a {
+            color: black; 
         }
 
 
@@ -488,8 +505,8 @@ $username = $_SESSION['username'] ?? 'User';
 
         <!-- User Profile Section -->
         <div class="user-profile dropdown">
-            <img src="<?= htmlspecialchars($user['profile_picture']) ?>" alt="User Avatar" class="profile-avatar">
-            <span> <?php echo htmlspecialchars($username); ?></span>
+        <img src="<?= htmlspecialchars($user['profile_picture'] ?: 'Temp-user-face.jpg') ?>" alt="User Avatar" class="profile-avatar">
+        <span> <?php echo htmlspecialchars($username); ?></span>
             <div class="dropdown-content">
                 <a href="profile.php">My Profile</a>
                 <a href="settings.php">Settings</a>
@@ -575,29 +592,30 @@ $username = $_SESSION['username'] ?? 'User';
         </div>
 </footer>
     <script>
-            // Handle theme toggle
-            const themeToggle = document.getElementById('themeToggle');
-            const body = document.body;
+                // Handle theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
 
-            // Check for saved theme in localStorage
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark') {
-                body.classList.add('dark-mode');
-                themeToggle.textContent = 'Light Mode';
-            }
+    // Check for saved theme in localStorage
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        body.classList.add('dark-mode');
+        themeToggle.textContent = 'Light Mode';
+    }
 
-            themeToggle.addEventListener('click', () => {
-                body.classList.toggle('dark-mode');
+    themeToggle.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
 
-                // Update button text and save preference
-                if (body.classList.contains('dark-mode')) {
-                    themeToggle.textContent = 'Light Mode';
-                    localStorage.setItem('theme', 'dark');
-                } else {
-                    themeToggle.textContent = 'Dark Mode';
-                    localStorage.setItem('theme', 'light');
-                }
-            });
+        // Update button text and save preference
+        if (body.classList.contains('dark-mode')) {
+            themeToggle.textContent = 'Light Mode';
+            localStorage.setItem('theme', 'dark');
+        } else {
+            themeToggle.textContent = 'Dark Mode';
+            localStorage.setItem('theme', 'light');
+        }
+    });
+
     </script>
 
 
