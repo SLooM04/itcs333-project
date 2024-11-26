@@ -39,19 +39,19 @@ if (!$user) {
         </div>
 
         <div class="profile-info">
-            <p><strong>Username:</strong> <?= htmlspecialchars($user['username']) ?></p>
-            <p><strong>Email:</strong> <?= htmlspecialchars($user['email']) ?></p>
-            <p><strong>Role:</strong> <?= $userRole == 'student' ? 'Student' : 'Teacher' ?></p>
+            <p><img src="https://img.icons8.com/ios-filled/50/000000/username.png" class="icon"><strong>Username:</strong> <?= htmlspecialchars($user['username']) ?></p>
+            <p><img src="https://img.icons8.com/ios-filled/50/000000/email.png" class="icon"><strong>Email:</strong> <?= htmlspecialchars($user['email']) ?></p>
+            <p><img src="https://img.icons8.com/ios-filled/50/000000/work.png" class="icon"><strong>Role:</strong> <?= $userRole == 'student' ? 'Student' : 'Teacher' ?></p>
             <?php if ($userRole == 'student'): ?>
-                <p><strong>Major:</strong> <?= htmlspecialchars($user['major']) ?></p>
-                <p><strong>Level:</strong> <?= htmlspecialchars($user['level']) ?></p>
+                <p><img src="https://img.icons8.com/ios-filled/50/000000/graduation-cap.png" class="icon"><strong>Major:</strong> <?= htmlspecialchars($user['major']) ?></p>
+                <p><img src="https://img.icons8.com/ios-filled/50/000000/education.png" class="icon"><strong>Level:</strong> <?= htmlspecialchars($user['level']) ?></p>
             <?php else: ?>
-                <p><strong>Department:</strong> <?= htmlspecialchars($user['department']) ?></p>
+                <p><img src="https://img.icons8.com/ios-filled/50/000000/department.png" class="icon"><strong>Department:</strong> <?= htmlspecialchars($user['department']) ?></p>
             <?php endif; ?>
-            <a href="edit_profile.php" class="edit-btn">Edit Profile</a>
+            <a href="edit_profile.php" class="button edit-btn">Edit Profile</a>
         </div>
 
-        <a href="HomeLog.php" class="back-home-btn">Back to Home</a>
+        <a href="HomeLog.php" class="button back-home-btn">Back to Home</a>
     </div>
 </body>
 </html>

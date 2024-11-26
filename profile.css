@@ -1,106 +1,137 @@
-@import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600');
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Raleway, sans-serif;
+/* BASIC STYLES */
+
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', sans-serif;
+  background: linear-gradient(135deg, #ff5f6d, #ffc371);
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-body {
-    background: linear-gradient(90deg, #C7C5F4, #776BCC);        
+a {
+  color: #ff5f6d;
+  text-decoration: none;
+  font-weight: 500;
 }
 
-.container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
+h1 {
+  margin: 0;
 }
+
+h2 {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  text-transform: uppercase;
+}
+
+/* PROFILE CONTAINER */
 
 .profile-container {
-    max-width: 600px;
-    background-color: #fff;
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  padding: 40px;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: all 0.3s ease-in-out;
 }
 
+.profile-container:hover {
+  transform: scale(1.03);
+}
+
+/* PROFILE HEADER */
+
 .profile-header {
-    text-align: center;
-    margin-bottom: 30px;
+  margin-bottom: 30px;
 }
 
 .profile-header h1 {
-    color: #2863AE;
-    font-size: 2.5em;
-    margin-bottom: 15px;
-    font-weight: 600;
+  font-size: 26px;
+  color: #333;
+  margin-bottom: 10px;
 }
 
 .profile-image {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    border: 5px solid #2863AE;
-    object-fit: cover;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 5px solid #ffc371;
+  object-fit: cover;
 }
 
+/* PROFILE INFO */
+
 .profile-info {
-    font-size: 1rem;
-    color: #333;
-    line-height: 1.6;
+  text-align: left;
+  margin-top: 20px;
+  font-size: 16px;
+  color: #666;
 }
 
 .profile-info p {
-    margin-bottom: 10px;
-    font-weight: 500;
+  margin-bottom: 12px;
 }
 
-.edit-btn {
-    display: inline-block;
-    padding: 12px 24px;
-    background-color: #2863AE;
-    color: white;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background-color 0.3s;
-    border: none;
-    cursor: pointer;
+.profile-info p strong {
+  color: #333;
 }
 
-.edit-btn:hover {
-    background-color: #1A4A80;
+.icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+/* BUTTONS */
+
+.button {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #ff5f6d;
+  color: white;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.button:hover {
+  background-color: #ff3b4f;
 }
 
 .back-home-btn {
-    display: inline-block;
-    padding: 12px 24px;
-    background-color: #2863AE;
-    color: white;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background-color 0.3s;
-    border: none;
-    cursor: pointer;
-    margin-top: 20px;
+  background-color: #ffc371;
 }
 
 .back-home-btn:hover {
-    background-color: #1A4A80;
+  background-color: #ffa648;
 }
 
 @media (max-width: 768px) {
-    .profile-container {
-        padding: 30px 20px;
-    }
-    .profile-header h1 {
-        font-size: 2em;
-    }
-    .profile-image {
-        width: 120px;
-        height: 120px;
-    }
+  .profile-container {
+    padding: 20px;
+  }
+
+  .profile-header h1 {
+    font-size: 22px;
+  }
+
+  .profile-image {
+    width: 100px;
+    height: 100px;
+  }
 }
