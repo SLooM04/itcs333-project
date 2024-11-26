@@ -2,6 +2,11 @@
 session_start();
 require 'db.php'; // Include the DB connection file
 
+if (!isset($_SESSION['user_id'])) {
+    header("Location: combined_login.php");
+    exit();
+}
+
 // Function to fetch rooms from the database based on department
 function fetchRooms($department = null)
 {

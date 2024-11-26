@@ -1,6 +1,10 @@
 <?php
 session_start();
 require 'db.php'; // Include the DB connection file
+if (!isset($_SESSION['user_id'])) {
+    header("Location: combined_login.php");
+    exit();
+}
 
 // Check if room ID is provided in the URL
 if (isset($_GET['id'])) {

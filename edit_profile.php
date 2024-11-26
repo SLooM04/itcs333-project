@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'db.php';
+require 'db.php'; 
 
 // Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirm_password'];
     $mobile = trim($_POST['mobile']);
-    $profilePicture = $user['profile_picture'] ? $user['profile_picture'] : 'uploads/Temp-user-face.jpg';
+    $profilePicture = $user['profile_picture'] ?? 'uploads/Temp-user-face.jpg';
 
     // Handle profile picture upload or deletion
     if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
@@ -82,15 +82,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $hashedPassword = !empty($password) ? password_hash($password, PASSWORD_DEFAULT) : $user['password'];
 
         if ($userRole == 'student') {
-            $stmt = $pdo->prepare("UPDATE students SET first_name = ?, last_name = ?, email = ?, username = ?, password = ?, mobile = ?, year_joined = ?, profile_picture = ? WHERE student_id = ?");
-            $stmt->execute([$firstName, $lastName, $email, $username, $hashedPassword, $mobile, $_POST['year'], $profilePicture, $userId]);
+            $stmt = $pdo->prepare("UPDATE students SET first_name = ?, last_name = ?, email = ?, username = ?, password = ?, mobile = ?, major = ?, level = ?, profile_picture = ? WHERE student_id = ?");
+            $stmt->execute([$firstName, $lastName, $email, $username, $hashedPassword, $mobile, $_POST['major'], $_POST['level'], $profilePicture, $userId]);
         } else {
             $stmt = $pdo->prepare("UPDATE teachers SET first_name = ?, last_name = ?, email = ?, username = ?, password = ?, mobile = ?, department = ?, profile_picture = ? WHERE teacher_id = ?");
             $stmt->execute([$firstName, $lastName, $email, $username, $hashedPassword, $mobile, $_POST['department'], $profilePicture, $userId]);
         }
 
         $_SESSION['profile_update_success'] = "Profile updated successfully!";
-        header("Location: " . ($userRole == 'student' ? 'profile.php' : 'profile.php'));
+        header("Location: profile.php");
         exit();
     } else {
         $_SESSION['profile_update_error'] = implode("<br>", $errors);
@@ -104,6 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile</title>
+    <link rel="stylesheet" href="edit_profile.css">
 </head>
 <body>
     <div class="edit-profile-container">
@@ -115,7 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         ?>
 
-        <form action="<?= $userRole == 'student' ? 'edit_profile.php' : 'edit_profile.php' ?>" method="POST" enctype="multipart/form-data">
+        <form action="edit_profile.php" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="first_name">First Name:</label>
                 <input type="text" name="first_name" value="<?= htmlspecialchars($user['first_name']) ?>" required>
@@ -163,8 +164,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <?php if ($userRole == 'student'): ?>
                 <div class="form-group">
-                    <label for="year">Year Joined:</label>
-                    <input type="number" name="year" value="<?= htmlspecialchars($user['year_joined']) ?>" required>
+                    <label for="major">Major:</label>
+                    <select name="major" required>
+                        <option value="CY" <?= $user['major'] == 'CY' ? 'selected' : '' ?>>Cybersecurity</option>
+                        <option value="CS" <?= $user['major'] == 'CS' ? 'selected' : '' ?>>Computer Science</option>
+                        <option value="NE" <?= $user['major'] == 'NE' ? 'selected' : '' ?>>Network Engineering</option>
+                        <option value="CE" <?= $user['major'] == 'CE' ? 'selected' : '' ?>>Computer Engineering</option>
+                        <option value="SE" <?= $user['major'] == 'SE' ? 'selected' : '' ?>>Software Engineering</option>
+                        <option value="IS" <?= $user['major'] == 'IS' ? 'selected' : '' ?>>Information Systems</option>
+                        <option value="CC" <?= $user['major'] == 'CC' ? 'selected' : '' ?>>Cloud Computing</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="level">Level:</label>
+                    <select name="level" required>
+                        <option value="Feshman" <?= $user['level'] == 'Feshman' ? 'selected' : '' ?>>Freshman</option>
+                        <option value="Sophomore" <?= $user['level'] == 'Sophomore' ? 'selected' : '' ?>>Sophomore</option>
+                        <option value="Junior" <?= $user['level'] == 'Junior' ? 'selected' : '' ?>>Junior</option>
+                        <option value="Senior" <?= $user['level'] == 'Senior' ? 'selected' : '' ?>>Senior</option>
+                        <option value="Postgraduate" <?= $user['level'] == 'Postgraduate' ? 'selected' : '' ?>>Postgraduate</option>
+                    </select>
                 </div>
             <?php else: ?>
                 <div class="form-group">
@@ -174,91 +194,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php endif; ?>
 
             <button type="submit" class="submit-btn">Save Changes</button>
-        </form>
-    </div>
+</form>
+</div>
 
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f2f5;
-            margin: 0;
-            padding: 0;
-        }
+<!-- Styling -->
+<link rel="stylesheet" href="edit_profile.css">
 
-        .edit-profile-container {
-            max-width: 900px;
-            margin: 50px auto;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            color: #0061f2;
-            font-size: 30px;
-            margin-bottom: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            font-size: 18px;
-            color: #333;
-        }
-
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            margin-top: 5px;
-        }
-
-        .submit-btn {
-    background-color: #0061f2;
-    color: #fff;
-    padding: 12px 20px;
-    font-size: 18px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    width: 100%;
-}
-
-.submit-btn:hover {
-    background-color: #004bb5;
-}
-
-.error-message {
-    color: red;
-    font-size: 16px;
-    margin-bottom: 20px;
-}
-
-.profile-image {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    border: 5px solid #2863AE;
-    object-fit: cover;
-}
-
-@media (max-width: 768px) {
-    .edit-profile-container {
-        width: 90%;
-        padding: 20px;
-    }
-
-    h1 {
-        font-size: 24px;
-    }
-}
-</style>
 </body>
 </html>
+
 

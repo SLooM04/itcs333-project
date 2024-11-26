@@ -12,12 +12,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $confirmPassword = $_POST['confirm_password'];
     $major = $_POST['major'];
     $mobile = trim($_POST['mobile']);
-    $year = trim($_POST['year']);
+    $level = $_POST['level'];
 
     // Define validation patterns
     $emailRegex = "/^[0-9]{9}@stu\.uob\.edu\.bh$/";
     $passRegex = "/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/";
-    $mobileRegex = "/^\+?[0-9]{7,15}$/"; // Adjust based on mobile number format
+    $mobileRegex = "/^\+?[0-9]{7,15}$/";
 
     // Initialize an array to store error messages
     $errors = [];
@@ -63,12 +63,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors[] = "Invalid mobile number format.";
     }
 
-    // Validate Year Joined
-    $currentYear = date("Y");
-    if (!is_numeric($year) || $year < 2000 || $year > $currentYear) {
-        $errors[] = "Please enter a valid year between 2000 and $currentYear.";
-    }
-
     // If there are no validation errors, proceed to register the student
     if (empty($errors)) {
         try {
@@ -85,8 +79,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 // Prepare the INSERT statement
                 $stmt = $pdo->prepare("
-                    INSERT INTO students (first_name, last_name, email, username, password, major, mobile, year_joined)
-                    VALUES (:first_name, :last_name, :email, :username, :password, :major, :mobile, :year)
+                    INSERT INTO students (first_name, last_name, email, username, password, major, mobile, level)
+                    VALUES (:first_name, :last_name, :email, :username, :password, :major, :mobile, :level)
                 ");
 
                 // Execute the statement with bound parameters
@@ -98,10 +92,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     ':password' => $hashed_password,
                     ':major' => $major,
                     ':mobile' => $mobile,
-                    ':year' => $year,
+                    ':level' => $level,
                 ]);
 
-                // Set success message and redirect to login page
+                // Set a cookie to remember success status
+                setcookie("registration_success", "Registration successful! You can now log in.", time() + 3600, "/");
                 $_SESSION['registration_success'] = "Registration successful. You can now log in.";
                 header("Location: success.php");
                 exit();
@@ -112,14 +107,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // If there are errors, store them in the session and redirect back to the registration form
+    // If there are errors, store them in the session and set a cookie
     if (!empty($errors)) {
-        $_SESSION['registration_error'] = implode("<br>", $errors);
-        echo "<p class = invalid>" . $_SESSION['registration_error'] . "</p>";
-       
+        $errorMessage = implode("<br>", $errors);
+        $_SESSION['registration_error'] = $errorMessage;
+        setcookie("registration_error", $errorMessage, time() + 3600, "/");
+        echo "<p class='invalid'>" . htmlspecialchars($errorMessage) . "</p>";
+    } else {
+        // Store user data in cookies for convenience
+        setcookie("user_first_name", $firstName, time() + 3600, "/");
+        setcookie("user_last_name", $lastName, time() + 3600, "/");
+        setcookie("user_email", $email, time() + 3600, "/");
     }
 }
 ?>
+
 
 
 <!DOCTYPE html>
@@ -443,9 +445,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                  <!-- Year Joined -->
-                 <div id="registration-year" class="form-group">
+                 <div id="registration-level" class="form-group">
                     <label for="year">Level</label>
-                    <select id="major" name="major" required>
+                    <select id="level" name="level" required>
                         <option value="Freshman">Freshman (1st Year)</option>
                         <option value="Sophomore">Sophomore (2nd Year)</option>
                         <option value="Junior">Junior (3rd Year)</option>
