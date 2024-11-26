@@ -43,13 +43,29 @@ $username = $_SESSION['username'] ?? 'User';
             margin: 0;
             padding: 0;
             overflow-x: hidden;
-        }
 
-        /* Dark Mode Support */
+        }
         body.dark-mode {
             background-color: #121212;
+            color: white;
+        }
+
+        header.dark-mode {
+            background-color: #1e1e1e;
+        }
+
+        nav a.dark-mode {
             color: #f0f0f0;
         }
+
+        .dropdown-content.dark-mode {
+            background-color: white;
+        }
+
+        .dropdown-content a.dark-mode {
+            color: #f0f0f0;
+        }
+
 
         /* Header Styles */
         header {
@@ -203,18 +219,7 @@ $username = $_SESSION['username'] ?? 'User';
             position: relative;
         }
 
-        /* Make sure the video covers the whole background */
-        video.background-video {
-
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            object-fit: cover;
-            z-index: 10;
-
-        }
-
+       
         /* Welcome section */
         .welcome-section {
             text-align: center;
@@ -458,6 +463,7 @@ $username = $_SESSION['username'] ?? 'User';
             }
         }
 
+       
         
     </style>
 
@@ -487,6 +493,7 @@ $username = $_SESSION['username'] ?? 'User';
             <div class="dropdown-content">
                 <a href="profile.php">My Profile</a>
                 <a href="settings.php">Settings</a>
+                <a id="themeToggle">Dark Mode</a>
                 <a href="logout.php" class="logout-button" onclick="return confirm('Are you sure you want to log out?')">Logout</a>
             </div>
         </div>
@@ -566,7 +573,32 @@ $username = $_SESSION['username'] ?? 'User';
                 <a href="https://www.uob.edu.bh/terms-and-conditions">Terms of Service</a> 
             </p>
         </div>
-    </footer>
+</footer>
+    <script>
+            // Handle theme toggle
+            const themeToggle = document.getElementById('themeToggle');
+            const body = document.body;
+
+            // Check for saved theme in localStorage
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                body.classList.add('dark-mode');
+                themeToggle.textContent = 'Light Mode';
+            }
+
+            themeToggle.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+
+                // Update button text and save preference
+                if (body.classList.contains('dark-mode')) {
+                    themeToggle.textContent = 'Light Mode';
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    themeToggle.textContent = 'Dark Mode';
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+    </script>
 
 
 </body>
