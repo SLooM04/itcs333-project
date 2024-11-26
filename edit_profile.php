@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'db.php';
+require 'db.php'; 
 
 // Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -104,6 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile</title>
+    <link rel="stylesheet" href="edit_profile.css">
 </head>
 <body>
     <div class="edit-profile-container">
@@ -187,92 +188,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
             <?php else: ?>
                 <div class="form-group">
-    <label for="department">Department:</label>
-    <input type="text" name="department" value="<?= htmlspecialchars($user['department']) ?>" required>
-</div>
-<?php endif; ?>
+                    <label for="department">Department:</label>
+                    <input type="text" name="department" value="<?= htmlspecialchars($user['department']) ?>" required>
+                </div>
+            <?php endif; ?>
 
-<button type="submit" class="submit-btn">Save Changes</button>
+            <button type="submit" class="submit-btn">Save Changes</button>
 </form>
 </div>
 
-<style>
-    body {
-        font-family: 'Arial', sans-serif;
-        background-color: #f0f2f5;
-        margin: 0;
-        padding: 0;
-    }
+<!-- Styling -->
+<link rel="stylesheet" href="edit_profile.css">
 
-    .edit-profile-container {
-        max-width: 900px;
-        margin: 50px auto;
-        background-color: #fff;
-        padding: 30px;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    h1 {
-        color: #0061f2;
-        font-size: 30px;
-        margin-bottom: 20px;
-    }
-
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-    .form-group label {
-        font-size: 18px;
-        color: #333;
-    }
-
-    .form-group input, 
-    .form-group select {
-        width: 100%;
-        padding: 10px;
-        font-size: 16px;
-        border: 2px solid #ddd;
-        border-radius: 5px;
-        margin-top: 5px;
-    }
-
-    .submit-btn {
-        background-color: #0061f2;
-        color: #fff;
-        padding: 12px 20px;
-        font-size: 18px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-        width: 100%;
-    }
-
-    .submit-btn:hover {
-        background-color: #004bb5;
-    }
-
-    .error-message {
-        color: red;
-        font-size: 16px;
-        margin-bottom: 20px;
-    }
-
-
-
-    @media (max-width: 768px) {
-        .edit-profile-container {
-            width: 90%;
-            padding: 20px;
-        }
-
-        h1 {
-            font-size: 24px;
-        }
-    }
-</style>
 </body>
 </html>
+
 
