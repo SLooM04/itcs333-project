@@ -505,7 +505,7 @@ $username = $_SESSION['username'] ?? 'User';
 
         <!-- User Profile Section -->
         <div class="user-profile dropdown">
-        <img src="<?= htmlspecialchars($user['profile_picture'] ?: 'Temp-user-face.jpg') ?>" alt="User Avatar" class="profile-avatar">
+        <img src="<?= !empty($user['profile_picture']) ? htmlspecialchars($user['profile_picture']) : 'uploads/Temp-user-face.jpg' ?>" alt="Profile Picture" class="profile-image">
         <span> <?php echo htmlspecialchars($username); ?></span>
             <div class="dropdown-content">
                 <a href="profile.php">My Profile</a>
