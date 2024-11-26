@@ -442,18 +442,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </select>
                 </div>
 
+                 <!-- Year Joined -->
+                 <div id="registration-year" class="form-group">
+                    <label for="year">Level</label>
+                    <select id="major" name="major" required>
+                        <option value="Freshman">Freshman (1st Year)</option>
+                        <option value="Sophomore">Sophomore (2nd Year)</option>
+                        <option value="Junior">Junior (3rd Year)</option>
+                        <option value="Senior">Senior (last Year)</option>
+                        <option value="Post">Postgraduate</option>
+                    </select>
+                </div>
+
                 <!-- Mobile -->
                 <div id="registration-mobile" class="form-group">
                     <label for="mobile">Mobile</label>
                     <input type="tel" id="mobile" name="mobile" placeholder="Enter your mobile number" required>
                 </div>
 
-                <!-- Year Joined -->
-                <div id="registration-year" class="form-group">
-                    <label for="year">Year Joined University</label>
-                    <input type="number" id="year" name="year" placeholder="e.g., 2022" required>
-                </div>
-
+            
                 <div id="form-submit" class="form-group">
         <button type="submit" id="submit" class="contrast">Register as a Student</button>
       </div>
