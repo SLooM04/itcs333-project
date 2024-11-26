@@ -39,54 +39,52 @@ $username = $_SESSION['username'] ?? 'User';
         /* General styles */
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f4f7f6;
+            background-color: #edf4fa;
             margin: 0;
             padding: 0;
             overflow-x: hidden;
-
         }
+
         body.dark-mode {
-            background-color: #121212;
+            background-color: #1a1a2e;
             color: white;
         }
 
-        body.dark-mode h1, 
-        body.dark-mode h2, 
-        body.dark-mode h3, 
-        body.dark-mode p, 
+        body.dark-mode h1,
+        body.dark-mode h2,
+        body.dark-mode h3,
+        body.dark-mode p,
         body.dark-mode a {
-            color: white; /* Ensures all text turns white in dark mode */
+            color: white;
         }
 
-        body.dark-mode .recommendation-card{
-            background-color: gray;
+        body.dark-mode .recommendation-card {
+            background-color: #2e344e;
         }
-
-        
 
         header.dark-mode {
-            background-color: #1e1e1e;
+            background-color: #121530;
         }
 
         nav a.dark-mode {
-            color: #f0f0f0;
+            color: #e0e0e0;
         }
 
         .dropdown-content.dark-mode {
-            background-color: white;
+            background-color: #2b2b3b;
         }
 
         .dropdown-content a.dark-mode {
-            color: #f0f0f0;
-        }
-        body.dark-mode .dropdown-content a {
-            color: black; 
+            color: #e0e0e0;
         }
 
+        body.dark-mode .dropdown-content a {
+            color: #edf4fa;
+        }
 
         /* Header Styles */
         header {
-            background-color: #222;
+            background-color: #046cdb;
             display: flex;
             align-items: center;
             justify-content: space-around;
@@ -107,8 +105,7 @@ $username = $_SESSION['username'] ?? 'User';
             align-items: center;
             gap: 20px;
             padding: 15px 20px;
-            background: linear-gradient(90deg, #d1d1d1, #222);
-            /* Gradient background */
+            background: linear-gradient(90deg, #abbac9, #1f83ed);
             border-radius: 12px;
             box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -132,7 +129,6 @@ $username = $_SESSION['username'] ?? 'User';
             transform: scale(1.15);
         }
 
-        /* Navigation Links */
         nav {
             display: flex;
             gap: 20px;
@@ -148,16 +144,15 @@ $username = $_SESSION['username'] ?? 'User';
         }
 
         nav a:hover {
-            background-color: #d1d1d1;
-            color: #222;
+            background-color: #abbac9;
+            color: #046cdb;
         }
 
-        /* User Profile Section */
         .user-profile {
             display: flex;
             align-items: center;
             gap: 15px;
-            color: antiquewhite;
+            color: white;
         }
 
         .user-profile img {
@@ -188,21 +183,19 @@ $username = $_SESSION['username'] ?? 'User';
         }
 
         .dropdown-content a {
-            color: #003366;
+            color: #046cdb;
             padding: 10px 15px;
             text-decoration: none;
             display: block;
         }
 
         .dropdown-content a:hover {
-            background-color: #f4f7f6;
+            background-color: #abbac9;
         }
 
-        /* Keep the dropdown visible when hovering over the parent or the dropdown-content */
         .dropdown:hover .dropdown-content {
             display: block;
         }
-
 
         @media screen and (max-width: 768px) {
             nav {
@@ -217,15 +210,11 @@ $username = $_SESSION['username'] ?? 'User';
             .logo img {
                 width: 100px;
                 height: auto;
-
             }
 
             .dropdown-content {
                 min-width: 100px;
             }
-
-
-
         }
 
         /* Main content section */
