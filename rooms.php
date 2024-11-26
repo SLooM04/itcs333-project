@@ -169,24 +169,163 @@ nav a:hover {
     justify-content: center;
     margin-top: 50px;
 }
+/* ------------------------------------------------*/
 
 /* Department Cards */
 .department {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 150px;
-    width: 200px;
-    background-color: #282424;
-    color: white;
-    margin: 10px;
-    border-radius: 5px;
-    cursor: pointer;
+  width: 170px;
+  height: 350px; /* Increased height to accommodate the building proportions */
+  background-color: #f5f0e1; /* Beige color for the main building */
+  border: 3px solid #333; /* Dark border for definition */
+  position: relative; /* Needed for absolute positioning of inner elements */
+  overflow: hidden; /*To ensure the elements stay within the boundaries*/
+  margin: 0 40px;
 }
 
-.department:hover {
-    background-color: #0055a5;
+
+
+.department .top-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #f5f0e1;
+    position: absolute;
+    top: 3px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 2px solid #333;
+    z-index: 2; /*Ensures the circle is on top of the roof*/
+
 }
+
+.department .top-circle::before {
+  content: "";
+  position: absolute;
+  width: 1px;
+  height: 45px;
+  background-color: #333;
+  left: 50%;
+  top: 0%;
+  transform: translateX(-50%) rotate(45deg);
+}
+.department .top-circle::after {
+  content: "";
+  position: absolute;
+  width: 1px;
+  height: 45px;
+  background-color: #333;
+  left: 50%;
+  top: 0%;
+  transform: translateX(-50%) rotate(135deg);
+}
+
+
+.department .window {
+  width: 60%;
+  height: 60px;
+  background-color: #1893a3; /* Teal/Green for windows */
+  border-radius: 50% 50% 0 0; /*For arched window shape*/
+  margin: 10px auto;
+  border: 1px solid #333;
+}
+
+
+.department .door-R {
+  width: 20%;
+  height: 80px;
+  background-color: #45a8a7; /* Teal/Green for doors */
+  margin: 10px auto;
+  position: absolute;
+  bottom: -10px;
+  left: 60%;
+  transform: translateX(-50%);
+  border: 1px solid #333;
+  text-align: left;
+}
+.department .door-L {
+  width: 20%;
+  height: 80px;
+  background-color: #45a8a7; /* Teal/Green for doors */
+  margin: 10px auto;
+  position: absolute;
+  bottom: -10px;
+  left: 40%;
+  transform: translateX(-50%);
+  border: 1px solid #333;
+  text-align: right;
+  
+}
+.department .door-R-text {
+    position: absolute; /* Position the text within the department div */
+  bottom: 20px; /* Adjust as needed */
+}
+
+
+.department .door-L-text {
+    position: absolute; /* Position the text within the department div */
+  bottom: 20px; /* Adjust as needed */
+  right: 0px;
+}
+
+
+.department .side {
+    width: 25px;
+    background-color: #f5f0e1;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 13px;
+    font-weight: bold;
+
+}
+.department .side-right{
+    width: 25px;
+    background-color: #f5f0e1;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 13px;
+    font-weight: bold;
+
+}
+
+.department-text {
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #704900;
+  font-size: 25px;
+  z-index: 10;
+  font-weight: bold;
+  /* Add pseudo-element for background */
+  position: relative; /* Needed to position the pseudo-element */
+}
+
+.department-text::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%); /* Vertically center */
+  width: 100%; /* Adjust as needed */
+  height: 100%; /* Adjust as needed */
+  background-color: rgba(0, 0, 0, 0.1); /* Adjust color and opacity */
+  z-index: -1; /* Ensure it's behind the text */
+  /* Add blurring if needed */
+  filter: blur(7px); /* Adjust blur radius */
+  border-radius: 8px; /*optional to add rounded corners*/
+}
+
+
+
+
+.department:hover {
+    background-color: #b5a77b;
+}
+/* ------------------------------------------------*/
 
 /* Room Gallery */
 .room-gallery {
@@ -327,7 +466,7 @@ footer .footer-bottom a:hover {
 
         <!-- User Profile Section -->
         <div class="user-profile dropdown">
-            <img src="https://cdn.pixabay.com/photo/2021/07/02/04/48/user-6380868_1280.png" alt="User Avatar">
+            <img src="<?= !empty($user['profile_picture']) ? htmlspecialchars($user['profile_picture']) : 'uploads/Temp-user-face.jpg' ?>" alt="Profile Picture" class="profile-image">
             <span> <?php echo htmlspecialchars($username); ?></span>
             <div class="dropdown-content">
                 <a href="profile.php">My Profile</a>
@@ -338,9 +477,39 @@ footer .footer-bottom a:hover {
     </header>
     <!-- Department Selection -->
     <div class="container">
-        <div class="department" onclick="showRooms('Information Systems')">Information Systems</div>
-        <div class="department" onclick="showRooms('Computer Science')">Computer Science</div>
-        <div class="department" onclick="showRooms('Network Engineering')">Network Engineering</div>
+      <div class="department" onclick="showRooms('Information Systems')">
+      <div class="roof"></div>
+      <div class="top-circle"></div>
+      <div class="side">S40</div>
+      <div class="side-right">S40</div>
+      <div class="window">======= <br>========</div>
+      <div class="window">======= <br>========</div>
+      <div class="door-L"><div class="door-L-text">-</div></div>
+      <div class="door-R"><div class="door-R-text">-</div></div>
+      <div class="department-text">Information Systems</div> </div>
+
+      <div class="department" onclick="showRooms('Computer Science')">
+      <div class="roof"></div>
+      <div class="top-circle"></div>
+      <div class="side">S40</div>
+      <div class="side-right">S40</div>
+      <div class="window">======= <br>========</div>
+      <div class="window">======= <br>========</div>
+      <div class="door-L"><div class="door-L-text">-</div></div>
+      <div class="door-R"><div class="door-R-text">-</div></div>
+      <div class="department-text">Computer Science</div> </div>
+
+      <div class="department" onclick="showRooms('Network Engineering')">
+      <div class="roof"></div>
+      <div class="top-circle"></div>
+      <div class="side">S40</div>
+      <div class="side-right">S40</div>
+      <div class="window">======= <br>========</div>
+      <div class="window">======= <br>========</div>
+      <div class="door-L"><div class="door-L-text">-</div></div>
+      <div class="door-R"><div class="door-R-text">-</div></div>
+      <div class="department-text">Network Engineering</div> </div>
+
     </div>
 
     <!-- Room Selection (Dynamic Content) -->
