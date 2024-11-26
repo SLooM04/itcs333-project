@@ -9,6 +9,6 @@ CREATE TABLE `teachers` (
   `mobile` varchar(15) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `profile_picture` varchar(255) DEFAULT NULL
- PRIMARY KEY (`teacher_id`)
+  `profile_picture` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`teacher_id`)
 )

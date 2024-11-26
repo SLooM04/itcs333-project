@@ -166,29 +166,80 @@ if (isset($_GET['department'])) {
             display: block;
         }
 
+        p.dep{
+            text-align: center;
+            margin: 20px 0;
+            color: #222;
+            font-weight: bold;
 
-        .container {
-            display: flex;
-            justify-content: center;
-            margin-top: 50px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: black;
         }
 
-        .department {
+
+        .department-type-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 150px;
-            width: 200px;
-            background-color: #282424;
-            color: white;
-            margin: 10px;
-            border-radius: 5px;
-            cursor: pointer;
+            gap: 3rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+            transition: all 0.5s ease;
         }
 
-        .department:hover {
-            background-color: #0055a5;
+        /* Make the entire account card clickable */
+        .department  {
+            display: block;
+            width: 250px;
+            text-align: center;
+            padding: 2rem;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, border-color 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none; /* Remove text underline */
         }
+
+        /* Hover animation for the selection */
+        .department:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            border-color: #007bff;
+            background-color: #f7f7f7;
+        }
+
+        .department img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1.5rem;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .department:hover img {
+            transform: scale(1.1);
+        }
+
+        .department h2 {
+            font-size: 1.5rem;
+            color: #555;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .department:hover h2 {
+            color: #007bff;
+        }
+
 
         .rooms {
             display: block;
@@ -351,7 +402,7 @@ if (isset($_GET['department'])) {
         <!-- User Profile Section -->
         <div class="user-profile dropdown">
             <img src="https://cdn.pixabay.com/photo/2021/07/02/04/48/user-6380868_1280.png" alt="User Avatar">
-            <span> <?php echo htmlspecialchars($username); ?></span>
+            <span> <?php echo htmlspecialchars($_SESSION['username']); ?></span>
             <div class="dropdown-content">
                 <a href="profile.php">My Profile</a>
                 <a href="settings.php">Settings</a>
@@ -359,12 +410,32 @@ if (isset($_GET['department'])) {
             </div>
         </div>
     </header>
-    <!-- Department Selection -->
-    <div class="container">
-        <div class="department" onclick="showRooms('Information Systems')">Information Systems</div>
-        <div class="department" onclick="showRooms('Computer Science')">Computer Science</div>
-        <div class="department" onclick="showRooms('Network Engineering')">Network Engineering</div>
+
+        <p class = "dep">Departments</p>
+        <div class="department-type-container">
+            <!-- Information Systems -->
+            <div class="department" onclick="showRooms('Information Systems')">
+                    <img src="https://t3.ftcdn.net/jpg/05/34/96/24/360_F_534962400_yI5SiJ0dNhVdDN6UIt9oyAM0z7jcyiAT.jpg" alt="Taecher Icon">
+                    <h2>Information Systems</h2>
+                </a>
+            </div>
+
+            <!-- Computer Science -->
+            <div class="department" onclick="showRooms('Computer Science')">
+                    <img src="https://t3.ftcdn.net/jpg/05/34/96/24/360_F_534962400_yI5SiJ0dNhVdDN6UIt9oyAM0z7jcyiAT.jpg" alt="Teacher Icon">
+                    <h2>Computer Science</h2>
+                </a>
+            </div>
+
+            <!-- Network Engineering -->
+            <div class="department" onclick="showRooms('Network Engineering')">
+                    <img src="https://t3.ftcdn.net/jpg/05/34/96/24/360_F_534962400_yI5SiJ0dNhVdDN6UIt9oyAM0z7jcyiAT.jpg" alt="Teacher Icon">
+                    <h2>Network Engineering</h2>
+                </a>
+            </div>
+        </div>
     </div>
+
 
     <!-- Room Selection (Dynamic Content) -->
     <div id="rooms" class="rooms">
