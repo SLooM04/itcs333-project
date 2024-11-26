@@ -322,9 +322,7 @@ nav a:hover {
 
 
 
-.department:hover {
-    background-color: #b5a77b;
-}
+
 /* ------------------------------------------------*/
 
 /* Room Gallery */
