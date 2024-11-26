@@ -478,7 +478,7 @@ footer .footer-bottom a:hover {
     <!-- Department Selection -->
     <div class="container">
       <div class="department" onclick="showRooms('Information Systems')">
-      <div class="roof"></div>
+      <div class="roof">|||||||||||||||||||||||||||</div>
       <div class="top-circle"></div>
       <div class="side">S40</div>
       <div class="side-right">S40</div>
@@ -489,7 +489,7 @@ footer .footer-bottom a:hover {
       <div class="department-text">Information Systems</div> </div>
 
       <div class="department" onclick="showRooms('Computer Science')">
-      <div class="roof"></div>
+      <div class="roof">|||||||||||||||||||||||||||</div>
       <div class="top-circle"></div>
       <div class="side">S40</div>
       <div class="side-right">S40</div>
@@ -500,7 +500,7 @@ footer .footer-bottom a:hover {
       <div class="department-text">Computer Science</div> </div>
 
       <div class="department" onclick="showRooms('Network Engineering')">
-      <div class="roof"></div>
+      <div class="roof">|||||||||||||||||||||||||||</div>
       <div class="top-circle"></div>
       <div class="side">S40</div>
       <div class="side-right">S40</div>
