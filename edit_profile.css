@@ -1,73 +1,102 @@
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f0f2f5;
-    margin: 0;
-    padding: 0;
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600');
+
+/* BASIC STYLES */
+
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', sans-serif;
+  background: linear-gradient(135deg, #ff5f6d, #ffc371);
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.edit-profile-container {
-    max-width: 900px;
-    margin: 50px auto;
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+a {
+  color: #ff5f6d;
+  text-decoration: none;
+  font-weight: 500;
 }
 
 h1 {
-    color: #0061f2;
-    font-size: 30px;
-    margin-bottom: 20px;
+  margin: 0;
 }
 
+/* EDIT PROFILE CONTAINER */
+
+.edit-profile-container {
+  background-color: #ffffff;
+  padding: 40px;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.edit-profile-container:hover {
+  transform: scale(1.03);
+}
+
+/* FORM GROUP */
+
 .form-group {
-    margin-bottom: 20px;
+  text-align: left;
+  margin-top: 20px;
 }
 
 .form-group label {
-    font-size: 18px;
-    color: #333;
+  font-size: 16px;
+  color: #333;
 }
 
 .form-group input, 
 .form-group select {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 2px solid #ddd;
-    border-radius: 5px;
-    margin-top: 5px;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 2px solid #ddd;
+  margin-top: 5px;
 }
 
+/* BUTTONS */
+
 .submit-btn {
-    background-color: #0061f2;
-    color: #fff;
-    padding: 12px 20px;
-    font-size: 18px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    width: 100%;
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #ff5f6d;
+  color: white;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+  width: 100%;
 }
 
 .submit-btn:hover {
-    background-color: #004bb5;
+  background-color: #ff3b4f;
 }
 
 .error-message {
-    color: red;
-    font-size: 16px;
-    margin-bottom: 20px;
+  color: red;
+  font-size: 16px;
+  margin-bottom: 20px;
 }
 
-@media (max-width: 768px) {
-    .edit-profile-container {
-        width: 90%;
-        padding: 20px;
-    }
+/* MEDIA QUERY */
 
-    h1 {
-        font-size: 24px;
-    }
+@media (max-width: 768px) {
+  .edit-profile-container {
+    padding: 20px;
+  }
+
+  .edit-profile-container h1 {
+    font-size: 22px;
+  }
 }

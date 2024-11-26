@@ -136,7 +136,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label for="username">Username:</label>
                 <input type="text" name="username" value="<?= htmlspecialchars($user['username']) ?>" required>
             </div>
-
             <div class="form-group">
                 <label for="password">New Password:</label>
                 <input type="password" name="password" placeholder="Leave blank to keep current password">
@@ -194,13 +193,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php endif; ?>
 
             <button type="submit" class="submit-btn">Save Changes</button>
-</form>
-</div>
-
-<!-- Styling -->
-<link rel="stylesheet" href="edit_profile.css">
-
+        </form>
+    </div>
 </body>
 </html>
-
-
