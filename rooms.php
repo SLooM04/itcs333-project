@@ -306,7 +306,7 @@ nav a:hover {
 .room-gallery {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Dynamic columns */
-    gap: 20px; /* Space between items */
+    gap: 40px; /* Space between items */
     margin: 20px 20px; /* Add gap on the top/bottom and left/right sides */
     width: 100%; /* Ensure it takes the full width of its parent */
 }
