@@ -28,6 +28,7 @@ if (isset($_GET['id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Room Details</title>
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.5.7/css/pico.min.css">
     <style>
         /* Basic Styles */
         body {
@@ -332,47 +333,48 @@ if (isset($_GET['id'])) {
     <main>
 
 
-    <div class="room-container">
-        <div class="room-images">
-            <!-- Main Room Image -->
-            <img src="<?php echo htmlspecialchars($room['image']); ?>" alt="Room Image" class="main-image" id="main-image">
+        <div class="room-container">
+            <div class="room-images">
+                <!-- Main Room Image -->
+                <img src="<?php echo htmlspecialchars($room['image']); ?>" alt="Room Image" class="main-image" id="main-image">
 
-            <!-- Thumbnail Images -->
-            <div class="thumbnail-images">
-                <!-- First thumbnail is the main image -->
-                <img src="<?php echo htmlspecialchars($room['image']); ?>" alt="Main Image" onclick="changeMainImage('<?php echo htmlspecialchars($room['image']); ?>')">
+                <!-- Thumbnail Images -->
+                <div class="thumbnail-images">
+                    <!-- First thumbnail is the main image -->
+                    <img src="<?php echo htmlspecialchars($room['image']); ?>" alt="Main Image" onclick="changeMainImage('<?php echo htmlspecialchars($room['image']); ?>')">
 
-                <?php 
-                // Display additional thumbnail images if available
-                for ($i = 1; $i <= 4; $i++) {
-                    $thumb = $room['thumbnail_' . $i] ?? 'default-thumbnail.jpg'; // Default if no thumbnail
-                    if ($i > 1) { // Skip the first one since it's already the main image
-                        echo '<img src="' . htmlspecialchars($thumb) . '" alt="Thumbnail ' . $i . '" onclick="changeMainImage(\'' . htmlspecialchars($thumb) . '\')">';
+                    <?php
+                    // Display additional thumbnail images if available
+                    for ($i = 1; $i <= 4; $i++) {
+                        $thumb = $room['thumbnail_' . $i] ?? 'default-thumbnail.jpg'; // Default if no thumbnail
+                        if ($i > 1) { // Skip the first one since it's already the main image
+                            echo '<img src="' . htmlspecialchars($thumb) . '" alt="Thumbnail ' . $i . '" onclick="changeMainImage(\'' . htmlspecialchars($thumb) . '\')">';
+                        }
                     }
-                }
-                ?>
+                    ?>
+                </div>
             </div>
-        </div>
+            <figure>
+                <div class="room-details">
+                    <h2><?php echo htmlspecialchars($room['room_name']); ?></h2>
+                    <p><strong>Room Capacity:</strong> <?php echo htmlspecialchars($room['capacity']); ?> people</p>
+                    <p><strong>Available Timeslot:</strong> <?php echo htmlspecialchars($room['available_timeslot']); ?></p>
+                    <p><strong>Room Equipment:</strong> <?php echo htmlspecialchars($room['equipment']); ?></p>
 
-        <div class="room-details">
-            <h2><?php echo htmlspecialchars($room['room_name']); ?></h2>
-            <p><strong>Capacity:</strong> <?php echo htmlspecialchars($room['capacity']); ?> people</p>
-            <p><strong>Available Timeslot:</strong> <?php echo htmlspecialchars($room['available_timeslot']); ?></p>
-            <p><strong>Equipment:</strong> <?php echo htmlspecialchars($room['equipment']); ?></p>
+                    <!-- Reserve Button -->
+                    <form action="reserve_room.php" method="post">
+                        <input type="hidden" name="room_id" value="<?php echo htmlspecialchars($room['id']); ?>">
+                        <button type="submit" class="reserve-button">Reserve Room</button>
+                    </form>
+                </div>
+            </figure>
 
-            <!-- Reserve Button -->
-            <form action="reserve_room.php" method="post">
-                <input type="hidden" name="room_id" value="<?php echo htmlspecialchars($room['id']); ?>">
-                <button type="submit" class="reserve-button">Reserve Room</button>
-            </form>
-        </div>
-    </div>
 
-        <script>
-    function changeMainImage(image) {
-        document.getElementById("main-image").src = image;
-    }
-</script>
+            <script>
+                function changeMainImage(image) {
+                    document.getElementById("main-image").src = image;
+                }
+            </script>
 
     </main>
 

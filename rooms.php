@@ -38,348 +38,269 @@ if (isset($_GET['department'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Room Booking System</title>
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.5.7/css/pico.min.css">
     <style>
-        /* Basic Styles */
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f7f6;
-            margin: 0 0 0 0;
-            text-align: center;
+/* Basic Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    text-align: center;
+}
 
-        }
+header {
+    background-color: #222;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 15px 30px;
+    font-family: "Libre Baskerville", Garamond, sans-serif;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
 
-        header {
-            background-color: #222;
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            padding: 15px 30px;
-            font-family: "Libre Baskerville", Garamond, sans-serif;
-            font-size: auto;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.logo {
+    font-size: 1.8em;
+    font-weight: 600;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 15px 20px;
+    background: linear-gradient(90deg, #d1d1d1, #222);
+    border-radius: 12px;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
 
-            z-index: 1000;
-        }
+.logo:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.4);
+}
 
-        .logo {
-            font-size: 1.8em;
-            font-weight: 600;
-            color: white;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            padding: 15px 20px;
-            background: linear-gradient(90deg, #d1d1d1, #222);
-            /* Gradient background */
-            border-radius: 12px;
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+.logo img {
+    width: 200px;
+    height: auto;
+    border-radius: 10%;
+    border: 3px solid white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s;
+}
 
-        .logo:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.4);
-        }
+.logo img:hover {
+    transform: scale(1.15);
+}
 
-        .logo img {
-            width: 200px;
-            height: auto;
-            border-radius: 10%;
-            border: 3px solid white;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
-        }
+/* Navigation Links */
+nav {
+    display: flex;
+    gap: 20px;
+}
 
-        .logo img:hover {
-            transform: scale(1.15);
-        }
+nav a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
 
-        /* Navigation Links */
-        nav {
-            display: flex;
-            gap: 20px;
-        }
+nav a:hover {
+    background-color: #d1d1d1;
+    color: #222;
+}
 
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-size: 1.1em;
-            padding: 8px 15px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
+/* User Profile Section */
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: antiquewhite;
+}
 
-        nav a:hover {
-            background-color: #d1d1d1;
-            color: #222;
-        }
+.user-profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
 
-        /* User Profile Section */
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            color: antiquewhite;
-        }
+/* Dropdown */
+.dropdown {
+    position: relative;
+}
 
-        .user-profile img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 2px solid white;
-        }
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    min-width: 150px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+    border-radius: 0;
+    z-index: 2000;
+}
 
-        .user-profile span {
-            font-size: 1em;
-        }
+.dropdown-content a {
+    color: #003366;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+}
 
-        .dropdown {
-            position: relative;
-        }
+.dropdown-content a:hover {
+    background-color: #f4f7f6;
+}
 
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background-color: white;
-            min-width: 150px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
-            border-radius: 0;
-            z-index: 2000;
-        }
+.dropdown:hover .dropdown-content {
+    display: block;
+}
 
-        .dropdown-content a {
-            color: #003366;
-            padding: 10px 15px;
-            text-decoration: none;
-            display: block;
-        }
+/* Container */
+.container, .rooms {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
 
-        .dropdown-content a:hover {
-            background-color: #f4f7f6;
-        }
+/* Department Cards */
+.department {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
+    width: 200px;
+    background-color: #282424;
+    color: white;
+    margin: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
-        /* Keep the dropdown visible when hovering over the parent or the dropdown-content */
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
+.department:hover {
+    background-color: #0055a5;
+}
 
-        p.dep{
-            text-align: center;
-            margin: 20px 0;
-            color: #222;
-            font-weight: bold;
-
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            color: black;
-        }
-
-
-        .department-type-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 3rem;
-            margin-top: 3rem;
-            flex-wrap: wrap;
-            transition: all 0.5s ease;
-        }
-
-        /* Make the entire account card clickable */
-        .department  {
-            display: block;
-            width: 250px;
-            text-align: center;
-            padding: 2rem;
-            border: 2px solid transparent;
-            border-radius: 12px;
-            background-color: #ffffff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, border-color 0.3s ease;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-decoration: none; /* Remove text underline */
-        }
-
-        /* Hover animation for the selection */
-        .department:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            border-color: #007bff;
-            background-color: #f7f7f7;
-        }
-
-        .department img {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 1.5rem;
-            border-radius: 50%;
-            transition: transform 0.3s ease;
-        }
-
-        .department:hover img {
-            transform: scale(1.1);
-        }
-
-        .department h2 {
-            font-size: 1.5rem;
-            color: #555;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            transition: color 0.3s ease;
-        }
-
-        .department:hover h2 {
-            color: #007bff;
-        }
+/* Room Gallery */
+.room-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Dynamic columns */
+    gap: 20px; /* Space between items */
+    margin: 20px 20px; /* Add gap on the top/bottom and left/right sides */
+    width: 100%; /* Ensure it takes the full width of its parent */
+}
 
 
-        .rooms {
-            display: block;
-            margin-top: 30px;
-            text-align: center;
-        }
 
-        .room-gallery {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            /* Ensures 4 columns */
-            gap: 20px;
-            /* Space between grid items */
-            margin: 20px auto;
-            max-width: 1000px;
-        }
+.room {
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    overflow: hidden;
+    transition: box-shadow 0.3s;
+    
+}
+.room a{
+    text-decoration: none;
+}
 
+.room:hover {
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+}
 
-        .room {
-            border: 2px solid #ccc;
-            border-radius: 8px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            background-color: #fff;
-        }
+.room figure {
+    margin: 0;
+    
+}
 
-        .room a {
-            text-decoration: none;
-            /* Removes underline from room links */
-            color: inherit;
-            /* Keeps the current color (default text color) */
-        }
+.room img {
+    width: 100%;
+    height: auto;
+}
 
+.room figcaption {
+    padding: 15px;
+    text-align: left;
+}
 
-        .room figure {
-            margin: 0;
+.room h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
 
-        }
+.room p {
+    margin: 5px 0;
+    color: #555;
+}
 
-        .room img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
+/* Footer */
+footer {
+    background-color: #222;
+    color: #f0f4f7;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 4rem;
+    font-size: 0.9rem;
+}
 
-        .room figcaption {
-            padding: 15px;
-            text-align: left;
-        }
+footer .footer-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+}
 
-        .room h2 {
-            font-size: 1.5em;
-            margin-bottom: 10px;
-        }
+footer .footer-section {
+    flex: 1 1 200px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    text-align: left;
+}
 
-        .room p {
-            margin: 5px 0;
-            font-size: 1em;
-            color: #555;
+footer .footer-section h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
 
-        }
+footer .footer-section ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
 
-        .room:hover {
-            box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
-            /* Adds a shadow effect */
-        }
+footer .footer-section ul li {
+    margin: 0.4rem 0;
+}
 
+footer .footer-section ul li a {
+    color: #d1d1d1;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
 
-        /* Footer styles */
-        footer {
-            background-color: #222;
-            color: #f0f4f7;
-            text-align: center;
-            padding: 1rem 1rem;
-            /* Reduced padding */
-            margin-top: 4rem;
-            /* Added space between content and footer */
-            font-size: 0.9rem;
-            /* Reduced font size */
-        }
+footer .footer-section ul li a:hover {
+    color: #007bff;
+}
 
-        footer .footer-container {
-            display: flex;
-            justify-content: space-around;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+footer .footer-bottom {
+    font-size: 0.85rem;
+    margin-top: 1rem;
+    color: #d1d1d1;
+}
 
-        footer .footer-section {
-            flex: 1 1 200px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            text-align: left;
-        }
+footer .footer-bottom a {
+    color: #d1d1d1;
+}
 
-        footer .footer-section h3 {
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            color: #ffffff;
-            font-weight: 600;
-        }
+footer .footer-bottom a:hover {
+    color: #007bff;
+}
 
-        footer .footer-section ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        footer .footer-section ul li {
-            margin: 0.4rem 0;
-        }
-
-        footer .footer-section ul li a {
-            color: #d1d1d1;
-            text-decoration: none;
-            transition: color 0.3s ease;
-            font-size: 1rem;
-        }
-
-        footer .footer-section ul li a:hover {
-            color: #007bff;
-        }
-
-        footer .footer-bottom {
-            font-size: 0.85rem;
-            margin-top: 1rem;
-            /* Reduced margin */
-            color: #d1d1d1;
-        }
-
-        footer .footer-bottom a {
-            color: #d1d1d1;
-            text-decoration: none;
-        }
-
-        footer .footer-bottom a:hover {
-            color: #007bff;
-        }
     </style>
 </head>
 
@@ -402,7 +323,7 @@ if (isset($_GET['department'])) {
         <!-- User Profile Section -->
         <div class="user-profile dropdown">
             <img src="https://cdn.pixabay.com/photo/2021/07/02/04/48/user-6380868_1280.png" alt="User Avatar">
-            <span> <?php echo htmlspecialchars($_SESSION['username']); ?></span>
+            <span> <?php echo htmlspecialchars($username); ?></span>
             <div class="dropdown-content">
                 <a href="profile.php">My Profile</a>
                 <a href="settings.php">Settings</a>
@@ -410,32 +331,12 @@ if (isset($_GET['department'])) {
             </div>
         </div>
     </header>
-
-        <p class = "dep">Departments</p>
-        <div class="department-type-container">
-            <!-- Information Systems -->
-            <div class="department" onclick="showRooms('Information Systems')">
-                    <img src="https://t3.ftcdn.net/jpg/05/34/96/24/360_F_534962400_yI5SiJ0dNhVdDN6UIt9oyAM0z7jcyiAT.jpg" alt="Taecher Icon">
-                    <h2>Information Systems</h2>
-                </a>
-            </div>
-
-            <!-- Computer Science -->
-            <div class="department" onclick="showRooms('Computer Science')">
-                    <img src="https://t3.ftcdn.net/jpg/05/34/96/24/360_F_534962400_yI5SiJ0dNhVdDN6UIt9oyAM0z7jcyiAT.jpg" alt="Teacher Icon">
-                    <h2>Computer Science</h2>
-                </a>
-            </div>
-
-            <!-- Network Engineering -->
-            <div class="department" onclick="showRooms('Network Engineering')">
-                    <img src="https://t3.ftcdn.net/jpg/05/34/96/24/360_F_534962400_yI5SiJ0dNhVdDN6UIt9oyAM0z7jcyiAT.jpg" alt="Teacher Icon">
-                    <h2>Network Engineering</h2>
-                </a>
-            </div>
-        </div>
+    <!-- Department Selection -->
+    <div class="container">
+        <div class="department" onclick="showRooms('Information Systems')">Information Systems</div>
+        <div class="department" onclick="showRooms('Computer Science')">Computer Science</div>
+        <div class="department" onclick="showRooms('Network Engineering')">Network Engineering</div>
     </div>
-
 
     <!-- Room Selection (Dynamic Content) -->
     <div id="rooms" class="rooms">
@@ -518,23 +419,6 @@ if (isset($_GET['department'])) {
             </p>
         </div>
     </footer>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
