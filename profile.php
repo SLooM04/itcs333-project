@@ -34,7 +34,7 @@ if (!$user) {
     <div class="profile-container">
         <div class="profile-header">
             <h1>Welcome, <?= htmlspecialchars($user['first_name']) ?> <?= htmlspecialchars($user['last_name']) ?></h1>
-            <img src="<?= !empty($user['profile_picture']) ? htmlspecialchars($user['profile_picture']) : 'uploads/Temp-user-face.jpg' ?>" alt="Profile Picture" class="profile-image">
+            <img src="<?= htmlspecialchars($user['profile_picture'] ?? 'uploads/Temp-user-face.jpg') ?>" alt="Profile Picture" class="profile-image">
         </div>
 
         <div class="profile-info">
@@ -42,17 +42,17 @@ if (!$user) {
             <p><strong>Email:</strong> <?= htmlspecialchars($user['email']) ?></p>
             <p><strong>Role:</strong> <?= $userRole == 'student' ? 'Student' : 'Teacher' ?></p>
             <?php if ($userRole == 'student'): ?>
-                <p><strong>Year Joined:</strong> <?= htmlspecialchars($user['year_joined']) ?></p>
+                <p><strong>Major:</strong> <?= htmlspecialchars($user['major']) ?></p>
+                <p><strong>Level:</strong> <?= htmlspecialchars($user['level']) ?></p>
             <?php else: ?>
                 <p><strong>Department:</strong> <?= htmlspecialchars($user['department']) ?></p>
             <?php endif; ?>
-            <a href="<?= $userRole == 'student' ? 'edit_profile.php' : 'edit_profile.php' ?>" class="edit-btn">Edit Profile</a>
+            <a href="edit_profile.php" class="edit-btn">Edit Profile</a>
         </div>
 
         <a href="HomeLog.php" class="back-home-btn">Back to Home</a>
     </div>
 
-    <!-- Styling for profile -->
     <style>
         body {
             font-family: 'Arial', sans-serif;
