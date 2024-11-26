@@ -170,32 +170,30 @@ nav a:hover {
     margin-top: 50px;
 }
 /* ------------------------------------------------*/
-
 /* Department Cards */
 .department {
   width: 170px;
-  height: 350px; /* Increased height to accommodate the building proportions */
-  background-color: #f5f0e1; /* Beige color for the main building */
-  border: 3px solid #333; /* Dark border for definition */
-  position: relative; /* Needed for absolute positioning of inner elements */
-  overflow: hidden; /*To ensure the elements stay within the boundaries*/
+  height: 350px;
+  background-color: #f5f0e1;
+  border: 3px solid #333;
+  position: relative;
+  overflow: hidden;
   margin: 0 40px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
 }
 
-
-
 .department .top-circle {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: #f5f0e1;
-    position: absolute;
-    top: 3px;
-    left: 50%;
-    transform: translateX(-50%);
-    border: 2px solid #333;
-    z-index: 2; /*Ensures the circle is on top of the roof*/
-
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #f5f0e1;
+  position: absolute;
+  top: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 2px solid #333;
+  z-index: 2;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Add shadow to the circle */
 }
 
 .department .top-circle::before {
@@ -218,77 +216,63 @@ nav a:hover {
   top: 0%;
   transform: translateX(-50%) rotate(135deg);
 }
-
-
 .department .window {
   width: 60%;
   height: 60px;
-  background-color: #1893a3; /* Teal/Green for windows */
-  border-radius: 50% 50% 0 0; /*For arched window shape*/
+  background-color: #1893a3;
+  border-radius: 50% 50% 0 0;
   margin: 10px auto;
   border: 1px solid #333;
+  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.2); /* Subtle inner shadow */
 }
 
-
-.department .door-R {
-  width: 20%;
-  height: 80px;
-  background-color: #45a8a7; /* Teal/Green for doors */
-  margin: 10px auto;
-  position: absolute;
-  bottom: -10px;
-  left: 60%;
-  transform: translateX(-50%);
-  border: 1px solid #333;
-  text-align: left;
-}
+.department .door-R,
 .department .door-L {
   width: 20%;
   height: 80px;
-  background-color: #45a8a7; /* Teal/Green for doors */
+  background-color: #45a8a7;
   margin: 10px auto;
   position: absolute;
   bottom: -10px;
-  left: 40%;
   transform: translateX(-50%);
   border: 1px solid #333;
-  text-align: right;
-  
-}
-.department .door-R-text {
-    position: absolute; /* Position the text within the department div */
-  bottom: 20px; /* Adjust as needed */
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Add shadow to doors */
 }
 
+.department .door-R {
+  left: 60%;
+  text-align: left;
+}
+
+.department .door-L {
+  left: 40%;
+  text-align: right;
+}
+
+.department .door-R-text,
+.department .door-L-text {
+  position: absolute;
+  bottom: 20px;
+}
 
 .department .door-L-text {
-    position: absolute; /* Position the text within the department div */
-  bottom: 20px; /* Adjust as needed */
   right: 0px;
 }
 
-
-.department .side {
-    width: 25px;
-    background-color: #f5f0e1;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    font-size: 13px;
-    font-weight: bold;
-
+.department .side,
+.department .side-right {
+  width: 25px;
+  background-color: #f5f0e1;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  font-size: 13px;
+  font-weight: bold;
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.3); /* Add shadow to sides */
 }
-.department .side-right{
-    width: 25px;
-    background-color: #f5f0e1;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    right: 0;
-    font-size: 13px;
-    font-weight: bold;
 
+.department .side-right {
+  right: 0;
 }
 
 .department-text {
@@ -300,8 +284,7 @@ nav a:hover {
   font-size: 25px;
   z-index: 10;
   font-weight: bold;
-  /* Add pseudo-element for background */
-  position: relative; /* Needed to position the pseudo-element */
+  position: relative;
 }
 
 .department-text::before {
@@ -309,20 +292,14 @@ nav a:hover {
   position: absolute;
   top: 50%;
   left: 0;
-  transform: translateY(-50%); /* Vertically center */
-  width: 100%; /* Adjust as needed */
-  height: 100%; /* Adjust as needed */
-  background-color: rgba(0, 0, 0, 0.1); /* Adjust color and opacity */
-  z-index: -1; /* Ensure it's behind the text */
-  /* Add blurring if needed */
-  filter: blur(7px); /* Adjust blur radius */
-  border-radius: 8px; /*optional to add rounded corners*/
+  transform: translateY(-50%);
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8); /* Lighter background */
+  z-index: -1;
+  filter: blur(7px);
+  border-radius: 8px;
 }
-
-
-
-
-
 /* ------------------------------------------------*/
 
 /* Room Gallery */
