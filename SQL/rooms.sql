@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `rooms` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT ,
   `room_name` varchar(255) NOT NULL,
   `capacity` int(11) NOT NULL,
   `available_timeslot` varchar(255) NOT NULL,

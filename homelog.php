@@ -39,14 +39,14 @@ $username = $_SESSION['username'] ?? 'User';
         /* General styles */
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #edf4fa;
+            background-color: #d4d8dd;
             margin: 0;
             padding: 0;
             overflow-x: hidden;
         }
 
         body.dark-mode {
-            background-color: #1a1a2e;
+            background-color: #2e4156 ;
             color: white;
         }
 
@@ -57,24 +57,28 @@ $username = $_SESSION['username'] ?? 'User';
         body.dark-mode a {
             color: white;
         }
+        body.dark-mode .dropdown-content a {
+            color: #000;
+        }
 
         body.dark-mode .recommendation-card {
             background-color: #2e344e;
         }
 
-        header.dark-mode {
-            background-color: #121530;
+        body.dark-mode header{
+            background-color: #1a2d42;
+            color: #d1d1d1;
         }
 
-        nav a.dark-mode {
+       body.dark-mode nav a {
             color: #e0e0e0;
         }
 
-        .dropdown-content.dark-mode {
+        body.dark-mode .dropdown-content {
             background-color: #2b2b3b;
         }
 
-        .dropdown-content a.dark-mode {
+       body.dark-mode .dropdown-content a {
             color: #e0e0e0;
         }
 
@@ -82,15 +86,21 @@ $username = $_SESSION['username'] ?? 'User';
             color: #edf4fa;
         }
 
+        body.dark-mode footer{
+            background-color: #1a2d42;
+            color: #d1d1d1;
+        }
+
         /* Header Styles */
         header {
-            background-color: #046cdb;
+            background-color: #2e4156;
             display: flex;
             align-items: center;
             justify-content: space-around;
             padding: 15px 30px;
             font-family: "Libre Baskerville", Garamond, sans-serif;
             font-size: auto;
+            margin-bottom: 1rem;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             top: 0;
             z-index: 1000;
@@ -105,7 +115,7 @@ $username = $_SESSION['username'] ?? 'User';
             align-items: center;
             gap: 20px;
             padding: 15px 20px;
-            background: linear-gradient(90deg, #abbac9, #1f83ed);
+            background: linear-gradient(90deg, #abbac9, #2e4156);
             border-radius: 12px;
             box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -131,7 +141,8 @@ $username = $_SESSION['username'] ?? 'User';
 
         nav {
             display: flex;
-            gap: 20px;
+            gap: 40px;
+            margin-bottom: 10px;
         }
 
         nav a {
@@ -145,7 +156,7 @@ $username = $_SESSION['username'] ?? 'User';
 
         nav a:hover {
             background-color: #abbac9;
-            color: #046cdb;
+            color: #222;
         }
 
         .user-profile {
@@ -156,8 +167,8 @@ $username = $_SESSION['username'] ?? 'User';
         }
 
         .user-profile img {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             border: 2px solid white;
         }
@@ -183,7 +194,7 @@ $username = $_SESSION['username'] ?? 'User';
         }
 
         .dropdown-content a {
-            color: #046cdb;
+            color: #222;
             padding: 10px 15px;
             text-decoration: none;
             display: block;
@@ -269,13 +280,10 @@ $username = $_SESSION['username'] ?? 'User';
         .action-buttons a {
             flex: 1;
             max-width: 300px;
-            /* Consistent size for buttons */
             height: 500px;
-            /* Consistent height */
             position: relative;
             text-decoration: none;
             color: #222;
-            /* Text color changed for better contrast on background */
             font-weight: bold;
             font-size: 1.2em;
             font-family: 'Roboto', sans-serif;
@@ -285,12 +293,9 @@ $username = $_SESSION['username'] ?? 'User';
             text-align: center;
             border: 2px solid #000;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            /* Subtle shadow */
             transition: transform 0.3s, box-shadow 0.3s;
-
-            /* Background Image Settings */
+            background-color: #aab7b7;
             background-size: cover;
-            /* Ensures background image covers the entire card */
             background-position: center;
             background-repeat: no-repeat;
         }
@@ -307,10 +312,8 @@ $username = $_SESSION['username'] ?? 'User';
         .action-buttons a:hover {
             transform: scale(1.05);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            /* Lifted shadow */
             border: 3px solid #003366;
             animation: glowing 1.5s ease-in-out infinite;
-            /* Animation for the glowing effect */
         }
 
         /* Glowing effect */
@@ -358,7 +361,7 @@ $username = $_SESSION['username'] ?? 'User';
         }
 
         .recommendation-card {
-            background: white;
+            background: #aab7b7;
             border-radius: 10px;
             color:#222 ;
             padding: 20px;
@@ -366,7 +369,7 @@ $username = $_SESSION['username'] ?? 'User';
             text-align: center;
         }
 
-        .recommendation-card   h3 , h2 , p{
+        .recommendation-card   h3 , h2 , p , a{
             color:#222 ;
             text-align: center;
         }
@@ -384,13 +387,13 @@ $username = $_SESSION['username'] ?? 'User';
 
             /* Footer styles */
         footer {
-            background-color: #222;
-            
-            color: #f0f4f7;
+            background-color: #2e4156;
+            color: white;
             text-align: center;
-            padding: 1rem 1rem; /* Reduced padding */
-            margin-top: 4rem; /* Added space between content and footer */
-            font-size: 0.9rem; /* Reduced font size */
+            padding: 1rem 1rem; 
+            margin-top: 9rem; 
+            font-size: 0.9rem; 
+            
         }
 
         footer .footer-container {
@@ -424,32 +427,35 @@ $username = $_SESSION['username'] ?? 'User';
 
         footer .footer-section ul li {
             margin: 0.4rem 0;
+            list-style-type:disc;
+            color: white;
         }
 
         footer .footer-section ul li a {
-            color: #d1d1d1;
+            color: white;
             text-decoration: none;
             transition: color 0.3s ease;
             font-size: 1rem;
         }
 
         footer .footer-section ul li a:hover {
-            color: #007bff;
+            color:black ;
+            font-weight: bolder;
         }
 
         footer .footer-bottom {
             font-size: 0.85rem;
-            margin-top: 1rem; /* Reduced margin */
-            color: #d1d1d1;
+            margin-top: 1rem; 
+            color: white;
         }
 
         footer .footer-bottom a {
-            color: #d1d1d1;
+            color: white;
             text-decoration: none;
         }
 
         footer .footer-bottom a:hover {
-            color: #007bff;
+            color: black;
         }
 
         /* Responsive design for the footer */
@@ -573,7 +579,7 @@ $username = $_SESSION['username'] ?? 'User';
         </div>
 
         <div class="footer-bottom">
-            <p style = "color:grey;">&copy; <?php echo date("Y"); ?> UOB Rooms Reservation | All rights reserved.</p>
+            <p style = "color:white;">&copy; <?php echo date("Y"); ?> UOB Rooms Reservation | All rights reserved.</p>
             <p>
                 <a href="https://www.uob.edu.bh/privacy-policy">Privacy Policy | </a>  
                 <a href="https://www.uob.edu.bh/terms-and-conditions">Terms of Service</a> 
