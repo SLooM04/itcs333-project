@@ -1,39 +1,30 @@
 <?php
 session_start();
-require 'db.php'; // Include the DB connection file
+require 'db.php';
 
+// Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: combined_login.php");
     exit();
 }
 
-// Function to fetch rooms from the database based on department
-function fetchRooms($department = null)
-{
-    global $pdo;
+// Get user details from session
+$userId = $_SESSION['user_id'];
+$userRole = $_SESSION['role']; // 'student' or 'teacher'
 
-    // If department is provided, fetch rooms by department
-    if ($department) {
-        $sql = "SELECT * FROM rooms WHERE department = :department";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute(['department' => $department]);
-    } else {
-        // Fetch all rooms if no department is specified
-        $sql = "SELECT * FROM rooms";
-        $stmt = $pdo->query($sql);
-    }
-
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
-// Fetch rooms if a department is selected
-$rooms = [];
-if (isset($_GET['department'])) {
-    $department = $_GET['department'];
-    $rooms = fetchRooms($department); // Fetch rooms by department
+if ($userRole == 'student') {
+    $stmt = $pdo->prepare("SELECT * FROM students WHERE student_id = ?");
 } else {
-    $rooms = fetchRooms(); // Fetch all rooms
+    $stmt = $pdo->prepare("SELECT * FROM teachers WHERE teacher_id = ?");
 }
+$stmt->execute([$userId]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$user) {
+    die("User not found.");
+}
+
+$username = $_SESSION['username'] ?? 'User';
 ?>
 
 <!DOCTYPE html>
@@ -42,11 +33,11 @@ if (isset($_GET['department'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Room Booking System</title>
+    <title>Welcome, <?php echo htmlspecialchars($username); ?></title>
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.5.7/css/pico.min.css">
     <style>
- /* General styles */
- body {
+        /* General styles */
+        body {
             font-family: 'Roboto', sans-serif;
             background-color: #d4d8dd;
             margin: 0;
@@ -237,234 +228,165 @@ if (isset($_GET['department'])) {
             }
         }
 
+        /* Main content section */
+        main {
+            display: grid;
+            min-height: 100vh;
+            padding: 80px 20px 20px 20px;
+            position: relative;
+        }
 
-/* Container */
-.container, .rooms {
-    display: flex;
-    justify-content: center;
-    margin-top: 50px;
-}
-/* ------------------------------------------------*/
-/* Department Cards */
-.department {
-  width: 170px;
-  height: 350px;
-  background-color: #f5f0e1;
-  border: 3px solid #333;
-  position: relative;
-  overflow: hidden;
-  margin: 0 40px;
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
-}
+       
+        /* Welcome section */
+        .welcome-section {
+            text-align: center;
+            margin: 20px 0;
+            color: #003366;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
 
-.department .top-circle {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: #f5f0e1;
-  position: absolute;
-  top: 3px;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 2px solid #333;
-  z-index: 2;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Add shadow to the circle */
-}
+        .welcome-section h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: black;
+        }
 
-.department .top-circle::before {
-  content: "";
-  position: absolute;
-  width: 1px;
-  height: 45px;
-  background-color: #333;
-  left: 50%;
-  top: 0%;
-  transform: translateX(-50%) rotate(45deg);
-}
-.department .top-circle::after {
-  content: "";
-  position: absolute;
-  width: 1px;
-  height: 45px;
-  background-color: #333;
-  left: 50%;
-  top: 0%;
-  transform: translateX(-50%) rotate(135deg);
-}
-.department .window {
-  width: 60%;
-  height: 60px;
-  background-color: #1893a3;
-  border-radius: 50% 50% 0 0;
-  margin: 10px auto;
-  border: 1px solid #333;
-  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.2); /* Subtle inner shadow */
-}
+        .welcome-section p {
+            font-size: 1.2em;
+            color: black;
+        }
 
-.department .door-R,
-.department .door-L {
-  width: 20%;
-  height: 80px;
-  background-color: #45a8a7;
-  margin: 10px auto;
-  position: absolute;
-  bottom: -10px;
-  transform: translateX(-50%);
-  border: 1px solid #333;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Add shadow to doors */
-}
+        /* Container for Buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: space-evenly;
+            gap: 20px;
+            padding: 20px;
+            flex-wrap: wrap;
+            margin: 40px 10px;
+        }
 
-.department .door-R {
-  left: 60%;
-  text-align: left;
-}
+        /* Container for Buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: space-evenly;
+            gap: 20px;
+            padding: 20px;
+            flex-wrap: wrap;
+            margin: 40px 10px;
+        }
 
-.department .door-L {
-  left: 40%;
-  text-align: right;
-}
+        /* Button Styles */
+        .action-buttons a {
+            flex: 1;
+            max-width: 300px;
+            height: 500px;
+            position: relative;
+            text-decoration: none;
+            color: #222;
+            font-weight: bold;
+            font-size: 1.2em;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border: 2px solid #000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            background-color: #aab7b7;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
 
-.department .door-R-text,
-.department .door-L-text {
-  position: absolute;
-  bottom: 20px;
-}
 
-.department .door-L-text {
-  right: 0px;
-}
+        /* Text Placement */
+        .action-buttons a span {
+            position: relative;
+            z-index: 2;
+            /* Ensures the text appears above the overlay */
+        }
 
-.department .side,
-.department .side-right {
-  width: 25px;
-  background-color: #f5f0e1;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  font-size: 13px;
-  font-weight: bold;
-  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.3); /* Add shadow to sides */
-}
+        /* Hover Effects */
+        .action-buttons a:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border: 3px solid #003366;
+            animation: glowing 1.5s ease-in-out infinite;
+        }
 
-.department .side-right {
-  right: 0;
-}
+        /* Glowing effect */
+        @keyframes glowing {
+            0% {
+                border-color: #222;
+                /* Initial border color */
+                box-shadow: 0 0 5px #003366, 0 0 10px #003366, 0 0 15px #003366;
+            }
 
-.department-text {
-  position: absolute;
-  bottom: 0px;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  color: #704900;
-  font-size: 25px;
-  z-index: 10;
-  font-weight: bold;
-  position: relative;
-}
+            50% {
+                border-color: #222;
+                box-shadow: 0 0 10px #222, 0 0 20px #222, 0 0 30px #222;
+                /* More intense green glow */
+            }
 
-.department-text::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.8); /* Lighter background */
-  z-index: -1;
-  filter: blur(7px);
-  border-radius: 8px;
-}
+            100% {
+                border-color: darkslategray;
+                /* End border color */
+                box-shadow: 0 0 5px #003366, 0 0 10px #003366, 0 0 15px #003366;
+                /* Soft green glow */
+            }
+        }
 
-.department:hover {
-  transform: scale(1.05); /* Slightly enlarge the card */
-  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.4); /* Add a stronger shadow */
-  border-color: #555; /* Highlight the border */
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-}
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .action-buttons {
+                flex-direction: row;
+                align-items: center;
+            }
 
-/* Door Sliding Animation */
-.department:hover .door-R {
-  transform: translateX(100%); /* Slide the right door outward to the right */
-  transition: transform 0.6s ease;
-}
+            .action-buttons a {
+                max-width: 100%;
+                height: 500px;
+                background-image: url('uploads/card-background.jpg');
+            }
+        }
 
-.department:hover .door-L {
-  transform: translateX(-200%); /* Slide the left door outward to the left */
-  transition: transform 0.6s ease;
-}
+        /* Recommendations Section */
+        .recommendations {
+            text-align: center;
+            margin: 20px 20px;
+            color: #222;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
 
-/* Ensure Default State for Doors */
-.department .door-R,
-.department .door-L {
-  transform-origin: left center; /* Rotate from the edge */
-  transition: transform 0.4s ease;
-}
+        .recommendation-card {
+            background: #aab7b7;
+            border-radius: 10px;
+            color:#222 ;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
 
-.department .door-L {
-  transform-origin: right center; /* Rotate from the edge */
-}
+        .recommendation-card   h3 , h2 , p , a{
+            color:#222 ;
+            text-align: center;
+        }
 
-/* ------------------------------------------------*/
-
-/* Room Gallery */
-.room-gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Dynamic columns */
-    gap: 40px; /* Space between items */
-    margin: 20px 20px; /* Add gap on the top/bottom and left/right sides */
-    width: 100%; /* Ensure it takes the full width of its parent */
-}
+        .recommendations a:hover {
+            color: #003366;
+            font-weight: bold;
+            text-decoration: none;
+        }
 
 
 
-.room {
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-    overflow: hidden;
-    transition: box-shadow 0.3s;
-    margin: 2%;
-    
-}
-.room a{
-    text-decoration: none;
-}
 
-.room:hover {
-    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
-}
 
-.room figure {
-    margin: 0;
-    
-}
 
-.room img {
-    width: 100%;
-    height: auto;
-}
-
-.room figcaption {
-    padding: 15px;
-    text-align: left;
-}
-
-.room h2 {
-    font-size: 1.5em;
-    margin-bottom: 10px;
-    color: #000;
-}
-
-.room p {
-    margin: 5px 0;
-    color: #000;
-}
-
-/* Footer styles */
-footer {
+            /* Footer styles */
+        footer {
             background-color: #2e4156;
             color: white;
             text-align: center;
@@ -553,10 +475,14 @@ footer {
             }
         }
 
+       
+        
     </style>
+
 </head>
 
 <body>
+
     <header>
         <!-- Logo Section -->
         <a href="homelog.php" class="logo">
@@ -584,85 +510,43 @@ footer {
             </div>
         </div>
     </header>
-    <!-- Department Selection -->
-    <div class="container">
-      <div class="department" onclick="showRooms('Information Systems')">
-      <div class="roof">|||||||||||||||||||||||||||</div>
-      <div class="top-circle"></div>
-      <div class="side">S40</div>
-      <div class="side-right">S40</div>
-      <div class="window"><br></div>
-      <div class="window"><br></div>
-      <div class="door-L"><div class="door-L-text">-</div></div>
-      <div class="door-R"><div class="door-R-text">-</div></div>
-      <div class="department-text">Information Systems</div> </div>
+    
 
-      <div class="department" onclick="showRooms('Computer Science')">
-      <div class="roof">|||||||||||||||||||||||||||</div>
-      <div class="top-circle"></div>
-      <div class="side">S40</div>
-      <div class="side-right">S40</div>
-      <div class="window"><br></div>
-      <div class="window"><br></div>
-      <div class="door-L"><div class="door-L-text">-</div></div>
-      <div class="door-R"><div class="door-R-text">-</div></div>
-      <div class="department-text">Computer Science</div> </div>
+    <!-- Main Content -->
+    <main>
 
-      <div class="department" onclick="showRooms('Network Engineering')">
-      <div class="roof">|||||||||||||||||||||||||||</div>
-      <div class="top-circle"></div>
-      <div class="side">S40</div>
-      <div class="side-right">S40</div>
-      <div class="window"><br></div>
-      <div class="window"><br></div>
-      <div class="door-L"><div class="door-L-text">-</div></div>
-      <div class="door-R"><div class="door-R-text">-</div></div>
-      <div class="department-text">Network Engineering</div> </div>
+        <!-- Welcome Section -->
+        <section class="welcome-section">
+            <?php
+            if($_SESSION['role'] == 'student'){
+            echo "<h1>Welcome, " . htmlspecialchars($username). "!</h1>";
+            }else if ($_SESSION['role'] == 'teacher'){
+                echo "<h1>Welcome Dr.". htmlspecialchars($username). "!</h1>";}
+                ?>
+            <p>Your personalized dashboard awaits.</p>
+        </section>
 
-    </div>
+        <!-- Action Buttons -->
+        <section class="action-buttons">
+            <a href="rooms.php"><span>View Available Rooms</span></a>
+            <a href="reservations.php"><span>My Reservations</span></a>
+            <a href="support.php"><span>Contact Support</span></a>
+        </section>
 
-    <!-- Room Selection (Dynamic Content) -->
-    <div id="rooms" class="rooms">
-        <div id="roomSelection" class="room-gallery">
-            <?php if ($rooms): ?>
-                <?php foreach ($rooms as $room): ?>
-                    <div class="room">
-                        <a href="room_details.php?id=<?php echo htmlspecialchars($room['id']); ?>">
-                            <figure>
-                                <?php if (!empty($room['image'])): ?>
-                                    <img src="<?php echo htmlspecialchars($room['image']); ?>" alt="<?php echo htmlspecialchars($room['room_name']); ?>">
-                                <?php else: ?>
-                                    <img src="/RoomPic/.jpg" alt="Default Room Image">
-                                <?php endif; ?>
-                                <figcaption>
-                                    <h2><?php echo htmlspecialchars($room['room_name']); ?></h2>
-                                    <p><strong>Capacity:</strong> <?php echo htmlspecialchars($room['capacity']); ?></p>
-                                    <p><strong>Available Timeslot:</strong> <?php echo htmlspecialchars($room['available_timeslot']); ?></p>
-                                    <p><strong>Equipment:</strong> <?php echo htmlspecialchars($room['equipment']); ?></p>
-                                    <p><strong>Department:</strong> <?php echo htmlspecialchars($room['department']); ?></p>
-                                </figcaption>
-                            </figure>
-                        </a>
-                    </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <p>No rooms available for the selected department.</p>
-            <?php endif; ?>
-        </div>
-    </div>
+        <!-- Recommendations -->
+        <section class="recommendations">
+            <h2>Recommended for You</h2>
+            <div class="recommendation-card">
+                <h3>Room 101</h3>
+                <p>Most booked this month. Reserve now!</p>
+                <a href="rooms.php">View Details</a>
+            </div>
+        </section>
+        
+    </main>
 
-    <script>
-        function showRooms(department) {
-            // Fetch rooms data based on the selected department
-            window.location.href = '?department=' + department;
-        }
-    </script>
-
-
-
-
-    <!-- Footer -->
-    <footer>
+        <!-- Footer -->
+     <footer>
         <div class="footer-container">
             <!-- University Info -->
             <div class="footer-section">
@@ -695,14 +579,13 @@ footer {
         </div>
 
         <div class="footer-bottom">
-            <p>&copy; <?php echo date("Y"); ?> UOB Rooms Reservation | All rights reserved.</p>
+            <p style = "color:white;">&copy; <?php echo date("Y"); ?> UOB Rooms Reservation | All rights reserved.</p>
             <p>
-                <a href="https://www.uob.edu.bh/privacy-policy">Privacy Policy</a> |
-                <a href="https://www.uob.edu.bh/terms-and-conditions">Terms of Service</a>
+                <a href="https://www.uob.edu.bh/privacy-policy">Privacy Policy | </a>  
+                <a href="https://www.uob.edu.bh/terms-and-conditions">Terms of Service</a> 
             </p>
         </div>
-    </footer>
-
+</footer>
     <script>
                 // Handle theme toggle
     const themeToggle = document.getElementById('themeToggle');
@@ -729,10 +612,6 @@ footer {
     });
 
     </script>
-
-
-
-
 
 
 </body>

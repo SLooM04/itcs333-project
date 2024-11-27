@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 // Set success message and redirect to login page
                 $_SESSION['registration_success'] = "Registration successful. You can now log in.";
-                header("Location: teacher-login.php");
+                header("Location: success.php");
                 exit();
             }
         } catch (PDOException $e) {
@@ -225,38 +225,112 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         button:hover {
             background-color: #004bb5;
         }
-                /* Footer styling */
-        footer {
-            margin-top: 30px;
+
+        /* Ripple Effect */
+    button::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        width: 300%;
+        height: 300%;
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 20%;
+        transition: transform 0.3s ease, opacity 0.6s ease;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    button:active::before {
+        transform: translate(-40%, -50%) scale(1);
+        opacity: 011;
+    }
+            /* Footer styles */
+            footer {
+            background-color: #222;
+            color: #f0f4f7;
             text-align: center;
-            font-size: 0.9em;
-            color: #888;
+            padding: 1rem 1rem; /* Reduced padding */
+            margin-top: 4rem; /* Added space between content and footer */
+            font-size: 0.9rem; /* Reduced font size */
         }
 
-        footer ul {
-            list-style: none;
+        footer .footer-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        footer .footer-section {
+            flex: 1 1 200px;
+            padding: 1rem;
+            margin-bottom: 1rem; /* Reduced margin for footer sections */
+            text-align: left; /* Ensure text aligns properly */
+        }
+
+        footer .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        footer .footer-section ul {
+            list-style-type: none;
             padding: 0;
-            margin-top: 10px;
+            margin: 0;
         }
 
-        footer ul li {
-            display: inline-block;
-            margin-right: 15px;
+        footer .footer-section ul li {
+            margin: 0.4rem 0;
         }
 
-        footer ul li a {
-            color: #0061f2;
+        footer .footer-section ul li a {
+            color: #d1d1d1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 1rem;
+        }
+
+        footer .footer-section ul li a:hover {
+            color: #007bff;
+        }
+
+        footer .footer-bottom {
+            font-size: 0.85rem;
+            margin-top: 1rem; /* Reduced margin */
+            color: #d1d1d1;
+        }
+
+        footer .footer-bottom a {
+            color: #d1d1d1;
             text-decoration: none;
         }
 
-        footer ul li a:hover {
-            text-decoration: underline;
+        footer .footer-bottom a:hover {
+            color: #007bff;
         }
 
-        footer p {
-        color: #333;
-        }
-        p.already{
+        /* Responsive design for the footer */
+        @media (max-width: 768px) {
+            footer .footer-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            footer .footer-section {
+                margin-bottom: 1.5rem; /* Reduced margin */
+                text-align: center;
+            }
+
+            footer .footer-section ul li {
+                margin: 0.2rem 0;
+            }
+        }        p.already{
     color: #333;
     text-align: center;
         }
@@ -345,19 +419,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
             </fieldset>
         </form>
-        <p class = "already">Already have an account? <a href="teacher-login.php">Login here</a></p>
+        <p class = "already">Already have an account? <a href="combined_login.php">Login here</a></p>
   </div>
 </main>
 
-<!-- Footer Section -->
-<footer class="container">
-  <hr>
-  <p>&copy; <?php echo date("Y"); ?> ITCS333 Project | All rights reserved.</p>
-  <ul>
-    <li><a href="#privacy-policy">Privacy Policy</a></li>
-    <li><a href="#terms-of-service">Terms of Service</a></li>
-    <li><a href="#contact">Contact Us</a></li>
-  </ul>
-</footer>
+<!-- Footer -->
+<footer>
+        <div class="footer-container">
+            <!-- University Info -->
+            <div class="footer-section">
+                <h3>University Info</h3>
+                <ul>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="https://www.uob.edu.bh/locations">Campus Locations</a></li>
+                    <li><a href="#events">Upcoming Events</a></li>
+                </ul>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="https://www.uob.edu.bh/admission-requirements">Join UOB</a></li>
+                    <li><a href="https://www.uob.edu.bh/deanship-of-graduate-studies-scientific-research">Research</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li>Email: <a href="mailto:info@university.com">info@university.com</a></li>
+                    <li>Phone: +123 456 789</li>
+                    <li>Address: Sakhir – Kingdom of Bahrain <br>1017 Road 5418 <br>Zallaq 1054</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; <?php echo date("Y"); ?> UOB Rooms Reservation | All rights reserved.</p>
+            <p>
+                <a href="https://www.uob.edu.bh/privacy-policy">Privacy Policy</a> | 
+                <a href="https://www.uob.edu.bh/terms-and-conditions">Terms of Service</a> 
+            </p>
+        </div>
+    </footer>
 </body>
 </html>
