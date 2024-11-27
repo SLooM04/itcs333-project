@@ -426,6 +426,7 @@ if (isset($_GET['department'])) {
     background-color: #fff;
     overflow: hidden;
     transition: box-shadow 0.3s;
+    margin: 2%;
     
 }
 .room a{
@@ -454,11 +455,12 @@ if (isset($_GET['department'])) {
 .room h2 {
     font-size: 1.5em;
     margin-bottom: 10px;
+    color: #000;
 }
 
 .room p {
     margin: 5px 0;
-    color: #555;
+    color: #000;
 }
 
 /* Footer styles */
@@ -630,7 +632,7 @@ footer {
                                 <?php if (!empty($room['image'])): ?>
                                     <img src="<?php echo htmlspecialchars($room['image']); ?>" alt="<?php echo htmlspecialchars($room['room_name']); ?>">
                                 <?php else: ?>
-                                    <img src=".jpg" alt="Default Room Image">
+                                    <img src="/RoomPic/.jpg" alt="Default Room Image">
                                 <?php endif; ?>
                                 <figcaption>
                                     <h2><?php echo htmlspecialchars($room['room_name']); ?></h2>

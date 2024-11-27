@@ -45,18 +45,18 @@ if (isset($_GET['id'])) {
         }
 
         header {
-            background-color: #222;
+            background-color: #2e4156;
             display: flex;
             align-items: center;
             justify-content: space-around;
             padding: 15px 30px;
             font-family: "Libre Baskerville", Garamond, sans-serif;
             font-size: auto;
+            margin-bottom: 1rem;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-
+            top: 0;
             z-index: 1000;
         }
-
         .logo {
             font-size: 1.8em;
             font-weight: 600;
@@ -66,8 +66,7 @@ if (isset($_GET['id'])) {
             align-items: center;
             gap: 20px;
             padding: 15px 20px;
-            background: linear-gradient(90deg, #d1d1d1, #222);
-            /* Gradient background */
+            background: linear-gradient(90deg, #abbac9, #2e4156);
             border-radius: 12px;
             box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -91,10 +90,11 @@ if (isset($_GET['id'])) {
             transform: scale(1.15);
         }
 
-        /* Navigation Links */
+
         nav {
             display: flex;
-            gap: 20px;
+            gap: 40px;
+            margin-bottom: 10px;
         }
 
         nav a {
@@ -107,21 +107,20 @@ if (isset($_GET['id'])) {
         }
 
         nav a:hover {
-            background-color: #d1d1d1;
+            background-color: #abbac9;
             color: #222;
         }
 
-        /* User Profile Section */
         .user-profile {
             display: flex;
             align-items: center;
             gap: 15px;
-            color: antiquewhite;
+            color: white;
         }
 
         .user-profile img {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             border: 2px solid white;
         }
@@ -147,47 +146,66 @@ if (isset($_GET['id'])) {
         }
 
         .dropdown-content a {
-            color: #003366;
+            color: #222;
             padding: 10px 15px;
             text-decoration: none;
             display: block;
         }
 
         .dropdown-content a:hover {
-            background-color: #f4f7f6;
+            background-color: #abbac9;
         }
 
-        /* Keep the dropdown visible when hovering over the parent or the dropdown-content */
         .dropdown:hover .dropdown-content {
             display: block;
         }
 
+
         /* Room details layout */
         .room-container {
+            border: 2px solid #ccc;
+            /* Reduced border size (2px instead of default or larger sizes) */
+            border-radius: 10px;
+            /* Optional for rounded corners */
             display: flex;
-            margin: 20px;
+
+            align-items: center;
+            justify-content: center;
+        }
+
+        .info {
+            background-color: #e4f0f2;
+            border-radius: 15px;
+            padding: 3%;
+
+
+
         }
 
         /* Left side with large image and thumbnails */
         .room-images {
             width: 50%;
-            margin-right: 20px;
+            margin-right: 110px;
+
         }
 
         .main-image {
-            width: 100%;
+            width: 60%;
             height: auto;
             margin-bottom: 20px;
+            border: 5px solid #1A2D42;
+            border-radius: 15px;
+            
         }
 
         .thumbnail-images {
             display: flex;
-            gap: 10px;
+            gap: 20px;
             justify-content: center;
         }
 
         .thumbnail-images img {
-            width: 80px;
+            width: 150px;
             height: auto;
             cursor: pointer;
             border: 2px solid #ccc;
@@ -196,44 +214,46 @@ if (isset($_GET['id'])) {
         }
 
         .thumbnail-images img:hover {
-            transform: scale(1.1);
+            transform: scale(1.2);
         }
 
         /* Right side with room details */
         .room-details {
             width: 50%;
             text-align: left;
-            color: #333;
+
         }
 
         .room-details h2 {
             font-size: 2em;
             margin-bottom: 10px;
+            color: #000000;
         }
 
         .room-details p {
             font-size: 1.1em;
             margin: 5px 0;
+            color: #000000;
         }
 
         .reserve-button {
             margin-top: 20px;
             padding: 10px 20px;
             font-size: 1.2em;
-            background-color: #007bff;
+            background-color: #1A2D42;
             color: white;
-            border: none;
-            border-radius: 5px;
+            border-radius: 15px;
             cursor: pointer;
+
         }
 
         .reserve-button:hover {
-            background-color: #0056b3;
+            background-color: #AAB7B7;
         }
 
         /* Footer styles */
         footer {
-            background-color: #222;
+            background-color: #2e4156;
             color: #f0f4f7;
             text-align: center;
             padding: 1rem 1rem;
@@ -303,6 +323,57 @@ if (isset($_GET['id'])) {
         footer .footer-bottom a:hover {
             color: #007bff;
         }
+
+
+        /* Media Query for Tablets */
+        @media (min-width: 600px) and (max-width: 1024px) {
+            .room-container {
+                flex-direction: row;
+                /* Side-by-side layout for tablets */
+            }
+
+            .room-images,
+            .room-details {
+                width: 45%;
+                /* Take up less space on tablets */
+            }
+
+            .thumbnail-images img {
+                width: 100px;
+                height: 100px;
+            }
+        }
+
+        /* Media Query for Mobile Screens */
+        @media (max-width: 599px) {
+            header {
+                flex-direction: column;
+                /* Stack header elements vertically */
+            }
+
+            nav {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .room-images,
+            .room-details {
+                width: 100%;
+            }
+            .info{
+                display: grid;
+            }
+
+            .thumbnail-images img {
+                width: 60px;
+                height: 60px;
+            }
+
+            .reserve-button {
+                width: 100%;
+                /* Full-width button for mobile */
+            }
+        }
     </style>
 </head>
 
@@ -358,7 +429,7 @@ if (isset($_GET['id'])) {
                     ?>
                 </div>
             </div>
-            <figure>
+            <figure class="info">
                 <div class="room-details">
                     <h2><?php echo htmlspecialchars($room['room_name']); ?></h2>
                     <p><strong>Room Capacity:</strong> <?php echo htmlspecialchars($room['capacity']); ?> people</p>
