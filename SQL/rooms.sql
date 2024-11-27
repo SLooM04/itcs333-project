@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 26, 2024 at 11:28 PM
+-- Generation Time: Nov 27, 2024 at 04:11 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `rooms` (
-  `id` int(11) NOT NULL AUTO_INCREMENT ,
+  `id` int(11) NOT NULL,
   `room_name` varchar(255) NOT NULL,
   `capacity` int(11) NOT NULL,
   `available_timeslot` varchar(255) NOT NULL,
@@ -45,25 +45,25 @@ CREATE TABLE `rooms` (
 --
 
 INSERT INTO `rooms` (`id`, `room_name`, `capacity`, `available_timeslot`, `equipment`, `department`, `image`, `thumbnail_2`, `thumbnail_3`, `thumbnail_4`) VALUES
-(1, 'Room 049', 30, '9:00 AM - 12:00 PM', 'Projector, Whiteboard', 'Computer Science', '4.jpg', NULL, NULL, NULL),
-(2, 'Room 051', 25, '1:00 PM - 4:00 PM', 'Projector, Speakers', 'Computer Science', '5.jpg', NULL, NULL, NULL),
-(3, 'Room 056', 20, '9:00 AM - 12:00 PM', 'Whiteboard, Microphone', 'Computer Science', '6.jpg', NULL, NULL, NULL),
-(4, 'Room 057', 40, '10:00 AM - 1:00 PM', 'Smartboard, WiFi', 'Computer Science', '7.jpg', NULL, NULL, NULL),
-(5, 'Room 058', 35, '2:00 PM - 5:00 PM', 'Projector, Whiteboard, Camera', 'Computer Science', '8.jpg', NULL, NULL, NULL),
-(6, 'Room 060', 25, '9:00 AM - 11:00 AM', 'Monitor, Speakers', 'Computer Science', '4.jpg', NULL, NULL, NULL),
-(7, 'Room 1043', 50, '11:00 AM - 2:00 PM', 'Lab Computers, WiFi', 'Computer Science', '5.jpg', NULL, NULL, NULL),
-(8, 'Room 1045', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Computer Science', '6.jpg', NULL, NULL, NULL),
-(9, 'Room 1047', 60, '9:00 AM - 12:00 PM', 'Conference Equipment', 'Computer Science', '7.jpg', NULL, NULL, NULL),
-(10, 'Room 1048', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Computer Science', '8.jpg', NULL, NULL, NULL),
-(11, 'Room 1050', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Computer Science', '4.jpg', NULL, NULL, NULL),
-(13, 'Room 2043', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Computer Science', '6.jpg', NULL, NULL, NULL),
-(14, 'Room 2045', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Computer Science', '7.jpg', NULL, NULL, NULL),
-(15, 'Room 2046', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Computer Science', '8.jpg', NULL, NULL, NULL),
-(16, 'Room 2048', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Computer Science', '4.jpg', NULL, NULL, NULL),
-(17, 'Room 2049', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Computer Science', '5.jpg', NULL, NULL, NULL),
-(18, 'Room 2050', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Computer Science', '6.jpg', NULL, NULL, NULL),
+(1, 'Room 049', 30, '9:00 AM - 12:00 PM', 'Projector, Whiteboard', 'Computer Science', 'n0.jpg', '10.jpg', '20.jpg', '30.jpg'),
+(2, 'Room 051', 25, '1:00 PM - 4:00 PM', 'Projector, Speakers', 'Computer Science', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
+(3, 'Room 056', 20, '9:00 AM - 12:00 PM', 'Whiteboard, Microphone', 'Computer Science', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
+(4, 'Room 057', 40, '10:00 AM - 1:00 PM', 'Smartboard, WiFi', 'Computer Science', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
+(5, 'Lab 058', 35, '2:00 PM - 5:00 PM', 'Projector, Whiteboard, Camera', 'Computer Science', 'lab.jpg', 'lab.jpg', 'lab.jpg', 'lab.jpg'),
+(6, 'Room 060', 25, '9:00 AM - 11:00 AM', 'Monitor, Speakers', 'Computer Science', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
+(7, 'Room 1043', 50, '11:00 AM - 2:00 PM', 'Lab Computers, WiFi', 'Computer Science', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
+(8, 'Room 1045', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Computer Science', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
+(9, 'Room 1047', 60, '9:00 AM - 12:00 PM', 'Conference Equipment', 'Computer Science', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
+(10, 'Room 1048', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Computer Science', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
+(11, 'Room 1050', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Computer Science', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
+(13, 'Lab 2043', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Computer Science', 'lab.jpg', 'lab.jpg', 'lab.jpg', 'lab.jpg'),
+(14, 'Lab 2045', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Computer Science', 'lab.jpg', 'lab.jpg', 'lab.jpg', 'lab.jpg'),
+(15, 'Room 2046', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Computer Science', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
+(16, 'Room 2048', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Computer Science', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
+(17, 'Room 2049', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Computer Science', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
+(18, 'Room 2050', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Computer Science', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
 (19, 'Lab 2051 (Benefit Lab)', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Computer Science', '008.jpg', '008.jpg', '008.jpg', '008.jpg'),
-(20, 'Room 2053', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Computer Science', '8.jpg', NULL, NULL, NULL),
+(20, 'Lab 2053', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Computer Science', 'lab.jpg', 'lab.jpg', 'lab.jpg', 'lab.jpg'),
 (41, 'Room 077', 30, '9:00 AM - 12:00 PM', 'Projector, Whiteboard', 'Network Engineering', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
 (42, 'Room 079', 25, '1:00 PM - 4:00 PM', 'Projector, Speakers', 'Network Engineering', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
 (43, 'Room 084', 20, '9:00 AM - 12:00 PM', 'Whiteboard, Microphone', 'Network Engineering', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
@@ -75,13 +75,13 @@ INSERT INTO `rooms` (`id`, `room_name`, `capacity`, `available_timeslot`, `equip
 (49, 'Room 1086', 60, '9:00 AM - 12:00 PM', 'Conference Equipment', 'Network Engineering', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
 (50, 'Room 1087', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Network Engineering', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
 (51, 'Room 1089', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Network Engineering', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
-(52, 'Room 2081', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Network Engineering', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
-(53, 'Room 2083', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Network Engineering', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
+(52, 'Lab 2081', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Network Engineering', 'lab.jpg', 'lab.jpg', 'lab.jpg', 'lab.jpg'),
+(53, 'Lab 2083', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Network Engineering', 'lab.jpg', 'lab.jpg', 'lab.jpg', 'lab.jpg'),
 (54, 'Room 2084', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Network Engineering', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
 (55, 'Room 2086', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Network Engineering', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
 (56, 'Room 2087', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Network Engineering', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
-(57, 'Room 2089', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Network Engineering', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
-(58, 'Room 2091', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Network Engineering', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
+(57, 'Lab 2089', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Network Engineering', 'lab.jpg', 'lab.jpg', 'lab.jpg', 'lab.jpg'),
+(58, 'Lab 2091 (Huawei ICT Academy)', 45, '1:00 PM - 3:00 PM 1:00 PM - 3:00 PM 1:00 PM - 3:00 PM 1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Network Engineering', 'h.jpg', 'h.jpg', 'h.jpg', 'h.jpg'),
 (59, 'Room 021', 30, '9:00 AM - 12:00 PM', 'Projector, Whiteboard', 'Information Systems', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
 (60, 'Room 023', 25, '1:00 PM - 4:00 PM', 'Projector, Speakers', 'Information Systems', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
 (61, 'Room 028', 20, '9:00 AM - 12:00 PM', 'Whiteboard, Microphone', 'Information Systems', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
@@ -95,13 +95,13 @@ INSERT INTO `rooms` (`id`, `room_name`, `capacity`, `available_timeslot`, `equip
 (69, 'Room 1012', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Information Systems', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
 (70, 'Room 1014', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Information Systems', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
 (71, 'Room 2005', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Information Systems', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
-(72, 'Room 2007', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Information Systems', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
+(72, 'Lab 2007', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Information Systems', 'lab.jpg', 'lab.jpg', 'lab.jpg', 'lab.jpg'),
 (73, 'Room 2008', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Information Systems', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
 (74, 'Room 2010', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Information Systems', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
 (75, 'Room 2011', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Information Systems', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
 (76, 'Room 2012', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Information Systems', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
-(77, 'Room 2013', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Information Systems', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg'),
-(78, 'Room 2015', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Information Systems', 'n0.jpg', 'n1.jpg', 'n2.jpg', 'n3.jpg');
+(77, 'Lab 2013', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Information Systems', 'lab.jpg', 'lab.jpg', 'lab.jpg', 'lab.jpg'),
+(78, 'Lab 2015', 45, '1:00 PM - 3:00 PM', 'Projector, Whiteboard', 'Information Systems', 'lab.jpg', 'lab.jpg', 'lab.jpg', 'lab.jpg');
 
 --
 -- Indexes for dumped tables
