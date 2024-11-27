@@ -102,6 +102,79 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile</title>
+    <style> 
+        @import url('https://fonts.googleapis.com/css?family=Montserrat:400,600');
+
+        body, html {
+          margin: 0;
+          padding: 0;
+          font-family: 'Montserrat', sans-serif;
+          background: linear-gradient(135deg, #1f83ed, #abbac9);
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: flex-start;
+          padding-top: 40px;
+        }
+
+        .edit-profile-container {
+          background-color: #ffffff;
+          padding: 40px;
+          width: 100%;
+          max-width: 500px;
+          border-radius: 15px;
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+          text-align: center;
+          transition: all 0.3s ease-in-out;
+        }
+
+        .form-group {
+          text-align: left;
+          margin-top: 20px;
+        }
+
+        .form-group input {
+          width: 100%;
+          padding: 10px;
+          font-size: 16px;
+          border-radius: 5px;
+          border: 2px solid #ddd;
+          margin-top: 5px;
+        }
+
+        .submit-btn {
+          display: inline-block;
+          padding: 12px 194px;
+          background-color: #046cdb;
+          color: white;
+          border: none;
+          border-radius: 25px;
+          text-decoration: none;
+          font-weight: bold;
+          transition: background-color 0.3s ease;
+        }
+
+        .submit-btn:hover {
+          background-color: #034f9b;
+        }
+
+        .delete-btn {
+          display: inline-block;
+          padding: 12px 24px;
+          background-color: #e74c3c;
+          color: white;
+          border: none;
+          border-radius: 25px;
+          font-weight: bold;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+          margin-right: 10px;
+        }
+
+        .delete-btn:hover {
+          background-color: #c0392b;
+        }
+    </style>
 </head>
 <body>
     <div class="edit-profile-container">
@@ -153,8 +226,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
             <div class="form-group">
-                <label for="delete_picture">Delete Picture:</label>
-                <input type="checkbox" name="delete_picture" value="1"> Delete current picture
+                <label for="delete_picture">Delete Picture: </label>
+                <button type="button" class="delete-btn" onclick="document.getElementById('delete_picture').value = '1';">Delete Current Picture</button>
+                <input type="hidden" name="delete_picture" id="delete_picture" value="0">
             </div>
 
             <?php if ($userRole == 'teacher'): ?>
@@ -163,115 +237,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="text" name="department" value="<?= htmlspecialchars($user['department']) ?>" required>
                 </div>
             <?php endif; ?>
-
+            </br>
             <button type="submit" class="submit-btn">Save Changes</button>
         </form>
     </div>
-    
-    <style> 
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600');
 
-/* BASIC STYLES */
-
-body, html {
-  margin: 0;
-  padding: 0;
-  font-family: 'Montserrat', sans-serif;
-  background: linear-gradient(135deg, #1f83ed, #abbac9);
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start; /* Changed to flex-start */
-  padding-top: 40px; /* Added padding to the top */
-}
-
-a {
-  color: #046cdb;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-h1 {
-  margin: 0;
-}
-
-/* EDIT PROFILE CONTAINER */
-
-.edit-profile-container {
-  background-color: #ffffff;
-  padding: 40px;
-  width: 100%;
-  max-width: 500px;
-  border-radius: 15px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  transition: all 0.3s ease-in-out;
-}
-
-.edit-profile-container:hover {
-  transform: scale(1.03);
-}
-
-/* FORM GROUP */
-
-.form-group {
-  text-align: left;
-  margin-top: 20px;
-}
-
-.form-group label {
-  font-size: 16px;
-  color: #333;
-}
-
-.form-group input, 
-.form-group select {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 5px;
-  border: 2px solid #ddd;
-  margin-top: 5px;
-}
-
-/* BUTTONS */
-
-.submit-btn {
-  display: inline-block;
-  padding: 12px 24px;
-  background-color: #046cdb;
-  color: white;
-  border-radius: 25px;
-  text-decoration: none;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-  border: none;
-  cursor: pointer;
-  margin-top: 20px;
-  width: 100%;
-}
-
-.submit-btn:hover {
-  background-color: #034f9f;
-}
-
-.error-message {
-  color: red;
-  font-size: 16px;
-  margin-bottom: 20px;
-}
-
-/* MEDIA QUERY */
-
-@media (max-width: 768px) {
-  .edit-profile-container {
-    padding: 20px;
-  }
-
-  .edit-profile-container h1 {
-    font-size: 22px;
-  }
-}
-
-    </style>
+    <script>
+        function confirmDelete() {
+            if (confirm("Are you sure you want to delete the current picture?")) {
+                document.getElementById('delete_picture').value = '1';
+                document.querySelector('form').submit();
+            }
+        }
+    </script>
 </body>
+</html>
+
+
+
+
+
