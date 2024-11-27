@@ -10,6 +10,7 @@ if (!isset($_SESSION['user_id'])) {
 $userId = $_SESSION['user_id'];
 $userRole = $_SESSION['role']; // 'student' or 'teacher'
 
+// Fetch user details
 if ($userRole == 'student') {
     $stmt = $pdo->prepare("SELECT * FROM students WHERE student_id = ?");
 } else {
@@ -33,6 +34,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mobile = trim($_POST['mobile']);
     $profilePicture = $user['profile_picture'] ?? 'uploads/Temp-user-face.jpg';
 
+    $errors = [];
+
+    // Validate unique email
+    $stmt = $pdo->prepare("
+        SELECT COUNT(*) FROM students WHERE email = ? AND student_id != ? 
+        UNION 
+        SELECT COUNT(*) FROM teachers WHERE email = ? AND teacher_id != ?
+    ");
+    $stmt->execute([$email, $userId, $email, $userId]);
+    $emailExists = $stmt->fetchColumn() > 0;
+
+    if ($emailExists) {
+        $errors[] = "This email is already in use.";
+    }
+
+    // Validate unique username
+    $stmt = $pdo->prepare("
+        SELECT COUNT(*) FROM students WHERE username = ? AND student_id != ? 
+        UNION 
+        SELECT COUNT(*) FROM teachers WHERE username = ? AND teacher_id != ?
+    ");
+    $stmt->execute([$username, $userId, $username, $userId]);
+    $usernameExists = $stmt->fetchColumn() > 0;
+
+    if ($usernameExists) {
+        $errors[] = "This username is already in use.";
+    }
+
+    if (!empty($password) && $password !== $confirmPassword) {
+        $errors[] = "Passwords do not match.";
+    }
+
     // Handle profile picture upload or deletion
     if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
         $targetDir = "uploads/";
@@ -41,49 +74,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         move_uploaded_file($_FILES['profile_picture']['tmp_name'], $targetFilePath);
         $profilePicture = $targetFilePath;
     } elseif (isset($_POST['delete_picture']) && $_POST['delete_picture'] == '1') {
-        $profilePicture = 'uploads/Temp-user-face.jpg';
-    }
-
-    // Validate inputs
-    $errors = [];
-    if ($userRole == 'student') {
-        // Email format for student accounts
-        if (!preg_match("/^[0-9]{9}@stu\.uob\.edu\.bh$/", $email)) {
-            $errors[] = "Invalid student email format.";
-        }
-        // Ensure teacher email doesn't get used by student
-        $stmt = $pdo->prepare("SELECT COUNT(*) FROM teachers WHERE email = ?");
-        $stmt->execute([$email]);
-        if ($stmt->fetchColumn() > 0) {
-            $errors[] = "This email is reserved for teacher accounts.";
-        }
-    } else {
-        // Email format for teacher accounts
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $errors[] = "Invalid email format for teacher.";
-        }
-        // Ensure student email doesn't get used by teacher
-        $stmt = $pdo->prepare("SELECT COUNT(*) FROM students WHERE email = ?");
-        $stmt->execute([$email]);
-        if ($stmt->fetchColumn() > 0) {
-            $errors[] = "This email is reserved for student accounts.";
-        }
-    }
-    
-    if (empty($username)) {
-        $errors[] = "Username is required.";
-    }
-    
-    if (!empty($password) && $password !== $confirmPassword) {
-        $errors[] = "Passwords do not match.";
+        $profilePicture = 'uploads/Temp-user-face.jpg'; // Reset to default image
     }
 
     if (empty($errors)) {
         $hashedPassword = !empty($password) ? password_hash($password, PASSWORD_DEFAULT) : $user['password'];
 
         if ($userRole == 'student') {
-            $stmt = $pdo->prepare("UPDATE students SET first_name = ?, last_name = ?, email = ?, username = ?, password = ?, mobile = ?, major = ?, level = ?, profile_picture = ? WHERE student_id = ?");
-            $stmt->execute([$firstName, $lastName, $email, $username, $hashedPassword, $mobile, $_POST['major'], $_POST['level'], $profilePicture, $userId]);
+            $stmt = $pdo->prepare("UPDATE students SET first_name = ?, last_name = ?, email = ?, username = ?, password = ?, mobile = ?, profile_picture = ? WHERE student_id = ?");
+            $stmt->execute([$firstName, $lastName, $email, $username, $hashedPassword, $mobile, $profilePicture, $userId]);
         } else {
             $stmt = $pdo->prepare("UPDATE teachers SET first_name = ?, last_name = ?, email = ?, username = ?, password = ?, mobile = ?, department = ?, profile_picture = ? WHERE teacher_id = ?");
             $stmt->execute([$firstName, $lastName, $email, $username, $hashedPassword, $mobile, $_POST['department'], $profilePicture, $userId]);
@@ -97,24 +96,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile</title>
-    <link rel="stylesheet" href="edit_profile.css">
 </head>
 <body>
     <div class="edit-profile-container">
         <h1>Edit Your Profile</h1>
-        <?php
-        if (isset($_SESSION['profile_update_error'])) {
-            echo "<p class='error-message'>" . $_SESSION['profile_update_error'] . "</p>";
-            unset($_SESSION['profile_update_error']);
-        }
-        ?>
+        <?php if (isset($_SESSION['profile_update_error'])): ?>
+            <p class="error-message"><?= $_SESSION['profile_update_error']; ?></p>
+            <?php unset($_SESSION['profile_update_error']); ?>
+        <?php endif; ?>
 
         <form action="edit_profile.php" method="POST" enctype="multipart/form-data">
             <div class="form-group">
@@ -136,6 +131,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label for="username">Username:</label>
                 <input type="text" name="username" value="<?= htmlspecialchars($user['username']) ?>" required>
             </div>
+
             <div class="form-group">
                 <label for="password">New Password:</label>
                 <input type="password" name="password" placeholder="Leave blank to keep current password">
@@ -158,34 +154,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <div class="form-group">
                 <label for="delete_picture">Delete Picture:</label>
-                <input type="checkbox" name="delete_picture" value="1">
+                <input type="checkbox" name="delete_picture" value="1"> Delete current picture
             </div>
 
-            <?php if ($userRole == 'student'): ?>
-                <div class="form-group">
-                    <label for="major">Major:</label>
-                    <select name="major" required>
-                        <option value="CY" <?= $user['major'] == 'CY' ? 'selected' : '' ?>>Cybersecurity</option>
-                        <option value="CS" <?= $user['major'] == 'CS' ? 'selected' : '' ?>>Computer Science</option>
-                        <option value="NE" <?= $user['major'] == 'NE' ? 'selected' : '' ?>>Network Engineering</option>
-                        <option value="CE" <?= $user['major'] == 'CE' ? 'selected' : '' ?>>Computer Engineering</option>
-                        <option value="SE" <?= $user['major'] == 'SE' ? 'selected' : '' ?>>Software Engineering</option>
-                        <option value="IS" <?= $user['major'] == 'IS' ? 'selected' : '' ?>>Information Systems</option>
-                        <option value="CC" <?= $user['major'] == 'CC' ? 'selected' : '' ?>>Cloud Computing</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="level">Level:</label>
-                    <select name="level" required>
-                        <option value="Feshman" <?= $user['level'] == 'Feshman' ? 'selected' : '' ?>>Freshman</option>
-                        <option value="Sophomore" <?= $user['level'] == 'Sophomore' ? 'selected' : '' ?>>Sophomore</option>
-                        <option value="Junior" <?= $user['level'] == 'Junior' ? 'selected' : '' ?>>Junior</option>
-                        <option value="Senior" <?= $user['level'] == 'Senior' ? 'selected' : '' ?>>Senior</option>
-                        <option value="Postgraduate" <?= $user['level'] == 'Postgraduate' ? 'selected' : '' ?>>Postgraduate</option>
-                    </select>
-                </div>
-            <?php else: ?>
+            <?php if ($userRole == 'teacher'): ?>
                 <div class="form-group">
                     <label for="department">Department:</label>
                     <input type="text" name="department" value="<?= htmlspecialchars($user['department']) ?>" required>
@@ -195,5 +167,111 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit" class="submit-btn">Save Changes</button>
         </form>
     </div>
+    
+    <style> 
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600');
+
+/* BASIC STYLES */
+
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', sans-serif;
+  background: linear-gradient(135deg, #1f83ed, #abbac9);
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Changed to flex-start */
+  padding-top: 40px; /* Added padding to the top */
+}
+
+a {
+  color: #046cdb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+h1 {
+  margin: 0;
+}
+
+/* EDIT PROFILE CONTAINER */
+
+.edit-profile-container {
+  background-color: #ffffff;
+  padding: 40px;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.edit-profile-container:hover {
+  transform: scale(1.03);
+}
+
+/* FORM GROUP */
+
+.form-group {
+  text-align: left;
+  margin-top: 20px;
+}
+
+.form-group label {
+  font-size: 16px;
+  color: #333;
+}
+
+.form-group input, 
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 2px solid #ddd;
+  margin-top: 5px;
+}
+
+/* BUTTONS */
+
+.submit-btn {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #046cdb;
+  color: white;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.submit-btn:hover {
+  background-color: #034f9f;
+}
+
+.error-message {
+  color: red;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+/* MEDIA QUERY */
+
+@media (max-width: 768px) {
+  .edit-profile-container {
+    padding: 20px;
+  }
+
+  .edit-profile-container h1 {
+    font-size: 22px;
+  }
+}
+
+    </style>
 </body>
-</html>
