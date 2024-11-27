@@ -45,123 +45,198 @@ if (isset($_GET['department'])) {
     <title>Room Booking System</title>
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.5.7/css/pico.min.css">
     <style>
-/* Basic Styles */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f7f6;
-    margin: 0;
-    text-align: center;
-}
+ /* General styles */
+ body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #d4d8dd;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
 
-header {
-    background-color: #222;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    padding: 15px 30px;
-    font-family: "Libre Baskerville", Garamond, sans-serif;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-}
+        body.dark-mode {
+            background-color: #2e4156 ;
+            color: white;
+        }
 
-.logo {
-    font-size: 1.8em;
-    font-weight: 600;
-    color: white;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    padding: 15px 20px;
-    background: linear-gradient(90deg, #d1d1d1, #222);
-    border-radius: 12px;
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s, box-shadow 0.3s;
-}
+        body.dark-mode h1,
+        body.dark-mode h2,
+        body.dark-mode h3,
+        body.dark-mode p,
+        body.dark-mode a {
+            color: white;
+        }
+        body.dark-mode .dropdown-content a {
+            color: #000;
+        }
 
-.logo:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.4);
-}
+        body.dark-mode .recommendation-card {
+            background-color: #2e344e;
+        }
 
-.logo img {
-    width: 200px;
-    height: auto;
-    border-radius: 10%;
-    border: 3px solid white;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s;
-}
+        body.dark-mode header{
+            background-color: #1a2d42;
+            color: #d1d1d1;
+        }
 
-.logo img:hover {
-    transform: scale(1.15);
-}
+       body.dark-mode nav a {
+            color: #e0e0e0;
+        }
 
-/* Navigation Links */
-nav {
-    display: flex;
-    gap: 20px;
-}
+        body.dark-mode .dropdown-content {
+            background-color: #2b2b3b;
+        }
 
-nav a {
-    color: white;
-    text-decoration: none;
-    padding: 8px 15px;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
+       body.dark-mode .dropdown-content a {
+            color: #e0e0e0;
+        }
 
-nav a:hover {
-    background-color: #d1d1d1;
-    color: #222;
-}
+        body.dark-mode .dropdown-content a {
+            color: #edf4fa;
+        }
 
-/* User Profile Section */
-.user-profile {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    color: antiquewhite;
-}
+        body.dark-mode footer{
+            background-color: #1a2d42;
+            color: #d1d1d1;
+        }
 
-.user-profile img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 2px solid white;
-}
+        /* Header Styles */
+        header {
+            background-color: #2e4156;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 15px 30px;
+            font-family: "Libre Baskerville", Garamond, sans-serif;
+            font-size: auto;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            top: 0;
+            z-index: 1000;
+        }
 
-/* Dropdown */
-.dropdown {
-    position: relative;
-}
+        .logo {
+            font-size: 1.8em;
+            font-weight: 600;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 15px 20px;
+            background: linear-gradient(90deg, #abbac9, #2e4156);
+            border-radius: 12px;
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
 
-.dropdown-content {
-    display: none;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background-color: white;
-    min-width: 150px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
-    border-radius: 0;
-    z-index: 2000;
-}
+        .logo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.4);
+        }
 
-.dropdown-content a {
-    color: #003366;
-    padding: 10px 15px;
-    text-decoration: none;
-    display: block;
-}
+        .logo img {
+            width: 200px;
+            height: auto;
+            border-radius: 10%;
+            border: 3px solid white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
 
-.dropdown-content a:hover {
-    background-color: #f4f7f6;
-}
+        .logo img:hover {
+            transform: scale(1.15);
+        }
 
-.dropdown:hover .dropdown-content {
-    display: block;
-}
+        nav {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 10px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #abbac9;
+            color: #222;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: white;
+        }
+
+        .user-profile img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .user-profile span {
+            font-size: 1em;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            min-width: 150px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+            border-radius: 0;
+            z-index: 2000;
+        }
+
+        .dropdown-content a {
+            color: #222;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #abbac9;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        @media screen and (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .logo {
+                font-size: 1.0em;
+            }
+
+            .logo img {
+                width: 100px;
+                height: auto;
+            }
+
+            .dropdown-content {
+                min-width: 100px;
+            }
+        }
+
 
 /* Container */
 .container, .rooms {
@@ -280,6 +355,7 @@ nav a:hover {
   bottom: 0px;
   left: 50%;
   transform: translateX(-50%);
+  text-align: center;
   color: #704900;
   font-size: 25px;
   z-index: 10;
@@ -300,6 +376,36 @@ nav a:hover {
   filter: blur(7px);
   border-radius: 8px;
 }
+
+.department:hover {
+  transform: scale(1.05); /* Slightly enlarge the card */
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.4); /* Add a stronger shadow */
+  border-color: #555; /* Highlight the border */
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* Door Sliding Animation */
+.department:hover .door-R {
+  transform: translateX(100%); /* Slide the right door outward to the right */
+  transition: transform 0.6s ease;
+}
+
+.department:hover .door-L {
+  transform: translateX(-200%); /* Slide the left door outward to the left */
+  transition: transform 0.6s ease;
+}
+
+/* Ensure Default State for Doors */
+.department .door-R,
+.department .door-L {
+  transform-origin: left center; /* Rotate from the edge */
+  transition: transform 0.4s ease;
+}
+
+.department .door-L {
+  transform-origin: right center; /* Rotate from the edge */
+}
+
 /* ------------------------------------------------*/
 
 /* Room Gallery */
@@ -355,70 +461,95 @@ nav a:hover {
     color: #555;
 }
 
-/* Footer */
+/* Footer styles */
 footer {
-    background-color: #222;
-    color: #f0f4f7;
-    text-align: center;
-    padding: 1rem;
-    margin-top: 4rem;
-    font-size: 0.9rem;
-}
+            background-color: #2e4156;
+            color: white;
+            text-align: center;
+            padding: 1rem 1rem; 
+            margin-top: 9rem; 
+            font-size: 0.9rem; 
+            
+        }
 
-footer .footer-container {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    max-width: 1200px;
-    margin: 0 auto;
-}
+        footer .footer-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-footer .footer-section {
-    flex: 1 1 200px;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    text-align: left;
-}
+        footer .footer-section {
+            flex: 1 1 200px;
+            padding: 1rem;
+            margin-bottom: 1rem; 
+            text-align: left; 
+        }
 
-footer .footer-section h3 {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-    font-weight: 600;
-}
+        footer .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+            font-weight: 600;
+        }
 
-footer .footer-section ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
+        footer .footer-section ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
 
-footer .footer-section ul li {
-    margin: 0.4rem 0;
-}
+        footer .footer-section ul li {
+            margin: 0.4rem 0;
+            list-style-type:disc;
+            color: white;
+        }
 
-footer .footer-section ul li a {
-    color: #d1d1d1;
-    font-size: 1rem;
-    transition: color 0.3s;
-}
+        footer .footer-section ul li a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 1rem;
+        }
 
-footer .footer-section ul li a:hover {
-    color: #007bff;
-}
+        footer .footer-section ul li a:hover {
+            color:black ;
+            font-weight: bolder;
+        }
 
-footer .footer-bottom {
-    font-size: 0.85rem;
-    margin-top: 1rem;
-    color: #d1d1d1;
-}
+        footer .footer-bottom {
+            font-size: 0.85rem;
+            margin-top: 1rem; 
+            color: white;
+        }
 
-footer .footer-bottom a {
-    color: #d1d1d1;
-}
+        footer .footer-bottom a {
+            color: white;
+            text-decoration: none;
+        }
 
-footer .footer-bottom a:hover {
-    color: #007bff;
-}
+        footer .footer-bottom a:hover {
+            color: black;
+        }
+
+        /* Responsive design for the footer */
+        @media (max-width: 768px) {
+            footer .footer-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            footer .footer-section {
+                margin-bottom: 1.5rem; /* Reduced margin */
+                text-align: center;
+            }
+
+            footer .footer-section ul li {
+                margin: 0.2rem 0;
+            }
+        }
 
     </style>
 </head>
@@ -441,11 +572,12 @@ footer .footer-bottom a:hover {
 
         <!-- User Profile Section -->
         <div class="user-profile dropdown">
-            <img src="<?= !empty($user['profile_picture']) ? htmlspecialchars($user['profile_picture']) : 'uploads/Temp-user-face.jpg' ?>" alt="Profile Picture" class="profile-image">
-            <span> <?php echo htmlspecialchars($username); ?></span>
+        <img src="<?= !empty($user['profile_picture']) ? htmlspecialchars($user['profile_picture']) : 'uploads/Temp-user-face.jpg' ?>" alt="Profile Picture" class="profile-image">
+        <span> <?php echo htmlspecialchars($_SESSION['username']); ?></span>
             <div class="dropdown-content">
                 <a href="profile.php">My Profile</a>
                 <a href="settings.php">Settings</a>
+                <a id="themeToggle">Dark Mode</a>
                 <a href="logout.php" class="logout-button" onclick="return confirm('Are you sure you want to log out?')">Logout</a>
             </div>
         </div>
@@ -568,6 +700,34 @@ footer .footer-bottom a:hover {
             </p>
         </div>
     </footer>
+
+    <script>
+                // Handle theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
+
+    // Check for saved theme in localStorage
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        body.classList.add('dark-mode');
+        themeToggle.textContent = 'Light Mode';
+    }
+
+    themeToggle.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+
+        // Update button text and save preference
+        if (body.classList.contains('dark-mode')) {
+            themeToggle.textContent = 'Light Mode';
+            localStorage.setItem('theme', 'dark');
+        } else {
+            themeToggle.textContent = 'Dark Mode';
+            localStorage.setItem('theme', 'light');
+        }
+    });
+
+    </script>
+
 
 
 

@@ -28,25 +28,73 @@ if (isset($_POST['reserve_now'])) {
     <title>Rooms List</title>
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.5.7/css/pico.min.css">
     <style>
+        /* General styles */
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f4f7f6;
+            background-color: #d4d8dd;
             margin: 0;
             padding: 0;
             overflow-x: hidden;
-            /* Prevent horizontal scrolling */
         }
 
+        body.dark-mode {
+            background-color: #2e4156 ;
+            color: white;
+        }
+
+        body.dark-mode h1,
+        body.dark-mode h2,
+        body.dark-mode h3,
+        body.dark-mode p,
+        body.dark-mode a {
+            color: white;
+        }
+        body.dark-mode .dropdown-content a {
+            color: #000;
+        }
+
+        body.dark-mode .recommendation-card {
+            background-color: #2e344e;
+        }
+
+        body.dark-mode header{
+            background-color: #1a2d42;
+            color: #d1d1d1;
+        }
+
+       body.dark-mode nav a {
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .dropdown-content {
+            background-color: #2b2b3b;
+        }
+
+       body.dark-mode .dropdown-content a {
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .dropdown-content a {
+            color: #edf4fa;
+        }
+
+        body.dark-mode footer{
+            background-color: #1a2d42;
+            color: #d1d1d1;
+        }
+
+        /* Header Styles */
         header {
-            background-color: #222;
+            background-color: #2e4156;
             display: flex;
             align-items: center;
             justify-content: space-around;
             padding: 15px 30px;
             font-family: "Libre Baskerville", Garamond, sans-serif;
             font-size: auto;
+            margin-bottom: 1rem;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-
+            top: 0;
             z-index: 1000;
         }
 
@@ -59,8 +107,7 @@ if (isset($_POST['reserve_now'])) {
             align-items: center;
             gap: 20px;
             padding: 15px 20px;
-            background: linear-gradient(90deg, #d1d1d1, #222);
-            /* Gradient background */
+            background: linear-gradient(90deg, #abbac9, #2e4156);
             border-radius: 12px;
             box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -84,10 +131,10 @@ if (isset($_POST['reserve_now'])) {
             transform: scale(1.15);
         }
 
-        /* Navigation Links */
         nav {
             display: flex;
-            gap: 20px;
+            gap: 40px;
+            margin-bottom: 10px;
         }
 
         nav a {
@@ -100,9 +147,11 @@ if (isset($_POST['reserve_now'])) {
         }
 
         nav a:hover {
-            background-color: #d1d1d1;
+            background-color: #abbac9;
             color: #222;
         }
+
+
 
         /* Ensure main content is above the video */
         main {
@@ -128,15 +177,13 @@ if (isset($_POST['reserve_now'])) {
 
         /* Footer styles */
         footer {
-            background-color: #222;
-            color: #f0f4f7;
+            background-color: #2e4156;
+            color: white;
             text-align: center;
-            padding: 1rem 1rem;
-            /* Reduced padding */
-            margin-top: 4rem;
-            /* Added space between content and footer */
-            font-size: 0.9rem;
-            /* Reduced font size */
+            padding: 1rem 1rem; 
+            margin-top: 9rem; 
+            font-size: 0.9rem; 
+            
         }
 
         footer .footer-container {
@@ -151,8 +198,8 @@ if (isset($_POST['reserve_now'])) {
         footer .footer-section {
             flex: 1 1 200px;
             padding: 1rem;
-            margin-bottom: 1rem;
-            text-align: left;
+            margin-bottom: 1rem; 
+            text-align: left; 
         }
 
         footer .footer-section h3 {
@@ -170,33 +217,52 @@ if (isset($_POST['reserve_now'])) {
 
         footer .footer-section ul li {
             margin: 0.4rem 0;
+            list-style-type:disc;
+            color: white;
         }
 
         footer .footer-section ul li a {
-            color: #d1d1d1;
+            color: white;
             text-decoration: none;
             transition: color 0.3s ease;
             font-size: 1rem;
         }
 
         footer .footer-section ul li a:hover {
-            color: #007bff;
+            color:black ;
+            font-weight: bolder;
         }
 
         footer .footer-bottom {
             font-size: 0.85rem;
-            margin-top: 1rem;
-            /* Reduced margin */
-            color: #d1d1d1;
+            margin-top: 1rem; 
+            color: white;
         }
 
         footer .footer-bottom a {
-            color: #d1d1d1;
+            color: white;
             text-decoration: none;
         }
 
         footer .footer-bottom a:hover {
-            color: #007bff;
+            color: black;
+        }
+
+        /* Responsive design for the footer */
+        @media (max-width: 768px) {
+            footer .footer-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            footer .footer-section {
+                margin-bottom: 1.5rem; /* Reduced margin */
+                text-align: center;
+            }
+
+            footer .footer-section ul li {
+                margin: 0.2rem 0;
+            }
         }
     </style>
 </head>
