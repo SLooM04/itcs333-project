@@ -591,8 +591,8 @@ footer {
       <div class="top-circle"></div>
       <div class="side">S40</div>
       <div class="side-right">S40</div>
-      <div class="window">======= <br>========</div>
-      <div class="window">======= <br>========</div>
+      <div class="window"><br></div>
+      <div class="window"><br></div>
       <div class="door-L"><div class="door-L-text">-</div></div>
       <div class="door-R"><div class="door-R-text">-</div></div>
       <div class="department-text">Information Systems</div> </div>
@@ -602,8 +602,8 @@ footer {
       <div class="top-circle"></div>
       <div class="side">S40</div>
       <div class="side-right">S40</div>
-      <div class="window">======= <br>========</div>
-      <div class="window">======= <br>========</div>
+      <div class="window"><br></div>
+      <div class="window"><br></div>
       <div class="door-L"><div class="door-L-text">-</div></div>
       <div class="door-R"><div class="door-R-text">-</div></div>
       <div class="department-text">Computer Science</div> </div>
@@ -613,8 +613,8 @@ footer {
       <div class="top-circle"></div>
       <div class="side">S40</div>
       <div class="side-right">S40</div>
-      <div class="window">======= <br>========</div>
-      <div class="window">======= <br>========</div>
+      <div class="window"><br></div>
+      <div class="window"><br></div>
       <div class="door-L"><div class="door-L-text">-</div></div>
       <div class="door-R"><div class="door-R-text">-</div></div>
       <div class="department-text">Network Engineering</div> </div>
