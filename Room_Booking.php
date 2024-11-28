@@ -2,10 +2,6 @@
 session_start();
 include('db.php'); // Database connection
 
-
-
-
-
 // Fetch the room ID from the URL
 $room_id = isset($_GET['id']) ? intval($_GET['id']) : null;
 
@@ -21,7 +17,14 @@ if (!$room) {
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest'; // Default to Guest if not logged in
+    // Fetch the logged-in user's role and ID (assumes session contains this info)
+    $user_role = isset($_SESSION['role']) ? $_SESSION['role'] : null; // 'student' or 'teacher'
+    $user_id = isset($_SESSION['user_id']) ? intval($_SESSION['user_id']) : null;
+
+    if (!$user_id || !$user_role) {
+        die("Error: You must be logged in to book a room.");
+    }
+
     $contact_number = isset($_POST['contact_number']) ? $_POST['contact_number'] : '';
     $booking_date = isset($_POST['booking_date']) ? $_POST['booking_date'] : '';
     $duration = isset($_POST['duration']) ? $_POST['duration'] : '';
@@ -32,12 +35,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $start_time = $booking_date . ' ' . $time_slot;
         $end_time = date('Y-m-d H:i:s', strtotime($start_time . ' + ' . $duration . ' hours'));
 
-        // Insert the booking into the database
-        $stmt = $pdo->prepare("INSERT INTO bookings (username, RoomID, StartTime, EndTime, contact_number) 
-                               VALUES (:username, :room_id, :start_time, :end_time, :contact_number)");
+        // Prepare the query to insert the booking
+        $stmt = $pdo->prepare("
+            INSERT INTO bookings (room_id, student_id, teacher_id, start_time, end_time, contact_number) 
+            VALUES (:room_id, :student_id, :teacher_id, :start_time, :end_time, :contact_number)
+        ");
+
+        // Set the student_id or teacher_id based on the role
         $stmt->execute([
-            'username' => $username,
             'room_id' => $room_id,
+            'student_id' => ($user_role === 'student') ? $user_id : null,  // Use student_id if role is student
+            'teacher_id' => ($user_role === 'teacher') ? $user_id : null,  // Use teacher_id if role is teacher
             'start_time' => $start_time,
             'end_time' => $end_time,
             'contact_number' => $contact_number
@@ -128,7 +136,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <form action="" method="POST">
-            <!-- You don't need the hidden input for room_id anymore, it's fetched directly -->
             <div class="form-group">
                 <label for="contact_number">Contact Number:</label>
                 <input type="tel" id="contact_number" name="contact_number" pattern="^\+973\d{8}$" placeholder="Enter your contact number" required>
