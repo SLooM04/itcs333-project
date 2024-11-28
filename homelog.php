@@ -39,14 +39,14 @@ $username = $_SESSION['username'] ?? 'User';
         /* General styles */
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #d4d8dd;
+            background: linear-gradient(to top, #1f2a38, white);
             margin: 0;
             padding: 0;
             overflow-x: hidden;
         }
 
         body.dark-mode {
-            background-color: #2e4156 ;
+            background: linear-gradient(to top, #0d1117, #1f2a38);            
             color: white;
         }
 
@@ -65,10 +65,7 @@ $username = $_SESSION['username'] ?? 'User';
             background-color: #2e344e;
         }
 
-        body.dark-mode header{
-            background-color: #1a2d42;
-            color: #d1d1d1;
-        }
+        
 
        body.dark-mode nav a {
             color: #e0e0e0;
@@ -85,15 +82,18 @@ $username = $_SESSION['username'] ?? 'User';
         body.dark-mode .dropdown-content a {
             color: #edf4fa;
         }
-
-        body.dark-mode footer{
-            background-color: #1a2d42;
-            color: #d1d1d1;
+        body.dark-mode .user-profile span {
+            color: white;
         }
+
+        body.dark-mode .action-buttons a{
+            color: #000;
+        }
+
+        
 
         /* Header Styles */
         header {
-            background-color: #2e4156;
             display: flex;
             align-items: center;
             justify-content: space-around;
@@ -101,7 +101,6 @@ $username = $_SESSION['username'] ?? 'User';
             font-family: "Libre Baskerville", Garamond, sans-serif;
             font-size: auto;
             margin-bottom: 1rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             top: 0;
             z-index: 1000;
         }
@@ -130,7 +129,7 @@ $username = $_SESSION['username'] ?? 'User';
             width: 200px;
             height: auto;
             border-radius: 10%;
-            border: 3px solid white;
+            border: 3px solid ;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s ease;
         }
@@ -146,7 +145,7 @@ $username = $_SESSION['username'] ?? 'User';
         }
 
         nav a {
-            color: white;
+            color: #222;
             text-decoration: none;
             font-size: 1.1em;
             padding: 8px 15px;
@@ -163,14 +162,14 @@ $username = $_SESSION['username'] ?? 'User';
             display: flex;
             align-items: center;
             gap: 15px;
-            color: white;
+            color: #222;
         }
 
         .user-profile img {
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            border: 2px solid white;
+            border: 2px solid #222;
         }
 
         .user-profile span {
@@ -230,6 +229,7 @@ $username = $_SESSION['username'] ?? 'User';
 
         /* Main content section */
         main {
+            border-top: none; /* Smooth transitions */
             display: grid;
             min-height: 100vh;
             padding: 80px 20px 20px 20px;
@@ -387,7 +387,6 @@ $username = $_SESSION['username'] ?? 'User';
 
             /* Footer styles */
         footer {
-            background-color: #2e4156;
             color: white;
             text-align: center;
             padding: 1rem 1rem; 
@@ -510,8 +509,6 @@ $username = $_SESSION['username'] ?? 'User';
             </div>
         </div>
     </header>
-    
-
     <!-- Main Content -->
     <main>
 
