@@ -123,6 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border-radius: 15px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
             text-align: center;
+            padding-right: 9%;
         }
 
         .form-group {
@@ -151,48 +152,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             font-weight: bold;
         }
 
-        
         .profile-img-container {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-    text-align: center;
-}
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            text-align: center;
+        }
 
-.profile-img-container img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: block;
-    margin: 0 auto; /* Centers the image horizontally */
-}
+        .profile-img-container img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto; /* Centers the image horizontally */
+        }
 
-.delete-icon {
-    position: absolute;
-    top: 5px;
-    right: 190px;
-    background-color: rgba(255, 255, 255, 0.7);
-    border-radius: 50%;
-    border:solid 1px;
-    color: red;
-    font-size: 16px;
-    cursor: pointer;
-}
+        .delete-icon {
+            position: absolute;
+            top: 5px;
+            right: 150px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            border: solid red;
+            padding: 5px;
+            cursor: pointer;
+        }
 
-.change-avatar-text {
-    margin-top: 10px;
-    font-size: 14px;
-    color: #396391;
-    cursor: pointer;
-    font-weight: bold;
-    display: block;
-    text-align: center; /* Ensures text is centered */
-}
+        .delete-icon img {
+            width: 20px;
+            height: 20px;
+        }
 
+        .change-avatar-text {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #396391;
+            cursor: pointer;
+            font-weight: bold;
+            display: block;
+            text-align: center; /* Ensures text is centered */
+        }
 
         .delete-icon:hover {
             background-color: rgba(255, 200, 200, 1);
@@ -201,8 +204,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .error-message {
             color: #e74c3c;
         }
-
-        
 
         /* Responsive Styles */
         @media (max-width: 768px) {
@@ -243,83 +244,82 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php endif; ?>
 
         <form action="edit_profile.php" method="POST" enctype="multipart/form-data">
-            <!-- Profile Picture Section -->
-            <div class="form-group">
+                        <!-- Profile Picture Section -->
+                        <div class="form-group">
                 <div class="profile-img-container">
                     <img src="<?= htmlspecialchars($user['profile_picture']) ?>" id="profilePic" alt="Profile Picture" onclick="document.getElementById('profile_picture').click();">
-                    <button type="button" class="delete-icon" onclick="deleteProfilePic()">X</button>
+                    <button type="button" class="delete-icon" onclick="deleteProfilePic()">
+                        <img src="uploads/delete.png" alt="Delete Profile Picture" />
+                    </button>
                 </div>
                 <p class="change-avatar-text">Change Avatar</p>
-                <input type="file" name="profile_picture" id="profile_picture" style="display:none;" accept="image/*" onchange="previewProfilePic()">
+                <input type="file" name="profile_picture" id="profile_picture" style="display:none;" accept="image/*" onchange="document.getElementById('profilePic').src = window.URL.createObjectURL(this.files[0])">
+                <input type="hidden" name="delete_picture" id="delete_picture" value="0">
             </div>
 
+            <!-- First Name -->
             <div class="form-group">
-                <label for="first_name">First Name:</label>
-                <input type="text" name="first_name" value="<?= htmlspecialchars($user['first_name']) ?>" required>
+                <label for="first_name">First Name</label>
+                <input type="text" name="first_name" id="first_name" value="<?= htmlspecialchars($user['first_name']) ?>" required>
             </div>
 
+            <!-- Last Name -->
             <div class="form-group">
-                <label for="last_name">Last Name:</label>
-                <input type="text" name="last_name" value="<?= htmlspecialchars($user['last_name']) ?>" required>
+                <label for="last_name">Last Name</label>
+                <input type="text" name="last_name" id="last_name" value="<?= htmlspecialchars($user['last_name']) ?>" required>
             </div>
 
+            <!-- Email -->
             <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" required>
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" value="<?= htmlspecialchars($user['email']) ?>" required>
             </div>
 
+            <!-- Username -->
             <div class="form-group">
-                <label for="username">Username:</label>
-                <input type="text" name="username" value="<?= htmlspecialchars($user['username']) ?>" required>
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" value="<?= htmlspecialchars($user['username']) ?>" required>
             </div>
 
+            <!-- Password -->
             <div class="form-group">
-                <label for="password">Password (leave blank to keep current password):</label>
-                <input type="password" name="password">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password">
             </div>
 
+            <!-- Confirm Password -->
             <div class="form-group">
-                <label for="confirm_password">Confirm Password:</label>
-                <input type="password" name="confirm_password">
+                <label for="confirm_password">Confirm Password</label>
+                <input type="password" name="confirm_password" id="confirm_password">
             </div>
 
+            <!-- Mobile -->
             <div class="form-group">
-                <label for="mobile">Mobile Number:</label>
-                <input type="text" name="mobile" value="<?= htmlspecialchars($user['mobile']) ?>" required>
+                <label for="mobile">Mobile</label>
+                <input type="text" name="mobile" id="mobile" value="<?= htmlspecialchars($user['mobile']) ?>" required>
             </div>
 
+            <!-- Department (for teachers) -->
             <?php if ($userRole == 'teacher'): ?>
                 <div class="form-group">
-                    <label for="department">Department:</label>
-                    <input type="text" name="department" value="<?= htmlspecialchars($user['department']) ?>" required>
+                    <label for="department">Department</label>
+                    <input type="text" name="department" id="department" value="<?= htmlspecialchars($user['department']) ?>" required>
                 </div>
             <?php endif; ?>
 
+            <!-- Submit Button -->
             <div class="form-group">
-                <button type="submit" class="submit-btn">Save Changes</button>
+                <button type="submit" class="submit-btn">Update Profile</button>
             </div>
-
         </form>
     </div>
 
     <script>
-        function previewProfilePic() {
-            var file = document.getElementById('profile_picture').files[0];
-            var reader = new FileReader();
-
-            reader.onload = function(e) {
-                document.getElementById('profilePic').src = e.target.result;
-            };
-            
-            if (file) {
-                reader.readAsDataURL(file);
-            }
-        }
-
+        // Delete profile picture
         function deleteProfilePic() {
-            if (confirm('Are you sure you want to delete your profile picture?')) {
-                document.getElementById('profilePic').src = 'uploads/Temp-user-face.jpg'; // Set to default
-                document.getElementById('profile_picture').value = ''; // Reset file input
+            if (confirm("Are you sure you want to delete your profile picture?")) {
+                document.getElementById('profilePic').src = 'uploads/Temp-user-face.jpg'; // Reset to default image
+                document.getElementById('delete_picture').value = '1'; // Mark for deletion
             }
         }
     </script>
