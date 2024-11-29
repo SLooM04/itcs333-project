@@ -144,7 +144,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         .submit-btn {
           display: inline-block;
-          padding: 12px 194px;
+          padding: 12px 190px;
           background-color: #046cdb;
           color: white;
           border: none;
@@ -174,6 +174,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .delete-btn:hover {
           background-color: #c0392b;
         }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+          .submit-btn {
+            padding: 12px 130px;
+          }
+
+          .edit-profile-container {
+            padding: 40px;
+            max-width: 350px;
+          }
+
+          .form-group input {
+            font-size: 14px;
+          }
+        }
+
     </style>
 </head>
 <body>
@@ -215,7 +232,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="password" name="confirm_password">
             </div>
 
-            <div class="form-group">
+                        <div class="form-group">
                 <label for="mobile">Mobile:</label>
                 <input type="text" name="mobile" value="<?= htmlspecialchars($user['mobile']) ?>">
             </div>
@@ -237,6 +254,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="text" name="department" value="<?= htmlspecialchars($user['department']) ?>" required>
                 </div>
             <?php endif; ?>
+
             </br>
             <button type="submit" class="submit-btn">Save Changes</button>
         </form>
@@ -252,8 +270,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </script>
 </body>
 </html>
-
-
-
-
 
