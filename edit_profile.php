@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt = $pdo->prepare("
         SELECT COUNT(*) FROM students WHERE email = ? AND student_id != ? 
         UNION 
-        SELECT COUNT(*) FROM teachers WHERE email = ? AND teacher_id != ?
+        SELECT COUNT(*) FROM teachers WHERE email = ? AND teacher_id != ? 
     ");
     $stmt->execute([$email, $userId, $email, $userId]);
     $emailExists = $stmt->fetchColumn() > 0;
@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt = $pdo->prepare("
         SELECT COUNT(*) FROM students WHERE username = ? AND student_id != ? 
         UNION 
-        SELECT COUNT(*) FROM teachers WHERE username = ? AND teacher_id != ?
+        SELECT COUNT(*) FROM teachers WHERE username = ? AND teacher_id != ? 
     ");
     $stmt->execute([$username, $userId, $username, $userId]);
     $usernameExists = $stmt->fetchColumn() > 0;
@@ -102,33 +102,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile</title>
-    <style> 
+    <style>
         @import url('https://fonts.googleapis.com/css?family=Montserrat:400,600');
-
         body, html {
           font-family: 'Montserrat', sans-serif;
           background: linear-gradient(90deg, #42566b , #7693a3 , #93a4b5 , #AAB7B7 , #93a4b5 , #7693a3 , #42566b );
           height: 60%;
-          display:flex;
+          display: flex;
           justify-content: center;
           align-items: flex-start;
           padding-top: 0px;
           margin: 20px;
-          
         }
 
         .edit-profile-container {
           background-color: #f5fafc;
           padding: 30px;
-          padding-top: 30px;
           width: 100%;
           max-width: 500px;
           border-radius: 15px;
           box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
           text-align: center;
-          transition: all 0.3s ease-in-out;
-          padding-right: 63px;
-          
         }
 
         .form-group {
@@ -152,13 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           color: white;
           border: none;
           border-radius: 25px;
-          text-decoration: none;
           font-weight: bold;
-          transition: background-color 0.3s ease;
-        }
-
-        .submit-btn:hover {
-          background-color: #034f9f;
         }
 
         .delete-btn {
@@ -168,37 +156,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           color: white;
           border: none;
           border-radius: 25px;
-          font-weight: bold;
-          cursor: pointer;
-          transition: background-color 0.3s ease;
-          margin-right: 10px;
         }
 
-        .delete-btn:hover {
-          background-color: #c0392b;
+        .profile-img-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .profile-img-container img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .delete-icon {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            border: none;
+            color: red;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .delete-icon:hover {
+            background-color: rgba(255, 255, 255, 1);
         }
 
         .error-message {
-
             color: #e74c3c;
         }
-
-        /* Responsive design */
-        @media (max-width: 768px) {
-          .submit-btn {
-            padding: 12px 130px;
-          }
-
-          .edit-profile-container {
-            padding: 40px;
-            max-width: 350px;
-          }
-
-          .form-group input {
-            font-size: 14px;
-          }
-        }
-
     </style>
 </head>
 <body>
@@ -231,51 +221,57 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
             <div class="form-group">
+                <label for="mobile">Mobile Number:</label>
+                <input type="text" name="mobile" value="<?= htmlspecialchars($user['mobile']) ?>" required>
+            </div>
+
+            <div class="form-group">
                 <label for="password">New Password:</label>
-                <input type="password" name="password" placeholder="Leave blank to keep current password">
+                <input type="password" name="password">
             </div>
 
             <div class="form-group">
                 <label for="confirm_password">Confirm Password:</label>
                 <input type="password" name="confirm_password">
-            </div>
-
-            <div class="form-group">
-                <label for="mobile">Mobile:</label>
-                <input type="text" name="mobile" value="<?= htmlspecialchars($user['mobile']) ?>">
-            </div>
-
-            <div class="form-group">
-                <label for="profile_picture">Change Picture:</label>
-                <input type="file" name="profile_picture">
-            </div>
-
-            <div class="form-group">
-                <label for="delete_picture">Delete Picture: </label>
-                <button type="button" class="delete-btn" onclick="document.getElementById('delete_picture').value = '1';">Delete Current Picture</button>
-                <input type="hidden" name="delete_picture" id="delete_picture" value="0">
-            </div>
-
-            <?php if ($userRole == 'teacher'): ?>
-                <div class="form-group">
-                    <label for="department">Department:</label>
-                    <input type="text" name="department" value="<?= htmlspecialchars($user['department']) ?>" required>
                 </div>
-            <?php endif; ?>
 
-            </br>
-            <button type="submit" class="submit-btn">Save Changes</button>
-        </form>
+<!-- Profile Picture Section -->
+<div class="form-group">
+    <label for="profile_picture">Profile Picture:</label>
+    <div class="profile-img-container">
+        <img src="<?= htmlspecialchars($user['profile_picture']) ?>" id="profilePic" alt="Profile Picture" onclick="document.getElementById('profile_picture').click();">
+        <button type="button" class="delete-icon" onclick="deleteProfilePic()">X</button>
     </div>
+    <input type="file" name="profile_picture" id="profile_picture" style="display:none;" accept="image/*" onchange="previewProfilePic()">
+</div>
 
-    <script>
-        function confirmDelete() {
-            if (confirm("Are you sure you want to delete the current picture?")) {
-                document.getElementById('delete_picture').value = '1';
-                document.querySelector('form').submit();
-            }
-        }
-    </script>
+<button type="submit" class="submit-btn">Update Profile</button>
+
+<!-- Optional: Add a delete profile picture button -->
+<div>
+    <input type="hidden" name="delete_picture" id="delete_picture" value="0">
+</div>
+</form>
+</div>
+
+<script>
+// Preview the selected profile picture
+function previewProfilePic() {
+const file = document.getElementById('profile_picture').files[0];
+if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        document.getElementById('profilePic').src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+}
+}
+
+// Delete the profile picture and reset to default
+function deleteProfilePic() {
+document.getElementById('profilePic').src = 'uploads/Temp-user-face.jpg'; // Reset to default
+document.getElementById('delete_picture').value = '1'; // Mark for deletion in form
+}
+</script>
 </body>
 </html>
-
