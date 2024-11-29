@@ -151,46 +151,58 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             font-weight: bold;
         }
 
-        .delete-btn {
-            display: inline-block;
-            padding: 12px 24px;
-            background-color: #e74c3c;
-            color: white;
-            border: none;
-            border-radius: 25px;
-        }
-
+        
         .profile-img-container {
-            position: relative;
-            display: inline-block;
-        }
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    text-align: center;
+}
 
-        .profile-img-container img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            cursor: pointer;
-        }
+.profile-img-container img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto; /* Centers the image horizontally */
+}
 
-        .delete-icon {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background-color: rgba(255, 255, 255, 0.7);
-            border-radius: 50%;
-            border: none;
-            color: red;
-            font-size: 16px;
-            cursor: pointer;
-        }
+.delete-icon {
+    position: absolute;
+    top: 5px;
+    right: 190px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    border:solid 1px;
+    color: red;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.change-avatar-text {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #396391;
+    cursor: pointer;
+    font-weight: bold;
+    display: block;
+    text-align: center; /* Ensures text is centered */
+}
+
 
         .delete-icon:hover {
-            background-color: rgba(255, 255, 255, 1);
+            background-color: rgba(255, 200, 200, 1);
         }
 
         .error-message {
             color: #e74c3c;
         }
+
+        
 
         /* Responsive Styles */
         @media (max-width: 768px) {
@@ -231,6 +243,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php endif; ?>
 
         <form action="edit_profile.php" method="POST" enctype="multipart/form-data">
+            <!-- Profile Picture Section -->
+            <div class="form-group">
+                <div class="profile-img-container">
+                    <img src="<?= htmlspecialchars($user['profile_picture']) ?>" id="profilePic" alt="Profile Picture" onclick="document.getElementById('profile_picture').click();">
+                    <button type="button" class="delete-icon" onclick="deleteProfilePic()">X</button>
+                </div>
+                <p class="change-avatar-text">Change Avatar</p>
+                <input type="file" name="profile_picture" id="profile_picture" style="display:none;" accept="image/*" onchange="previewProfilePic()">
+            </div>
+
             <div class="form-group">
                 <label for="first_name">First Name:</label>
                 <input type="text" name="first_name" value="<?= htmlspecialchars($user['first_name']) ?>" required>
@@ -252,12 +274,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
             <div class="form-group">
-                <label for="mobile">Mobile Number:</label>
-                <input type="text" name="mobile" value="<?= htmlspecialchars($user['mobile']) ?>" required>
-            </div>
-
-            <div class="form-group">
-                <label for="password">New Password:</label>
+                <label for="password">Password (leave blank to keep current password):</label>
                 <input type="password" name="password">
             </div>
 
@@ -266,43 +283,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="password" name="confirm_password">
             </div>
 
-            <!-- Profile Picture Section -->
             <div class="form-group">
-                <label for="profile_picture">Profile Picture:</label>
-                <div class="profile-img-container">
-                    <img src="<?= htmlspecialchars($user['profile_picture']) ?>" id="profilePic" alt="Profile Picture" onclick="document.getElementById('profile_picture').click();">
-                    <button type="button" class="delete-icon" onclick="deleteProfilePic()">X</button>
+                <label for="mobile">Mobile Number:</label>
+                <input type="text" name="mobile" value="<?= htmlspecialchars($user['mobile']) ?>" required>
+            </div>
+
+            <?php if ($userRole == 'teacher'): ?>
+                <div class="form-group">
+                    <label for="department">Department:</label>
+                    <input type="text" name="department" value="<?= htmlspecialchars($user['department']) ?>" required>
                 </div>
-                <input type="file" name="profile_picture" id="profile_picture" style="display:none;" accept="image/*" onchange="previewProfilePic()">
+            <?php endif; ?>
+
+            <div class="form-group">
+                <button type="submit" class="submit-btn">Save Changes</button>
             </div>
 
-            <button type="submit" class="submit-btn">Update Profile</button>
-
-            <!-- Optional: Add a delete profile picture button -->
-            <div>
-                <input type="hidden" name="delete_picture" id="delete_picture" value="0">
-            </div>
         </form>
     </div>
 
-<script>
-// Preview the selected profile picture
-function previewProfilePic() {
-    const file = document.getElementById('profile_picture').files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            document.getElementById('profilePic').src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-    }
-}
+    <script>
+        function previewProfilePic() {
+            var file = document.getElementById('profile_picture').files[0];
+            var reader = new FileReader();
 
-// Delete the profile picture and reset to default
-function deleteProfilePic() {
-    document.getElementById('profilePic').src = 'uploads/Temp-user-face.jpg'; // Reset to default
-    document.getElementById('delete_picture').value = '1'; // Mark for deletion in form
-}
-</script>
+            reader.onload = function(e) {
+                document.getElementById('profilePic').src = e.target.result;
+            };
+            
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function deleteProfilePic() {
+            if (confirm('Are you sure you want to delete your profile picture?')) {
+                document.getElementById('profilePic').src = 'uploads/Temp-user-face.jpg'; // Set to default
+                document.getElementById('profile_picture').value = ''; // Reset file input
+            }
+        }
+    </script>
 </body>
 </html>
