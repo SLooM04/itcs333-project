@@ -106,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         @import url('https://fonts.googleapis.com/css?family=Montserrat:400,600');
         body, html {
             font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(90deg, #01438a , #396391 , #87acd4 , #bac8d6 , #87acd4 , #396391 , #01438a );
+            background: linear-gradient( #01438a , #396391 , #87acd4 , #bac8d6 , #87acd4 , #396391 , #01438a );
             height: 60%;
             display: flex;
             justify-content: center;
