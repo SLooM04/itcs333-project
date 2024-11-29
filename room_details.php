@@ -57,6 +57,7 @@ if (isset($_GET['id'])) {
             top: 0;
             z-index: 1000;
         }
+
         .logo {
             font-size: 1.8em;
             font-weight: 600;
@@ -193,9 +194,9 @@ if (isset($_GET['id'])) {
             width: 60%;
             height: auto;
             margin-bottom: 20px;
-            border: 5px solid #1A2D42;
+            border: 2px solid #1A2D42;
             border-radius: 15px;
-            
+
         }
 
         .thumbnail-images {
@@ -360,7 +361,8 @@ if (isset($_GET['id'])) {
             .room-details {
                 width: 100%;
             }
-            .info{
+
+            .info {
                 display: grid;
             }
 
@@ -437,10 +439,11 @@ if (isset($_GET['id'])) {
                     <p><strong>Room Equipment:</strong> <?php echo htmlspecialchars($room['equipment']); ?></p>
 
                     <!-- Reserve Button -->
-                    <form action="reserve_room.php" method="post">
-                        <input type="hidden" name="room_id" value="<?php echo htmlspecialchars($room['id']); ?>">
-                        <button type="submit" class="reserve-button">Reserve Room</button>
+                    <form action="Room_Booking.php" method="GET">
+                        <input type="hidden" name="id" value="<?php echo $room['id']; ?>" />
+                        <button type="submit">Book Now</button>
                     </form>
+
                 </div>
             </figure>
 

@@ -632,7 +632,7 @@ footer {
                                 <?php if (!empty($room['image'])): ?>
                                     <img src="<?php echo htmlspecialchars($room['image']); ?>" alt="<?php echo htmlspecialchars($room['room_name']); ?>">
                                 <?php else: ?>
-                                    <img src="/RoomPic/.jpg" alt="Default Room Image">
+                                    <img src=".jpg" alt="Default Room Image">
                                 <?php endif; ?>
                                 <figcaption>
                                     <h2><?php echo htmlspecialchars($room['room_name']); ?></h2>
