@@ -63,7 +63,7 @@ body, html {
   margin: 5px;
   padding: 0;
   font-family: 'Montserrat', sans-serif;
-  background: linear-gradient(90deg, #42566b , #7693a3 , #93a4b5 , #AAB7B7 , #93a4b5 , #7693a3 , #42566b );
+  background: linear-gradient(90deg, #01438a , #396391 , #87acd4 , #bac8d6 , #87acd4 , #396391 , #01438a );
   display:flex;
   justify-content: center;
   align-items: center;
@@ -115,7 +115,7 @@ h2 {
 
 .profile-header h1 {
   font-size: 26px;
-  color: #36789c;
+  color: #1265b8;
   margin-bottom: 10px;
 }
 
@@ -123,7 +123,7 @@ h2 {
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  border: 5px solid #abbac9;
+  border: 5px solid #1265b8;
   object-fit: cover;
 }
 
@@ -173,7 +173,7 @@ h2 {
 }
 
 .back-home-btn {
-  background-color: #abbac9;
+  background-color: #7c8287;
   width: 300px;
 }
 
