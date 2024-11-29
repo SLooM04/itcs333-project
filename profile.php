@@ -60,7 +60,7 @@ if (!$user) {
 /* BASIC STYLES */
 
 body, html {
-  margin: 5px;
+  margin: 0%;
   padding: 0;
   font-family: 'Montserrat', sans-serif;
   background: linear-gradient(90deg, #01438a , #396391 , #87acd4 , #bac8d6 , #87acd4 , #396391 , #01438a );
@@ -73,7 +73,7 @@ body, html {
 a {
   color: #046cdb;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 50%;
 }
 
 h1 {
@@ -83,7 +83,7 @@ h1 {
 h2 {
   text-align: center;
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 60%;
   color: #333;
   text-transform: uppercase;
 }
@@ -92,14 +92,17 @@ h2 {
 
 .profile-container {
   background-color: #f5fafc;
-  padding: 60px;
+  padding: 9%;
   width: 100%;
-  height: 79%;
-  max-width: 400px;
+  height: 93%;
+  max-width: 100%;
   border-radius: 15px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
   text-align: center;
   transition: all 0.4s ease-in-out;
+  padding-right: 7%;
+  padding-top: 1%;
+  
   
 }
 
@@ -110,13 +113,13 @@ h2 {
 /* PROFILE HEADER */
 
 .profile-header {
-  margin-bottom: 30px;
+  margin-bottom: 10%;
 }
 
 .profile-header h1 {
   font-size: 26px;
   color: #1265b8;
-  margin-bottom: 10px;
+  margin-bottom:5%;
 }
 
 .profile-image {
@@ -131,13 +134,13 @@ h2 {
 
 .profile-info {
   text-align: left;
-  margin-top: 20px;
+  margin-top: 1%;
   font-size: 16px;
   color: #618bb8;
 }
 
 .profile-info p {
-  margin-bottom: 12px;
+  margin-bottom: 1%;
 }
 
 .profile-info p strong {
@@ -164,8 +167,8 @@ h2 {
   transition: background-color 0.3s ease;
   border: none;
   cursor: pointer;
-  margin-top: 0px;
-  margin-bottom: 15px;
+  margin-top: 3%;
+  margin-bottom: 9%;
 }
 
 .button:hover {
@@ -183,13 +186,13 @@ h2 {
 
 @media (max-width: 768px) {
   .body, html{
-    margin-top: 60px;
-    height: 370px;
+    margin-top: 30%;
+    height: 46%;
   }
   
   .profile-container {
-    padding: 20px;
-    height: 400px;
+    padding: 8%;
+    height: 205%;
   }
 
   .profile-header h1 {
@@ -197,7 +200,7 @@ h2 {
   }
   .button{
 
-    margin-bottom: 30px;
+    margin-bottom: 4%;
   }
   .profile-image {
     width: 100px;

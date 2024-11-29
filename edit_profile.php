@@ -106,56 +106,58 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         @import url('https://fonts.googleapis.com/css?family=Montserrat:400,600');
         body, html {
             font-family: 'Montserrat', sans-serif;
-          background: linear-gradient(90deg, #42566b , #7693a3 , #93a4b5 , #AAB7B7 , #93a4b5 , #7693a3 , #42566b );
-          height: 60%;
-          display: flex;
-          justify-content: center;
-          align-items: flex-start;
-          padding-top: 0px;
-          margin: 10px;
+            background: linear-gradient(90deg, #01438a , #396391 , #87acd4 , #bac8d6 , #87acd4 , #396391 , #01438a );
+            height: 60%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 0px;
+            margin: 10px;
         }
 
         .edit-profile-container {
-          background-color: #f5fafc;
-          padding: 30px;
-          width: 100%;
-          max-width: 500px;
-          border-radius: 15px;
-          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-          text-align: center;
+            background-color: #f5fafc;
+            padding: 30px;
+            width: 100%;
+            max-width: 500px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
 
         .form-group {
-          text-align: left;
-          margin-top: 20px;
+            text-align: left;
+            margin-top: 20px;
         }
 
+        h1{ color: #0458b5 ;}
+
         .form-group input {
-          width: 100%;
-          padding: 10px;
-          font-size: 16px;
-          border-radius: 5px;
-          border: 2px solid #ddd;
-          margin-top: 5px;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 2px solid #d1dbe6;
+            margin-top: 5px;
         }
 
         .submit-btn {
-          display: inline-block;
-          padding: 12px 190px;
-          background-color: #618bb8;
-          color: white;
-          border: none;
-          border-radius: 25px;
-          font-weight: bold;
+            display: inline-block;
+            padding: 12px 190px;
+            background-color: #618bb8;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
         }
 
         .delete-btn {
-          display: inline-block;
-          padding: 12px 24px;
-          background-color: #e74c3c;
-          color: white;
-          border: none;
-          border-radius: 25px;
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 25px;
         }
 
         .profile-img-container {
@@ -304,4 +306,3 @@ function deleteProfilePic() {
 </script>
 </body>
 </html>
-
