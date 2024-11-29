@@ -60,14 +60,14 @@ if (!$user) {
 /* BASIC STYLES */
 
 body, html {
-  margin: 0;
+  margin: 5px;
   padding: 0;
   font-family: 'Montserrat', sans-serif;
   background: linear-gradient(90deg, #42566b , #7693a3 , #93a4b5 , #AAB7B7 , #93a4b5 , #7693a3 , #42566b );
-  height: 100%;
-  display: flex;
+  display:flex;
   justify-content: center;
   align-items: center;
+  height: 90%;
 }
 
 a {
@@ -92,14 +92,15 @@ h2 {
 
 .profile-container {
   background-color: #f5fafc;
-  padding: 40px;
+  padding: 60px;
   width: 100%;
-  height: 99%;
+  height: 79%;
   max-width: 400px;
   border-radius: 15px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
   text-align: center;
   transition: all 0.4s ease-in-out;
+  
 }
 
 .profile-container:hover {
@@ -163,8 +164,8 @@ h2 {
   transition: background-color 0.3s ease;
   border: none;
   cursor: pointer;
-  margin-top: 20px;
-  margin-bottom: 10px;
+  margin-top: 0px;
+  margin-bottom: 15px;
 }
 
 .button:hover {
@@ -181,14 +182,23 @@ h2 {
 }
 
 @media (max-width: 768px) {
+  .body, html{
+    margin-top: 60px;
+    height: 370px;
+  }
+  
   .profile-container {
     padding: 20px;
+    height: 400px;
   }
 
   .profile-header h1 {
     font-size: 22px;
   }
+  .button{
 
+    margin-bottom: 30px;
+  }
   .profile-image {
     width: 100px;
     height: 100px;

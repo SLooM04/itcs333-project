@@ -108,17 +108,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         body, html {
           font-family: 'Montserrat', sans-serif;
           background: linear-gradient(90deg, #42566b , #7693a3 , #93a4b5 , #AAB7B7 , #93a4b5 , #7693a3 , #42566b );
-          height: 100%;
+          height: 60%;
           display:flex;
           justify-content: center;
           align-items: flex-start;
           padding-top: 0px;
+          margin: 20px;
           
         }
 
         .edit-profile-container {
           background-color: #f5fafc;
-          padding: 40px;
+          padding: 30px;
+          padding-top: 30px;
           width: 100%;
           max-width: 500px;
           border-radius: 15px;
@@ -126,6 +128,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           text-align: center;
           transition: all 0.3s ease-in-out;
           padding-right: 63px;
+          
         }
 
         .form-group {
