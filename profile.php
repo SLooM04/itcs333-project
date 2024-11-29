@@ -63,7 +63,7 @@ body, html {
   margin: 0;
   padding: 0;
   font-family: 'Montserrat', sans-serif;
-  background: linear-gradient(135deg, #1f83ed, #abbac9);
+  background: linear-gradient(90deg, #42566b , #7693a3 , #93a4b5 , #AAB7B7 , #93a4b5 , #7693a3 , #42566b );
   height: 100%;
   display: flex;
   justify-content: center;
@@ -91,18 +91,19 @@ h2 {
 /* PROFILE CONTAINER */
 
 .profile-container {
-  background-color: #ffffff;
+  background-color: #f5fafc;
   padding: 40px;
   width: 100%;
-  max-width: 500px;
+  height: 99%;
+  max-width: 400px;
   border-radius: 15px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
   text-align: center;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.4s ease-in-out;
 }
 
 .profile-container:hover {
-  transform: scale(1.03);
+  transform: scale(1.02);
 }
 
 /* PROFILE HEADER */
@@ -113,7 +114,7 @@ h2 {
 
 .profile-header h1 {
   font-size: 26px;
-  color: #046cdb;
+  color: #36789c;
   margin-bottom: 10px;
 }
 
@@ -131,7 +132,7 @@ h2 {
   text-align: left;
   margin-top: 20px;
   font-size: 16px;
-  color: #666;
+  color: #618bb8;
 }
 
 .profile-info p {
@@ -139,7 +140,7 @@ h2 {
 }
 
 .profile-info p strong {
-  color: #046cdb;
+  color: #666;
 }
 
 .icon {
@@ -154,7 +155,7 @@ h2 {
 .button {
   display: inline-block;
   padding: 12px 24px;
-  background-color: #046cdb;
+  background-color: #618bb8;
   color: white;
   border-radius: 25px;
   text-decoration: none;
@@ -172,10 +173,11 @@ h2 {
 
 .back-home-btn {
   background-color: #abbac9;
+  width: 300px;
 }
 
 .back-home-btn:hover {
-  background-color: #93a4b5;
+  background-color: #42566b;
 }
 
 @media (max-width: 768px) {
