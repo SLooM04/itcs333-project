@@ -106,19 +106,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         @import url('https://fonts.googleapis.com/css?family=Montserrat:400,600');
 
         body, html {
-          margin: 0;
-          padding: 0;
           font-family: 'Montserrat', sans-serif;
-          background: linear-gradient(135deg, #1f83ed, #abbac9);
+          background: linear-gradient(90deg, #42566b , #7693a3 , #93a4b5 , #AAB7B7 , #93a4b5 , #7693a3 , #42566b );
           height: 100%;
-          display: flex;
+          display:flex;
           justify-content: center;
           align-items: flex-start;
-          padding-top: 40px;
+          padding-top: 0px;
+          
         }
 
         .edit-profile-container {
-          background-color: #ffffff;
+          background-color: #f5fafc;
           padding: 40px;
           width: 100%;
           max-width: 500px;
@@ -126,6 +125,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
           text-align: center;
           transition: all 0.3s ease-in-out;
+          padding-right: 63px;
         }
 
         .form-group {
@@ -145,7 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .submit-btn {
           display: inline-block;
           padding: 12px 190px;
-          background-color: #046cdb;
+          background-color: #618bb8;
           color: white;
           border: none;
           border-radius: 25px;
@@ -155,7 +155,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         .submit-btn:hover {
-          background-color: #034f9b;
+          background-color: #034f9f;
         }
 
         .delete-btn {
@@ -173,6 +173,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         .delete-btn:hover {
           background-color: #c0392b;
+        }
+
+        .error-message {
+
+            color: #e74c3c;
         }
 
         /* Responsive design */
@@ -232,7 +237,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="password" name="confirm_password">
             </div>
 
-                        <div class="form-group">
+            <div class="form-group">
                 <label for="mobile">Mobile:</label>
                 <input type="text" name="mobile" value="<?= htmlspecialchars($user['mobile']) ?>">
             </div>
