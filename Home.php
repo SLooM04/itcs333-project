@@ -28,17 +28,21 @@ if (isset($_POST['reserve_now'])) {
     <title>Rooms List</title>
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.5.7/css/pico.min.css">
     <style>
+        /* Importing Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+
         /* General styles */
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #d4d8dd;
+            font-family: 'Poppins', sans-serif;
+            background: #fff;
             margin: 0;
             padding: 0;
             overflow-x: hidden;
+            color: #333;
         }
 
         body.dark-mode {
-            background-color: #2e4156 ;
+            background-color: #2e4156;
             color: white;
         }
 
@@ -49,6 +53,7 @@ if (isset($_POST['reserve_now'])) {
         body.dark-mode a {
             color: white;
         }
+
         body.dark-mode .dropdown-content a {
             color: #000;
         }
@@ -57,12 +62,12 @@ if (isset($_POST['reserve_now'])) {
             background-color: #2e344e;
         }
 
-        body.dark-mode header{
+        body.dark-mode header {
             background-color: #1a2d42;
             color: #d1d1d1;
         }
 
-       body.dark-mode nav a {
+        body.dark-mode nav a {
             color: #e0e0e0;
         }
 
@@ -70,120 +75,113 @@ if (isset($_POST['reserve_now'])) {
             background-color: #2b2b3b;
         }
 
-       body.dark-mode .dropdown-content a {
+        body.dark-mode .dropdown-content a {
             color: #e0e0e0;
         }
 
-        body.dark-mode .dropdown-content a {
-            color: #edf4fa;
-        }
-
-        body.dark-mode footer{
+        body.dark-mode footer {
             background-color: #1a2d42;
             color: #d1d1d1;
         }
 
         /* Header Styles */
         header {
-            background-color: #2e4156;
             display: flex;
             align-items: center;
             justify-content: space-around;
-            padding: 15px 30px;
-            font-family: "Libre Baskerville", Garamond, sans-serif;
-            font-size: auto;
-            margin-bottom: 1rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            top: 0;
+            padding: 10px 30px;
+            background-color: #1a73e8;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
             z-index: 1000;
         }
 
+        /* Logo Styles */
         .logo {
-            font-size: 1.8em;
-            font-weight: 600;
-            color: white;
-            text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 20px;
-            padding: 15px 20px;
-            background: linear-gradient(90deg, #abbac9, #2e4156);
+            gap: 15px;
+            text-decoration: none;
+            color: white;
             border-radius: 12px;
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .logo:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
         .logo img {
-            width: 200px;
-            height: auto;
+            width: 100px;
             border-radius: 10%;
-            border: 3px solid white;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
+            border: 3px solid #f0f0f0;
+            transition: transform 0.3s;
         }
 
-        .logo img:hover {
-            transform: scale(1.15);
-        }
-
-        nav {
+        /* Navigation Links */
+        .nav-links {
             display: flex;
-            gap: 40px;
-            margin-bottom: 10px;
+            gap: 20px;
+            align-items: center;
         }
 
-        nav a {
-            color: white;
+        .nav-item {
             text-decoration: none;
-            font-size: 1.1em;
+            color: white;
+            font-size: 1em;
             padding: 8px 15px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
+            border-radius: 8px;
+            transition: background-color 0.3s, border 0.3s;
+            position: relative;
         }
 
-        nav a:hover {
-            background-color: #abbac9;
-            color: #222;
+        .nav-item:hover,
+        .nav-item.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px solid #ffffff;
+            border-radius: 8px;
         }
-
-
 
         /* Ensure main content is above the video */
         main {
             display: grid;
             min-height: 100vh;
-            padding: 80px 20px 20px 20px;
-            /* Padding to make space for the fixed menu */
+            padding: 0 !important;
+            /* Explicitly remove padding */
+            margin: 0 !important;
+            /* Ensure no margin is applied */
             position: relative;
             z-index: 2;
         }
 
-        /* Make sure the video covers the whole background */
-        video.background-video {
+        /* Action Buttons */
 
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            object-fit: cover;
-            z-index: 10;
 
+
+        /* Styling for h1 element with shadow effects */
+        .overlay-text h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            /* Text shadow */
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Semi-transparent background for better visibility */
+            padding: 10px 20px;
+            /* Add padding around the text */
+            border-radius: 8px;
+            /* Rounded corners */
+            box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.5);
+            /* Background shadow */
+            color: white;
+            /* Text color */
+            text-align: center;
         }
 
         /* Footer styles */
         footer {
-            background-color: #2e4156;
             color: white;
+            background-color: #1a73e8;
             text-align: center;
-            padding: 1rem 1rem; 
-            margin-top: 9rem; 
-            font-size: 0.9rem; 
-            
+            padding: 1rem 1rem;
+            margin-top: 9rem;
+            font-size: 0.9rem;
         }
 
         footer .footer-container {
@@ -198,8 +196,8 @@ if (isset($_POST['reserve_now'])) {
         footer .footer-section {
             flex: 1 1 200px;
             padding: 1rem;
-            margin-bottom: 1rem; 
-            text-align: left; 
+            margin-bottom: 1rem;
+            text-align: left;
         }
 
         footer .footer-section h3 {
@@ -209,59 +207,111 @@ if (isset($_POST['reserve_now'])) {
             font-weight: 600;
         }
 
-        footer .footer-section ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        footer .footer-section ul li {
-            margin: 0.4rem 0;
-            list-style-type:disc;
-            color: white;
-        }
-
         footer .footer-section ul li a {
             color: white;
             text-decoration: none;
-            transition: color 0.3s ease;
             font-size: 1rem;
         }
 
         footer .footer-section ul li a:hover {
-            color:black ;
-            font-weight: bolder;
+            text-decoration: underline;
         }
 
-        footer .footer-bottom {
-            font-size: 0.85rem;
-            margin-top: 1rem; 
+        /* Main Section Styling */
+
+        /* Container for video and overlay text */
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+        }
+
+        /* Background video styling */
+        .video-container .background-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            /* Ensure the video stays at the background */
+        }
+
+        /* Overlay text styling */
+        .overlay-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             color: white;
+            text-align: center;
+            z-index: 2;
+            /* Ensure the text stays above the video */
         }
 
-        footer .footer-bottom a {
-            color: white;
-            text-decoration: none;
-        }
-
-        footer .footer-bottom a:hover {
-            color: black;
+        /* Optional: Styling for the text */
+        .overlay-text h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            /* Add a shadow to improve readability */
         }
 
         /* Responsive design for the footer */
         @media (max-width: 768px) {
-            footer .footer-container {
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .action-buttons {
                 flex-direction: column;
                 align-items: center;
             }
 
-            footer .footer-section {
-                margin-bottom: 1.5rem; /* Reduced margin */
-                text-align: center;
+            .action-buttons .action-card {
+                font-size: 1rem;
+                /* Consistent text size */
+                padding: 12px;
+                /* Adjusted padding */
+
             }
 
-            footer .footer-section ul li {
-                margin: 0.2rem 0;
+            .action-buttons a {
+                padding: 80px;
+            }
+
+
+
+            footer .footer-section {
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .logo img {
+                width: 60px;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .user-profile {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .action-buttons .action-card {
+                font-size: 0.9rem;
+                padding: 10px;
             }
         }
     </style>
@@ -278,11 +328,11 @@ if (isset($_POST['reserve_now'])) {
         </a>
 
         <!-- Navigation Links -->
-        <nav>
-            <a href="homelog.php">Home</a>
-            <a href="combined_login.php">Rooms</a>
-            <a href="combined_login.php">Login</a>
-            <a href="account_type.php">Resigter</a>
+        <nav class="nav-links">
+            <a href="homelog.php" class="nav-item ">Home</a>
+            <a href="combined_login.php" class="nav-item ">Rooms</a>
+            <a href="combined_login.php" class="nav-item ">Login</a>
+            <a href="account_type.php" class="nav-item ">Resigter</a>
         </nav>
 
         </div>
@@ -290,16 +340,26 @@ if (isset($_POST['reserve_now'])) {
 
     <!-- Main Content Section -->
     <main>
-        <section name="vide">
 
 
+
+
+
+
+        <section class="video-container">
             <!-- Background Video -->
             <video class="background-video" autoplay muted loop>
                 <source src="homevid.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
 
+            <!-- Overlay Text -->
+            <div class="overlay-text">
+                <h1>Reserve your classroom now and take full advantage of the college facilities.</h1>
+            </div>
         </section>
+
+
 
     </main>
 
@@ -337,10 +397,10 @@ if (isset($_POST['reserve_now'])) {
         </div>
 
         <div class="footer-bottom">
-            <p>&copy; <?php echo date("Y"); ?> UOB Rooms Reservation | All rights reserved.</p>
+            <p style="color:white;">&copy; <?php echo date("Y"); ?> UOB Rooms Reservation | All rights reserved.</p>
             <p>
-                <a href="https://www.uob.edu.bh/privacy-policy">Privacy Policy</a> |
-                <a href="https://www.uob.edu.bh/terms-and-conditions">Terms of Service</a>
+                <a href="https://www.uob.edu.bh/privacy-policy" style="color : white;">Privacy Policy | </a>
+                <a href="https://www.uob.edu.bh/terms-and-conditions" style="color : white;">Terms of Service</a>
             </p>
         </div>
     </footer>
