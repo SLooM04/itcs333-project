@@ -105,14 +105,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <style>
         @import url('https://fonts.googleapis.com/css?family=Montserrat:400,600');
         body, html {
-          font-family: 'Montserrat', sans-serif;
+            font-family: 'Montserrat', sans-serif;
           background: linear-gradient(90deg, #42566b , #7693a3 , #93a4b5 , #AAB7B7 , #93a4b5 , #7693a3 , #42566b );
           height: 60%;
           display: flex;
           justify-content: center;
           align-items: flex-start;
           padding-top: 0px;
-          margin: 20px;
+          margin: 10px;
         }
 
         .edit-profile-container {
@@ -189,6 +189,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .error-message {
             color: #e74c3c;
         }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .submit-btn {
+                padding: 12px 100px;
+            }
+            .profile-img-container img {
+                width: 120px;
+                height: 120px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body, html {
+                padding: 10px;
+            }
+            .edit-profile-container {
+                padding: 20px;
+                width: 100%;
+                max-width: 100%;
+            }
+            .submit-btn {
+                padding: 12px 50px;
+            }
+            .profile-img-container img {
+                width: 100px;
+                height: 100px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -233,45 +262,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-group">
                 <label for="confirm_password">Confirm Password:</label>
                 <input type="password" name="confirm_password">
+            </div>
+
+            <!-- Profile Picture Section -->
+            <div class="form-group">
+                <label for="profile_picture">Profile Picture:</label>
+                <div class="profile-img-container">
+                    <img src="<?= htmlspecialchars($user['profile_picture']) ?>" id="profilePic" alt="Profile Picture" onclick="document.getElementById('profile_picture').click();">
+                    <button type="button" class="delete-icon" onclick="deleteProfilePic()">X</button>
                 </div>
+                <input type="file" name="profile_picture" id="profile_picture" style="display:none;" accept="image/*" onchange="previewProfilePic()">
+            </div>
 
-<!-- Profile Picture Section -->
-<div class="form-group">
-    <label for="profile_picture">Profile Picture:</label>
-    <div class="profile-img-container">
-        <img src="<?= htmlspecialchars($user['profile_picture']) ?>" id="profilePic" alt="Profile Picture" onclick="document.getElementById('profile_picture').click();">
-        <button type="button" class="delete-icon" onclick="deleteProfilePic()">X</button>
+            <button type="submit" class="submit-btn">Update Profile</button>
+
+            <!-- Optional: Add a delete profile picture button -->
+            <div>
+                <input type="hidden" name="delete_picture" id="delete_picture" value="0">
+            </div>
+        </form>
     </div>
-    <input type="file" name="profile_picture" id="profile_picture" style="display:none;" accept="image/*" onchange="previewProfilePic()">
-</div>
-
-<button type="submit" class="submit-btn">Update Profile</button>
-
-<!-- Optional: Add a delete profile picture button -->
-<div>
-    <input type="hidden" name="delete_picture" id="delete_picture" value="0">
-</div>
-</form>
-</div>
 
 <script>
 // Preview the selected profile picture
 function previewProfilePic() {
-const file = document.getElementById('profile_picture').files[0];
-if (file) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        document.getElementById('profilePic').src = e.target.result;
-    };
-    reader.readAsDataURL(file);
-}
+    const file = document.getElementById('profile_picture').files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('profilePic').src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
 }
 
 // Delete the profile picture and reset to default
 function deleteProfilePic() {
-document.getElementById('profilePic').src = 'uploads/Temp-user-face.jpg'; // Reset to default
-document.getElementById('delete_picture').value = '1'; // Mark for deletion in form
+    document.getElementById('profilePic').src = 'uploads/Temp-user-face.jpg'; // Reset to default
+    document.getElementById('delete_picture').value = '1'; // Mark for deletion in form
 }
 </script>
 </body>
 </html>
+
