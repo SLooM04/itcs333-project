@@ -398,7 +398,7 @@ if (isset($_GET['id'])) {
         <!-- User Profile Section -->
         <div class="user-profile dropdown">
             <img src="https://cdn.pixabay.com/photo/2021/07/02/04/48/user-6380868_1280.png" alt="User Avatar">
-            <span> <?php echo htmlspecialchars($username); ?></span>
+            <span> <?php echo htmlspecialchars($_SESSION['username']); ?></span>
             <div class="dropdown-content">
                 <a href="profile.php">My Profile</a>
                 <a href="settings.php">Settings</a>
