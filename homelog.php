@@ -50,8 +50,8 @@ $username = $_SESSION['username'] ?? 'User';
         }
 
         body.dark-mode {
-            background: linear-gradient(to top, #0a0f1c, #1e2a38);
-            color: #eaeaea;
+            background-color: #2e4156;
+            color: white;
         }
 
         body.dark-mode h1,
@@ -59,15 +59,54 @@ $username = $_SESSION['username'] ?? 'User';
         body.dark-mode h3,
         body.dark-mode p,
         body.dark-mode a {
-            color: #eaeaea;
+            color: white;
         }
 
         body.dark-mode .dropdown-content a {
-            color: #0a0f1c;
+            color: #000;
+        }
+
+        body.dark-mode .dropdown-content a:hover{
+            background-color: #2e4156;
         }
 
         body.dark-mode .recommendation-card {
             background-color: #2e344e;
+        }
+
+        body.dark-mode .recommendations h2 {
+            color: white;
+        }
+
+        body.dark-mode  .action-buttons a{
+            background-color: #2e344e;
+        }
+        
+
+        body.dark-mode header {
+            background-color: #1a2d42;
+            color: #d1d1d1;
+        }
+
+        body.dark-mode nav a {
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .dropdown-content {
+            background-color: #2b2b3b;
+        }
+
+        body.dark-mode .dropdown-content a {
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .dropdown-content a {
+            color: #edf4fa;
+        }
+
+        body.dark-mode footer {
+            background-color: #1a2d42;
+            color: #d1d1d1;
         }
 
         /* Header Styles */
@@ -291,6 +330,10 @@ $username = $_SESSION['username'] ?? 'User';
             color: #ffffff;
         }
 
+        .recommendations h2{
+            color: black;
+        }
+
         .recommendations a:hover {
             color: #003366;
             font-weight: bold;
@@ -472,7 +515,7 @@ $username = $_SESSION['username'] ?? 'User';
 
         <!-- Recommendations -->
         <section class="recommendations">
-            <h2 style="color : black;">Recommended for You</h2>
+            <h2 >Recommended for You</h2>
             <div class="recommendation-card">
                 <h3>Room 101</h3>
                 <p>Most booked this month. Reserve now!</p>

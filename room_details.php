@@ -51,16 +51,17 @@ if (isset($_GET['id'])) {
             color: white;
         }
 
-        body.dark-mode h1,
-        body.dark-mode h2,
-        body.dark-mode h3,
-        body.dark-mode p,
-        body.dark-mode a {
-            color: white;
-        }
+       
 
         body.dark-mode .dropdown-content a {
             color: #000;
+        }
+        body.dark-mode .dropdown-content a:hover{
+            background-color: #2e4156;
+        }
+
+        body.dark-mode .recommendation-card {
+            background-color: #2e344e;
         }
 
         body.dark-mode .recommendation-card {
