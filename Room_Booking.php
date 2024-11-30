@@ -2,7 +2,6 @@
 session_start();
 include('db.php'); // Database connection
 
-// Check if user is logged in
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
 
 if (!$username) {
@@ -22,6 +21,10 @@ if (!$room) {
     die("Invalid room ID");
 }
 
+// Initialize message variables
+$success_message = "";
+$error_message = "";
+
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Check the user's role
@@ -35,9 +38,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $booking_date = isset($_POST['booking_date']) ? $_POST['booking_date'] : '';
     $duration = isset($_POST['duration']) ? $_POST['duration'] : '';
     $time_slot = isset($_POST['time_slot']) ? $_POST['time_slot'] : '';
-
+    $room_name = isset($_POST['room_name']) ? $_POST['room_name'] : '';  // Get room name from the form
+    
     // Validate that all fields are filled
-    if ($contact_number && $booking_date && $duration && $time_slot) {
+    if ($contact_number && $booking_date && $duration && $time_slot && $room_name) {
         // Check if the selected date is in the past
         $current_date = date('Y-m-d');
         if ($booking_date < $current_date) {
@@ -46,15 +50,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $start_time = $booking_date . ' ' . $time_slot;
             $end_time = date('Y-m-d H:i:s', strtotime($start_time . ' + ' . $duration . ' hours'));
 
-            // Prepare the query to insert the booking, including username
+            // Prepare the query to insert the booking, including username and room_name
             $stmt = $pdo->prepare("
-                INSERT INTO bookings (room_id, student_id, teacher_id, username, start_time, end_time, contact_number) 
-                VALUES (:room_id, :student_id, :teacher_id, :username, :start_time, :end_time, :contact_number)
+                INSERT INTO bookings (room_id, room_name, student_id, teacher_id, username, start_time, end_time, contact_number) 
+                VALUES (:room_id, :room_name, :student_id, :teacher_id, :username, :start_time, :end_time, :contact_number)
             ");
 
             // Set the student_id or teacher_id based on the role
             $stmt->execute([
                 'room_id' => $room_id,
+                'room_name' => $room_name,  // Add room_name to the query
                 'student_id' => ($user_role === 'student') ? $_SESSION['user_id'] : null,  // Use student_id if role is student
                 'teacher_id' => ($user_role === 'teacher') ? $_SESSION['user_id'] : null,  // Use teacher_id if role is teacher
                 'username' => $username,  // Add username to the query
@@ -63,9 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'contact_number' => $contact_number
             ]);
 
-            // Redirect to a success page after booking
-            header('Location: success.php'); // Change this to your success page
-            exit();
+            // If insertion is successful
+            $success_message = "Your booking has been successfully completed!";
         }
     } else {
         $error_message = "Please fill out all fields.";
@@ -156,6 +160,19 @@ function generateTimeSlots($duration, $booked_slots) {
             width: 100%;
             max-width: 500px;
         }
+        .capacity {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #0066cc; 
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            padding: 10px 20px;
+            border-radius: 100px;
+            margin: 10px auto;
+            width: 40%; 
+        }
         h1 {
             text-align: center;
             color: #0066cc;
@@ -213,11 +230,10 @@ function generateTimeSlots($duration, $booked_slots) {
 <body>
     <div class="container">
         <h1>Book Room: <?php echo htmlspecialchars($room['room_name']); ?></h1>
-        <p>Capacity: <?php echo htmlspecialchars($room['capacity']); ?> persons</p>
+        <p class="capacity">Capacity: <?php echo htmlspecialchars($room['capacity']); ?> persons</p>
 
-        <?php if (isset($error_message)): ?>
-            <p class="error-message"><?php echo htmlspecialchars($error_message); ?></p>
-        <?php endif; ?>
+        <?php if ($error_message) { echo "<p class='error-message'>$error_message</p>"; } ?>
+        <?php if ($success_message) { echo "<p class='success-message'>$success_message</p>"; } ?>
 
         <form action="" method="POST">
             <div class="form-group">
@@ -226,19 +242,17 @@ function generateTimeSlots($duration, $booked_slots) {
             </div>
 
             <div class="form-group">
-    <label for="contact_number">Contact Number:</label>
-    <input type="tel" id="contact_number" name="contact_number" 
-           pattern="^(?:\+973\s?)?\d{8}$" 
-           placeholder="Enter your contact number" required>
-    <small>Example: +973 33311222 </small>
-</div>
-
+                <label for="contact_number">Contact Number:</label>
+                <input type="tel" id="contact_number" name="contact_number" 
+                    pattern="^(?:\+973\s?)?\d{8}$" 
+                    placeholder="Enter your contact number" required>
+                <small>Example: +973 33311222 </small>
+            </div>
 
             <div class="form-group">
                 <label for="booking_date">Booking Date:</label>
                 <input type="date" id="booking_date" name="booking_date" required min="<?php echo date('Y-m-d'); ?>" 
-                onkeydown="return false;" 
-                onchange="checkWeekday(this)">
+                onkeydown="return false;" onchange="checkWeekday(this)">
             </div>
 
             <div class="form-group">
@@ -253,27 +267,21 @@ function generateTimeSlots($duration, $booked_slots) {
                 <label for="time_slot">Available Time Slots:</label>
                 <select id="time_slot" name="time_slot" required>
                     <option value="" disabled selected>Select a time slot</option>
-                    <option value="09:00:00">09:00 AM</option>
-                    <option value="10:00:00">10:00 AM</option>
-                    <option value="11:00:00">11:00 AM</option>
-                    <option value="12:00:00">12:00 PM</option>
+                    <?php
+                        $available_slots = generateTimeSlots($duration, $booked_slots);
+                        foreach ($available_slots as $slot) {
+                            echo "<option value=\"$slot\">$slot</option>";
+                        }
+                    ?>
                 </select>
             </div>
+
+            <!-- Hidden input for room name -->
+            <input type="hidden" name="room_name" value="<?php echo htmlspecialchars($room['room_name']); ?>">
 
             <button type="submit">Confirm Booking</button>
         </form>
     </div>
 
-    <script>
-        function checkWeekday(input) {
-            var date = new Date(input.value);
-            var day = date.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
-
-            if (day === 5 || day === 6) {
-                alert("Bookings are not allowed on Friday or Saturday.");
-                input.value = ""; // Clear the selected date
-            }
-        }
-    </script>
 </body>
 </html>
