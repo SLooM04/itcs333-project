@@ -7,22 +7,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
 
     // Check if the user is a teacher
-    $stmt = $pdo->prepare("SELECT * FROM teachers WHERE email = :email");
-    $stmt->execute([':email' => $email]);
-    $teacher = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmtTeacher = $pdo->prepare("SELECT * FROM teachers WHERE email = :email");
+    $stmtTeacher->execute([':email' => $email]);
+    $teacher = $stmtTeacher->fetch(PDO::FETCH_ASSOC);
 
     if ($teacher) {
+        
         $user = $teacher;
         $user['role'] = 'teacher';
-    } else {
-        // If not a teacher, check if the user is a student
-        $stmt = $pdo->prepare("SELECT * FROM students WHERE email = :email");
-        $stmt->execute([':email' => $email]);
-        $student = $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
+        $stmtStudent = $pdo->prepare("SELECT * FROM students WHERE email = :email");
+        $stmtStudent->execute([':email' => $email]);
+        $student = $stmtStudent->fetch(PDO::FETCH_ASSOC);
+
+     if ($student) {
+        // If not a teacher, check if the user is a student
+        $StudentEmailRegex = "/^[0-9]{9}@stu\.uob\.edu\.bh$/";
+        
+        
         if ($student) {
             $user = $student;
             $user['role'] = 'student';
+        } else {
+            // No user found
+            $user = null;
+        }
+    }
+
+
+        $stmtAdmin = $pdo->prepare("SELECT * FROM admins WHERE email = :email");
+        $stmtAdmin->execute([':email' => $email]);
+        $admin = $stmtAdmin->fetch(PDO::FETCH_ASSOC);
+
+     if($admin){
+        // If not a teacher and student, check if the user is a admin
+        $AdminEmailRegex = "/^[0-9a-z]+@admin\.uob\.edu\.bh$/";
+        if (!preg_match($email,$AdminEmailRegex)){
+            $_SESSION['login_error'] = "Invalid username or password";
+            sleep(2);
+            header("Location: combined_login.php");
+        }
+        
+
+        if ($admin) {
+            $user = $admin;
+            $user['role'] = 'admin';
         } else {
             // No user found
             $user = null;
@@ -49,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Verify the password for teacher
-    elseif ($teacher && password_verify($password, $teacher['password'])) {
+    else if ($teacher && password_verify($password, $teacher['password'])) {
         $_SESSION['user_id'] = $teacher['teacher_id'];
         $_SESSION['username'] = $teacher['username'];
         $_SESSION['role'] = $user['role'];
@@ -62,6 +92,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         sleep(2);
         header("Location: homelog.php");
+        exit();
+    } else if ($admin && $password==$admin['password']) {
+        $_SESSION['user_id'] = $admin['teacher_id'];
+        $_SESSION['username'] = $admin['username'];
+        $_SESSION['role'] = $admin['role'];
+        $_SESSION["login_success"] = "Welcome, " . $admin['username'] . "!";
+
+        // Set cookies for the teacher
+        setcookie("user_id", $admin['teacher_id'], time() + (86400 * 30), "/"); // 30 days
+        setcookie("username", $admin['username'], time() + (86400 * 30), "/");
+        setcookie("role", $user['role'], time() + (86400 * 30), "/");
+
+        sleep(2);
+        header("Location: admin-dashbord.php");
         exit();
     }
     // Authentication failed
