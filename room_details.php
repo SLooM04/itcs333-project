@@ -417,7 +417,7 @@ if (isset($_GET['id'])) {
 <header>
         <!-- Logo Section -->
         <a href="homelog.php" class="logo">
-            <img src="https://cdn.discordapp.com/attachments/791220541376692234/1310228238240583690/UOBandSilverJubilee-Colleges-new-logo-1.png?ex=674474a2&is=67432322&hm=48b965ce1457aa8031fb40b08ab17ffb6fcdc7924a004aaebf258e485756497b&" alt="Logo">
+            <img src="uploads/UOB-Colleges-new-logo.png" alt="Logo">
             UOB
         </a>
 
