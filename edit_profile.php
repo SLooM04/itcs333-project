@@ -106,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         @import url('https://fonts.googleapis.com/css?family=Montserrat:400,600');
         body, html {
             font-family: 'Montserrat', sans-serif;
-            background: linear-gradient( #01438a , #396391 , #87acd4 , #bac8d6 , #87acd4 , #396391 , #01438a );
+            background: linear-gradient( #87acd4 , #bac8d6 , #bac8d6 , #87acd4 ); display:flex;
             height: 60%;
             display: flex;
             justify-content: center;
@@ -214,6 +214,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 width: 120px;
                 height: 120px;
             }
+            .delete-icon {
+            position: absolute;
+            top: 5px;
+            right: 100px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            border: solid red;
+            padding: 5px;
+            cursor: pointer;
+            
+            }  
+            .delete-icon img {
+             width: 16px; /* Smaller image */
+              height: 16px; /* Smaller image */
+               }
+            
         }
 
         @media (max-width: 480px) {
@@ -231,6 +247,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             .profile-img-container img {
                 width: 100px;
                 height: 100px;
+            }
+            .delete-icon {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            border: solid red;
+            padding: 5px;
+            cursor: pointer;
             }
         }
     </style>
