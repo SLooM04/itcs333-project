@@ -339,6 +339,21 @@ $username = $_SESSION['username'] ?? 'User';
         footer .footer-section ul li a:hover {
             text-decoration: underline;
         }
+        /* Responsive design for the footer */
+        @media (max-width: 768px) {
+            footer .footer-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            footer .footer-section {
+                margin-bottom: 1.5rem; 
+                text-align: center;
+            }
+
+            footer .footer-section ul li {
+                margin: 0.2rem 0;
+            }}
 
         @media (max-width: 768px) {
             .nav-links {
@@ -365,9 +380,7 @@ $username = $_SESSION['username'] ?? 'User';
 
 
 
-            footer .footer-section {
-                align-items: center;
-            }
+            
         }
 
         @media (max-width: 480px) {

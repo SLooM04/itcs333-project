@@ -34,9 +34,11 @@ if (isset($_GET['id'])) {
     <title>Room Details</title>
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.5.7/css/pico.min.css">
     <style>
+        /* Importing Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
         /* Basic Styles */
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Poppins', sans-serif;
             background-color: #f4f7f6;
             margin: 0 0 0 0;
             padding: auto;
@@ -44,123 +46,168 @@ if (isset($_GET['id'])) {
 
         }
 
-        header {
+        body.dark-mode {
             background-color: #2e4156;
+            color: white;
+        }
+
+        body.dark-mode h1,
+        body.dark-mode h2,
+        body.dark-mode h3,
+        body.dark-mode p,
+        body.dark-mode a {
+            color: white;
+        }
+
+        body.dark-mode .dropdown-content a {
+            color: #000;
+        }
+
+        body.dark-mode .recommendation-card {
+            background-color: #2e344e;
+        }
+
+        body.dark-mode header {
+            background-color: #1a2d42;
+            color: #d1d1d1;
+        }
+
+        body.dark-mode nav a {
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .dropdown-content {
+            background-color: #2b2b3b;
+        }
+
+        body.dark-mode .dropdown-content a {
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .dropdown-content a {
+            color: #edf4fa;
+        }
+
+        body.dark-mode footer {
+            background-color: #1a2d42;
+            color: #d1d1d1;
+        }
+  
+
+/* Logo Styles */
+.logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        text-decoration: none;
+        color: white;
+        border-radius: 12px;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .logo img {
+        width: 100px;
+        border-radius: 10%;
+        border: 3px solid #f0f0f0;
+        transition: transform 0.3s;
+    }
+
+
+        /* Header Styles */
+  header {
             display: flex;
             align-items: center;
             justify-content: space-around;
-            padding: 15px 30px;
-            font-family: "Libre Baskerville", Garamond, sans-serif;
-            font-size: auto;
-            margin-bottom: 1rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            top: 0;
+            padding: 10px 30px;
+            background-color: #1a73e8;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
             z-index: 1000;
         }
 
-        .logo {
-            font-size: 1.8em;
-            font-weight: 600;
-            color: white;
-            text-decoration: none;
+        /* Navigation Links */
+        .nav-links {
             display: flex;
-            align-items: center;
             gap: 20px;
-            padding: 15px 20px;
-            background: linear-gradient(90deg, #abbac9, #2e4156);
-            border-radius: 12px;
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .logo:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.4);
-        }
-
-        .logo img {
-            width: 200px;
-            height: auto;
-            border-radius: 10%;
-            border: 3px solid white;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
-        }
-
-        .logo img:hover {
-            transform: scale(1.15);
-        }
-
-
-        nav {
-            display: flex;
-            gap: 40px;
-            margin-bottom: 10px;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-size: 1.1em;
-            padding: 8px 15px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        nav a:hover {
-            background-color: #abbac9;
-            color: #222;
-        }
-
-        .user-profile {
-            display: flex;
             align-items: center;
-            gap: 15px;
+        }
+
+        .nav-item {
+            text-decoration: none;
             color: white;
-        }
-
-        .user-profile img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: 2px solid white;
-        }
-
-        .user-profile span {
             font-size: 1em;
-        }
-
-        .dropdown {
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s, border 0.3s;
             position: relative;
         }
 
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background-color: white;
-            min-width: 150px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
-            border-radius: 0;
-            z-index: 2000;
+        .nav-item:hover,
+        .nav-item.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px solid #ffffff;
+            border-radius: 8px;
         }
 
-        .dropdown-content a {
-            color: #222;
-            padding: 10px 15px;
-            text-decoration: none;
-            display: block;
+        .active {
+            border: 2px solid #f0f0f0;
+            background-color: rgba(255, 255, 255, 0.2);
         }
 
-        .dropdown-content a:hover {
-            background-color: #abbac9;
-        }
+        /* User Profile Section */
+    .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        color: white;
+    }
 
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
+    .user-profile img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 2px solid #fff;
+    }
 
+    .user-profile span {
+        font-size: 1em;
+        white-space: nowrap;
+    }
+
+    /* Dropdown Menu */
+    .dropdown {
+        position: relative;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: #ffffff;
+        color: #222;
+        min-width: 150px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        z-index: 2000;
+    }
+
+    .dropdown-content a {
+        display: block;
+        padding: 10px 15px;
+        text-decoration: none;
+        color: #222;
+        transition: background-color 0.3s;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f1f1f1;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
 
         /* Room details layout */
         .room-container {
@@ -254,15 +301,12 @@ if (isset($_GET['id'])) {
 
         /* Footer styles */
         footer {
-            background-color: #2e4156;
-            color: #f0f4f7;
+            color: white;
+            background-color: #1a73e8;
             text-align: center;
             padding: 1rem 1rem;
-            /* Reduced padding */
-            margin-top: 4rem;
-            /* Added space between content and footer */
+            margin-top: 9rem;
             font-size: 0.9rem;
-            /* Reduced font size */
         }
 
         footer .footer-container {
@@ -288,42 +332,31 @@ if (isset($_GET['id'])) {
             font-weight: 600;
         }
 
-        footer .footer-section ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        footer .footer-section ul li {
-            margin: 0.4rem 0;
-        }
-
         footer .footer-section ul li a {
-            color: #d1d1d1;
+            color: white;
             text-decoration: none;
-            transition: color 0.3s ease;
             font-size: 1rem;
         }
 
         footer .footer-section ul li a:hover {
-            color: #007bff;
+            text-decoration: underline;
         }
+        /* Responsive design for the footer */
+        @media (max-width: 768px) {
+            footer .footer-container {
+                flex-direction: column;
+                align-items: center;
+            }
 
-        footer .footer-bottom {
-            font-size: 0.85rem;
-            margin-top: 1rem;
-            /* Reduced margin */
-            color: #d1d1d1;
-        }
+            footer .footer-section {
+                margin-bottom: 1.5rem; 
+                text-align: center;
+            }
 
-        footer .footer-bottom a {
-            color: #d1d1d1;
-            text-decoration: none;
-        }
+            footer .footer-section ul li {
+                margin: 0.2rem 0;
+            }}
 
-        footer .footer-bottom a:hover {
-            color: #007bff;
-        }
 
 
         /* Media Query for Tablets */
@@ -380,7 +413,7 @@ if (isset($_GET['id'])) {
 </head>
 
 <body>
-    <header>
+<header>
         <!-- Logo Section -->
         <a href="homelog.php" class="logo">
             <img src="https://cdn.discordapp.com/attachments/791220541376692234/1310228238240583690/UOBandSilverJubilee-Colleges-new-logo-1.png?ex=674474a2&is=67432322&hm=48b965ce1457aa8031fb40b08ab17ffb6fcdc7924a004aaebf258e485756497b&" alt="Logo">
@@ -388,25 +421,28 @@ if (isset($_GET['id'])) {
         </a>
 
         <!-- Navigation Links -->
-        <nav>
-            <a href="homelog.php">Home</a>
-            <a href="rooms.php">Rooms</a>
-            <a href="reservations.php">My Reservations</a>
-            <a href="support.php">Support</a>
+
+        <nav class="nav-links">
+            <a href="homelog.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'homelog.php' ? 'active' : ''; ?>">Home</a>
+            <a href="rooms.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'rooms.php' ? 'active' : ''; ?>">Rooms</a>
+            <a href="reservations.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'reservations.php' ? 'active' : ''; ?>">My Reservations</a>
+            <a href="support.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'support.php' ? 'active' : ''; ?>">Support</a>
         </nav>
+
+
 
         <!-- User Profile Section -->
         <div class="user-profile dropdown">
-            <img src="https://cdn.pixabay.com/photo/2021/07/02/04/48/user-6380868_1280.png" alt="User Avatar">
+            <img src="<?= !empty($user['profile_picture']) ? htmlspecialchars($user['profile_picture']) : 'uploads/Temp-user-face.jpg' ?>" alt="Profile Picture" class="profile-image">
             <span> <?php echo htmlspecialchars($_SESSION['username']); ?></span>
             <div class="dropdown-content">
                 <a href="profile.php">My Profile</a>
                 <a href="settings.php">Settings</a>
+                <a id="themeToggle">Dark Mode</a>
                 <a href="logout.php" class="logout-button" onclick="return confirm('Are you sure you want to log out?')">Logout</a>
             </div>
         </div>
     </header>
-
     <main>
 
 
@@ -458,7 +494,7 @@ if (isset($_GET['id'])) {
 
 
     <!-- Footer -->
-    <footer>
+ <footer>
         <div class="footer-container">
             <!-- University Info -->
             <div class="footer-section">
@@ -491,13 +527,39 @@ if (isset($_GET['id'])) {
         </div>
 
         <div class="footer-bottom">
-            <p>&copy; <?php echo date("Y"); ?> UOB Rooms Reservation | All rights reserved.</p>
+            <p style="color:white;">&copy; <?php echo date("Y"); ?> UOB Rooms Reservation | All rights reserved.</p>
             <p>
-                <a href="https://www.uob.edu.bh/privacy-policy">Privacy Policy</a> |
-                <a href="https://www.uob.edu.bh/terms-and-conditions">Terms of Service</a>
+                <a href="https://www.uob.edu.bh/privacy-policy" style="color : white;">Privacy Policy | </a>
+                <a href="https://www.uob.edu.bh/terms-and-conditions" style="color : white;">Terms of Service</a>
             </p>
         </div>
     </footer>
+
+    <script>
+        // Handle theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        // Check for saved theme in localStorage
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-mode');
+            themeToggle.textContent = 'Light Mode';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+
+            // Update button text and save preference
+            if (body.classList.contains('dark-mode')) {
+                themeToggle.textContent = 'Light Mode';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeToggle.textContent = 'Dark Mode';
+                localStorage.setItem('theme', 'light');
+            }
+        });
+    </script>
 
 </body>
 

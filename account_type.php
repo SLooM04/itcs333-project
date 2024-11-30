@@ -6,9 +6,11 @@
     <title>University Room Reservation</title>
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.5.7/css/pico.min.css">
     <style>
+        /* Importing Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
         /* Reset and general styling */
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
             color: #333;
@@ -108,12 +110,12 @@
 
         /* Footer styles */
         footer {
-            background-color: #222;
-            color: #f0f4f7;
+            color: white;
+            background-color: #1a73e8;
             text-align: center;
-            padding: 1rem 1rem; /* Reduced padding */
-            margin-top: 4rem; /* Added space between content and footer */
-            font-size: 0.9rem; /* Reduced font size */
+            padding: 1rem 1rem;
+            margin-top: 9rem;
+            font-size: 0.9rem;
         }
 
         footer .footer-container {
@@ -128,8 +130,8 @@
         footer .footer-section {
             flex: 1 1 200px;
             padding: 1rem;
-            margin-bottom: 1rem; /* Reduced margin for footer sections */
-            text-align: left; /* Ensure text aligns properly */
+            margin-bottom: 1rem;
+            text-align: left;
         }
 
         footer .footer-section h3 {
@@ -139,42 +141,15 @@
             font-weight: 600;
         }
 
-        footer .footer-section ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        footer .footer-section ul li {
-            margin: 0.4rem 0;
-        }
-
         footer .footer-section ul li a {
-            color: #d1d1d1;
+            color: white;
             text-decoration: none;
-            transition: color 0.3s ease;
             font-size: 1rem;
         }
 
         footer .footer-section ul li a:hover {
-            color: #007bff;
+            text-decoration: underline;
         }
-
-        footer .footer-bottom {
-            font-size: 0.85rem;
-            margin-top: 1rem; /* Reduced margin */
-            color: #d1d1d1;
-        }
-
-        footer .footer-bottom a {
-            color: #d1d1d1;
-            text-decoration: none;
-        }
-
-        footer .footer-bottom a:hover {
-            color: #007bff;
-        }
-
         /* Responsive design for the footer */
         @media (max-width: 768px) {
             footer .footer-container {
@@ -183,20 +158,14 @@
             }
 
             footer .footer-section {
-                margin-bottom: 1.5rem; /* Reduced margin */
+                margin-bottom: 1.5rem; 
                 text-align: center;
             }
 
             footer .footer-section ul li {
                 margin: 0.2rem 0;
-            }
-        }
+            }}
 
-        /* Remove bullets from lists */
-        footer .footer-section ul {
-            list-style-type: none !important;
-            padding-left: 0;
-        }
 
 
 
@@ -262,10 +231,10 @@
         </div>
 
         <div class="footer-bottom">
-            <p>&copy; <?php echo date("Y"); ?> UOB Rooms Reservation | All rights reserved.</p>
+            <p style="color:white;">&copy; <?php echo date("Y"); ?> UOB Rooms Reservation | All rights reserved.</p>
             <p>
-                <a href="https://www.uob.edu.bh/privacy-policy">Privacy Policy</a> | 
-                <a href="https://www.uob.edu.bh/terms-and-conditions">Terms of Service</a> 
+                <a href="https://www.uob.edu.bh/privacy-policy" style="color : white;">Privacy Policy | </a>
+                <a href="https://www.uob.edu.bh/terms-and-conditions" style="color : white;">Terms of Service</a>
             </p>
         </div>
     </footer>

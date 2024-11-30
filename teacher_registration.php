@@ -247,13 +247,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         opacity: 011;
     }
             /* Footer styles */
-            footer {
-            background-color: #222;
-            color: #f0f4f7;
+        footer {
+            color: white;
+            background-color: #1a73e8;
             text-align: center;
-            padding: 1rem 1rem; /* Reduced padding */
-            margin-top: 4rem; /* Added space between content and footer */
-            font-size: 0.9rem; /* Reduced font size */
+            padding: 1rem 1rem;
+            margin-top: 9rem;
+            font-size: 0.9rem;
         }
 
         footer .footer-container {
@@ -268,8 +268,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         footer .footer-section {
             flex: 1 1 200px;
             padding: 1rem;
-            margin-bottom: 1rem; /* Reduced margin for footer sections */
-            text-align: left; /* Ensure text aligns properly */
+            margin-bottom: 1rem;
+            text-align: left;
         }
 
         footer .footer-section h3 {
@@ -279,41 +279,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             font-weight: 600;
         }
 
-        footer .footer-section ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        footer .footer-section ul li {
-            margin: 0.4rem 0;
-        }
-
         footer .footer-section ul li a {
-            color: #d1d1d1;
+            color: white;
             text-decoration: none;
-            transition: color 0.3s ease;
             font-size: 1rem;
         }
 
         footer .footer-section ul li a:hover {
-            color: #007bff;
+            text-decoration: underline;
         }
 
-        footer .footer-bottom {
-            font-size: 0.85rem;
-            margin-top: 1rem; /* Reduced margin */
-            color: #d1d1d1;
-        }
-
-        footer .footer-bottom a {
-            color: #d1d1d1;
-            text-decoration: none;
-        }
-
-        footer .footer-bottom a:hover {
-            color: #007bff;
-        }
 
         /* Responsive design for the footer */
         @media (max-width: 768px) {
@@ -323,7 +298,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
 
             footer .footer-section {
-                margin-bottom: 1.5rem; /* Reduced margin */
+                margin-bottom: 1.5rem; 
                 text-align: center;
             }
 
@@ -457,10 +432,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
 
         <div class="footer-bottom">
-            <p>&copy; <?php echo date("Y"); ?> UOB Rooms Reservation | All rights reserved.</p>
+            <p style="color:white;">&copy; <?php echo date("Y"); ?> UOB Rooms Reservation | All rights reserved.</p>
             <p>
-                <a href="https://www.uob.edu.bh/privacy-policy">Privacy Policy</a> | 
-                <a href="https://www.uob.edu.bh/terms-and-conditions">Terms of Service</a> 
+                <a href="https://www.uob.edu.bh/privacy-policy" style="color : white;">Privacy Policy | </a>
+                <a href="https://www.uob.edu.bh/terms-and-conditions" style="color : white;">Terms of Service</a>
             </p>
         </div>
     </footer>

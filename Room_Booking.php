@@ -143,8 +143,11 @@ function generateTimeSlots($duration, $booked_slots) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Room: <?php echo htmlspecialchars($room['room_name']); ?></title>
     <style>
+        /* Importing Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             background-color: #f7f7f7;
             display: flex;
             justify-content: center;
@@ -292,6 +295,29 @@ function generateTimeSlots($duration, $booked_slots) {
                 input.value = ''; // Clear the input
             }
         }
+        // Handle theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        // Check for saved theme in localStorage
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-mode');
+            themeToggle.textContent = 'Light Mode';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+
+            // Update button text and save preference
+            if (body.classList.contains('dark-mode')) {
+                themeToggle.textContent = 'Light Mode';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeToggle.textContent = 'Dark Mode';
+                localStorage.setItem('theme', 'light');
+            }
+        });
     </script>
 </body>
 </html>

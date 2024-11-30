@@ -564,6 +564,22 @@ if (isset($_GET['department'])) {
     footer .footer-section ul li a:hover {
         text-decoration: underline;
     }
+    /* Responsive design for the footer */
+    @media (max-width: 768px) {
+            footer .footer-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            footer .footer-section {
+                margin-bottom: 1.5rem; 
+                text-align: center;
+            }
+
+            footer .footer-section ul li {
+                margin: 0.2rem 0;
+            }}
+
     @media (max-width: 768px) {
             .nav-links {
                 flex-direction: column;
@@ -571,6 +587,24 @@ if (isset($_GET['department'])) {
             }
 
             .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            header {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .logo img {
+                width: 60px;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .user-profile {
                 flex-direction: column;
                 align-items: center;
             }
@@ -775,10 +809,10 @@ if (isset($_GET['department'])) {
         </div>
 
         <div class="footer-bottom">
-            <p>&copy; <?php echo date("Y"); ?> UOB Rooms Reservation | All rights reserved.</p>
+            <p style="color:white;">&copy; <?php echo date("Y"); ?> UOB Rooms Reservation | All rights reserved.</p>
             <p>
-                <a href="https://www.uob.edu.bh/privacy-policy">Privacy Policy</a> |
-                <a href="https://www.uob.edu.bh/terms-and-conditions">Terms of Service</a>
+                <a href="https://www.uob.edu.bh/privacy-policy" style="color : white;">Privacy Policy | </a>
+                <a href="https://www.uob.edu.bh/terms-and-conditions" style="color : white;">Terms of Service</a>
             </p>
         </div>
     </footer>
