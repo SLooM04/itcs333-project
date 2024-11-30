@@ -222,7 +222,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         input[type="tel"],
         select,
         button {
-            width: 100%;
+            width: 99%;
             padding: 12px;
             border: 1px solid #ccc;
             border-radius: 6px;
@@ -265,6 +265,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
+
     <div class="container">
         <h1>Book Room: <?php echo htmlspecialchars($room['room_name']); ?></h1>
         <p class="capacity">Capacity: <?php echo htmlspecialchars($room['capacity']); ?> persons</p>
@@ -296,68 +297,71 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <div class="form-group">
-    <label for="duration">Booking Duration:</label>
-    <select id="duration" name="duration" required onchange="updateTimeSlots()">
-        <option value="1">60 minutes</option>
-        <option value="1.5">90 minutes</option>
-    </select>
-</div>
+                <label for="duration">Booking Duration:</label>
+                <select id="duration" name="duration" required onchange="updateTimeSlots()">
+                    <option value="1">60 minutes</option>
+                    <option value="1.5">90 minutes</option>
+                </select>
+            </div>
 
-<div class="form-group">
-    <label for="time_slot">Available Time Slots:</label>
-    <select id="time_slot" name="time_slot" required>
-        <option value="" disabled selected>Select a time slot</option>
-    </select>
-</div>
+            <div class="form-group">
+                <label for="time_slot">Available Time Slots:</label>
+                <select id="time_slot" name="time_slot" required>
+                    <option value="" disabled selected>Select a time slot</option>
+                </select>
+            </div>
 
-<script>
-    // Function to update time slots based on the selected duration
-    function updateTimeSlots() {
-        var duration = document.getElementById("duration").value;
-        var timeSlotSelect = document.getElementById("time_slot");
+            <script>
+                // Function to update time slots based on the selected duration
+                function updateTimeSlots() {
+                    var duration = document.getElementById("duration").value;
+                    var timeSlotSelect = document.getElementById("time_slot");
 
-        // Clear the existing options in the time slots dropdown
-        timeSlotSelect.innerHTML = '<option value="" disabled selected>Select a time slot</option>';
+                    // Clear the existing options in the time slots dropdown
+                    timeSlotSelect.innerHTML = '<option value="" disabled selected>Select a time slot</option>';
 
-        if (duration == "1") {
-            // If 60 minutes is selected, show hourly slots from 8 AM to 10 PM
-            for (var hour = 8; hour <= 22; hour++) {
-                var startHour = hour;
-                var endHour = hour + 1; // End time is the next hour
-                var startTime = (startHour < 12 ? (startHour < 10 ? "0" + startHour : startHour) + ":00 AM" : (startHour - 12) + ":00 PM");
-                var endTime = (endHour < 12 ? (endHour < 10 ? "0" + endHour : endHour) + ":00 AM" : (endHour - 12) + ":00 PM");
+                    if (duration == "1") {
+                        // If 60 minutes is selected, show hourly slots from 8 AM to 10 PM
+                        for (var hour = 8; hour <= 22; hour++) {
+                            var startHour = hour;
+                            var endHour = hour + 1; // End time is the next hour
+                            var startTime = (startHour < 12 ? (startHour < 10 ? "0" + startHour : startHour) + ":00 AM" : (startHour - 12) + ":00 PM");
+                            var endTime = (endHour < 12 ? (endHour < 10 ? "0" + endHour : endHour) + ":00 AM" : (endHour - 12) + ":00 PM");
 
-                var option = document.createElement("option");
-                option.value = startHour + ":00:00";
-                option.textContent = startTime + " - " + endTime;
-                timeSlotSelect.appendChild(option);
-            }
-        } else if (duration == "1.5") {
-            for (var hour = 8; hour < 22; hour++) {
-                var startHour = hour;
-                var endHour = hour + 1.5; // End time is 1.5 hours later
+                            var option = document.createElement("option");
+                            option.value = startHour + ":00:00";
+                            option.textContent = startTime + " - " + endTime;
+                            timeSlotSelect.appendChild(option);
+                        }
+                    } else if (duration == "1.5") {
+                        for (var hour = 8; hour < 22; hour++) {
+                            var startHour = hour;
+                            var endHour = hour + 1.5; // End time is 1.5 hours later
 
-                // Format start time (e.g., 8:00 AM, 9:30 AM)
-                var startTime = (startHour < 12 ? (startHour < 10 ? "0" + startHour : startHour) + ":00 AM" : (startHour - 12) + ":00 PM");
-                var endTime = ((endHour % 1 === 0.5) ? (Math.floor(endHour) + ":30") : (Math.floor(endHour)) + ":00");
-                endTime = (endHour < 12 ? endTime + " AM" : (Math.floor(endHour) - 12) + ":30 PM");
+                            // Format start time (e.g., 8:00 AM, 9:30 AM)
+                            var startTime = (startHour < 12 ? (startHour < 10 ? "0" + startHour : startHour) + ":00 AM" : (startHour - 12) + ":00 PM");
+                            var endTime = ((endHour % 1 === 0.5) ? (Math.floor(endHour) + ":30") : (Math.floor(endHour)) + ":00");
+                            endTime = (endHour < 12 ? endTime + " AM" : (Math.floor(endHour) - 12) + ":30 PM");
 
-                var option = document.createElement("option");
-                option.value = startHour + ":00:00";
-                option.textContent = startTime + " - " + endTime;
-                timeSlotSelect.appendChild(option);
-            }
-        }
-    }
+                            var option = document.createElement("option");
+                            option.value = startHour + ":00:00";
+                            option.textContent = startTime + " - " + endTime;
+                            timeSlotSelect.appendChild(option);
+                        }
+                    }
+                }
 
-    // Call the function once to populate the time slots when the page is loaded
-    window.onload = function() {
-        updateTimeSlots();
-    };
-</script>
-
+                // Call the function once to populate the time slots when the page is loaded
+                window.onload = function () {
+                    updateTimeSlots();
+                };
+            </script>
 
             <button type="submit">Confirm Booking</button>
+            <p style="text-align: center; margin-top: 10px;">
+                <a href="javascript:history.back()" style="color: #0066cc; text-decoration: underline; font-size: 14px;">Back
+                    to Previous Page</a>
+            </p>
         </form>
     </div>
 
