@@ -276,9 +276,6 @@ function generateTimeSlots($duration, $booked_slots) {
                 </select>
             </div>
 
-            <!-- Hidden input for room name -->
-            <input type="hidden" name="room_name" value="<?php echo htmlspecialchars($room['room_name']); ?>">
-
             <button type="submit">Confirm Booking</button>
         </form>
     </div>
