@@ -63,8 +63,7 @@ body, html {
   margin: 0%;
   padding: 0;
   font-family: 'Montserrat', sans-serif;
-  background: linear-gradient(90deg, #01438a , #396391 , #87acd4 , #bac8d6 , #87acd4 , #396391 , #01438a );
-  display:flex;
+  background-image: linear-gradient( #396391 , #87acd4 , #bac8d6 , #87acd4 , #396391  );  display:flex;
   justify-content: center;
   align-items: center;
   height: 90%;
