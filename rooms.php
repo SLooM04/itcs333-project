@@ -258,7 +258,17 @@ if (isset($_GET['department'])) {
 
 
         /* Container */
-        .container,
+        .container{
+            display: flex;
+         overflow-x: auto;
+         scroll-snap-type: x mandatory; /* Enable snapping to cards */
+          gap: 20px; /* Space between cards */
+          padding: 20px; /* Padding around the container */
+
+
+        }
+
+
         .rooms {
             display: flex;
             justify-content: center;
@@ -266,18 +276,21 @@ if (isset($_GET['department'])) {
             padding: 10px 10% 10px 10%;
         }
 
+       
+
         /* ------------------------------------------------*/
         /* Department Cards */
         .department {
-            width: 170px;
-            height: 350px;
-            background-color: #f5f0e1;
-            border: 3px solid #333;
-            position: relative;
+          flex: 0 0 auto; /* Prevent shrinking or growing, maintain width */
+          scroll-snap-align: center; /* Snap card to the center */
+          width: 170px;
+         height: 350px;
+           background-color: #f5f0e1;
+           border: 3px solid #333;
+           position: relative;
             overflow: hidden;
-            margin: 0 40px;
-            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
-            /* Add a subtle shadow */
+           margin: 0 auto; /* Center each card horizontally */
+           box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
         }
 
         .department .top-circle {
@@ -369,7 +382,7 @@ if (isset($_GET['department'])) {
             height: 100%;
             position: absolute;
             top: 0;
-            font-size: 13px;
+            font-size: 11px;
             font-weight: bold;
             box-shadow: 2px 0 4px rgba(0, 0, 0, 0.3);
             /* Add shadow to sides */
@@ -593,16 +606,13 @@ if (isset($_GET['department'])) {
             }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 800px) {
             .nav-links {
                 flex-direction: column;
                 width: 100%;
             }
 
-            .action-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
+            
 
             header {
                 flex-direction: row;
@@ -640,10 +650,10 @@ if (isset($_GET['department'])) {
             footer .footer-section {
                 align-items: center;
             }
+            
         }
 
-        @media (max-width: 480px) {
-            
+        @media (max-width: 800px) {
             header {
                 display: flex;
                 justify-content: space-evenly;
@@ -651,12 +661,18 @@ if (isset($_GET['department'])) {
                 flex-direction: row;
                 font-size: 0.8rem;
             }
+
+            .logo{
+                size: 0.8rem;
+            }
+       
            
 
         .nav-item {
             text-decoration: none;
             display: flex;
             justify-content: space-between;
+            gap: 40px;
             color: white;
             font-size: 0.8em;
             padding: 8px 15px;
@@ -670,12 +686,11 @@ if (isset($_GET['department'])) {
             border: none;
             border-radius: 8px;
             box-sizing: content-box;
-            gap: 20px;
             
         }
 
             .logo img {
-                width: 60px;
+                width: 40px;
             }
 
             .nav-links {
@@ -686,11 +701,6 @@ if (isset($_GET['department'])) {
             .user-profile {
                 flex-direction: column;
                 align-items: center;
-            }
-
-            .action-buttons .action-card {
-                font-size: 0.9rem;
-                padding: 10px;
             }
                 
         .room-gallery {
@@ -803,7 +813,7 @@ if (isset($_GET['department'])) {
                                 <?php if (!empty($room['image'])): ?>
                                     <img src="<?php echo htmlspecialchars($room['image']); ?>" alt="<?php echo htmlspecialchars($room['room_name']); ?>">
                                 <?php else: ?>
-                                    <img src="RoomPic/.jpg" alt="Default Room Image">
+                                    <img src="RoomPic/jpg" alt="Default Room Image">
                                 <?php endif; ?>
                                 <figcaption>
                                     <h2><?php echo htmlspecialchars($room['room_name']); ?></h2>

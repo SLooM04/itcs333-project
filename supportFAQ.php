@@ -349,21 +349,29 @@ require 'db.php';
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
    
 
-        // Event listener for theme toggle
-        themeToggle.addEventListener('click', function () {
+        // Handle theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        // Check for saved theme in localStorage
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-mode');
+            themeToggle.textContent = 'Light Mode';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+
+            // Update button text and save preference
             if (body.classList.contains('dark-mode')) {
-                body.classList.remove('dark-mode');
-                themeToggle.textContent = 'Dark Mode';
-                video.src = 'uploads/homelog.mp4'; // Light mode video
-                localStorage.setItem('theme', 'light');
-            } else {
-                body.classList.add('dark-mode');
                 themeToggle.textContent = 'Light Mode';
-                video.src = 'uploads/homelogDARK.mp4'; // Dark mode video
                 localStorage.setItem('theme', 'dark');
+            } else {
+                themeToggle.textContent = 'Dark Mode';
+                localStorage.setItem('theme', 'light');
             }
         });
-
        
    
 

@@ -128,6 +128,7 @@ $username = $_SESSION['username'] ?? 'User';
         body.dark-mode header {
             background: linear-gradient(1deg, #172047, #34417d);  
             color: #d1d1d1;
+            box-shadow: 0 4px 8px rgba(100, 100, 100, 0.5);
         }
 
         body.dark-mode nav a {
@@ -147,7 +148,7 @@ $username = $_SESSION['username'] ?? 'User';
         }
 
         body.dark-mode footer {
-            background: linear-gradient(1deg, #000724, #151a2d);  
+            background: linear-gradient(1deg, #000724, #111d4d);  
             color: #d1d1d1;
         }
 
@@ -486,13 +487,17 @@ $username = $_SESSION['username'] ?? 'User';
             
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 800px) {
             header {
                 display: flex;
                 justify-content: space-evenly;
                 height: auto;
                 flex-direction: row;
                 font-size: 0.8rem;
+            }
+
+            .logo{
+                size: 0.8rem;
             }
        
            
@@ -519,7 +524,7 @@ $username = $_SESSION['username'] ?? 'User';
         }
 
             .logo img {
-                width: 60px;
+                width: 40px;
             }
 
             .nav-links {
@@ -583,7 +588,7 @@ $username = $_SESSION['username'] ?? 'User';
     <section class="video-container">
     <!-- Background Video -->
     <video class="background-video" autoplay muted loop>
-        <source src="uploads/homelog.mp4" type="video/mp4">
+        <source src="uploads/homelog2.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 
@@ -677,7 +682,7 @@ $username = $_SESSION['username'] ?? 'User';
             video.src = 'uploads/homelogDARK.mp4'; // Dark mode video
         } else {
             themeToggle.textContent = 'Dark Mode';
-            video.src = 'uploads/homelog.mp4'; // Light mode video
+            video.src = 'uploads/homelogL.mp4'; // Light mode video
         }
 
         // Event listener for theme toggle
@@ -685,7 +690,7 @@ $username = $_SESSION['username'] ?? 'User';
             if (body.classList.contains('dark-mode')) {
                 body.classList.remove('dark-mode');
                 themeToggle.textContent = 'Dark Mode';
-                video.src = 'uploads/homelog.mp4'; // Light mode video
+                video.src = 'uploads/homelogL.mp4'; // Light mode video
                 localStorage.setItem('theme', 'light');
             } else {
                 body.classList.add('dark-mode');

@@ -40,56 +40,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $duration = isset($_POST['duration']) ? $_POST['duration'] : '';
     $time_slot = isset($_POST['time_slot']) ? $_POST['time_slot'] : '';
 
-    // Validate that all fields are filled
-    if ($contact_number && $booking_date && $duration && $time_slot) {
-        // Check if the selected date is in the past
-        $current_date = date('Y-m-d');
-        if ($booking_date < $current_date) {
-            $error_message = "The selected booking date cannot be in the past.";
+   // Validate that all fields are filled
+   if ($contact_number && $booking_date && $duration && $time_slot) {
+    // Get the current datetime
+    $current_datetime = new DateTime();
+    $start_datetime = new DateTime("$booking_date $time_slot"); 
+
+    // Check if the selected time is too close to the current time
+    $interval = $current_datetime->diff($start_datetime);
+
+    // Ensure the booking time is true ( not in the past )
+    if ($start_datetime < $current_datetime || $interval->h <= 0 && $interval->invert === 0) {
+        $error_message = "The selected time cannot be in the past.";
+    } else {
+        // Proceed with the booking logic (existing code)
+        if ($duration == '1.5') {
+            $end_time = date('Y-m-d H:i:s', strtotime($start_datetime->format('Y-m-d H:i:s') . ' +90 minutes'));
         } else {
-            // Set the start time based on the selected date and time slot
-            $start_time = $booking_date . ' ' . $time_slot;
+            $end_time = date('Y-m-d H:i:s', strtotime($start_datetime->format('Y-m-d H:i:s') . ' +60 minutes'));
+        }
 
-            // Check the duration (60 minutes or 90 minutes) and add the time accordingly
-            if ($duration == '1.5') {
-                // If the duration is 90 minutes, add 90 minutes to the start time
-                $end_time = date('Y-m-d H:i:s', strtotime($start_time . ' +90 minutes'));
-            } else {
-                // If the duration is 60 minutes, add 60 minutes to the start time
-                $end_time = date('Y-m-d H:i:s', strtotime($start_time . ' +60 minutes'));
-            }
-            // Check for conflicting bookings
+    
+        // Check for conflicting bookings
+        $stmt = $pdo->prepare("
+            SELECT * FROM bookings
+            WHERE room_id = :room_id
+            AND (
+                (:start_time < end_time AND :end_time > start_time)
+            )
+            AND status != 'Cancelled'
+        ");
+        $stmt->execute([
+            'room_id' => $room_id,
+            'start_time' => $start_datetime->format('Y-m-d H:i:s'),
+            'end_time' => $end_time
+        ]);
+        $existing_booking = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($existing_booking) {
+            $error_message = "The selected time slot is already booked for this room.";
+        } else {
+            // Proceed with the booking
             $stmt = $pdo->prepare("
-             SELECT * FROM bookings
-              WHERE room_id = :room_id
-              AND (
-              (:start_time < end_time AND :end_time > start_time)
-               )
-              AND status != 'Cancelled'
-              ");
-            $stmt->execute(['room_id' => $room_id, 'start_time' => $start_time, 'end_time' => $end_time]);
-            $existing_booking = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if ($existing_booking) {
-                $error_message = "The selected time slot is already booked for this room.";
-            } else {
-                // Proceed with the booking
-                $stmt = $pdo->prepare("
-                 INSERT INTO bookings (room_id, room_name, student_id, teacher_id, username, start_time, end_time, contact_number) 
-                 VALUES (:room_id, :room_name, :student_id, :teacher_id, :username, :start_time, :end_time, :contact_number)
-             ");
-                // Execute the insert statement
-                $stmt->execute([
-                    ':room_id' => $room_id,
-                    ':room_name' => $room_name,
-                    ':student_id' => ($user_role === 'student') ? $_SESSION['user_id'] : null,
-                    ':teacher_id' => ($user_role === 'teacher') ? $_SESSION['user_id'] : null,
-                    ':username' => $username,
-                    ':start_time' => $start_time,
-                    ':end_time' => $end_time,
-                    ':contact_number' => $contact_number,
-                ]);
-                $success_message = "Your booking has been successfully completed!";
+                INSERT INTO bookings (room_id, room_name, student_id, teacher_id, username, start_time, end_time, contact_number) 
+                VALUES (:room_id, :room_name, :student_id, :teacher_id, :username, :start_time, :end_time, :contact_number)
+            ");
+            $stmt->execute([
+                ':room_id' => $room_id,
+                ':room_name' => $room_name,
+                ':student_id' => ($user_role === 'student') ? $_SESSION['user_id'] : null,
+                ':teacher_id' => ($user_role === 'teacher') ? $_SESSION['user_id'] : null,
+                ':username' => $username,
+                ':start_time' => $start_datetime->format('Y-m-d H:i:s'),
+                ':end_time' => $end_time,
+                ':contact_number' => $contact_number,
+            ]);
+            $success_message = "Your booking has been successfully completed!";
             }
         }
     }
@@ -268,7 +274,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="container">
         <h1>Book Room: <?php echo htmlspecialchars($room['room_name']); ?></h1>
-        <p class="capacity">Capacity: <?php echo htmlspecialchars($room['capacity']); ?> persons</p>
+        <p style="text-align: center; margin-top: 10px;">
+    <a href="room_details.php?id=<?php echo $room_id; ?>" style="color: #0066cc; text-decoration: underline; font-size: 18px;">Room Details</a>
+</p>
 
         <?php if ($success_message): ?>
             <p class="success-message"><?php echo htmlspecialchars($success_message); ?></p>
@@ -399,6 +407,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         });
     </script>
+    <script>
+    function openRoomDetails() {
+        const roomId = "<?php echo $room_id; ?>"; // Pass the room ID dynamically 1
+        const roomDetailsUrl = `room_details.php?id=${roomId}`;
+        window.open(roomDetailsUrl, '_blank'); // Open in a new tab
+    }
+</script>
 </body>
 
 </html>
