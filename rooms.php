@@ -163,6 +163,7 @@ if (isset($_GET['department'])) {
             padding: 10px 30px;
             background-color: #1a73e8;
             color: white;
+            height: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             position: relative;
             z-index: 1000;
@@ -626,6 +627,7 @@ if (isset($_GET['department'])) {
             header {
                 display: flex;
                 justify-content: space-evenly;
+                height: auto;
                 flex-direction: row;
                 font-size: 0.8rem;
             }
@@ -683,7 +685,7 @@ if (isset($_GET['department'])) {
         <nav class="nav-links">
             <a href="homelog.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'homelog.php' ? 'active' : ''; ?>">Home</a>
             <a href="rooms.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'rooms.php' ? 'active' : ''; ?>">Rooms</a>
-            <a href="reservations.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'reservations.php' ? 'active' : ''; ?>">My Reservations</a>
+            <a href="reporting.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'reservations.php' ? 'active' : ''; ?>">My Reservations</a>
             <a href="supportFAQ.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'support.php' ? 'active' : ''; ?>">Support</a>
         </nav>
 
