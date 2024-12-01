@@ -63,7 +63,7 @@ if (isset($_GET['department'])) {
             color: white;
         }
 
-        body.dark-mode .dropdown-content a:hover{
+        body.dark-mode .dropdown-content a:hover {
             background-color: #2e4156;
         }
 
@@ -100,63 +100,66 @@ if (isset($_GET['department'])) {
             background-color: #1a2d42;
             color: #d1d1d1;
         }
-  
-
-/* Logo Styles */
-.logo {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        text-decoration: none;
-        color: white;
-        border-radius: 12px;
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .logo img {
-        width: 100px;
-        border-radius: 10%;
-        border: 3px solid #f0f0f0;
-        transition: transform 0.3s;
-    }
-    .action-buttons a {
-        
-       
-        text-decoration: none;
-        color: #ffffff;
-        font-weight: 500;
-        font-size: 1.2em;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 2px solid #000;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        transition: transform 0.3s, box-shadow 0.3s;
-        background-color: #1a73e8;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-    }
-  /* Action Buttons */
-  .action-buttons {
-        display: flex;
-        justify-content: space-evenly;
-        gap: 20px;
-        padding: 20px;
-        flex-wrap: wrap;
-        margin: 40px 10px;
-    }
-    
 
 
-    .action-buttons a:hover {
-        transform: scale(1.05);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-        border: 3px solid #003366;
-        animation: glowing 1.5s ease-in-out infinite;
-    }
-  /* Header Styles */
-  header {
+        /* Logo Styles */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: white;
+            border-radius: 12px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .logo img {
+            width: 100px;
+            border-radius: 10%;
+            border: 3px solid #f0f0f0;
+            transition: transform 0.3s;
+        }
+
+        .action-buttons a {
+
+
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            background-color: #1a73e8;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: space-evenly;
+            gap: 20px;
+            padding: 20px;
+            flex-wrap: wrap;
+            margin: 40px 10px;
+        }
+
+
+
+        .action-buttons a:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border: 3px solid #003366;
+            animation: glowing 1.5s ease-in-out infinite;
+        }
+
+        /* Header Styles */
+        header {
             display: flex;
             align-items: center;
             justify-content: space-around;
@@ -198,58 +201,58 @@ if (isset($_GET['department'])) {
         }
 
         /* User Profile Section */
-    .user-profile {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        color: white;
-    }
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: white;
+        }
 
-    .user-profile img {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        border: 2px solid #fff;
-    }
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+        }
 
-    .user-profile span {
-        font-size: 1em;
-        white-space: nowrap;
-    }
+        .user-profile span {
+            font-size: 1em;
+            white-space: nowrap;
+        }
 
-    /* Dropdown Menu */
-    .dropdown {
-        position: relative;
-    }
+        /* Dropdown Menu */
+        .dropdown {
+            position: relative;
+        }
 
-    .dropdown-content {
-        display: none;
-        position: absolute;
-        top: 100%;
-        right: 0;
-        background-color: #ffffff;
-        color: #222;
-        min-width: 150px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        border-radius: 5px;
-        z-index: 2000;
-    }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: #ffffff;
+            color: #222;
+            min-width: 150px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            z-index: 2000;
+        }
 
-    .dropdown-content a {
-        display: block;
-        padding: 10px 15px;
-        text-decoration: none;
-        color: #222;
-        transition: background-color 0.3s;
-    }
+        .dropdown-content a {
+            display: block;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: #222;
+            transition: background-color 0.3s;
+        }
 
-    .dropdown-content a:hover {
-        background-color: #f1f1f1;
-    }
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
 
-    .dropdown:hover .dropdown-content {
-        display: block;
-    }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
 
 
 
@@ -259,6 +262,7 @@ if (isset($_GET['department'])) {
             display: flex;
             justify-content: center;
             margin-top: 50px;
+            padding: 10px 10% 10px 10%;
         }
 
         /* ------------------------------------------------*/
@@ -443,14 +447,13 @@ if (isset($_GET['department'])) {
         /* Room Gallery */
         .room-gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            /* Dynamic columns */
-            gap: 40px;
+            grid-template-columns: repeat(4, 1fr);
+            /* Create 3 equal columns */
+            gap: 20px;
             /* Space between items */
-            margin: 20px 20px;
-            /* Add gap on the top/bottom and left/right sides */
-            width: 100%;
-            /* Ensure it takes the full width of its parent */
+            margin: 20px;
+            /* Space around the gallery */
+
         }
 
 
@@ -462,7 +465,11 @@ if (isset($_GET['department'])) {
             background-color: #fff;
             overflow: hidden;
             transition: box-shadow 0.3s;
-            margin: 2%;
+            margin: 0;
+            max-width: 200px;
+            /* Set a fixed width for smaller boxes */
+            padding: 10px;
+            /* Add some padding */
 
         }
 
@@ -481,102 +488,111 @@ if (isset($_GET['department'])) {
 
         .room img {
             width: 100%;
-            height: auto;
+            /* Makes the image fill the box */
+            height: 150px;
+            /* Set a fixed height */
+            object-fit: cover;
+            /* Ensure the image fits well */
         }
 
         .room figcaption {
-            padding: 15px;
+            padding: 10px;
             text-align: left;
         }
 
         .room h2 {
-            font-size: 1.5em;
-            margin-bottom: 10px;
+            font-size: 1.2em;
+            margin-bottom: 8px;
             color: #000;
         }
 
         .room p {
             margin: 5px 0;
             color: #000;
+            font-size: 0.9em;
         }
 
 
-    @keyframes glowing {
-        0% {
-            border-color: #222;
-            box-shadow: 0 0 5px #003366, 0 0 10px #003366, 0 0 15px #003366;
+        @keyframes glowing {
+            0% {
+                border-color: #222;
+                box-shadow: 0 0 5px #003366, 0 0 10px #003366, 0 0 15px #003366;
+            }
+
+            50% {
+                border-color: #222;
+                box-shadow: 0 0 10px #222, 0 0 20px #222, 0 0 30px #222;
+            }
+
+            100% {
+                border-color: darkslategray;
+                box-shadow: 0 0 5px #003366, 0 0 10px #003366, 0 0 15px #003366;
+            }
         }
-        50% {
-            border-color: #222;
-            box-shadow: 0 0 10px #222, 0 0 20px #222, 0 0 30px #222;
+
+
+
+        /* Footer styles */
+        footer {
+            color: white;
+            background-color: #1a73e8;
+            text-align: center;
+            padding: 1rem 1rem;
+            margin-top: 9rem;
+            font-size: 0.9rem;
         }
-        100% {
-            border-color: darkslategray;
-            box-shadow: 0 0 5px #003366, 0 0 10px #003366, 0 0 15px #003366;
+
+        footer .footer-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-    }
-   
 
+        footer .footer-section {
+            flex: 1 1 200px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            text-align: left;
+        }
 
-    /* Footer styles */
-    footer {
-        color: white;
-        background-color: #1a73e8;
-        text-align: center;
-        padding: 1rem 1rem;
-        margin-top: 9rem;
-        font-size: 0.9rem;
-    }
+        footer .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+            font-weight: 600;
+        }
 
-    footer .footer-container {
-        display: flex;
-        justify-content: space-around;
-        align-items: flex-start;
-        flex-wrap: wrap;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
+        footer .footer-section ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+        }
 
-    footer .footer-section {
-        flex: 1 1 200px;
-        padding: 1rem;
-        margin-bottom: 1rem;
-        text-align: left;
-    }
+        footer .footer-section ul li a:hover {
+            text-decoration: underline;
+        }
 
-    footer .footer-section h3 {
-        font-size: 1.2rem;
-        margin-bottom: 1rem;
-        color: #ffffff;
-        font-weight: 600;
-    }
-
-    footer .footer-section ul li a {
-        color: white;
-        text-decoration: none;
-        font-size: 1rem;
-    }
-
-    footer .footer-section ul li a:hover {
-        text-decoration: underline;
-    }
-    /* Responsive design for the footer */
-    @media (max-width: 768px) {
+        /* Responsive design for the footer */
+        @media (max-width: 768px) {
             footer .footer-container {
                 flex-direction: column;
                 align-items: center;
             }
 
             footer .footer-section {
-                margin-bottom: 1.5rem; 
+                margin-bottom: 1.5rem;
                 text-align: center;
             }
 
             footer .footer-section ul li {
                 margin: 0.2rem 0;
-            }}
+            }
+        }
 
-    @media (max-width: 768px) {
+        @media (max-width: 768px) {
             .nav-links {
                 flex-direction: column;
                 width: 100%;
@@ -586,6 +602,7 @@ if (isset($_GET['department'])) {
                 flex-direction: column;
                 align-items: center;
             }
+
             header {
                 flex-direction: column;
                 align-items: center;
@@ -604,19 +621,22 @@ if (isset($_GET['department'])) {
                 flex-direction: column;
                 align-items: center;
             }
+
             .action-buttons .action-card {
-        font-size: 1rem; /* Consistent text size */
-        padding: 12px; /* Adjusted padding */
-        
-    }
+                font-size: 1rem;
+                /* Consistent text size */
+                padding: 12px;
+                /* Adjusted padding */
+
+            }
 
             .action-buttons a {
                 padding: 80px;
             }
 
-           
 
-            footer .footer-section{
+
+            footer .footer-section {
                 align-items: center;
             }
         }
@@ -640,16 +660,29 @@ if (isset($_GET['department'])) {
                 flex-direction: column;
                 align-items: center;
             }
+
             .action-buttons .action-card {
                 font-size: 0.9rem;
-                padding: 10px; 
+                padding: 10px;
             }
+                
+        .room-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            /* Dynamic columns */
+            gap: 40px;
+            /* Space between items */
+            margin: 20px 20px;
+            /* Add gap on the top/bottom and left/right sides */
+            width: 100%;
+            /* Ensure it takes the full width of its parent */
+        }
         }
     </style>
 </head>
 
 <body>
-<header>
+    <header>
         <!-- Logo Section -->
         <a href="homelog.php" class="logo">
             <img src="uploads/UOB-Colleges-new-logo.png" alt="Logo">
@@ -746,10 +779,15 @@ if (isset($_GET['department'])) {
                                 <?php endif; ?>
                                 <figcaption>
                                     <h2><?php echo htmlspecialchars($room['room_name']); ?></h2>
-                                    <p><strong>Capacity:</strong> <?php echo htmlspecialchars($room['capacity']); ?></p>
-                                    <p><strong>Available Timeslot:</strong> <?php echo htmlspecialchars($room['available_timeslot']); ?></p>
-                                    <p><strong>Equipment:</strong> <?php echo htmlspecialchars($room['equipment']); ?></p>
-                                    <p><strong>Department:</strong> <?php echo htmlspecialchars($room['department']); ?></p>
+                                    <p>
+                                        <strong><img src="Seats.png" alt="Capacity Icon" style="width: 28px; height: 28px; vertical-align: middle;"> Capacity:</strong>
+                                        <?php echo htmlspecialchars($room['capacity']); ?>
+                                    </p>
+                                    <p>
+                                        <strong><img src="de.png" alt="Department Icon" style="width: 28px; height: 28px; vertical-align: middle;"> Department:</strong>
+                                        <?php echo htmlspecialchars($room['department']); ?>
+                                    </p>
+
                                 </figcaption>
                             </figure>
                         </a>
