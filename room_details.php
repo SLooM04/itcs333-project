@@ -122,6 +122,7 @@ if (isset($_GET['id'])) {
             padding: 10px 30px;
             background-color: #1a73e8;
             color: white;
+            height: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             position: relative;
             z-index: 1000;
@@ -130,7 +131,7 @@ if (isset($_GET['id'])) {
         /* Navigation Links */
         .nav-links {
             display: flex;
-            gap: 20px;
+            gap: 40px;
             align-items: center;
         }
 
@@ -209,7 +210,6 @@ if (isset($_GET['id'])) {
     .dropdown:hover .dropdown-content {
         display: block;
     }
-
         /* Room details layout */
         .room-container {
             border: 2px solid #ccc;
@@ -408,6 +408,52 @@ if (isset($_GET['id'])) {
             .reserve-button {
                 width: 100%;
                 /* Full-width button for mobile */
+            }
+        }
+        @media (max-width: 480px) {
+            header {
+                display: flex;
+                justify-content: space-evenly;
+                height: auto;
+                flex-direction: row;
+                font-size: 0.8rem;
+            }
+       
+           
+
+        .nav-item {
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+            color: white;
+            font-size: 0.8em;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s, border 0.3s;
+            position: relative;
+        }
+            
+            .nav-item:hover,
+        .nav-item.active {
+            border: none;
+            border-radius: 8px;
+            box-sizing: content-box;
+            
+        }
+
+            .logo img {
+                width: 60px;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .user-profile {
+                flex-direction: column;
+                align-items: center;
             }
         }
     </style>
