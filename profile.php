@@ -185,13 +185,13 @@ h2 {
 
 @media (max-width: 768px) {
   .body, html{
-    margin-top: 30%;
+    margin-top: 45%;
     height: 46%;
   }
   
   .profile-container {
-    padding: 8%;
-    height: 205%;
+    padding: 2%;
+    height: 197%;
   }
 
   .profile-header h1 {

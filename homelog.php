@@ -678,7 +678,7 @@ $username = $_SESSION['username'] ?? 'User';
         if (localStorage.getItem('theme') === 'dark') {
             body.classList.add('dark-mode');
             themeToggle.textContent = 'Light Mode';
-            video.src = 'uploads/homelogDARKKK.mp4'; // Dark mode video
+            video.src = 'uploads/homelogDARK.mp4'; // Dark mode video
         } else {
             themeToggle.textContent = 'Dark Mode';
             video.src = 'uploads/homelogL.mp4'; // Light mode video
@@ -694,7 +694,7 @@ $username = $_SESSION['username'] ?? 'User';
             } else {
                 body.classList.add('dark-mode');
                 themeToggle.textContent = 'Light Mode';
-                video.src = 'uploads/homelogDARKKK.mp4'; // Dark mode video
+                video.src = 'uploads/homelogDARK.mp4'; // Dark mode video
                 localStorage.setItem('theme', 'dark');
             }
         });

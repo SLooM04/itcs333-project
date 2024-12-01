@@ -207,6 +207,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         /* Responsive Styles */
         @media (max-width: 768px) {
+            
             .submit-btn {
                 padding: 12px 100px;
             }
@@ -234,7 +235,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         @media (max-width: 480px) {
             body, html {
-                padding: 10px;
+                padding: 0px;
             }
             .edit-profile-container {
                 padding: 20px;
@@ -258,6 +259,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             padding: 5px;
             cursor: pointer;
             }
+            .form-group input {
+                padding: 5px;
+            }
+            
+            .delete-icon {
+            position: absolute;
+            top: 7px;
+            right: 110px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            border: solid red;
+            padding: 5px;
+            cursor: pointer;
+            
+            }  
+            .delete-icon img {
+             width: 16px; /* Smaller image */
+              height: 16px; /* Smaller image */
+               }
         }
     </style>
 </head>
