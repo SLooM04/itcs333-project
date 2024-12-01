@@ -803,7 +803,7 @@ if (isset($_GET['department'])) {
                                 <?php if (!empty($room['image'])): ?>
                                     <img src="<?php echo htmlspecialchars($room['image']); ?>" alt="<?php echo htmlspecialchars($room['room_name']); ?>">
                                 <?php else: ?>
-                                    <img src=".jpg" alt="Default Room Image">
+                                    <img src="RoomPic/.jpg" alt="Default Room Image">
                                 <?php endif; ?>
                                 <figcaption>
                                     <h2><?php echo htmlspecialchars($room['room_name']); ?></h2>
@@ -813,7 +813,7 @@ if (isset($_GET['department'])) {
                                     </p>
                                     <p>
                                         <strong><img src="de.png" alt="Department Icon" style="width: 28px; height: 28px; vertical-align: middle;"> Department:</strong>
-                                        <?php echo htmlspecialchars($room['department']); ?>
+                                       <p style="display: flex; justify-content: center; align-items: center;"> <?php echo htmlspecialchars($room['department']); ?></p>
                                     </p>
 
                                 </figcaption>
