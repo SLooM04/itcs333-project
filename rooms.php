@@ -258,7 +258,17 @@ if (isset($_GET['department'])) {
 
 
         /* Container */
-        .container,
+        .container{
+            display: flex;
+         overflow-x: auto;
+         scroll-snap-type: x mandatory; /* Enable snapping to cards */
+          gap: 20px; /* Space between cards */
+          padding: 20px; /* Padding around the container */
+
+
+        }
+
+
         .rooms {
             display: flex;
             justify-content: center;
@@ -271,15 +281,16 @@ if (isset($_GET['department'])) {
         /* ------------------------------------------------*/
         /* Department Cards */
         .department {
-            width: 170px;
-            height: 350px;
-            background-color: #f5f0e1;
-            border: 3px solid #333;
-            position: relative;
+          flex: 0 0 auto; /* Prevent shrinking or growing, maintain width */
+          scroll-snap-align: center; /* Snap card to the center */
+          width: 170px;
+         height: 350px;
+           background-color: #f5f0e1;
+           border: 3px solid #333;
+           position: relative;
             overflow: hidden;
-            margin: 0 40px;
-            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
-            /* Add a subtle shadow */
+           margin: 0 auto; /* Center each card horizontally */
+           box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
         }
 
         .department .top-circle {
@@ -639,6 +650,7 @@ if (isset($_GET['department'])) {
             footer .footer-section {
                 align-items: center;
             }
+            
         }
 
         @media (max-width: 800px) {
@@ -801,7 +813,7 @@ if (isset($_GET['department'])) {
                                 <?php if (!empty($room['image'])): ?>
                                     <img src="<?php echo htmlspecialchars($room['image']); ?>" alt="<?php echo htmlspecialchars($room['room_name']); ?>">
                                 <?php else: ?>
-                                    <img src="RoomPic/.jpg" alt="Default Room Image">
+                                    <img src="RoomPic/jpg" alt="Default Room Image">
                                 <?php endif; ?>
                                 <figcaption>
                                     <h2><?php echo htmlspecialchars($room['room_name']); ?></h2>
