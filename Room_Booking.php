@@ -403,7 +403,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </script>
     <script>
     function openRoomDetails() {
-        const roomId = "<?php echo $room_id; ?>"; // Pass the room ID dynamically
+        const roomId = "<?php echo $room_id; ?>"; // Pass the room ID dynamically 1
         const roomDetailsUrl = `room_details.php?id=${roomId}`;
         window.open(roomDetailsUrl, '_blank'); // Open in a new tab
     }
