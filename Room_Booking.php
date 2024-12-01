@@ -268,7 +268,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="container">
         <h1>Book Room: <?php echo htmlspecialchars($room['room_name']); ?></h1>
-        <p class="capacity">Capacity: <?php echo htmlspecialchars($room['capacity']); ?> persons</p>
+        <p style="text-align: center; margin-top: 10px;">
+    <a href="room_details.php?id=<?php echo $room_id; ?>" style="color: #0066cc; text-decoration: underline; font-size: 18px;">Room Details</a>
+</p>
 
         <?php if ($success_message): ?>
             <p class="success-message"><?php echo htmlspecialchars($success_message); ?></p>
@@ -399,6 +401,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         });
     </script>
+    <script>
+    function openRoomDetails() {
+        const roomId = "<?php echo $room_id; ?>"; // Pass the room ID dynamically
+        const roomDetailsUrl = `room_details.php?id=${roomId}`;
+        window.open(roomDetailsUrl, '_blank'); // Open in a new tab
+    }
+</script>
 </body>
 
 </html>
