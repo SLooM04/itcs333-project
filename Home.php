@@ -26,7 +26,9 @@ if (isset($_POST['reserve_now'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rooms List</title>
-    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.5.7/css/pico.min.css">
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
         /* Importing Google Fonts */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
@@ -257,6 +259,9 @@ if (isset($_POST['reserve_now'])) {
             text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
             /* Add a shadow to improve readability */
         }
+        .col-lg-4 h2{
+            color: #1a73e8;
+        }
 
         /* Responsive design for the footer */
         @media (max-width: 768px) {
@@ -358,6 +363,65 @@ if (isset($_POST['reserve_now'])) {
                 <h1>Reserve your classroom now and take full advantage of the college facilities.</h1>
             </div>
         </section>
+        <div class="container marketing">
+    <hr class="featurette-divider">
+    <div class="row">
+        <div class="col-lg-4">
+            <img class="rounded-circle" src="h1.png" alt="Classroom Image" width="140" height="140">
+            <h2>Book a Classroom</h2>
+            <p>Experience seamless learning in our modern classrooms equipped with the latest technology, perfect for lectures, workshops, and group study sessions.</p>
+            <a class="btn btn-secondary" href="rooms.php" role="button">Book Now »</a>
+        </div>
+
+        <div class="col-lg-4">
+            <img class="rounded-circle" src="h2.png" alt="Classroom Image" width="140" height="140">
+            <h2>Flexible Room Setup</h2>
+            <p>Our classrooms are designed to meet your needs, whether you're hosting a small seminar or a large conference. Choose from a variety of room setups to match your event.</p>
+            <a class="btn btn-secondary" href="rooms.php" role="button">Explore Options »</a>
+        </div>
+
+        <div class="col-lg-4">
+            <img class="rounded-circle" src="h3 - Copy.png" alt="Classroom Image" width="140" height="140">
+            <h2>Advanced Labs</h2>
+            <p>Each room is equipped with the latest technology, including projectors, interactive whiteboards, and high-speed internet, to support dynamic teaching methods and student engagement.</p>
+            <a class="btn btn-secondary" href="rooms.php" role="button">View Details »</a>
+        </div>
+    </div>
+
+    <hr class="featurette-divider">
+    <div class="row featurette">
+        <div class="col-md-7">
+            <h2 class="featurette-heading">Why Choose Our Classrooms? <span style="color: #1a73e8;" >Everything you need for a productive session.</span></h2>
+            <p class="lead">Our classrooms are designed to create an optimal environment for learning and collaboration. With comfortable seating, modern amenities, and a range of available resources, you'll have everything you need to make the most out of your time.</p>
+        </div>
+        <div class="col-md-5">
+            <img class="featurette-image img-fluid mx-auto" alt="Classroom Setup" style="width: 400px; height: 100%;"  src="n0.jpg" data-holder-rendered="true">
+        </div>
+    </div>
+
+    <hr class="featurette-divider">
+    <div class="row featurette">
+        <div class="col-md-7 order-md-2">
+            <h2 class="featurette-heading">Oh yes, it's that good. <span style="color: #1a73e8;" >See for yourself.</span></h2>
+            <p class="lead">We offer a learning environment equipped with everything you need to succeed. Our classrooms are flexible, allowing you to customize every detail to meet your needs.</p>
+        </div>
+        <hr class="featurette-divider">
+        <div class="col-md-5 order-md-1">
+            <img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="500x500" style="width: 400px; height: 100%;" src="008.jpg" data-holder-rendered="true">
+        </div>
+    </div>
+
+    <hr class="featurette-divider">
+    <div class="row featurette">
+        <div class="col-md-7">
+            <h2 class="featurette-heading">And lastly, this one. <span style="color: #1a73e8;" >Checkmate.</span></h2>
+            <p class="lead">Our classrooms provide the perfect environment for your next lecture, seminar, or workshop. Equipped with advanced facilities, they support both traditional and modern teaching techniques.</p>
+        </div>
+        <div class="col-md-5">
+            <img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="500x500" style="width: 400px; height: 100%" src="h.jpg" data-holder-rendered="true">
+        </div>
+    </div>
+</div>
 
 
 
