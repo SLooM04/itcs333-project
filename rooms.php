@@ -382,7 +382,7 @@ if (isset($_GET['department'])) {
             height: 100%;
             position: absolute;
             top: 0;
-            font-size: 13px;
+            font-size: 11px;
             font-weight: bold;
             box-shadow: 2px 0 4px rgba(0, 0, 0, 0.3);
             /* Add shadow to sides */
