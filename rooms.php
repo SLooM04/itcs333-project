@@ -266,6 +266,8 @@ if (isset($_GET['department'])) {
             padding: 10px 10% 10px 10%;
         }
 
+       
+
         /* ------------------------------------------------*/
         /* Department Cards */
         .department {
@@ -593,16 +595,13 @@ if (isset($_GET['department'])) {
             }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 800px) {
             .nav-links {
                 flex-direction: column;
                 width: 100%;
             }
 
-            .action-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
+            
 
             header {
                 flex-direction: row;
@@ -642,8 +641,7 @@ if (isset($_GET['department'])) {
             }
         }
 
-        @media (max-width: 480px) {
-            
+        @media (max-width: 800px) {
             header {
                 display: flex;
                 justify-content: space-evenly;
@@ -651,12 +649,18 @@ if (isset($_GET['department'])) {
                 flex-direction: row;
                 font-size: 0.8rem;
             }
+
+            .logo{
+                size: 0.8rem;
+            }
+       
            
 
         .nav-item {
             text-decoration: none;
             display: flex;
             justify-content: space-between;
+            gap: 40px;
             color: white;
             font-size: 0.8em;
             padding: 8px 15px;
@@ -670,12 +674,11 @@ if (isset($_GET['department'])) {
             border: none;
             border-radius: 8px;
             box-sizing: content-box;
-            gap: 20px;
             
         }
 
             .logo img {
-                width: 60px;
+                width: 40px;
             }
 
             .nav-links {
@@ -686,11 +689,6 @@ if (isset($_GET['department'])) {
             .user-profile {
                 flex-direction: column;
                 align-items: center;
-            }
-
-            .action-buttons .action-card {
-                font-size: 0.9rem;
-                padding: 10px;
             }
                 
         .room-gallery {
