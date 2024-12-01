@@ -486,13 +486,17 @@ $username = $_SESSION['username'] ?? 'User';
             
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 800px) {
             header {
                 display: flex;
                 justify-content: space-evenly;
                 height: auto;
                 flex-direction: row;
                 font-size: 0.8rem;
+            }
+
+            .logo{
+                size: 0.8rem;
             }
        
            
@@ -519,7 +523,7 @@ $username = $_SESSION['username'] ?? 'User';
         }
 
             .logo img {
-                width: 60px;
+                width: 40px;
             }
 
             .nav-links {
@@ -583,7 +587,7 @@ $username = $_SESSION['username'] ?? 'User';
     <section class="video-container">
     <!-- Background Video -->
     <video class="background-video" autoplay muted loop>
-        <source src="uploads/homelog.mp4" type="video/mp4">
+        <source src="uploads/homelog2.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 
