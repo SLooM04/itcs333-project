@@ -128,6 +128,7 @@ $username = $_SESSION['username'] ?? 'User';
         body.dark-mode header {
             background: linear-gradient(1deg, #172047, #34417d);  
             color: #d1d1d1;
+            box-shadow: 0 4px 8px rgba(100, 100, 100, 0.5);
         }
 
         body.dark-mode nav a {
