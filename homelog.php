@@ -40,6 +40,45 @@ $username = $_SESSION['username'] ?? 'User';
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 
         /* General styles */
+        main {
+            display: grid;
+            min-height: 100vh;
+            padding: 0 !important;
+            /* Explicitly remove padding */
+            margin: 0 !important;
+            /* Ensure no margin is applied */
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Container for video and overlay text */
+        .video-container {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+        }
+        .background-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0; /* Ensures the video stays behind */
+      }
+
+        /* Background video styling */
+        .video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            /* Ensure the video stays at the background */
+        }
         body {
             font-family: 'Poppins', sans-serif;
             background: #fff;
@@ -47,11 +86,14 @@ $username = $_SESSION['username'] ?? 'User';
             padding: 0;
             overflow-x: hidden;
             color: #333;
+            z-index: 1;
         }
 
         body.dark-mode {
             background-color: #2e4156;
             color: white;
+            z-index: 1000000000;
+
         }
 
         body.dark-mode h1,
@@ -79,12 +121,12 @@ $username = $_SESSION['username'] ?? 'User';
         }
 
         body.dark-mode  .action-buttons a{
-            background-color: #2e344e;
+            background-color: #0b2445;
         }
         
 
         body.dark-mode header {
-            background-color: #1a2d42;
+            background: linear-gradient(1deg, #172047, #34417d);  
             color: #d1d1d1;
         }
 
@@ -105,7 +147,7 @@ $username = $_SESSION['username'] ?? 'User';
         }
 
         body.dark-mode footer {
-            background-color: #1a2d42;
+            background: linear-gradient(1deg, #000724, #151a2d);  
             color: #d1d1d1;
         }
 
@@ -115,22 +157,27 @@ $username = $_SESSION['username'] ?? 'User';
             align-items: center;
             justify-content: space-around;
             padding: 10px 30px;
-            background-color: #1a73e8;
+            background: linear-gradient(1deg, #1a73e8, #004db3 );  
             color: white;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             position: relative;
+            height: 20px;
             z-index: 1000;
+        
         }
 
         /* Navigation Links */
         .nav-links {
             display: flex;
-            gap: 20px;
+            justify-content: space-between;
+            gap: 40px;
             align-items: center;
         }
 
         .nav-item {
             text-decoration: none;
+            display: flex;
+            justify-content: space-between;
             color: white;
             font-size: 1em;
             padding: 8px 15px;
@@ -164,9 +211,9 @@ $username = $_SESSION['username'] ?? 'User';
 
         .logo img {
             width: 100px;
-            border-radius: 10%;
-            border: 3px solid #f0f0f0;
-            transition: transform 0.3s;
+            border-radius: 20%;
+            border: 2px solid #0051b5;
+            transition: transform 0.8s;
         }
 
 
@@ -233,6 +280,7 @@ $username = $_SESSION['username'] ?? 'User';
             min-height: 100vh;
             padding: 80px 20px 20px 20px;
             position: relative;
+            z-index: 1;
         }
 
         /* Welcome section */
@@ -241,17 +289,20 @@ $username = $_SESSION['username'] ?? 'User';
             margin: 20px 0;
             color: #003366;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            z-index: 1;
         }
 
         .welcome-section h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
             color: #111;
+            z-index: 1;
         }
 
         .welcome-section p {
             font-size: 1.2em;
             color: #111;
+            z-index: 1;
         }
 
         /* Action Buttons */
@@ -262,6 +313,7 @@ $username = $_SESSION['username'] ?? 'User';
             padding: 20px;
             flex-wrap: wrap;
             margin: 40px 10px;
+            z-index: 1;
         }
 
         .action-buttons a {
@@ -278,10 +330,11 @@ $username = $_SESSION['username'] ?? 'User';
             border: 2px solid #000;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s, box-shadow 0.3s;
-            background-color: #1a73e8;
+            background-color: #045ed3;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+            z-index: 1;
         }
 
         .action-buttons a:hover {
@@ -312,15 +365,17 @@ $username = $_SESSION['username'] ?? 'User';
         .recommendations {
             text-align: center;
             margin: 20px 20px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            z-index: 1;
         }
 
         .recommendation-card {
-            background: #1a73e8;
-            border-radius: 10px;
+            background: #abcfff;
+            border-radius: 170px;
             padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
             text-align: center;
+            z-index: 1;
         }
 
         .recommendation-card h3,
@@ -328,10 +383,12 @@ $username = $_SESSION['username'] ?? 'User';
         .recommendation-card p,
         .recommendation-card a {
             color: #ffffff;
+            z-index: 1;
         }
 
         .recommendations h2{
             color: black;
+            z-index: 1;
         }
 
         .recommendations a:hover {
@@ -343,11 +400,12 @@ $username = $_SESSION['username'] ?? 'User';
         /* Footer styles */
         footer {
             color: white;
-            background-color: #1a73e8;
+            background: linear-gradient(1deg, #024ba9, #96c3ff);  
             text-align: center;
             padding: 1rem 1rem;
-            margin-top: 9rem;
+            margin-top: 0rem;
             font-size: 0.9rem;
+            z-index: 1;
         }
 
         footer .footer-container {
@@ -357,6 +415,7 @@ $username = $_SESSION['username'] ?? 'User';
             flex-wrap: wrap;
             max-width: 1200px;
             margin: 0 auto;
+            z-index: 1;
         }
 
         footer .footer-section {
@@ -364,6 +423,7 @@ $username = $_SESSION['username'] ?? 'User';
             padding: 1rem;
             margin-bottom: 1rem;
             text-align: left;
+            z-index: 1;
         }
 
         footer .footer-section h3 {
@@ -428,9 +488,35 @@ $username = $_SESSION['username'] ?? 'User';
 
         @media (max-width: 480px) {
             header {
-                flex-direction: column;
-                align-items: center;
+                display: flex;
+                justify-content: space-evenly;
+                height: auto;
+                flex-direction: row;
+                font-size: 0.8rem;
             }
+       
+           
+
+        .nav-item {
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+            color: white;
+            font-size: 0.8em;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s, border 0.3s;
+            position: relative;
+        }
+            
+            .nav-item:hover,
+        .nav-item.active {
+            border: none;
+            border-radius: 8px;
+            box-sizing: content-box;
+            
+        }
 
             .logo img {
                 width: 60px;
@@ -471,8 +557,8 @@ $username = $_SESSION['username'] ?? 'User';
         <nav class="nav-links">
             <a href="homelog.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'homelog.php' ? 'active' : ''; ?>">Home</a>
             <a href="rooms.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'rooms.php' ? 'active' : ''; ?>">Rooms</a>
-            <a href="reservations.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'reservations.php' ? 'active' : ''; ?>">My Reservations</a>
-            <a href="support.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'support.php' ? 'active' : ''; ?>">Support</a>
+            <a href="reporting.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'reservations.php' ? 'active' : ''; ?>">My Reservations</a>
+            <a href="supportFAQ.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'support.php' ? 'active' : ''; ?>">Support</a>
         </nav>
 
 
@@ -494,6 +580,17 @@ $username = $_SESSION['username'] ?? 'User';
     <!-- Main Content -->
     <main>
 
+    <section class="video-container">
+    <!-- Background Video -->
+    <video class="background-video" autoplay muted loop>
+        <source src="uploads/homelog.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    
+</section>
+
+
         <!-- Welcome Section -->
         <section class="welcome-section">
             <?php
@@ -510,7 +607,7 @@ $username = $_SESSION['username'] ?? 'User';
         <section class="action-buttons">
             <a href="rooms.php"><span> Rooms</span></a>
             <a href="reservations.php"><span>My Reservations</span></a>
-            <a href="support.php"><span>Book Now!</span></a>
+            <a href="supportFAQ.php"><span>Support</span></a>
         </section>
 
         <!-- Recommendations -->
@@ -567,30 +664,55 @@ $username = $_SESSION['username'] ?? 'User';
         </div>
     </footer>
     <script>
-        // Handle theme toggle
+    // Wait for the DOM to load
+    document.addEventListener("DOMContentLoaded", function () {
         const themeToggle = document.getElementById('themeToggle');
         const body = document.body;
+        const video = document.querySelector('.background-video');
 
-        // Check for saved theme in localStorage
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
+        // Initial theme setup based on localStorage
+        if (localStorage.getItem('theme') === 'dark') {
             body.classList.add('dark-mode');
             themeToggle.textContent = 'Light Mode';
+            video.src = 'uploads/homelogDARK.mp4'; // Dark mode video
+        } else {
+            themeToggle.textContent = 'Dark Mode';
+            video.src = 'uploads/homelog.mp4'; // Light mode video
         }
 
-        themeToggle.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-
-            // Update button text and save preference
+        // Event listener for theme toggle
+        themeToggle.addEventListener('click', function () {
             if (body.classList.contains('dark-mode')) {
-                themeToggle.textContent = 'Light Mode';
-                localStorage.setItem('theme', 'dark');
-            } else {
+                body.classList.remove('dark-mode');
                 themeToggle.textContent = 'Dark Mode';
+                video.src = 'uploads/homelog.mp4'; // Light mode video
                 localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.add('dark-mode');
+                themeToggle.textContent = 'Light Mode';
+                video.src = 'uploads/homelogDARK.mp4'; // Dark mode video
+                localStorage.setItem('theme', 'dark');
             }
         });
-    </script>
+
+        // Smooth scroll to sections
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start',
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+    
+
 
 
 </body>
