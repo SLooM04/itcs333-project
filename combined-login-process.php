@@ -94,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: homelog.php");
         exit();
     } else if ($admin && $password==$admin['password']) {
-        $_SESSION['user_id'] = $admin['teacher_id'];
+        $_SESSION['user_id'] = $admin['id'];
         $_SESSION['username'] = $admin['username'];
         $_SESSION['role'] = $admin['role'];
         $_SESSION["login_success"] = "Welcome, " . $admin['username'] . "!";

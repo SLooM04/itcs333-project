@@ -162,19 +162,21 @@ $username = $_SESSION['username'] ?? 'User';
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             position: relative;
             z-index: 1000;
-            height: 20px;
         
         }
 
         /* Navigation Links */
         .nav-links {
             display: flex;
-            gap: 20px;
+            justify-content: space-between;
+            gap: 40px;
             align-items: center;
         }
 
         .nav-item {
             text-decoration: none;
+            display: flex;
+            justify-content: space-between;
             color: white;
             font-size: 1em;
             padding: 8px 15px;
@@ -485,9 +487,34 @@ $username = $_SESSION['username'] ?? 'User';
 
         @media (max-width: 480px) {
             header {
-                flex-direction: column;
-                align-items: center;
+                display: flex;
+                justify-content: space-evenly;
+                flex-direction: row;
+                font-size: 0.8rem;
             }
+       
+           
+
+        .nav-item {
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+            color: white;
+            font-size: 0.8em;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s, border 0.3s;
+            position: relative;
+        }
+            
+            .nav-item:hover,
+        .nav-item.active {
+            border: none;
+            border-radius: 8px;
+            box-sizing: content-box;
+            
+        }
 
             .logo img {
                 width: 60px;
@@ -529,7 +556,7 @@ $username = $_SESSION['username'] ?? 'User';
             <a href="homelog.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'homelog.php' ? 'active' : ''; ?>">Home</a>
             <a href="rooms.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'rooms.php' ? 'active' : ''; ?>">Rooms</a>
             <a href="reservations.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'reservations.php' ? 'active' : ''; ?>">My Reservations</a>
-            <a href="support.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'support.php' ? 'active' : ''; ?>">Support</a>
+            <a href="supportFAQ.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'support.php' ? 'active' : ''; ?>">Support</a>
         </nav>
 
 
@@ -578,7 +605,7 @@ $username = $_SESSION['username'] ?? 'User';
         <section class="action-buttons">
             <a href="rooms.php"><span> Rooms</span></a>
             <a href="reservations.php"><span>My Reservations</span></a>
-            <a href="support.php"><span>Book Now!</span></a>
+            <a href="supportFAQ.php"><span>Support</span></a>
         </section>
 
         <!-- Recommendations -->

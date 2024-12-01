@@ -171,7 +171,7 @@ if (isset($_GET['department'])) {
         /* Navigation Links */
         .nav-links {
             display: flex;
-            gap: 20px;
+            gap: 40px;
             align-items: center;
         }
 
@@ -587,7 +587,7 @@ if (isset($_GET['department'])) {
                 align-items: center;
             }
             header {
-                flex-direction: column;
+                flex-direction: row;
                 align-items: center;
             }
 
@@ -622,10 +622,35 @@ if (isset($_GET['department'])) {
         }
 
         @media (max-width: 480px) {
+            
             header {
-                flex-direction: column;
-                align-items: center;
+                display: flex;
+                justify-content: space-evenly;
+                flex-direction: row;
+                font-size: 0.8rem;
             }
+           
+
+        .nav-item {
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            color: white;
+            font-size: 0.8em;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s, border 0.3s;
+            position: relative;
+        }
+            
+            .nav-item:hover,
+        .nav-item.active {
+            border: none;
+            border-radius: 8px;
+            box-sizing: content-box;
+            gap: 20px;
+            
+        }
 
             .logo img {
                 width: 60px;
@@ -639,12 +664,9 @@ if (isset($_GET['department'])) {
             .user-profile {
                 flex-direction: column;
                 align-items: center;
-            }
-            .action-buttons .action-card {
-                font-size: 0.9rem;
-                padding: 10px; 
-            }
+            }      
         }
+                          .
     </style>
 </head>
 
@@ -662,7 +684,7 @@ if (isset($_GET['department'])) {
             <a href="homelog.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'homelog.php' ? 'active' : ''; ?>">Home</a>
             <a href="rooms.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'rooms.php' ? 'active' : ''; ?>">Rooms</a>
             <a href="reservations.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'reservations.php' ? 'active' : ''; ?>">My Reservations</a>
-            <a href="support.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'support.php' ? 'active' : ''; ?>">Support</a>
+            <a href="supportFAQ.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'support.php' ? 'active' : ''; ?>">Support</a>
         </nav>
 
 
