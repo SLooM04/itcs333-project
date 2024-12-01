@@ -148,7 +148,7 @@ $username = $_SESSION['username'] ?? 'User';
         }
 
         body.dark-mode footer {
-            background: linear-gradient(1deg, #000724, #151a2d);  
+            background: linear-gradient(1deg, #000724, #111d4d);  
             color: #d1d1d1;
         }
 
