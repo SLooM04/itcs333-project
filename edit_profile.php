@@ -27,7 +27,7 @@ if (!$user) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $firstName = trim($_POST['first_name']);
     $lastName = trim($_POST['last_name']);
-    $email = trim($_POST['email']);
+    $email = $user['email']; // Preserve the current email from the database
     $username = trim($_POST['username']);
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirm_password'];
@@ -81,12 +81,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $hashedPassword = !empty($password) ? password_hash($password, PASSWORD_DEFAULT) : $user['password'];
 
         if ($userRole == 'student') {
-            $stmt = $pdo->prepare("UPDATE students SET first_name = ?, last_name = ?, email = ?, username = ?, password = ?, mobile = ?, profile_picture = ? WHERE student_id = ?");
-            $stmt->execute([$firstName, $lastName, $email, $username, $hashedPassword, $mobile, $profilePicture, $userId]);
-        } else {
-            $stmt = $pdo->prepare("UPDATE teachers SET first_name = ?, last_name = ?, email = ?, username = ?, password = ?, mobile = ?, department = ?, profile_picture = ? WHERE teacher_id = ?");
-            $stmt->execute([$firstName, $lastName, $email, $username, $hashedPassword, $mobile, $_POST['department'], $profilePicture, $userId]);
-        }
+            $stmt = $pdo->prepare("UPDATE students SET first_name = ?, last_name = ?, username = ?, password = ?, mobile = ?, profile_picture = ? WHERE student_id = ?");
+            $stmt->execute([$firstName, $lastName, $username, $hashedPassword, $mobile, $profilePicture, $userId]);
+            } else {
+                $stmt = $pdo->prepare("UPDATE teachers SET first_name = ?, last_name = ?, username = ?, password = ?, mobile = ?, department = ?, profile_picture = ? WHERE teacher_id = ?");
+                $stmt->execute([$firstName, $lastName, $username, $hashedPassword, $mobile, $_POST['department'], $profilePicture, $userId]);
+            }
 
         $_SESSION['profile_update_success'] = "Profile updated successfully!";
         header("Location: profile.php");
@@ -320,6 +320,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="email">Email</label>
             <p><?= htmlspecialchars($user['email']) ?></p>
             </div>
+
 
 
             <!-- Username -->
