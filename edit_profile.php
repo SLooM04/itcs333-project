@@ -317,9 +317,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <!-- Email -->
             <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" name="email" id="email" value="<?= htmlspecialchars($user['email']) ?>" required>
+            <label for="email">Email</label>
+            <p><?= htmlspecialchars($user['email']) ?></p>
             </div>
+
 
             <!-- Username -->
             <div class="form-group">
