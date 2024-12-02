@@ -258,12 +258,15 @@ if (isset($_GET['department'])) {
 
 
         /* Container */
-        .container{
+        .container {
             display: flex;
-         overflow-x: auto;
-         scroll-snap-type: x mandatory; /* Enable snapping to cards */
-          gap: 20px; /* Space between cards */
-          padding: 20px; /* Padding around the container */
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            /* Enable snapping to cards */
+            gap: 20px;
+            /* Space between cards */
+            padding: 20px;
+            /* Padding around the container */
 
 
         }
@@ -276,21 +279,24 @@ if (isset($_GET['department'])) {
             padding: 10px 10% 10px 10%;
         }
 
-       
+
 
         /* ------------------------------------------------*/
         /* Department Cards */
         .department {
-          flex: 0 0 auto; /* Prevent shrinking or growing, maintain width */
-          scroll-snap-align: center; /* Snap card to the center */
-          width: 170px;
-         height: 350px;
-           background-color: #f5f0e1;
-           border: 3px solid #333;
-           position: relative;
+            flex: 0 0 auto;
+            /* Prevent shrinking or growing, maintain width */
+            scroll-snap-align: center;
+            /* Snap card to the center */
+            width: 170px;
+            height: 350px;
+            background-color: #f5f0e1;
+            border: 3px solid #333;
+            position: relative;
             overflow: hidden;
-           margin: 0 auto; /* Center each card horizontally */
-           box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+            margin: 0 auto;
+            /* Center each card horizontally */
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
         }
 
         .department .top-circle {
@@ -505,12 +511,12 @@ if (isset($_GET['department'])) {
             /* Makes the image fill the box */
             height: 150px;
             /* Set a fixed height */
-            object-fit: cover;
-            /* Ensure the image fits well */
+            object-fit: contain;
+           
         }
 
         .room figcaption {
-            padding: 10px;
+            padding: 1px;
             text-align: left;
         }
 
@@ -612,7 +618,7 @@ if (isset($_GET['department'])) {
                 width: 100%;
             }
 
-            
+
 
             header {
                 flex-direction: row;
@@ -650,7 +656,7 @@ if (isset($_GET['department'])) {
             footer .footer-section {
                 align-items: center;
             }
-            
+
         }
 
         @media (max-width: 800px) {
@@ -662,32 +668,32 @@ if (isset($_GET['department'])) {
                 font-size: 0.8rem;
             }
 
-            .logo{
+            .logo {
                 size: 0.8rem;
             }
-       
-           
 
-        .nav-item {
-            text-decoration: none;
-            display: flex;
-            justify-content: space-between;
-            gap: 40px;
-            color: white;
-            font-size: 0.8em;
-            padding: 8px 15px;
-            border-radius: 8px;
-            transition: background-color 0.3s, border 0.3s;
-            position: relative;
-        }
-            
+
+
+            .nav-item {
+                text-decoration: none;
+                display: flex;
+                justify-content: space-between;
+                gap: 40px;
+                color: white;
+                font-size: 0.8em;
+                padding: 8px 15px;
+                border-radius: 8px;
+                transition: background-color 0.3s, border 0.3s;
+                position: relative;
+            }
+
             .nav-item:hover,
-        .nav-item.active {
-            border: none;
-            border-radius: 8px;
-            box-sizing: content-box;
-            
-        }
+            .nav-item.active {
+                border: none;
+                border-radius: 8px;
+                box-sizing: content-box;
+
+            }
 
             .logo img {
                 width: 40px;
@@ -702,24 +708,24 @@ if (isset($_GET['department'])) {
                 flex-direction: column;
                 align-items: center;
             }
-                
-        .room-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            /* Dynamic columns */
-            gap: 40px;
-            /* Space between items */
-            margin: 20px 20px;
-            /* Add gap on the top/bottom and left/right sides */
-            width: 100%;
-            /* Ensure it takes the full width of its parent */
+
+            .room-gallery {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                /* Dynamic columns */
+                gap: 40px;
+                /* Space between items */
+                margin: 20px 20px;
+                /* Add gap on the top/bottom and left/right sides */
+                width: 100%;
+                /* Ensure it takes the full width of its parent */
+            }
         }
-        }
-                          .
     </style>
 </head>
 
 <body>
+    
     <header>
         <!-- Logo Section -->
         <a href="homelog.php" class="logo">
@@ -752,7 +758,7 @@ if (isset($_GET['department'])) {
     </header>
     <!-- Department Selection -->
     <div class="container">
-        <div class="department" onclick="showRooms('Information Systems')">
+        <div class="department" onclick="showRooms('IS')">
             <div class="roof">|||||||||||||||||||||||||||</div>
             <div class="top-circle"></div>
             <div class="side">S40</div>
@@ -768,7 +774,7 @@ if (isset($_GET['department'])) {
             <div class="department-text">Information Systems</div>
         </div>
 
-        <div class="department" onclick="showRooms('Computer Science')">
+        <div class="department" onclick="showRooms('CS')">
             <div class="roof">|||||||||||||||||||||||||||</div>
             <div class="top-circle"></div>
             <div class="side">S40</div>
@@ -784,7 +790,7 @@ if (isset($_GET['department'])) {
             <div class="department-text">Computer Science</div>
         </div>
 
-        <div class="department" onclick="showRooms('Network Engineering')">
+        <div class="department" onclick="showRooms('NE')">
             <div class="roof">|||||||||||||||||||||||||||</div>
             <div class="top-circle"></div>
             <div class="side">S40</div>
@@ -811,7 +817,7 @@ if (isset($_GET['department'])) {
                         <a href="room_details.php?id=<?php echo htmlspecialchars($room['id']); ?>">
                             <figure>
                                 <?php if (!empty($room['image'])): ?>
-                                    <img src="<?php echo htmlspecialchars($room['image']); ?>" alt="<?php echo htmlspecialchars($room['room_name']); ?>">
+                                    <img src="RoomPic/<?php echo htmlspecialchars($room['image']); ?>" alt="<?php echo htmlspecialchars($room['room_name']); ?>">
                                 <?php else: ?>
                                     <img src="RoomPic/jpg" alt="Default Room Image">
                                 <?php endif; ?>
@@ -822,11 +828,11 @@ if (isset($_GET['department'])) {
                                         <?php echo htmlspecialchars($room['capacity']); ?>
                                     </p>
                                     <p>
-                                        <strong><img src="de.png" alt="Department Icon" style="width: 28px; height: 28px; vertical-align: middle;"> Department:</strong>
-                                       <p style="display: flex; justify-content: center; align-items: center;"> <?php echo htmlspecialchars($room['department']); ?></p>
+                                        <strong><img src="de.png" alt="Department Icon" style="width: 24px; height: 28px; vertical-align: middle;"> Department:</strong>
+                                        <?php echo htmlspecialchars($room['department']); ?>
                                     </p>
-
                                 </figcaption>
+
                             </figure>
                         </a>
                     </div>

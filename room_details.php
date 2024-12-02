@@ -496,19 +496,19 @@ if (isset($_GET['id'])) {
         <div class="room-container">
             <div class="room-images">
                 <!-- Main Room Image -->
-                <img src="<?php echo htmlspecialchars($room['image']); ?>" alt="Room Image" class="main-image" id="main-image">
+                <img src="RoomPic/<?php echo htmlspecialchars($room['image']); ?>" alt="Room Image" class="main-image" id="main-image">
 
                 <!-- Thumbnail Images -->
                 <div class="thumbnail-images">
                     <!-- First thumbnail is the main image -->
-                    <img src="<?php echo htmlspecialchars($room['image']); ?>" alt="Main Image" onclick="changeMainImage('<?php echo htmlspecialchars($room['image']); ?>')">
+                    <img src="RoomPic/<?php echo htmlspecialchars($room['image']); ?>" alt="Main Image" onclick="changeMainImage('<?php echo htmlspecialchars($room['image']); ?>')">
 
                     <?php
                     // Display additional thumbnail images if available
                     for ($i = 1; $i <= 4; $i++) {
                         $thumb = $room['thumbnail_' . $i] ?? 'default-thumbnail.jpg'; // Default if no thumbnail
                         if ($i > 1) { // Skip the first one since it's already the main image
-                            echo '<img src="' . htmlspecialchars($thumb) . '" alt="Thumbnail ' . $i . '" onclick="changeMainImage(\'' . htmlspecialchars($thumb) . '\')">';
+                            echo '<img src="RoomPic/' . htmlspecialchars($thumb) . '" alt="Thumbnail ' . $i . '" onclick="changeMainImage(\'' . htmlspecialchars($thumb) . '\')">';
                         }
                     }
                     ?>
@@ -533,7 +533,7 @@ if (isset($_GET['id'])) {
 
             <script>
                 function changeMainImage(image) {
-                    document.getElementById("main-image").src = image;
+                    document.getElementById("main-image").src =RoomPic/ image;
                 }
             </script>
 
