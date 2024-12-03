@@ -69,19 +69,29 @@ if (isset($_GET['department'])) {
             width: 70px;
             height: 85px;
             font-size: 16px;
-            color: #fff; /* Text color */
+            color: #black; /* Text color */
             background-color: rgba(0, 0, 0, 0.0); /* Transparent background */
             border: 1px solid rgba(255, 255, 255, 0.0); /* Border */
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease, color 0.3s ease;
             text-align: center;
+           
         }
+        a {
+    color: black; 
+    font-weight: bold;
+}
 
         /* Hover effect */
         .transparent-button:hover {
             background-color: rgba(0, 255, 0, 0.4); /* Opaque background */
-            color: black; /* Text color on hover */
+            color: white; /* Text color on hover */
+        }
+
+        .button {
+
+            padding: 0px;
         }
 
         /* Positioning buttons in two per line */
@@ -112,66 +122,29 @@ if (isset($_GET['department'])) {
 <body>
 
 <div class="map-container">
-    <a class="transparent-button" href="room_details.php?id=1" target="_blank">
-        <button>2010 </button>
-    </a>
-    <a class="transparent-button" href="room_details.php?id=2" target="_blank">
-        <button>2011</button>
-    </a>
-    <a class="transparent-button" href="room_details.php?id=3" target="_blank">
-        <button>2008</button>
-    </a>
-    <a class="transparent-button" href="room_details.php?id=4" target="_blank">
-        <button>2012</button>
-    </a>
-    <a class="transparent-button" href="room_details.php?id=5" target="_blank">
-        <button>2007</button>
-    </a>
-    <a class="transparent-button" href="room_details.php?id=6" target="_blank">
-        <button>2013</button>
-    </a>
-    <a class="transparent-button" href="room_details.php?id=7" target="_blank">
-        <button>2005</button>
-    </a>
-    <a class="transparent-button" href="room_details.php?id=8" target="_blank">
-        <button>2015</button>
-    </a>
-    <a class="transparent-button" href="room_details.php?id=9" target="_blank">
-        <button>1009</button>
-    </a>
-    <a class="transparent-button" href="room_details.php?id=10" target="_blank">
-        <button>1010</button>
-    </a>
-    <a class="transparent-button" href="room_details.php?id=11" target="_blank">
-        <button>1008</button>
-    </a>
-    <a class="transparent-button" href="room_details.php?id=12" target="_blank">
-        <button>1012</button>
-    </a>
-    <a class="transparent-button" href="room_details.php?id=13" target="_blank">
-        <button>1006</button>
-    </a>
-    <a class="transparent-button" href="room_details.php?id=14" target="_blank">
-        <button>1014</button>
-    </a>
-    <a class="transparent-button" href="room_details.php?id=15" target="_blank">
-        <button>028</button>
-    </a>
-    <a class="transparent-button" href="room_details.php?id=16" target="_blank">
-        <button>029</button>
-    </a>
-    <a class="transparent-button" href="room_details.php?id=17" target="_blank">
-        <button>023</button>
-    </a>
-    <a class="transparent-button" href="room_details.php?id=18" target="_blank">
-        <button>030</button>
-    </a>
-    <a class="transparent-button" href="room_details.php?id=19" target="_blank">
-        <button>021</button>
-    </a>
-    <a class="transparent-button" href="room_details.php?id=20" target="_blank">
-        <button>032</button>
-    </a>
+<div class="button-container">
+    <a class="transparent-button" href="room_details.php?id=1" target="_blank"><br>2010</a>
+    <a class="transparent-button" href="room_details.php?id=2" target="_blank"><br>2011</a>
+    <a class="transparent-button" href="room_details.php?id=3" target="_blank"><br>2008</a>
+    <a class="transparent-button" href="room_details.php?id=4" target="_blank"><br>2012</a>
+    <a class="transparent-button" href="room_details.php?id=5" target="_blank"><br>2007</a>
+    <a class="transparent-button" href="room_details.php?id=6" target="_blank"><br>2013</a>
+    <a class="transparent-button" href="room_details.php?id=7" target="_blank"><br>2005</a>
+    <a class="transparent-button" href="room_details.php?id=8" target="_blank"><br>2015</a>
+    <a class="transparent-button" href="room_details.php?id=9" target="_blank"><br>1009</a>
+    <a class="transparent-button" href="room_details.php?id=10" target="_blank"><br>1010</a>
+    <a class="transparent-button" href="room_details.php?id=11" target="_blank"><br>1008</a>
+    <a class="transparent-button" href="room_details.php?id=12" target="_blank"><br>1012</a>
+    <a class="transparent-button" href="room_details.php?id=13" target="_blank"><br>1006</a>
+    <a class="transparent-button" href="room_details.php?id=14" target="_blank"><br>1014</a>
+    <a class="transparent-button" href="room_details.php?id=15" target="_blank"><br>028</a>
+    <a class="transparent-button" href="room_details.php?id=16" target="_blank"><br>029</a>
+    <a class="transparent-button" href="room_details.php?id=17" target="_blank"><br>023</a>
+    <a class="transparent-button" href="room_details.php?id=18" target="_blank"><br>030</a>
+    <a class="transparent-button" href="room_details.php?id=19" target="_blank"><br>021</a>
+    <a class="transparent-button" href="room_details.php?id=20" target="_blank"><br>032</a>
+</div>
+
 </div>
 
     
