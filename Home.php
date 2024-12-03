@@ -99,8 +99,8 @@ if (isset($_POST['reserve_now'])) {
             z-index: 1000;
         }
 
-        /* Logo Styles */
-        .logo {
+         /* Logo Styles */
+         .logo {
             display: flex;
             align-items: center;
             gap: 15px;
@@ -112,10 +112,16 @@ if (isset($_POST['reserve_now'])) {
 
         .logo img {
             width: 100px;
-            border-radius: 10%;
-            border: 3px solid #f0f0f0;
-            transition: transform 0.3s;
+            border-radius: 20%;
+            transition: transform 0.8s;
         }
+
+        @media (min-width: 801px) and (max-width: 1000px) {
+            .logo img {
+                width: 3rem;
+            }
+        }
+
 
         /* Navigation Links */
         .nav-links {

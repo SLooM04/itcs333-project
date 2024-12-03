@@ -121,37 +121,67 @@ session_start(); // Ensure session is started at the top of the file
     border: 1px solid green;
   }
 
-  /* Footer styling */
+  /* Footer styles */
   footer {
-    margin-top: 30px;
-    text-align: center;
-    font-size: 0.9em;
-    color: #888;
-  }
+            color: white;
+            background: linear-gradient(1deg, #024ba9, #96c3ff);  
+            text-align: center;
+            padding: 1rem 1rem;
+            margin-top: 0rem;
+            font-size: 0.9rem;
+            z-index: 1;
+        }
 
-  footer ul {
-    list-style: none;
-    padding: 0;
-    margin-top: 10px;
-  }
+        footer .footer-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            z-index: 1;
+        }
 
-  footer ul li {
-    display: inline-block;
-    margin-right: 15px;
-  }
+        footer .footer-section {
+            flex: 1 1 200px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            text-align: left;
+            z-index: 1;
+        }
 
-  footer ul li a {
-    color: #0061f2;
-    text-decoration: none;
-  }
+        footer .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+            font-weight: 600;
+        }
 
-  footer ul li a:hover {
-    text-decoration: underline;
-  }
+        footer .footer-section ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+        }
 
-footer p {
-  color: #333;
-  }
+        footer .footer-section ul li a:hover {
+            text-decoration: underline;
+        }
+        /* Responsive design for the footer */
+        @media (max-width: 768px) {
+            footer .footer-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            footer .footer-section {
+                margin-bottom: 1.5rem; 
+                text-align: center;
+            }
+
+            footer .footer-section ul li {
+                margin: 0.2rem 0;
+            }}
+
 </style>
 </head>
 <body>
@@ -192,15 +222,46 @@ footer p {
       <p>Don't have an account? <a href="account_type.php">Register here</a></p>
     </section>
   </main>
-  <!-- Footer Section -->
-  <footer class="container">
-    <hr>
-    <p>&copy; <?php echo date("Y"); ?> ITCS333 Project | All rights reserved.</p>
-    <ul>
-      <li><a href="#privacy-policy">Privacy Policy</a></li>
-      <li><a href="#terms-of-service">Terms of Service</a></li>
-      <li><a href="#contact">Contact Us</a></li>
-    </ul>
-  </footer>
+  <!-- Footer -->
+  <footer>
+        <div class="footer-container">
+            <!-- University Info -->
+            <div class="footer-section">
+                <h3>University Info</h3>
+                <ul>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="https://www.uob.edu.bh/locations">Campus Locations</a></li>
+                    <li><a href="#events">Upcoming Events</a></li>
+                </ul>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="https://www.uob.edu.bh/admission-requirements">Join UOB</a></li>
+                    <li><a href="https://www.uob.edu.bh/deanship-of-graduate-studies-scientific-research">Research</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li>Email: <a href="mailto:info@university.com">info@university.com</a></li>
+                    <li>Phone: +123 456 789</li>
+                    <li>Address: Sakhir – Kingdom of Bahrain <br>1017 Road 5418 <br>Zallaq 1054</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p style="color:white;">&copy; <?php echo date("Y"); ?> UOB Rooms Reservation | All rights reserved.</p>
+            <p>
+                <a href="https://www.uob.edu.bh/privacy-policy" style="color : white;">Privacy Policy | </a>
+                <a href="https://www.uob.edu.bh/terms-and-conditions" style="color : white;">Terms of Service</a>
+            </p>
+        </div>
+    </footer>
 </body>
 </html>

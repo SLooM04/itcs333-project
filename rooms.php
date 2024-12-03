@@ -42,7 +42,7 @@ if (isset($_GET['department'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Room Booking System</title>
+    <title>Room Booking System</title>    
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.5.7/css/pico.min.css">
     <style>
         /* General styles */
@@ -102,8 +102,8 @@ if (isset($_GET['department'])) {
         }
 
 
-        /* Logo Styles */
-        .logo {
+         /* Logo Styles */
+         .logo {
             display: flex;
             align-items: center;
             gap: 15px;
@@ -115,9 +115,14 @@ if (isset($_GET['department'])) {
 
         .logo img {
             width: 100px;
-            border-radius: 10%;
-            border: 3px solid #f0f0f0;
-            transition: transform 0.3s;
+            border-radius: 20%;
+            transition: transform 0.8s;
+        }
+
+        @media (min-width: 801px) and (max-width: 1000px) {
+            .logo img {
+                width: 3rem;
+            }
         }
 
         .action-buttons a {
@@ -1025,7 +1030,11 @@ if (isset($_GET['department'])) {
         </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+    </script>
+
     <script>
+         document.addEventListener("DOMContentLoaded", () => {
         // Handle theme toggle
         const themeToggle = document.getElementById('themeToggle');
         const body = document.body;
@@ -1049,6 +1058,8 @@ if (isset($_GET['department'])) {
                 localStorage.setItem('theme', 'light');
             }
         });
+    });
+       
     </script>
 
 
