@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 30, 2024 at 12:50 AM
+-- Generation Time: Dec 03, 2024 at 06:47 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -30,6 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `bookings` (
   `booking_id` int(11) NOT NULL,
   `room_id` int(11) NOT NULL,
+  `room_name` varchar(15) DEFAULT NULL,
   `student_id` int(11) DEFAULT NULL,
   `teacher_id` int(11) DEFAULT NULL,
   `start_time` datetime NOT NULL,
@@ -45,16 +46,13 @@ CREATE TABLE `bookings` (
 -- Dumping data for table `bookings`
 --
 
-INSERT INTO `bookings` (`booking_id`, `room_id`, `student_id`, `teacher_id`, `start_time`, `end_time`, `status`, `created_at`, `updated_at`, `username`, `contact_number`) VALUES
-(1, 4, 1, NULL, '2024-11-15 11:00:00', '1970-01-01 01:00:00', 'Pending', '2024-11-28 09:49:34', '2024-11-28 09:49:34', NULL, '+97333311222'),
-(2, 43, 1, NULL, '2024-11-14 09:00:00', '1970-01-01 01:00:00', 'Pending', '2024-11-28 09:50:55', '2024-11-28 09:50:55', NULL, '+97333311222'),
-(3, 5, NULL, 1, '2024-11-29 11:00:00', '1970-01-01 01:00:00', 'Pending', '2024-11-28 09:52:44', '2024-11-28 09:52:44', NULL, '+97333311222'),
-(4, 7, NULL, 1, '2024-11-30 09:00:00', '1970-01-01 01:00:00', 'Pending', '2024-11-29 10:44:54', '2024-11-29 10:44:54', NULL, '+97333311222'),
-(5, 6, NULL, 1, '2024-11-01 09:00:00', '1970-01-01 01:00:00', 'Pending', '2024-11-29 10:45:20', '2024-11-29 10:45:20', NULL, '+97333311222'),
-(6, 6, NULL, 1, '2024-11-30 09:00:00', '1970-01-01 01:00:00', 'Pending', '2024-11-29 10:50:47', '2024-11-29 10:50:47', NULL, '+97333311222'),
-(7, 47, NULL, 1, '2024-11-08 10:00:00', '1970-01-01 01:00:00', 'Pending', '2024-11-29 20:12:51', '2024-11-29 20:12:51', NULL, '+97333311222'),
-(8, 47, NULL, 1, '2024-11-30 09:00:00', '1970-01-01 01:00:00', 'Pending', '2024-11-29 20:13:12', '2024-11-29 20:13:12', NULL, '+97333311222'),
-(9, 5, NULL, 1, '2024-11-30 10:00:00', '2024-11-30 11:00:00', 'Pending', '2024-11-29 23:34:50', '2024-11-29 23:34:50', NULL, '+97333311222');
+INSERT INTO `bookings` (`booking_id`, `room_id`, `room_name`, `student_id`, `teacher_id`, `start_time`, `end_time`, `status`, `created_at`, `updated_at`, `username`, `contact_number`) VALUES
+(74, 3, 'Room 056', 2, NULL, '2024-12-01 20:00:00', '2024-12-01 21:30:00', 'Pending', '2024-12-01 16:04:54', '2024-12-01 16:04:54', 'Murtadha', '+973 33311268'),
+(76, 3, 'Room 056', 2, NULL, '2024-12-01 19:00:00', '2024-12-01 20:00:00', 'Confirmed', '2024-12-01 16:09:30', '2024-12-01 16:23:39', 'Murtadha', '+973 33311268'),
+(77, 3, 'Room 056', 2, NULL, '2024-12-01 22:00:00', '2024-12-01 23:00:00', 'Pending', '2024-12-01 16:11:03', '2024-12-01 16:11:03', 'Murtadha', '+973 33311268'),
+(78, 5, 'Lab 058', 2, NULL, '2024-12-01 19:00:00', '2024-12-01 20:00:00', 'Cancelled', '2024-12-01 16:19:35', '2024-12-01 16:33:25', 'Murtadha', '+973 33311268'),
+(79, 3, 'Room 056', 2, NULL, '2024-12-03 16:00:00', '2024-12-03 17:00:00', 'Pending', '2024-12-03 13:15:31', '2024-12-03 13:15:31', 'Murtadha', '+973 33311268'),
+(80, 1, 'Room 049', 2, NULL, '2024-12-03 20:00:00', '2024-12-03 21:00:00', 'Pending', '2024-12-03 13:36:41', '2024-12-03 13:36:41', 'Murtadha', '+973 33311268');
 
 --
 -- Indexes for dumped tables
@@ -77,19 +75,7 @@ ALTER TABLE `bookings`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `bookings`
---
-ALTER TABLE `bookings`
-  ADD CONSTRAINT `bookings_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `bookings_ibfk_2` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `bookings_ibfk_3` FOREIGN KEY (`teacher_id`) REFERENCES `teachers` (`teacher_id`) ON DELETE SET NULL;
+  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
