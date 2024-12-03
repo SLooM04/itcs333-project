@@ -95,23 +95,29 @@ if (isset($_GET['id'])) {
         }
   
 
-/* Logo Styles */
-.logo {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        text-decoration: none;
-        color: white;
-        border-radius: 12px;
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
+ /* Logo Styles */
+ .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: white;
+            border-radius: 12px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
 
-    .logo img {
-        width: 100px;
-        border-radius: 10%;
-        border: 3px solid #f0f0f0;
-        transition: transform 0.3s;
-    }
+        .logo img {
+            width: 100px;
+            border-radius: 20%;
+            transition: transform 0.8s;
+        }
+
+        @media (min-width: 801px) and (max-width: 1000px) {
+            .logo img {
+                width: 3rem;
+            }
+        }
+
 
 
         /* Header Styles */
@@ -473,7 +479,7 @@ if (isset($_GET['id'])) {
             <a href="homelog.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'homelog.php' ? 'active' : ''; ?>">Home</a>
             <a href="rooms.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'rooms.php' ? 'active' : ''; ?>">Rooms</a>
             <a href="reservations.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'reservations.php' ? 'active' : ''; ?>">My Reservations</a>
-            <a href="support.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'support.php' ? 'active' : ''; ?>">Support</a>
+            <a href="supportFAQ.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'support.php' ? 'active' : ''; ?>">Support</a>
         </nav>
 
 

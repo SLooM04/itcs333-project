@@ -37,6 +37,21 @@ require 'db.php';
             color: white;
         }
 
+        body.dark-mode footer {
+            background: linear-gradient(1deg, #000724, #111d4d);  
+            color: #d1d1d1;
+        }
+
+        body.dark-mode .accordion-item {
+            background: #2b2b3b;
+        }
+
+        body.dark-mode .accordion-button {
+            background: #2b2b3b;
+            color: white;
+            border: white;
+        }
+
         body.dark-mode .dropdown-content a {
             color: #000;
         }
@@ -93,15 +108,18 @@ require 'db.php';
         
         }
 
-        /* Navigation Links */
-        .nav-links {
+         /* Navigation Links */
+         .nav-links {
             display: flex;
-            gap: 20px;
+            justify-content: space-between;
+            gap: 40px;
             align-items: center;
         }
 
         .nav-item {
             text-decoration: none;
+            display: flex;
+            justify-content: space-between;
             color: white;
             font-size: 1em;
             padding: 8px 15px;
@@ -122,8 +140,8 @@ require 'db.php';
             background-color: rgba(255, 255, 255, 0.2);
         }
 
-        /* Logo Styles */
-        .logo {
+         /* Logo Styles */
+         .logo {
             display: flex;
             align-items: center;
             gap: 15px;
@@ -136,8 +154,72 @@ require 'db.php';
         .logo img {
             width: 100px;
             border-radius: 20%;
-            border: 2px solid #0051b5;
             transition: transform 0.8s;
+        }
+
+        @media (min-width: 801px) and (max-width: 1000px) {
+            .logo img {
+                width: 3rem;
+            }
+        }
+
+
+
+
+
+
+        /* User Profile Section */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: white;
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+        }
+
+        .user-profile span {
+            font-size: 1em;
+            white-space: nowrap;
+        }
+
+        /* Dropdown Menu */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: #ffffff;
+            color: #222;
+            min-width: 150px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            z-index: 2000;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: #222;
+            transition: background-color 0.3s;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
         }
 
 
@@ -217,6 +299,68 @@ require 'db.php';
                 align-items: center;
             }}
 
+            /* Footer styles */
+        footer {
+            color: white;
+            background: linear-gradient(1deg, #024ba9, #96c3ff);  
+            text-align: center;
+            padding: 1rem 1rem;
+            margin-top: 0rem;
+            font-size: 0.9rem;
+            z-index: 1;
+        }
+
+        footer .footer-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            z-index: 1;
+        }
+
+        footer .footer-section {
+            flex: 1 1 200px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            text-align: left;
+            z-index: 1;
+        }
+
+        footer .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        footer .footer-section ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+
+        footer .footer-section ul li a:hover {
+            text-decoration: underline;
+        }
+        /* Responsive design for the footer */
+        @media (max-width: 768px) {
+            footer .footer-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            footer .footer-section {
+                margin-bottom: 1.5rem; 
+                text-align: center;
+            }
+
+            footer .footer-section ul li {
+                margin: 0.2rem 0;
+            }}
+
+
     </style>
 </head>
 <body>
@@ -233,7 +377,7 @@ require 'db.php';
             <a href="homelog.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'homelog.php' ? 'active' : ''; ?>">Home</a>
             <a href="rooms.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'rooms.php' ? 'active' : ''; ?>">Rooms</a>
             <a href="reporting.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'reservations.php' ? 'active' : ''; ?>">My Reservations</a>
-            <a href="supportFAQ.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'support.php' ? 'active' : ''; ?>">Support</a>
+            <a href="supportFAQ.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'supportFAQ.php' ? 'active' : ''; ?>">Support</a>
         </nav>
 
 
@@ -346,9 +490,11 @@ require 'db.php';
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
-   
+ 
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
         // Handle theme toggle
         const themeToggle = document.getElementById('themeToggle');
         const body = document.body;
@@ -372,9 +518,49 @@ require 'db.php';
                 localStorage.setItem('theme', 'light');
             }
         });
-       
-   
-
+    });
     </script>
+
+      <!-- Footer -->
+      <footer>
+        <div class="footer-container">
+            <!-- University Info -->
+            <div class="footer-section">
+                <h3>University Info</h3>
+                <ul>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="https://www.uob.edu.bh/locations">Campus Locations</a></li>
+                    <li><a href="#events">Upcoming Events</a></li>
+                </ul>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="https://www.uob.edu.bh/admission-requirements">Join UOB</a></li>
+                    <li><a href="https://www.uob.edu.bh/deanship-of-graduate-studies-scientific-research">Research</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li>Email: <a href="mailto:info@university.com">info@university.com</a></li>
+                    <li>Phone: +123 456 789</li>
+                    <li>Address: Sakhir – Kingdom of Bahrain <br>1017 Road 5418 <br>Zallaq 1054</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p style="color:white;">&copy; <?php echo date("Y"); ?> UOB Rooms Reservation | All rights reserved.</p>
+            <p>
+                <a href="https://www.uob.edu.bh/privacy-policy" style="color : white;">Privacy Policy | </a>
+                <a href="https://www.uob.edu.bh/terms-and-conditions" style="color : white;">Terms of Service</a>
+            </p>
+        </div>
+    </footer>
 </body>
 </html>

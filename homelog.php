@@ -194,10 +194,7 @@ $username = $_SESSION['username'] ?? 'User';
             border-radius: 8px;
         }
 
-        .active {
-            border: 2px solid #f0f0f0;
-            background-color: rgba(255, 255, 255, 0.2);
-        }
+       
 
         /* Logo Styles */
         .logo {
@@ -213,8 +210,13 @@ $username = $_SESSION['username'] ?? 'User';
         .logo img {
             width: 100px;
             border-radius: 20%;
-            border: 2px solid #0051b5;
             transition: transform 0.8s;
+        }
+
+        @media (min-width: 801px) and (max-width: 1000px) {
+            .logo img {
+                width: 3rem;
+            }
         }
 
 
