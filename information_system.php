@@ -780,6 +780,33 @@ if (isset($_GET['department'])) {
       color: #618bb8; /* Slightly darker text */
      }
 
+     .iframe-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100vh; /* Full viewport height */
+    background-color: #f9f9f9; /* Optional background for contrast */
+}
+
+iframe {
+    width: 100%;
+    height: 100%; /* Adjust height for a better fit */
+    border: 2px solid #ccc; /* Optional border for styling */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.map {
+
+    display: none; 
+    height: 1980px; 
+    width: 486px; 
+    border: 1px solid #ccc;
+    margin-top: 0px;
+    padding-top: 0px;
+
+}
+
 
     </style>
 </head>
@@ -830,12 +857,12 @@ if (isset($_GET['department'])) {
 <div id="rooms" class="rooms">
 
     <!-- Map View -->
-    <div id="mapclick" class="map" style="display: none; height: 2500px; width: 100%; border: 1px solid #ccc;">
+    <div id="mapclick" class="map">
     <iframe 
         id="mapFrame" 
         src="IS-map.php" 
-        style="width: 100%; height: 100%; border: none;" 
         title="Map View">
+        
     </iframe>
    </div>
 
