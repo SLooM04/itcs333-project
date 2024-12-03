@@ -538,7 +538,7 @@ if (isset($_GET['id'])) {
 
             <script>
                 function changeMainImage(image) {
-                    document.getElementById("main-image").src =RoomPic/ image;
+                    document.getElementById("main-image").src ="RoomPic/" + image;
                 }
             </script>
 

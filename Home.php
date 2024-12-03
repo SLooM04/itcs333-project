@@ -99,8 +99,9 @@ if (isset($_POST['reserve_now'])) {
             z-index: 1000;
         }
 
-         /* Logo Styles */
-         .logo {
+         
+        /* Logo Styles */
+        .logo {
             display: flex;
             align-items: center;
             gap: 15px;
@@ -350,8 +351,8 @@ if (isset($_POST['reserve_now'])) {
 
     <header>
         <!-- Logo Section -->
-        <a href="homelog.php" class="logo">
-            <img src="https://cdn.discordapp.com/attachments/791220541376692234/1310228238240583690/UOBandSilverJubilee-Colleges-new-logo-1.png?ex=674474a2&is=67432322&hm=48b965ce1457aa8031fb40b08ab17ffb6fcdc7924a004aaebf258e485756497b&" alt="Logo">
+        <a href="homelog.php" class="logo" style="text-decoration:none;">
+            <img src="uploads/UOB-Colleges-new-logo.png" alt="Logo">
             UOB
         </a>
 
@@ -393,21 +394,21 @@ if (isset($_POST['reserve_now'])) {
             <hr class="featurette-divider">
             <div class="row">
                 <div class="col-lg-4">
-                    <img class="rounded-circle" src="h1.png" alt="Classroom Image" style="border: solid #000;" width="140" height="140">
+                    <img class="rounded-circle" src="h1.png" alt="Classroom Image" style="border: solid #000;" width="240" height="240">
                     <h2>Book a Classroom</h2>
                     <p>Experience seamless learning in our modern classrooms equipped with the latest technology, perfect for lectures, workshops, and group study sessions.</p>
                     <a class="btn btn-secondary" href="rooms.php" role="button">Book Now »</a>
                 </div>
 
                 <div class="col-lg-4">
-                    <img class="rounded-circle" src="h2.png" alt="Classroom Image" style="border: solid #000;" width="140" height="140">
+                    <img class="rounded-circle" src="h2.png" alt="Classroom Image" style="border: solid #000;" width="240" height="240">
                     <h2>Flexible Room Setup</h2>
                     <p>Our classrooms are designed to meet your needs, whether you're hosting a small seminar or a large conference. Choose from a variety of room setups to match your event.</p>
                     <a class="btn btn-secondary" href="rooms.php" role="button">Explore Options »</a>
                 </div>
 
                 <div class="col-lg-4">
-                    <img class="rounded-circle" src="h3 - Copy.png" alt="Classroom Image" style="border: solid #000;" width="140" height="140">
+                    <img class="rounded-circle" src="h3.png" alt="Classroom Image" style="border: solid #000;" width="240" height="240">
                     <h2>Advanced Labs</h2>
                     <p>Each room is equipped with the latest technology, including projectors, interactive whiteboards, and high-speed internet, to support dynamic teaching methods and student engagement.</p>
                     <a class="btn btn-secondary" href="rooms.php" role="button">View Details »</a>
