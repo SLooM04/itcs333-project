@@ -46,7 +46,7 @@ if (isset($_GET['department'])) {
         body {
       margin: 0; /* Remove default body margins */
       padding: 0;
-      background-image: url('uploads/information-system.jpg'); /* Path to your background image */
+      background-image: url('uploads/information_system.jpg'); /* Path to your background image */
       background-size: contain; /* Ensures the entire image is visible */
       background-repeat: no-repeat; /* Prevents repeating */
       background-position: center; /* Centers the image */
