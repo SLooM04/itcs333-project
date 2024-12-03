@@ -170,103 +170,129 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Room: <?php echo htmlspecialchars($room['room_name']); ?></title>
     <style>
-        /* Importing Google Fonts */
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+       
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f7f7f7;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
 
-        .container {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 500px;
-        }
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
 
-        .capacity {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #0066cc;
-            color: white;
-            font-weight: bold;
-            font-size: 18px;
-            padding: 10px 20px;
-            border-radius: 100px;
-            margin: 10px auto;
-            width: 40%;
-        }
 
-        h1 {
-            text-align: center;
-            color: #0066cc;
-            margin-bottom: 20px;
-        }
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 90%; 
+    max-width: 600px; 
+    box-sizing: border-box;
+    margin: 10px auto; 
+}
 
-        .form-group {
-            margin-bottom: 20px;
-        }
 
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 8px;
-            color: #333;
-        }
+h1 {
+    text-align: center;
+    color: #0066cc;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+}
 
-        input[type="text"],
-        input[type="date"],
-        input[type="tel"],
-        select,
-        button {
-            width: 99%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 16px;
-        }
 
-        button {
-            background-color: #0066cc;
-            color: white;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-        }
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #333;
+    font-size: 1rem;
+}
 
-        button:hover {
-            background-color: #005bb5;
-        }
+input[type="text"],
+input[type="date"],
+input[type="tel"],
+select,
+button {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
 
-        .error-message {
-            color: red;
-            text-align: center;
-        }
+/* Button styles */
+button {
+    background-color: #0066cc;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
 
-        .success-message {
-            color: green;
-            text-align: center;
-        }
+button:hover {
+    background-color: #005bb5;
+}
 
-        .disabled {
-            color: #bbb;
-            pointer-events: none;
-        }
 
-        .past-date {
-            background-color: #f0f0f0;
-            color: #ccc;
-            pointer-events: none;
-        }
+.error-message {
+    color: red;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.success-message {
+    color: green;
+    text-align: center;
+    font-size: 1rem;
+}
+
+
+a {
+    color: #0066cc;
+    text-decoration: underline;
+    font-size: 0.9rem;
+}
+
+
+@media screen and (min-width: 768px) {
+    body {
+        padding: 20px;
+    }
+
+    .container {
+        padding: 30px;
+        max-width: 700px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    label {
+        font-size: 1.1rem;
+    }
+
+    button {
+        font-size: 1.1rem;
+        padding: 12px 24px;
+    }
+
+    a {
+        font-size: 1rem;
+    }
+}
     </style>
 </head>
 

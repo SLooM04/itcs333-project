@@ -361,7 +361,7 @@ if (isset($_POST['reserve_now'])) {
         <!-- Navigation Links -->
         <nav class="nav-links">
             <a href="homelog.php" class="nav-item ">Home</a>
-            <a href="combined_login.php" class="nav-item ">Rooms</a>
+            <a href="rooms.php" class="nav-item ">Rooms</a>
             <a href="combined_login.php" class="nav-item ">Login</a>
             <a href="account_type.php" class="nav-item ">Resigter</a>
         </nav>

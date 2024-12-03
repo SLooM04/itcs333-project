@@ -1,10 +1,6 @@
 <?php
 session_start();
 require 'db.php'; // Include the DB connection file
-if (!isset($_SESSION['user_id'])) {
-    header("Location: combined_login.php");
-    exit();
-}
 
 // Check if room ID is provided in the URL
 if (isset($_GET['id'])) {
@@ -485,15 +481,25 @@ if (isset($_GET['id'])) {
 
 
         <!-- User Profile Section -->
-        <div class="user-profile dropdown">
-            <img src="<?= !empty($user['profile_picture']) ? htmlspecialchars($user['profile_picture']) : 'uploads/Temp-user-face.jpg' ?>" alt="Profile Picture" class="profile-image">
-            <span> <?php echo htmlspecialchars($_SESSION['username']); ?></span>
-            <div class="dropdown-content">
-                <a href="profile.php">My Profile</a>
-                <a href="settings.php">Settings</a>
-                <a id="themeToggle">Dark Mode</a>
-                <a href="logout.php" class="logout-button" onclick="return confirm('Are you sure you want to log out?')">Logout</a>
-            </div>
+       <!-- User Profile Section -->
+<div class="user-profile dropdown">
+    <img src="<?= !empty($user['profile_picture']) ? htmlspecialchars($user['profile_picture']) : 'uploads/Temp-user-face.jpg' ?>" alt="Profile Picture" class="profile-image">
+    <span>
+        <?= isset($_SESSION['username']) ? htmlspecialchars($_SESSION['username']) : 'Guest'; ?>
+    </span>
+    <div class="dropdown-content">
+        <?php if (isset($_SESSION['username'])): ?>
+            <a href="profile.php">My Profile</a>
+            <a href="settings.php">Settings</a>
+            <a id="themeToggle">Dark Mode</a>
+            <a href="logout.php" class="logout-button" onclick="return confirm('Are you sure you want to log out?')">Logout</a>
+        <?php else: ?>
+            <a href="combined_login.php">Login</a>
+            <a href="account_type.php">Register</a>
+            <a id="themeToggle">Dark Mode</a>
+        <?php endif; ?>
+    </div>
+</div>
         </div>
     </header>
     <main>
