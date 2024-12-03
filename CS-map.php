@@ -61,7 +61,6 @@ if (isset($_GET['department'])) {
             position: relative;
             width: 100%; /* Full width */
             height: 100vh; /* Full height */
-            background: url('background.jpg') no-repeat center center/cover; /* Background image */
         }
 
         /* Transparent button style */
@@ -70,20 +69,32 @@ if (isset($_GET['department'])) {
             width: 70px;
             height: 85px;
             font-size: 16px;
-            color: #fff; /* Text color */
+            color: black; /* Text color */
             background-color: rgba(0, 0, 0, 0.0); /* Transparent background */
             border: 1px solid rgba(255, 255, 255, 0.0); /* Border */
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease, color 0.3s ease;
             text-align: center;
+           
         }
+
+        a {
+       color: black; 
+       font-weight: bold;
+      }
 
         /* Hover effect */
         .transparent-button:hover {
             background-color: rgba(0, 255, 0, 0.4); /* Opaque background */
-            color: black; /* Text color on hover */
+            color: white; /* Text color on hover */
         }
+
+        .button {
+
+            padding: 0px;
+        }
+
 
         /* Positioning buttons in two per line */
         .transparent-button:nth-child(1) { top: 1%; left: 18.8%; }
@@ -94,44 +105,45 @@ if (isset($_GET['department'])) {
         .transparent-button:nth-child(6) { top: 11.8%; left: 40.9%; }
         .transparent-button:nth-child(7) { top: 17.4%; left: 18.9%; }
         .transparent-button:nth-child(8) { top: 17.4%; left: 40.9%; }
-        .transparent-button:nth-child(9) { top: 34%; left: 18%; }
-        .transparent-button:nth-child(10) { top: 34%; left: 39%; }
-        .transparent-button:nth-child(11) { top: 44.6%; left: 18%; }
-        .transparent-button:nth-child(12) { top: 44.6%; left: 39%; }
-        .transparent-button:nth-child(13) { top: 50.2%; left: 18%; }
-        .transparent-button:nth-child(14) { top: 50.2%; left: 39%; }
-        .transparent-button:nth-child(15) { top: 66%; left: 17.7%; }
-        .transparent-button:nth-child(16) { top: 66%; left: 39%; }
-        .transparent-button:nth-child(17) { top: 77.5%; left: 17.7%; }
-        .transparent-button:nth-child(18) { top: 77.5%; left: 39%; }
-        .transparent-button:nth-child(19) { top: 83.7%; left: 17.7%; }
-        .transparent-button:nth-child(20) { top: 83.7%; left: 39%; }
+        .transparent-button:nth-child(9) { top: 34.5%; left: 18%; }
+        .transparent-button:nth-child(10) { top: 34.5%; left: 40.4%; }
+        .transparent-button:nth-child(11) { top: 45.5%; left: 18.5%; }
+        .transparent-button:nth-child(12) { top: 45.5%; left: 40.5%; }
+        .transparent-button:nth-child(13) { top: 51.2%; left: 18.4%; }
+        .transparent-button:nth-child(14) { top: 51.2%; left: 40.5%; }
+        .transparent-button:nth-child(15) { top: 68%; left: 18.4%; }
+        .transparent-button:nth-child(16) { top: 68%; left: 40.5%; }
+        .transparent-button:nth-child(17) { top: 78.5%; left: 18.4%; }
+        .transparent-button:nth-child(18) { top: 78.5%; left: 40.5%; }
+        .transparent-button:nth-child(19) { top: 83.9%; left: 18.4%; }
+        .transparent-button:nth-child(20) { top: 83.9%; left: 40.5%; }
 
  </style>
 
 </head>
 <body>
 <div class="button-container">
- <button class="transparent-button">2010</button>
- <button class="transparent-button">2011</button>
- <button class="transparent-button">2008</button>
- <button class="transparent-button">2012</button>
- <button class="transparent-button">2007</button>
- <button class="transparent-button">2013</button>
- <button class="transparent-button">2005</button>
- <button class="transparent-button">2015</button>
- <button class="transparent-button">1009</button>
- <button class="transparent-button">1010</button>
- <button class="transparent-button">1008</button>
- <button class="transparent-button">1012</button>
- <button class="transparent-button">1006</button>
- <button class="transparent-button">1014</button>
- <button class="transparent-button">028</button>
- <button class="transparent-button">029</button>
- <button class="transparent-button">023</button>
- <button class="transparent-button">030</button>
- <button class="transparent-button">021</button>
- <button class="transparent-button">032</button>
+<a class="transparent-button" href="room_details.php?id=1" target="_blank"><br>2048</a>
+<a class="transparent-button" href="room_details.php?id=2" target="_blank"><br>2049</a>
+<a class="transparent-button" href="room_details.php?id=3" target="_blank"><br>2046</a>
+<a class="transparent-button" href="room_details.php?id=4" target="_blank"><br>2050</a>
+<a class="transparent-button" href="room_details.php?id=5" target="_blank"><br>2045</a>
+<a class="transparent-button" href="room_details.php?id=6" target="_blank"><br>2051</a>
+<a class="transparent-button" href="room_details.php?id=7" target="_blank"><br>2043</a>
+<a class="transparent-button" href="room_details.php?id=8" target="_blank"><br>2053</a>
+<a class="transparent-button" href="room_details.php?id=9" target="_blank"><br>1047</a>
+<a class="transparent-button" href="room_details.php?id=10" target="_blank"><br>1048</a>
+<a class="transparent-button" href="room_details.php?id=11" target="_blank"><br>1045</a>
+<a class="transparent-button" href="room_details.php?id=12" target="_blank"><br>1050</a>
+<a class="transparent-button" href="room_details.php?id=13" target="_blank"><br>1043</a>
+<a class="transparent-button" href="room_details.php?id=14" target="_blank"><br>1052</a>
+<a class="transparent-button" href="room_details.php?id=15" target="_blank"><br>056</a>
+<a class="transparent-button" href="room_details.php?id=16" target="_blank"><br>057</a>
+<a class="transparent-button" href="room_details.php?id=17" target="_blank"><br>051</a>
+<a class="transparent-button" href="room_details.php?id=18" target="_blank"><br>058</a>
+<a class="transparent-button" href="room_details.php?id=19" target="_blank"><br>049</a>
+<a class="transparent-button" href="room_details.php?id=20" target="_blank"><br>060</a>
+
 
     </div>
     
