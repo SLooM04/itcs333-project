@@ -768,7 +768,7 @@ if (isset($_GET['department'])) {
       border-radius: 5px; /* Rounded corners */
       border: 1px solid #618bb8; /* Add a subtle border */
       cursor: pointer; /* Pointer cursor to indicate interactivity */
-      max-width: 1300px; /* Size based on content */
+      max-width: 100%; /* Size based on content */
       transition: all 0.3s ease; /* Smooth transitions for hover effects */
       width: 100%; /* Make the container take full width */
       text-align: center; /* Ensure the text is centered inside */
@@ -827,10 +827,10 @@ if (isset($_GET['department'])) {
 <div id="rooms" class="rooms">
 
     <!-- Map View -->
-    <div id="mapclick" class="map" style="display: none; height: 2500px; width: 100%; border: 1px solid #ccc;">
+    <div id="mapclick" class="map" style="display: none; height: 2000px; width: 51%; border: 1px solid #ccc;">
     <iframe 
         id="mapFrame" 
-        src="IS-map.php" 
+        src="CS-map.php" 
         style="width: 100%; height: 100%; border: none;" 
         title="Map View">
     </iframe>

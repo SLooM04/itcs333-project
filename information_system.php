@@ -769,7 +769,7 @@ if (isset($_GET['department'])) {
       border-radius: 5px; /* Rounded corners */
       border: 1px solid #618bb8; /* Add a subtle border */
       cursor: pointer; /* Pointer cursor to indicate interactivity */
-      max-width: 1300px; /* Size based on content */
+      max-width: 100%; /* Size based on content */
       transition: all 0.3s ease; /* Smooth transitions for hover effects */
       width: 100%; /* Make the container take full width */
       text-align: center; /* Ensure the text is centered inside */
@@ -786,7 +786,7 @@ if (isset($_GET['department'])) {
     align-items: center; /* Center vertically */
     height: 100vh; /* Full viewport height */
     background-color: #f9f9f9; /* Optional background for contrast */
-}
+} 
 
 iframe {
     width: 100%;

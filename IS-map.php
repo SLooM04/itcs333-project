@@ -61,7 +61,6 @@ if (isset($_GET['department'])) {
             position: relative;
             width: 100%; /* Full width */
             height: 100vh; /* Full height */
-            background: url('background.jpg') no-repeat center center/cover; /* Background image */
         }
 
         /* Transparent button style */
