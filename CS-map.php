@@ -123,29 +123,28 @@ if (isset($_GET['department'])) {
 </head>
 <body>
 <div class="button-container">
-<a class="transparent-button" href="room_details.php?id=1" target="_blank"><br>2048</a>
-<a class="transparent-button" href="room_details.php?id=2" target="_blank"><br>2049</a>
-<a class="transparent-button" href="room_details.php?id=3" target="_blank"><br>2046</a>
-<a class="transparent-button" href="room_details.php?id=4" target="_blank"><br>2050</a>
-<a class="transparent-button" href="room_details.php?id=5" target="_blank"><br>2045</a>
-<a class="transparent-button" href="room_details.php?id=6" target="_blank"><br>2051</a>
-<a class="transparent-button" href="room_details.php?id=7" target="_blank"><br>2043</a>
-<a class="transparent-button" href="room_details.php?id=8" target="_blank"><br>2053</a>
-<a class="transparent-button" href="room_details.php?id=9" target="_blank"><br>1047</a>
-<a class="transparent-button" href="room_details.php?id=10" target="_blank"><br>1048</a>
-<a class="transparent-button" href="room_details.php?id=11" target="_blank"><br>1045</a>
-<a class="transparent-button" href="room_details.php?id=12" target="_blank"><br>1050</a>
-<a class="transparent-button" href="room_details.php?id=13" target="_blank"><br>1043</a>
-<a class="transparent-button" href="room_details.php?id=14" target="_blank"><br>1052</a>
-<a class="transparent-button" href="room_details.php?id=15" target="_blank"><br>056</a>
-<a class="transparent-button" href="room_details.php?id=16" target="_blank"><br>057</a>
-<a class="transparent-button" href="room_details.php?id=17" target="_blank"><br>051</a>
-<a class="transparent-button" href="room_details.php?id=18" target="_blank"><br>058</a>
-<a class="transparent-button" href="room_details.php?id=19" target="_blank"><br>049</a>
-<a class="transparent-button" href="room_details.php?id=20" target="_blank"><br>060</a>
+    <a class="transparent-button" href="room_details.php?id=35" target="_blank"><br>2048</a>
+    <a class="transparent-button" href="room_details.php?id=36" target="_blank"><br>2049</a>
+    <a class="transparent-button" href="room_details.php?id=34" target="_blank"><br>2046</a>
+    <a class="transparent-button" href="room_details.php?id=37" target="_blank"><br>2050</a>
+    <a class="transparent-button" href="room_details.php?id=33" target="_blank"><br>2045</a>
+    <a class="transparent-button" href="room_details.php?id=38" target="_blank"><br>2051</a>
+    <a class="transparent-button" href="room_details.php?id=39" target="_blank"><br>2043</a>
+    <a class="transparent-button" href="room_details.php?id=51" target="_blank"><br>2053</a>
+    <a class="transparent-button" href="room_details.php?id=29" target="_blank"><br>1047</a>
+    <a class="transparent-button" href="room_details.php?id=30" target="_blank"><br>1048</a>
+    <a class="transparent-button" href="room_details.php?id=28" target="_blank"><br>1045</a>
+    <a class="transparent-button" href="room_details.php?id=31" target="_blank"><br>1050</a>
+    <a class="transparent-button" href="room_details.php?id=27" target="_blank"><br>1043</a>
+    <a class="transparent-button" href="room_details.php?id=32" target="_blank"><br>1052</a>
+    <a class="transparent-button" href="room_details.php?id=22" target="_blank"><br>051</a>
+    <a class="transparent-button" href="room_details.php?id=23" target="_blank"><br>056</a>
+    <a class="transparent-button" href="room_details.php?id=24" target="_blank"><br>057</a>
+    <a class="transparent-button" href="room_details.php?id=25" target="_blank"><br>058</a>
+    <a class="transparent-button" href="room_details.php?id=21" target="_blank"><br>049</a>
+    <a class="transparent-button" href="room_details.php?id=26" target="_blank"><br>060</a>
+</div>
 
-
-    </div>
     
 
 </body>
