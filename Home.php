@@ -146,6 +146,8 @@ if (isset($_POST['reserve_now'])) {
             background-color: rgba(255, 255, 255, 0.1);
             border: 2px solid #ffffff;
             border-radius: 8px;
+            color: white;
+            text-decoration: none;
         }
 
         /* Ensure main content is above the video */
