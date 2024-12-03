@@ -111,29 +111,70 @@ if (isset($_GET['department'])) {
 
 </head>
 <body>
-<div class="button-container">
- <button class="transparent-button">2010</button>
- <button class="transparent-button">2011</button>
- <button class="transparent-button">2008</button>
- <button class="transparent-button">2012</button>
- <button class="transparent-button">2007</button>
- <button class="transparent-button">2013</button>
- <button class="transparent-button">2005</button>
- <button class="transparent-button">2015</button>
- <button class="transparent-button">1009</button>
- <button class="transparent-button">1010</button>
- <button class="transparent-button">1008</button>
- <button class="transparent-button">1012</button>
- <button class="transparent-button">1006</button>
- <button class="transparent-button">1014</button>
- <button class="transparent-button">028</button>
- <button class="transparent-button">029</button>
- <button class="transparent-button">023</button>
- <button class="transparent-button">030</button>
- <button class="transparent-button">021</button>
- <button class="transparent-button">032</button>
 
-    </div>
+<div class="map-container">
+    <a class="transparent-button" href="room_details.php?id=1" target="_blank">
+        <button>2010 </button>
+    </a>
+    <a class="transparent-button" href="room_details.php?id=2" target="_blank">
+        <button>2011</button>
+    </a>
+    <a class="transparent-button" href="room_details.php?id=3" target="_blank">
+        <button>2008</button>
+    </a>
+    <a class="transparent-button" href="room_details.php?id=4" target="_blank">
+        <button>2012</button>
+    </a>
+    <a class="transparent-button" href="room_details.php?id=5" target="_blank">
+        <button>2007</button>
+    </a>
+    <a class="transparent-button" href="room_details.php?id=6" target="_blank">
+        <button>2013</button>
+    </a>
+    <a class="transparent-button" href="room_details.php?id=7" target="_blank">
+        <button>2005</button>
+    </a>
+    <a class="transparent-button" href="room_details.php?id=8" target="_blank">
+        <button>2015</button>
+    </a>
+    <a class="transparent-button" href="room_details.php?id=9" target="_blank">
+        <button>1009</button>
+    </a>
+    <a class="transparent-button" href="room_details.php?id=10" target="_blank">
+        <button>1010</button>
+    </a>
+    <a class="transparent-button" href="room_details.php?id=11" target="_blank">
+        <button>1008</button>
+    </a>
+    <a class="transparent-button" href="room_details.php?id=12" target="_blank">
+        <button>1012</button>
+    </a>
+    <a class="transparent-button" href="room_details.php?id=13" target="_blank">
+        <button>1006</button>
+    </a>
+    <a class="transparent-button" href="room_details.php?id=14" target="_blank">
+        <button>1014</button>
+    </a>
+    <a class="transparent-button" href="room_details.php?id=15" target="_blank">
+        <button>028</button>
+    </a>
+    <a class="transparent-button" href="room_details.php?id=16" target="_blank">
+        <button>029</button>
+    </a>
+    <a class="transparent-button" href="room_details.php?id=17" target="_blank">
+        <button>023</button>
+    </a>
+    <a class="transparent-button" href="room_details.php?id=18" target="_blank">
+        <button>030</button>
+    </a>
+    <a class="transparent-button" href="room_details.php?id=19" target="_blank">
+        <button>021</button>
+    </a>
+    <a class="transparent-button" href="room_details.php?id=20" target="_blank">
+        <button>032</button>
+    </a>
+</div>
+
     
 
 </body>
