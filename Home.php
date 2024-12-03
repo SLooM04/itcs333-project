@@ -393,21 +393,21 @@ if (isset($_POST['reserve_now'])) {
             <hr class="featurette-divider">
             <div class="row">
                 <div class="col-lg-4">
-                    <img class="rounded-circle" src="h1.png" alt="Classroom Image" width="140" height="140">
+                    <img class="rounded-circle" src="h1.png" alt="Classroom Image" style="border: solid #000;" width="140" height="140">
                     <h2>Book a Classroom</h2>
                     <p>Experience seamless learning in our modern classrooms equipped with the latest technology, perfect for lectures, workshops, and group study sessions.</p>
                     <a class="btn btn-secondary" href="rooms.php" role="button">Book Now »</a>
                 </div>
 
                 <div class="col-lg-4">
-                    <img class="rounded-circle" src="h2.png" alt="Classroom Image" width="140" height="140">
+                    <img class="rounded-circle" src="h2.png" alt="Classroom Image" style="border: solid #000;" width="140" height="140">
                     <h2>Flexible Room Setup</h2>
                     <p>Our classrooms are designed to meet your needs, whether you're hosting a small seminar or a large conference. Choose from a variety of room setups to match your event.</p>
                     <a class="btn btn-secondary" href="rooms.php" role="button">Explore Options »</a>
                 </div>
 
                 <div class="col-lg-4">
-                    <img class="rounded-circle" src="h3 - Copy.png" alt="Classroom Image" width="140" height="140">
+                    <img class="rounded-circle" src="h3 - Copy.png" alt="Classroom Image" style="border: solid #000;" width="140" height="140">
                     <h2>Advanced Labs</h2>
                     <p>Each room is equipped with the latest technology, including projectors, interactive whiteboards, and high-speed internet, to support dynamic teaching methods and student engagement.</p>
                     <a class="btn btn-secondary" href="rooms.php" role="button">View Details »</a>
@@ -421,7 +421,7 @@ if (isset($_POST['reserve_now'])) {
                     <p class="lead">Our classrooms are thoughtfully designed to cater to your academic and professional needs. Whether you are conducting a lecture, hosting a seminar, or working on a collaborative project, our spaces offer advanced technology, ergonomic furniture, and a conducive environment to enhance productivity and learning.</p>
                 </div>
                 <div class="col-md-5">
-                    <img class="featurette-image img-fluid mx-auto" alt="Classroom Setup" style="width: 400px; height: 100%;" src="RoomPic/n0.jpg" data-holder-rendered="true">
+                    <img class="featurette-image img-fluid mx-auto" alt="Classroom Setup" style="border: solid #000; width: 400px; height: 100%;" src="RoomPic/n0.jpg" data-holder-rendered="true">
                 </div>
             </div>
 
@@ -433,7 +433,7 @@ if (isset($_POST['reserve_now'])) {
                 </div>
                 <hr class="featurette-divider">
                 <div class="col-md-5 order-md-1">
-                    <img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="500x500" style="width: 400px; height: 100%;" src="RoomPic/008.jpg" data-holder-rendered="true">
+                    <img  class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="500x500" style="border: solid #000; width: 400px; height: 100%;" src="RoomPic/008.jpg" data-holder-rendered="true">
                 </div>
             </div>
 
@@ -444,7 +444,7 @@ if (isset($_POST['reserve_now'])) {
                     <p class="lead">Whether you need a computer-equipped room to finalize a research project, a flexible setup for a collaborative workshop, or a venue for an academic event, our classrooms are tailored to meet your needs. Reserve now and benefit from spaces designed to elevate your experience.</p>
                 </div>
                 <div class="col-md-5">
-                    <img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="500x500" style="width: 400px; height: 100%" src="RoomPic/h.jpg" data-holder-rendered="true">
+                    <img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="500x500" style="border: solid #000; width: 400px; height: 100%" src="RoomPic/h.jpg" data-holder-rendered="true">
                 </div>
             </div>
         </div>
