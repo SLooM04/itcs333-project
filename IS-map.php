@@ -123,30 +123,30 @@ if (isset($_GET['department'])) {
 <body>
 
 <div class="map-container">
-<div class="button-container">
-    <a class="transparent-button" href="room_details.php?id=1" target="_blank"><br>2010</a>
-    <a class="transparent-button" href="room_details.php?id=2" target="_blank"><br>2011</a>
-    <a class="transparent-button" href="room_details.php?id=3" target="_blank"><br>2008</a>
-    <a class="transparent-button" href="room_details.php?id=4" target="_blank"><br>2012</a>
-    <a class="transparent-button" href="room_details.php?id=5" target="_blank"><br>2007</a>
-    <a class="transparent-button" href="room_details.php?id=6" target="_blank"><br>2013</a>
-    <a class="transparent-button" href="room_details.php?id=7" target="_blank"><br>2005</a>
-    <a class="transparent-button" href="room_details.php?id=8" target="_blank"><br>2015</a>
-    <a class="transparent-button" href="room_details.php?id=9" target="_blank"><br>1009</a>
-    <a class="transparent-button" href="room_details.php?id=10" target="_blank"><br>1010</a>
-    <a class="transparent-button" href="room_details.php?id=11" target="_blank"><br>1008</a>
-    <a class="transparent-button" href="room_details.php?id=12" target="_blank"><br>1012</a>
-    <a class="transparent-button" href="room_details.php?id=13" target="_blank"><br>1006</a>
-    <a class="transparent-button" href="room_details.php?id=14" target="_blank"><br>1014</a>
-    <a class="transparent-button" href="room_details.php?id=15" target="_blank"><br>028</a>
-    <a class="transparent-button" href="room_details.php?id=16" target="_blank"><br>029</a>
-    <a class="transparent-button" href="room_details.php?id=17" target="_blank"><br>023</a>
-    <a class="transparent-button" href="room_details.php?id=18" target="_blank"><br>030</a>
-    <a class="transparent-button" href="room_details.php?id=19" target="_blank"><br>021</a>
-    <a class="transparent-button" href="room_details.php?id=20" target="_blank"><br>032</a>
-</div>
+        <div class="button-container">
+            <a class="transparent-button" href="room_details.php?id=16" target="_blank"><br>2010</a>
+            <a class="transparent-button" href="room_details.php?id=17" target="_blank"><br>2011</a>
+            <a class="transparent-button" href="room_details.php?id=15" target="_blank"><br>2008</a>
+            <a class="transparent-button" href="room_details.php?id=18" target="_blank"><br>2012</a>
+            <a class="transparent-button" href="room_details.php?id=14" target="_blank"><br>2007</a>
+            <a class="transparent-button" href="room_details.php?id=19" target="_blank"><br>2013</a>
+            <a class="transparent-button" href="room_details.php?id=13" target="_blank"><br>2005</a>
+            <a class="transparent-button" href="room_details.php?id=20" target="_blank"><br>2015</a>
+            <a class="transparent-button" href="room_details.php?id=9" target="_blank"><br>1010</a>
+            <a class="transparent-button" href="room_details.php?id=10" target="_blank"><br>1011</a>
+            <a class="transparent-button" href="room_details.php?id=8" target="_blank"><br>1008</a>
+            <a class="transparent-button" href="room_details.php?id=11" target="_blank"><br>1012</a>
+            <a class="transparent-button" href="room_details.php?id=7" target="_blank"><br>1006</a>
+            <a class="transparent-button" href="room_details.php?id=12" target="_blank"><br>1014</a>
+            <a class="transparent-button" href="room_details.php?id=3" target="_blank"><br>028</a>
+            <a class="transparent-button" href="room_details.php?id=4" target="_blank"><br>029</a>
+            <a class="transparent-button" href="room_details.php?id=2" target="_blank"><br>023</a>
+            <a class="transparent-button" href="room_details.php?id=5" target="_blank"><br>030</a>
+            <a class="transparent-button" href="room_details.php?id=1" target="_blank"><br>021</a>
+            <a class="transparent-button" href="room_details.php?id=6" target="_blank"><br>032</a>
+        </div>
+    </div>
 
-</div>
 
     
 
