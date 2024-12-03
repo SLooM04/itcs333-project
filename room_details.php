@@ -524,7 +524,6 @@ if (isset($_GET['id'])) {
                 <div class="room-details">
                     <h2><?php echo htmlspecialchars($room['room_name']); ?></h2>
                     <p><strong>Room Capacity:</strong> <?php echo htmlspecialchars($room['capacity']); ?> people</p>
-                    <p><strong>Available Timeslot:</strong> <?php echo htmlspecialchars($room['available_timeslot']); ?></p>
                     <p><strong>Room Equipment:</strong> <?php echo htmlspecialchars($room['equipment']); ?></p>
 
                     <!-- Reserve Button -->
@@ -539,7 +538,7 @@ if (isset($_GET['id'])) {
 
             <script>
                 function changeMainImage(image) {
-                    document.getElementById("main-image").src =RoomPic/ image;
+                    document.getElementById("main-image").src ="RoomPic/" + image;
                 }
             </script>
 
