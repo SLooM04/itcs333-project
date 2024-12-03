@@ -69,7 +69,7 @@ if (isset($_GET['department'])) {
             width: 70px;
             height: 85px;
             font-size: 16px;
-            color: #black; /* Text color */
+            color: black; /* Text color */
             background-color: rgba(0, 0, 0, 0.0); /* Transparent background */
             border: 1px solid rgba(255, 255, 255, 0.0); /* Border */
             border-radius: 5px;
@@ -78,10 +78,11 @@ if (isset($_GET['department'])) {
             text-align: center;
            
         }
+
         a {
     color: black; 
     font-weight: bold;
-}
+      }
 
         /* Hover effect */
         .transparent-button:hover {
