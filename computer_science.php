@@ -36,9 +36,6 @@ if (isset($_GET['department'])) {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -275,7 +272,7 @@ if (isset($_GET['department'])) {
         .rooms {
             display: flex;
             justify-content: center;
-            margin-top: 50px;
+            margin-top: 0px;
             padding: 10px 10% 10px 10%;
         }
 
@@ -549,26 +546,36 @@ if (isset($_GET['department'])) {
                 box-shadow: 0 0 5px #003366, 0 0 10px #003366, 0 0 15px #003366;
             }
         }
+        .toggle-buttons {
+    display: flex; /* Arrange buttons in a row */
+    justify-content: center; /* Center them horizontally */
+    gap: 50px; /* Space between buttons */
+}
 
-    .toggle-buttons {
-        text-align: center;
-        margin-bottom: 20px;
-    }
+.toggle-buttons button {
+    padding: 10px 20px;
+    width: 230px;
+    font-size: 16px;
+    font-weight: bold; /* Make text bold for emphasis */
+    border: 2px solid transparent; /* Add border for active state handling */
+    border-radius: 25px; /* Round edges for a pill-like shape */
+    cursor: pointer;
+    background-color: #618bb8; /* Default background */
+    color: white; /* Text color */
+    transition: all 0.3s ease; /* Smooth transitions for hover and active states */
+}
 
-    .toggle-buttons button {
-        padding: 10px 20px;
-        margin: 5px;
-        font-size: 16px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        background-color: #618bb8;
-        color: white;
-    }
+.toggle-buttons button:hover {
+    background-color: #396391; /* Darker color on hover */
+    transform: scale(1.05); /* Slight scaling effect */
+}
 
-    .toggle-buttons button:hover {
-        background-color: #396391;
-    }
+.toggle-buttons button.active {
+    background-color: #396391; /* Active state color */
+    border-color: #ffffff; /* Highlight with a border */
+    color: #fff; /* Text color for active button */
+    transform: scale(1.1); /* Slightly larger size to indicate selection */
+}
 
 
 
@@ -742,38 +749,35 @@ if (isset($_GET['department'])) {
                 /* Ensure it takes the full width of its parent */
             }
         }
+        .IS {
 
-        .all {
-         text-align: center;
-         vertical-align: middle;
-         line-height: 0.5; /* Adjust line spacing if needed */
-         font-size: 30px; /* Adjust text size */
-         color: #333; /* Text color */
-         font-weight: bold; /* Make it bold */
-         font-family: 'Arial', sans-serif; /* Font family */
-         padding: 10px; /* Space inside the element */
-         margin: 1px auto; /* Center the div horizontally (if block-level) */
-         border: 1px solid #ccc; /* Optional border */
-         background-color: #f9f9f9; /* Optional background */
-         border-radius: 338px; /* Rounded corners */
-         max-width: 600px; /* Limit width */
-         display: flex; /* Enable flexbox */
-         align-items: center; /* Align items vertically in the center */
-         justify-content: center; /* Center content horizontally */
-         gap: 10px; /* Space between .all and .down */
-         height: 80px;
-         padding-left: 90px;
-
+            border: 3px solid #000;
+            background-color: #1893a3;
         }
+        
+        .back-rooms {
+      display: flex; /* Align contents flexibly */
+      justify-content: center; /* Center the content horizontally */
+      align-items: center; /* Vertically center the content */
+      margin-bottom: 20px; /* Add spacing below */
+      padding: 10px 15px; /* Internal padding for better appearance */
+      font-size: 19px; /* Adjust font size */
+      font-weight: bold; /* Make text bold */
+      color: #396391; /* Text color */
+      background-color: #eef4fc; /* Light background for emphasis */
+      border-radius: 5px; /* Rounded corners */
+      border: 1px solid #618bb8; /* Add a subtle border */
+      cursor: pointer; /* Pointer cursor to indicate interactivity */
+      max-width: 1300px; /* Size based on content */
+      transition: all 0.3s ease; /* Smooth transitions for hover effects */
+      width: 100%; /* Make the container take full width */
+      text-align: center; /* Ensure the text is centered inside */
+    }
 
-        .down {
-         width: 80px; /* Adjust width */
-         height: auto; /* Maintain aspect ratio */
-         display: block; /* To center, if needed */
-         margin: 0 auto; /* Center horizontally */
-         border-radius: 8px; /* Rounded corners (optional) */
-       }
-
+     .back-rooms:hover {
+      background-color: #dce7f5; /* Slightly darker background on hover */
+      color: #618bb8; /* Slightly darker text */
+     }
     </style>
 </head>
 
@@ -809,180 +813,97 @@ if (isset($_GET['department'])) {
             </div>
         </div>
     </header>
-    <!-- Department Selection -->
-    <div class="container">
-        <div class="department" onclick="redirectToPage('IS')">
-            
-            <div class="roof">|||||||||||||||||||||||||||</div>
-            <div class="top-circle"></div>
-            <div class="side">S40</div>
-            <div class="side-right">S40</div>
-            <div class="window"><br></div>
-            <div class="window"><br></div>
-            <div class="door-L">
-                <div class="door-L-text">-</div>
-            </div>
-            <div class="door-R">
-                <div class="door-R-text">-</div>
-            </div>
-            <div class="department-text">Information Systems</div>
-        </div>
 
-        <div class="department" onclick="redirectToPage('CS')">
-            <div class="roof">|||||||||||||||||||||||||||</div>
-            <div class="top-circle"></div>
-            <div class="side">S40</div>
-            <div class="side-right">S40</div>
-            <div class="window"><br></div>
-            <div class="window"><br></div>
-            <div class="door-L">
-                <div class="door-L-text">-</div>
-            </div>
-            <div class="door-R">
-                <div class="door-R-text">-</div>
-            </div>
-            <div class="department-text">Computer Science</div>
-        </div>
+     <a href="rooms.php" class="back-rooms">Back to Departments</a>
 
-        <div class="department" onclick="redirectToPage('NE')">
-            <div class="roof">|||||||||||||||||||||||||||</div>
-            <div class="top-circle"></div>
-            <div class="side">S40</div>
-            <div class="side-right">S40</div>
-            <div class="window"><br></div>
-            <div class="window"><br></div>
-            <div class="door-L">
-                <div class="door-L-text">-</div>
-            </div>
-            <div class="door-R">
-                <div class="door-R-text">-</div>
-            </div>
-            <div class="department-text">Network Engineering</div>
-        </div>
 
+     <!-- Buttons to Toggle Views -->
+<div class="toggle-buttons">
+    <button id="showRoomGallery" onclick="showRooms('CS')">Department Rooms</button>
+    <button id="showMap" onclick="showView('mapclick')">Map rooms</button>
+</div>
+
+<!-- Room Selection (Dynamic Content) -->
+<div id="rooms" class="rooms">
+
+    <!-- Map View -->
+    <div id="mapclick" class="map" style="display: none; height: 2500px; width: 100%; border: 1px solid #ccc;">
+    <iframe 
+        id="mapFrame" 
+        src="IS-map.php" 
+        style="width: 100%; height: 100%; border: none;" 
+        title="Map View">
+    </iframe>
+   </div>
+
+    <!-- Department Rooms View -->
+    <div id="roomSelection" class="room-gallery" style="display: none;">
+        <h4>Department: CS</h4>
+        <?php if ($rooms): ?>
+            <?php foreach ($rooms as $room): ?>
+                <div class="room">
+                    <a href="room_details.php?id=<?php echo htmlspecialchars($room['id']); ?>">
+                        <figure>
+                            <?php if (!empty($room['image'])): ?>
+                                <img src="RoomPic/<?php echo htmlspecialchars($room['image']); ?>" alt="<?php echo htmlspecialchars($room['room_name']); ?>">
+                            <?php else: ?>
+                                <img src="RoomPic/jpg" alt="Default Room Image">
+                            <?php endif; ?>
+                            <figcaption>
+                                <h2><?php echo htmlspecialchars($room['room_name']); ?></h2>
+                                <p>
+                                    <strong>Capacity:</strong> <?php echo htmlspecialchars($room['capacity']); ?>
+                                </p>
+                                <p>
+                                    <strong>Department:</strong> <?php echo htmlspecialchars($room['department']); ?>
+                                </p>
+                            </figcaption>
+                        </figure>
+                    </a>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p>No rooms available for the selected department.</p>
+        <?php endif; ?>
     </div>
-      <div class="all">
-     All Departments room
-     <img src="uploads/down.png" alt="down here" class="down">
+</div>
 
-
-       </div>
-    <!-- Room Selection (Dynamic Content) -->
-    <div id="rooms" class="rooms">
-
-     
-        <!-- Map View -->
-       <div id="mapclick" class="map" style="display: none;">
-        <h4>Map View Content Here</h4>
-       </div>
-
-       <!-- All rooms View -->
-       <div id="Allrooms" class="room-gallery" >
-            <?php if ($rooms): ?>
-                <?php foreach ($rooms as $room): ?>
-                    <div class="room">
-                        <a href="room_details.php?id=<?php echo htmlspecialchars($room['id']); ?>">
-                            <figure>
-                                <?php if (!empty($room['image'])): ?>
-                                    <img src="RoomPic/<?php echo htmlspecialchars($room['image']); ?>" alt="<?php echo htmlspecialchars($room['room_name']); ?>">
-                                <?php else: ?>
-                                    <img src="RoomPic/jpg" alt="Default Room Image">
-                                <?php endif; ?>
-                                <figcaption>
-                                    <h2><?php echo htmlspecialchars($room['room_name']); ?></h2>
-                                    <p>
-                                        <strong><img src="Seats.png" alt="Capacity Icon" style="width: 28px; height: 28px; vertical-align: middle;"> Capacity:</strong>
-                                        <?php echo htmlspecialchars($room['capacity']); ?>
-                                    </p>
-                                    <p>
-                                        <strong><img src="de.png" alt="Department Icon" style="width: 24px; height: 28px; vertical-align: middle;"> Department:</strong>
-                                        <?php echo htmlspecialchars($room['department']); ?>
-                                    </p>
-                                </figcaption>
-
-                            </figure>
-                        </a>
-                    </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <p>No rooms available for the selected department.</p>
-            <?php endif; ?>
-        </div>
-    </div>
-        
-    
-        <!-- department rooms View -->
-        <div id="roomSelection" class="room-gallery" style="display: none;">
-            <?php if ($rooms): ?>
-                <?php foreach ($rooms as $room): ?>
-                    <div class="room">
-                        <a href="room_details.php?id=<?php echo htmlspecialchars($room['id']); ?>">
-                            <figure>
-                                <?php if (!empty($room['image'])): ?>
-                                    <img src="RoomPic/<?php echo htmlspecialchars($room['image']); ?>" alt="<?php echo htmlspecialchars($room['room_name']); ?>">
-                                <?php else: ?>
-                                    <img src="RoomPic/jpg" alt="Default Room Image">
-                                <?php endif; ?>
-                                <figcaption>
-                                    <h2><?php echo htmlspecialchars($room['room_name']); ?></h2>
-                                    <p>
-                                        <strong><img src="Seats.png" alt="Capacity Icon" style="width: 28px; height: 28px; vertical-align: middle;"> Capacity:</strong>
-                                        <?php echo htmlspecialchars($room['capacity']); ?>
-                                    </p>
-                                    <p>
-                                        <strong><img src="de.png" alt="Department Icon" style="width: 24px; height: 28px; vertical-align: middle;"> Department:</strong>
-                                        <?php echo htmlspecialchars($room['department']); ?>
-                                    </p>
-                                </figcaption>
-
-                            </figure>
-                        </a>
-                    </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <p>No rooms available for the selected department.</p>
-            <?php endif; ?>
-        </div>
-    </div>
-
-    <!-- selected department -->
-    <script>
-        function  showRooms(department) {
-            // Fetch rooms data based on the selected department
-            window.location.href = '?department =' + department ;
-        }
-    </script>
-
- <script>
-    function redirectToPage(department) {
-        // Redirect based on the department clicked
-        if (department === 'IS') {
-            window.location.href = "information_system.php";
-        } else if (department === 'CS') {
-            window.location.href = "computer_science.php";
-        } else if (department === 'NE') {
-            window.location.href = "network_engineering.php";
-        }
+<!-- JavaScript to Control Visibility -->
+<script>
+    function showRooms(department) {
+        // Redirect to the URL with the selected department
+        window.location.href = '?department=' + department;
     }
- </script>
 
-   <script >
     function showView(viewId) {
-        // Hide all views initially
-        document.getElementById('Allrooms').style.display = 'none';
-        document.getElementById('roomSelection').style.display = 'none';
+        // Hide all views
         document.getElementById('mapclick').style.display = 'none';
+        document.getElementById('roomSelection').style.display = 'none';
 
         // Show the selected view
         document.getElementById(viewId).style.display = 'block';
     }
-   </script>
 
+    function checkURLAndShowContent() {
+        // Get the "department" parameter from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const department = urlParams.get('department');
 
+        // Show content only if department is "CS"
+        if (department === 'CS') {
+            document.getElementById('roomSelection').style.display = 'block';
+        } else {
+            document.getElementById('roomSelection').style.display = 'none';
+        }
+    }
 
+    // Run the check when the page loads
+    window.onload = checkURLAndShowContent;
+</script>
 
+   
 
-
+  
     <!-- Footer -->
     <footer>
         <div class="footer-container">
