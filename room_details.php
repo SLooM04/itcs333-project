@@ -555,7 +555,7 @@ $available_slots = generateAvailableSlots($booked_slots);
         <div class="containerDee">
 
             <div class="title">
-                <p style="color: #000000"><strong>Detailed information about </strong><?php echo htmlspecialchars($room['room_name']); ?></p>
+                <p style="color: #000000"><strong>Detailed information for </strong><?php echo htmlspecialchars($room['room_name']); ?></p>
             </div>
 
             <div class="features">
