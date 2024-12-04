@@ -32,444 +32,353 @@ if (isset($_GET['id'])) {
     <style>
         /* Importing Google Fonts */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
-        /* Basic Styles */
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f4f7f6;
-            margin: 0 0 0 0;
-            padding: auto;
-            text-align: center;
 
-        }
+ /* Basic Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
 
-        body.dark-mode {
-            background-color: #2e4156;
-            color: white;
-        }
+body.dark-mode {
+    background-color: #2e4156;
+    color: white;
+}
 
-       
+body.dark-mode header,
+body.dark-mode footer {
+    background-color: #1a2d42;
+    color: #d1d1d1;
+}
 
-        body.dark-mode .dropdown-content a {
-            color: #000;
-        }
-        body.dark-mode .dropdown-content a:hover{
-            background-color: #2e4156;
-        }
+body.dark-mode .dropdown-content {
+    background-color: #2b2b3b;
+}
 
-        body.dark-mode .recommendation-card {
-            background-color: #2e344e;
-        }
+body.dark-mode .dropdown-content a {
+    color: #edf4fa;
+}
 
-        body.dark-mode .recommendation-card {
-            background-color: #2e344e;
-        }
+body.dark-mode .recommendation-card {
+    background-color: #2e344e;
+}
 
-        body.dark-mode header {
-            background-color: #1a2d42;
-            color: #d1d1d1;
-        }
+body.dark-mode nav a {
+    color: #e0e0e0;
+}
 
-        body.dark-mode nav a {
-            color: #e0e0e0;
-        }
+/* Logo Styles */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none;
+    color: white;
+    border-radius: 12px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
 
-        body.dark-mode .dropdown-content {
-            background-color: #2b2b3b;
-        }
+.logo img {
+    width: 100px;
+    border-radius: 20%;
+    transition: transform 0.8s;
+}
 
-        body.dark-mode .dropdown-content a {
-            color: #e0e0e0;
-        }
+/* Header Styles */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px 30px;
+    background-color: #1a73e8;
+    color: white;
+    height: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1000;
+}
 
-        body.dark-mode .dropdown-content a {
-            color: #edf4fa;
-        }
+/* Navigation Links */
+.nav-links {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
 
-        body.dark-mode footer {
-            background-color: #1a2d42;
-            color: #d1d1d1;
-        }
-  
+.nav-item {
+    text-decoration: none;
+    color: white;
+    font-size: 1em;
+    padding: 8px 15px;
+    border-radius: 8px;
+    transition: background-color 0.3s, border 0.3s;
+}
 
- /* Logo Styles */
- .logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            text-decoration: none;
-            color: white;
-            border-radius: 12px;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
+.nav-item:hover,
+.nav-item.active {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 2px solid #ffffff;
+}
 
-        .logo img {
-            width: 100px;
-            border-radius: 20%;
-            transition: transform 0.8s;
-        }
+.active {
+    border: 2px solid #f0f0f0;
+    background-color: rgba(255, 255, 255, 0.2);
+}
 
-        @media (min-width: 801px) and (max-width: 1000px) {
-            .logo img {
-                width: 3rem;
-            }
-        }
+/* User Profile Section */
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: white;
+}
 
+.user-profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+}
 
+.user-profile span {
+    font-size: 1em;
+    white-space: nowrap;
+}
 
-        /* Header Styles */
-  header {
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            padding: 10px 30px;
-            background-color: #1a73e8;
-            color: white;
-            height: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            position: relative;
-            z-index: 1000;
-        }
+/* Dropdown Menu */
+.dropdown {
+    position: relative;
+}
 
-        /* Navigation Links */
-        .nav-links {
-            display: flex;
-            gap: 40px;
-            align-items: center;
-        }
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #ffffff;
+    color: #222;
+    min-width: 150px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    z-index: 2000;
+}
 
-        .nav-item {
-            text-decoration: none;
-            color: white;
-            font-size: 1em;
-            padding: 8px 15px;
-            border-radius: 8px;
-            transition: background-color 0.3s, border 0.3s;
-            position: relative;
-        }
+.dropdown-content a {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #222;
+    transition: background-color 0.3s;
+}
 
-        .nav-item:hover,
-        .nav-item.active {
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 2px solid #ffffff;
-            border-radius: 8px;
-        }
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
 
-        .active {
-            border: 2px solid #f0f0f0;
-            background-color: rgba(255, 255, 255, 0.2);
-        }
+.dropdown:hover .dropdown-content {
+    display: block;
+}
 
-        /* User Profile Section */
-    .user-profile {
-        display: flex;
+/* Room Details Layout */
+.room-container {
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info {
+    background-color: #e4f0f2;
+    border-radius: 15px;
+    padding: 3%;
+}
+
+.room-images {
+    width: 50%;
+    margin-right: 110px;
+}
+
+.main-image {
+    width: 60%;
+    height: auto;
+    margin-bottom: 20px;
+    border: 2px solid #1A2D42;
+    border-radius: 15px;
+}
+
+.thumbnail-images {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.thumbnail-images img {
+    width: 150px;
+    height: auto;
+    cursor: pointer;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.thumbnail-images img:hover {
+    transform: scale(1.2);
+}
+
+.room-details {
+    width: 50%;
+    text-align: left;
+}
+
+.room-details h2 {
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: #000000;
+}
+
+.room-details p {
+    font-size: 1.1em;
+    margin: 5px 0;
+    color: #000000;
+}
+
+.reserve-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    background-color: #1A2D42;
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.reserve-button:hover {
+    background-color: #AAB7B7;
+}
+
+/* Footer Styles */
+footer {
+    color: white;
+    background-color: #1a73e8;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 9rem;
+    font-size: 0.9rem;
+}
+
+footer .footer-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+footer .footer-section {
+    flex: 1 1 200px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+footer .footer-section h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+footer .footer-section ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+footer .footer-section ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Media Queries */
+@media (min-width: 801px) and (max-width: 1000px) {
+    .logo img {
+        width: 3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    footer .footer-container {
+        flex-direction: column;
         align-items: center;
-        gap: 15px;
-        color: white;
     }
 
-    .user-profile img {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        border: 2px solid #fff;
+    footer .footer-section {
+        margin-bottom: 1.5rem;
+        text-align: center;
     }
 
-    .user-profile span {
-        font-size: 1em;
-        white-space: nowrap;
+    footer .footer-section ul li {
+        margin: 0.2rem 0;
+    }
+}
+
+@media (min-width: 600px) and (max-width: 1024px) {
+    .room-container {
+        flex-direction: row;
     }
 
-    /* Dropdown Menu */
-    .dropdown {
-        position: relative;
+    .room-images,
+    .room-details {
+        width: 45%;
     }
 
-    .dropdown-content {
-        display: none;
-        position: absolute;
-        top: 100%;
-        right: 0;
-        background-color: #ffffff;
-        color: #222;
-        min-width: 150px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        border-radius: 5px;
-        z-index: 2000;
+    .thumbnail-images img {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+@media (max-width: 599px) {
+    header {
+        flex-direction: column;
     }
 
-    .dropdown-content a {
-        display: block;
-        padding: 10px 15px;
-        text-decoration: none;
-        color: #222;
-        transition: background-color 0.3s;
+    nav {
+        flex-direction: column;
+        gap: 5px;
     }
 
-    .dropdown-content a:hover {
-        background-color: #f1f1f1;
+    .room-images,
+    .room-details {
+        width: 100%;
     }
 
-    .dropdown:hover .dropdown-content {
-        display: block;
+    .info {
+        display: grid;
     }
-        /* Room details layout */
-        .room-container {
-            border: 2px solid #ccc;
-            /* Reduced border size (2px instead of default or larger sizes) */
-            border-radius: 10px;
-            /* Optional for rounded corners */
-            display: flex;
 
-            align-items: center;
-            justify-content: center;
-        }
+    .thumbnail-images img {
+        width: 60px;
+        height: 60px;
+    }
 
-        .info {
-            background-color: #e4f0f2;
-            border-radius: 15px;
-            padding: 3%;
+    .reserve-button {
+        width: 100%;
+    }
+}
+</style>
 
-
-
-        }
-
-        /* Left side with large image and thumbnails */
-        .room-images {
-            width: 50%;
-            margin-right: 110px;
-
-        }
-
-        .main-image {
-            width: 60%;
-            height: auto;
-            margin-bottom: 20px;
-            border: 2px solid #1A2D42;
-            border-radius: 15px;
-
-        }
-
-        .thumbnail-images {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-        }
-
-        .thumbnail-images img {
-            width: 150px;
-            height: auto;
-            cursor: pointer;
-            border: 2px solid #ccc;
-            border-radius: 8px;
-            transition: transform 0.3s ease;
-        }
-
-        .thumbnail-images img:hover {
-            transform: scale(1.2);
-        }
-
-        /* Right side with room details */
-        .room-details {
-            width: 50%;
-            text-align: left;
-
-        }
-
-        .room-details h2 {
-            font-size: 2em;
-            margin-bottom: 10px;
-            color: #000000;
-        }
-
-        .room-details p {
-            font-size: 1.1em;
-            margin: 5px 0;
-            color: #000000;
-        }
-
-        .reserve-button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 1.2em;
-            background-color: #1A2D42;
-            color: white;
-            border-radius: 15px;
-            cursor: pointer;
-
-        }
-
-        .reserve-button:hover {
-            background-color: #AAB7B7;
-        }
-
-        /* Footer styles */
-        footer {
-            color: white;
-            background-color: #1a73e8;
-            text-align: center;
-            padding: 1rem 1rem;
-            margin-top: 9rem;
-            font-size: 0.9rem;
-        }
-
-        footer .footer-container {
-            display: flex;
-            justify-content: space-around;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        footer .footer-section {
-            flex: 1 1 200px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            text-align: left;
-        }
-
-        footer .footer-section h3 {
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            color: #ffffff;
-            font-weight: 600;
-        }
-
-        footer .footer-section ul li a {
-            color: white;
-            text-decoration: none;
-            font-size: 1rem;
-        }
-
-        footer .footer-section ul li a:hover {
-            text-decoration: underline;
-        }
-        /* Responsive design for the footer */
-        @media (max-width: 768px) {
-            footer .footer-container {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            footer .footer-section {
-                margin-bottom: 1.5rem; 
-                text-align: center;
-            }
-
-            footer .footer-section ul li {
-                margin: 0.2rem 0;
-            }}
-
-
-
-        /* Media Query for Tablets */
-        @media (min-width: 600px) and (max-width: 1024px) {
-            .room-container {
-                flex-direction: row;
-                /* Side-by-side layout for tablets */
-            }
-
-            .room-images,
-            .room-details {
-                width: 45%;
-                /* Take up less space on tablets */
-            }
-
-            .thumbnail-images img {
-                width: 100px;
-                height: 100px;
-            }
-        }
-
-        /* Media Query for Mobile Screens */
-        @media (max-width: 599px) {
-            header {
-                flex-direction: column;
-                /* Stack header elements vertically */
-            }
-
-            nav {
-                flex-direction: column;
-                gap: 5px;
-            }
-
-            .room-images,
-            .room-details {
-                width: 100%;
-            }
-
-            .info {
-                display: grid;
-            }
-
-            .thumbnail-images img {
-                width: 60px;
-                height: 60px;
-            }
-
-            .reserve-button {
-                width: 100%;
-                /* Full-width button for mobile */
-            }
-        }
-        @media (max-width: 480px) {
-            header {
-                display: flex;
-                justify-content: space-evenly;
-                height: auto;
-                flex-direction: row;
-                font-size: 0.8rem;
-            }
-       
-           
-
-        .nav-item {
-            text-decoration: none;
-            display: flex;
-            justify-content: space-between;
-            gap: 40px;
-            color: white;
-            font-size: 0.8em;
-            padding: 8px 15px;
-            border-radius: 8px;
-            transition: background-color 0.3s, border 0.3s;
-            position: relative;
-        }
-            
-            .nav-item:hover,
-        .nav-item.active {
-            border: none;
-            border-radius: 8px;
-            box-sizing: content-box;
-            
-        }
-
-            .logo img {
-                width: 60px;
-            }
-
-            .nav-links {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .user-profile {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-    </style>
 </head>
 
 <body>
-<header>
-        <!-- Logo Section -->
+    <!-- Main content starts here -->
+    <header>
         <a href="homelog.php" class="logo">
             <img src="uploads/UOB-Colleges-new-logo.png" alt="Logo">
             UOB
         </a>
-
-        <!-- Navigation Links -->
 
         <nav class="nav-links">
             <a href="homelog.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'homelog.php' ? 'active' : ''; ?>">Home</a>
@@ -478,48 +387,37 @@ if (isset($_GET['id'])) {
             <a href="supportFAQ.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'support.php' ? 'active' : ''; ?>">Support</a>
         </nav>
 
-
-
-        <!-- User Profile Section -->
-       <!-- User Profile Section -->
-<div class="user-profile dropdown">
-    <img src="<?= !empty($user['profile_picture']) ? htmlspecialchars($user['profile_picture']) : 'uploads/Temp-user-face.jpg' ?>" alt="Profile Picture" class="profile-image">
-    <span>
-        <?= isset($_SESSION['username']) ? htmlspecialchars($_SESSION['username']) : 'Guest'; ?>
-    </span>
-    <div class="dropdown-content">
-        <?php if (isset($_SESSION['username'])): ?>
-            <a href="profile.php">My Profile</a>
-            <a href="settings.php">Settings</a>
-            <a id="themeToggle">Dark Mode</a>
-            <a href="logout.php" class="logout-button" onclick="return confirm('Are you sure you want to log out?')">Logout</a>
-        <?php else: ?>
-            <a href="combined_login.php">Login</a>
-            <a href="account_type.php">Register</a>
-            <a id="themeToggle">Dark Mode</a>
-        <?php endif; ?>
-    </div>
-</div>
+        <div class="user-profile dropdown">
+            <img src="<?= !empty($user['profile_picture']) ? htmlspecialchars($user['profile_picture']) : 'uploads/Temp-user-face.jpg' ?>" alt="Profile Picture" class="profile-image">
+            <span>
+                <?= isset($_SESSION['username']) ? htmlspecialchars($_SESSION['username']) : 'Guest'; ?>
+            </span>
+            <div class="dropdown-content">
+                <?php if (isset($_SESSION['username'])): ?>
+                    <a href="profile.php">My Profile</a>
+                    <a href="settings.php">Settings</a>
+                    <a id="themeToggle">Dark Mode</a>
+                    <a href="logout.php" class="logout-button" onclick="return confirm('Are you sure you want to log out?')">Logout</a>
+                <?php else: ?>
+                    <a href="combined_login.php">Login</a>
+                    <a href="account_type.php">Register</a>
+                    <a id="themeToggle">Dark Mode</a>
+                <?php endif; ?>
+            </div>
         </div>
     </header>
     <main>
-
-
         <div class="room-container">
             <div class="room-images">
-                <!-- Main Room Image -->
                 <img src="RoomPic/<?php echo htmlspecialchars($room['image']); ?>" alt="Room Image" class="main-image" id="main-image">
 
-                <!-- Thumbnail Images -->
                 <div class="thumbnail-images">
-                    <!-- First thumbnail is the main image -->
                     <img src="RoomPic/<?php echo htmlspecialchars($room['image']); ?>" alt="Main Image" onclick="changeMainImage('<?php echo htmlspecialchars($room['image']); ?>')">
 
                     <?php
-                    // Display additional thumbnail images if available
                     for ($i = 1; $i <= 4; $i++) {
-                        $thumb = $room['thumbnail_' . $i] ?? 'default-thumbnail.jpg'; // Default if no thumbnail
-                        if ($i > 1) { // Skip the first one since it's already the main image
+                        $thumb = $room['thumbnail_' . $i] ?? 'default-thumbnail.jpg';
+                        if ($i > 1) {
                             echo '<img src="RoomPic/' . htmlspecialchars($thumb) . '" alt="Thumbnail ' . $i . '" onclick="changeMainImage(\'' . htmlspecialchars($thumb) . '\')">';
                         }
                     }
@@ -532,33 +430,27 @@ if (isset($_GET['id'])) {
                     <p><strong>Room Capacity:</strong> <?php echo htmlspecialchars($room['capacity']); ?> people</p>
                     <p><strong>Room Equipment:</strong> <?php echo htmlspecialchars($room['equipment']); ?></p>
 
-                    <!-- Reserve Button -->
                     <form action="Room_Booking.php" method="GET">
-    <input type="hidden" name="id" value="<?php echo $room['id']; ?>" />
-    <?php if (isset($_SESSION['username'])): ?>
-        <button type="submit">Book Now</button>
-    <?php else: ?>
-        <button type="button" disabled>Book Now</button>
-        <p style="color: red; font-size: 1.1em;">You need to log in to book this room.</p>
-    <?php endif; ?>
-</form>
+                        <input type="hidden" name="id" value="<?php echo $room['id']; ?>" />
+                        <?php if (isset($_SESSION['username'])): ?>
+                            <button type="submit">Book Now</button>
+                        <?php else: ?>
+                            <button type="button" disabled>Book Now</button>
+                            <p style="color: red; font-size: 1.1em;">You need to log in to book this room.</p>
+                        <?php endif; ?>
+                    </form>
                 </div>
             </figure>
 
-
             <script>
                 function changeMainImage(image) {
-                    document.getElementById("main-image").src ="RoomPic/" + image;
+                    document.getElementById("main-image").src = "RoomPic/" + image;
                 }
             </script>
-
     </main>
 
-
-    <!-- Footer -->
- <footer>
+    <footer>
         <div class="footer-container">
-            <!-- University Info -->
             <div class="footer-section">
                 <h3>University Info</h3>
                 <ul>
@@ -568,7 +460,6 @@ if (isset($_GET['id'])) {
                 </ul>
             </div>
 
-            <!-- Quick Links -->
             <div class="footer-section">
                 <h3>Quick Links</h3>
                 <ul>
@@ -577,7 +468,6 @@ if (isset($_GET['id'])) {
                 </ul>
             </div>
 
-            <!-- Contact Info -->
             <div class="footer-section">
                 <h3>Contact Us</h3>
                 <ul>
@@ -598,11 +488,9 @@ if (isset($_GET['id'])) {
     </footer>
 
     <script>
-        // Handle theme toggle
         const themeToggle = document.getElementById('themeToggle');
         const body = document.body;
 
-        // Check for saved theme in localStorage
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme === 'dark') {
             body.classList.add('dark-mode');
@@ -612,7 +500,6 @@ if (isset($_GET['id'])) {
         themeToggle.addEventListener('click', () => {
             body.classList.toggle('dark-mode');
 
-            // Update button text and save preference
             if (body.classList.contains('dark-mode')) {
                 themeToggle.textContent = 'Light Mode';
                 localStorage.setItem('theme', 'dark');
@@ -622,7 +509,6 @@ if (isset($_GET['id'])) {
             }
         });
     </script>
-
 </body>
 
 </html>
