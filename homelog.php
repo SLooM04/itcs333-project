@@ -372,10 +372,68 @@ $username = $_SESSION['username'] ?? 'User';
             }
         }
 
+        .slider-container {
+            width: 50%;
+            height: 80%;
+            margin: auto;
+            overflow: hidden;
+            position: relative;
+            border-radius: 20px;
+            align-items: center;
+        }
+
+        .slider {
+            display: flex;
+            transition: transform 1s ease-in-out;
+        }
+
+        .slide {
+            min-width: 100%;
+            transition: transform 1s ease-in-out, width 1s ease-in-out;
+        }
+
+        .dot-container {
+            z-index: 5;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 1.5em;
+            text-align: center;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 5px;
+            border-radius: 20px;
+        }
+        .dot {
+            height: 15px;
+            width: 15px;
+            margin: 0 5px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+            cursor: pointer;
+        }
+
+        .active-dot {
+            background-color: white;
+        }
+
+        h2{
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-align: center;
+            color: #111;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            z-index: 1; 
+        }
+
+
+
         /* Recommendations Section */
         .recommendations {
             text-align: center;
-            margin: 20px 20px;
+            margin: 100px 20px ;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
             z-index: 1;
         }
@@ -403,7 +461,7 @@ $username = $_SESSION['username'] ?? 'User';
         }
 
         .recommendations a:hover {
-            color: #003366;
+            color: #004db3;
             font-weight: bold;
             text-decoration: none;
         }
@@ -617,7 +675,6 @@ $username = $_SESSION['username'] ?? 'User';
             ?>
                 <p id="greeting"></p> <!-- Element to hold the personalized greeting -->
 
-            <p>Your personalized dashboard awaits.</p>
         </section>
 
         <!-- Action Buttons Section -->
@@ -635,6 +692,79 @@ $username = $_SESSION['username'] ?? 'User';
             <span>Support</span>
         </a>
     </section>
+
+            <h2>Our Special Labs</h2>
+    <div class="slider-container">
+        <div class="slider">
+            <div class="slide">
+                <img src="RoomPic/h.jpg" alt="Slide 1">
+            </div>
+            <div class="slide">
+                <img src="RoomPic/008.jpg" alt="Slide 2">
+            </div>
+            <div class="slide">
+                <img src="RoomPic/image0.jpg" alt="Slide 3">
+            </div>
+            <div class="slide">
+                <img src="RoomPic/images.png" alt="Slide 3">
+            </div>
+        </div>
+
+        <div class="dot-container">
+            <span class="dot" onclick="currentSlide(0)"></span>
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+            <!-- Add more dots as needed -->
+    </div>
+    </div>
+    <script>
+                    let currentIndex = 0;
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.dot');
+            const totalSlides = slides.length;
+
+            function showSlide(index) {
+                if (index < 0) currentIndex = totalSlides - 1;
+                else if (index >= totalSlides) currentIndex = 0;
+                else currentIndex = index;
+
+                slides.forEach((slide, i) => {
+                    const isCurrent = i === currentIndex;
+                    const scaleFactor = isCurrent ? 1 : 0.8;
+                    slide.style.transform = `scale(${scaleFactor})`; // Fixed the template literal
+                    slide.style.width = isCurrent ? '100%' : '50%';
+                    dots[i].classList.toggle('active', isCurrent);
+                });
+
+                const translateValue = -currentIndex * 100;
+                document.querySelector('.slider').style.transform = `translateX(${translateValue}%)`; // Fixed the template literal
+            }
+
+            // Function to move to the next slide
+            function nextSlide() {
+                showSlide(currentIndex + 1);
+            }
+
+            // Function to move to the previous slide
+            function prevSlide() {
+                showSlide(currentIndex - 1);
+            }
+
+            // Function to jump to a specific slide
+            function currentSlide(index) {
+                showSlide(index);
+            }
+
+            // Automatically move to the next slide every 10 seconds
+            setInterval(nextSlide, 10000);
+
+            // Show the initial slide
+            showSlide(currentIndex);
+
+
+
+    </script>
 
         <!-- Recommendations -->
         <section class="recommendations">
