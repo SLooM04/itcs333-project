@@ -2,6 +2,29 @@
 session_start();
 require 'db.php'; // Include the DB connection file
 
+// Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header("Location: combined_login.php");
+    exit();
+}
+
+// Get user details from session
+$userId = $_SESSION['user_id'];
+$userRole = $_SESSION['role']; // 'student' or 'teacher'
+
+if ($userRole == 'student') {
+    $stmt = $pdo->prepare("SELECT * FROM students WHERE student_id = ?");
+} else {
+    $stmt = $pdo->prepare("SELECT * FROM teachers WHERE teacher_id = ?");
+}
+$stmt->execute([$userId]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$user) {
+    die("User not found.");
+}
+
+$username = $_SESSION['username'] ?? 'User';
 
 // Function to fetch rooms from the database based on department
 function fetchRooms($department = null)
@@ -890,10 +913,8 @@ if (isset($_GET['department'])) {
 
        <!-- User Profile Section -->
 <div class="user-profile dropdown">
-    <img src="<?= !empty($user['profile_picture']) ? htmlspecialchars($user['profile_picture']) : 'uploads/Temp-user-face.jpg' ?>" alt="Profile Picture" class="profile-image">
-    <span>
-        <?= isset($_SESSION['username']) ? htmlspecialchars($_SESSION['username']) : 'Guest'; ?>
-    </span>
+<img src="<?= !empty($user['profile_picture']) ? htmlspecialchars($user['profile_picture']) : 'uploads/Temp-user-face.jpg' ?>" alt="Profile Picture" class="profile-image">
+<span> <?php echo htmlspecialchars($_SESSION['username']); ?></span>
     <div class="dropdown-content">
         <?php if (isset($_SESSION['username'])): ?>
             <a href="profile.php">My Profile</a>

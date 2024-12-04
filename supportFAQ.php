@@ -1,6 +1,29 @@
 <?php
 session_start();
 require 'db.php';
+// Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header("Location: combined_login.php");
+    exit();
+}
+
+// Get user details from session
+$userId = $_SESSION['user_id'];
+$userRole = $_SESSION['role']; // 'student' or 'teacher'
+
+if ($userRole == 'student') {
+    $stmt = $pdo->prepare("SELECT * FROM students WHERE student_id = ?");
+} else {
+    $stmt = $pdo->prepare("SELECT * FROM teachers WHERE teacher_id = ?");
+}
+$stmt->execute([$userId]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$user) {
+    die("User not found.");
+}
+
+$username = $_SESSION['username'] ?? 'User';
 ?>
 
 <!DOCTYPE html>
