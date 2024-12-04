@@ -112,8 +112,7 @@ if (isset($_GET['department'])) {
 
         .logo img {
             width: 100px;
-            border-radius: 10%;
-            border: 3px solid #f0f0f0;
+      
             transition: transform 0.3s;
         }
 
@@ -276,6 +275,11 @@ if (isset($_GET['department'])) {
             margin-top: 0px;
             padding: 10px 10% 10px 10%;
         }
+        h4 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
 
 
 
@@ -914,7 +918,7 @@ iframe {
     <button id="showRoomGallery" onclick="showRooms('IS')">Department Rooms</button>
     <button id="showMap" onclick="showView('mapclick')">Map rooms</button>
 </div>
-
+<h4>Department: IS</h4>
 <!-- Room Selection (Dynamic Content) -->
 <div id="rooms" class="rooms">
 
@@ -940,7 +944,7 @@ iframe {
 
     <!-- Department Rooms View -->
     <div id="roomSelection" class="room-gallery" style="display: none;">
-        <h4>Department: IS</h4>
+        
         <?php if ($rooms): ?>
             <?php foreach ($rooms as $room): ?>
                 <div class="room">
@@ -993,7 +997,7 @@ iframe {
 
         // Show content only if department is "IS"
         if (department === 'IS') {
-            document.getElementById('roomSelection').style.display = 'block';
+            document.getElementById('roomSelection').style.display = 'grid';
         } else {
             document.getElementById('roomSelection').style.display = 'none';
         }

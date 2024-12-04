@@ -106,14 +106,13 @@ if (isset($_GET['department'])) {
             gap: 15px;
             text-decoration: none;
             color: white;
-            border-radius: 12px;
             transition: transform 0.3s, box-shadow 0.3s;
         }
 
         .logo img {
             width: 100px;
+            size : 1rem;
             border-radius: 10%;
-            border: 3px solid #f0f0f0;
             transition: transform 0.3s;
         }
 
@@ -277,6 +276,10 @@ if (isset($_GET['department'])) {
             margin-top: 0px;
             padding: 10px 10% 10px 10%;
         }
+     h4 {
+    text-align: center;
+    margin-bottom: 20px;
+}
 
 
 
@@ -475,11 +478,13 @@ if (isset($_GET['department'])) {
 
         }
 
+      
 
 
         .room {
             border: 2px solid #ccc;
             border-radius: 8px;
+
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             background-color: #fff;
             overflow: hidden;
@@ -656,7 +661,7 @@ if (isset($_GET['department'])) {
             }
 
             .logo img {
-                width: 60px;
+                size: 0.1rem
             }
 
             .nav-links {
@@ -907,6 +912,7 @@ iframe {
     <button id="showRoomGallery" onclick="showRooms('CS')">Department Rooms</button>
     <button id="showMap" onclick="showView('mapclick')">Map rooms</button>
 </div>
+<h4>Department: CS</h4>
 
 <!-- Room Selection (Dynamic Content) -->
 <div id="rooms" class="rooms">
@@ -929,11 +935,11 @@ iframe {
         style="height: 1940px; width: 500px; border: none;" 
         title="Map View">
     </iframe>
+    
    </div>
 
     <!-- Department Rooms View -->
     <div id="roomSelection" class="room-gallery" style="display: none;">
-        <h4>Department: CS</h4>
         <?php if ($rooms): ?>
             <?php foreach ($rooms as $room): ?>
                 <div class="room">
@@ -964,36 +970,43 @@ iframe {
 </div>
 
 <!-- JavaScript to Control Visibility -->
-<script>
-    function showRooms(department) {
-        // Redirect to the URL with the selected department
-        window.location.href = '?department=' + department;
-    }
+        <script>
+            function showRooms(department) {
+        // Construct the full URL with the department parameter
+        const baseUrl = window.location.origin + window.location.pathname; // Extract base URL
+        const newUrl = `${baseUrl}?department=${department}`;
 
-    function showView(viewId) {
+        // Redirect to the constructed URL using window.location.href
+        window.location.href = newUrl;
+        }
+
+        function showView(viewId) {
         // Hide all views
         document.getElementById('mapclick').style.display = 'none';
         document.getElementById('roomSelection').style.display = 'none';
 
         // Show the selected view
         document.getElementById(viewId).style.display = 'block';
-    }
+        }
 
-    function checkURLAndShowContent() {
+        function checkURLAndShowContent() {
         // Get the "department" parameter from the URL
         const urlParams = new URLSearchParams(window.location.search);
         const department = urlParams.get('department');
 
-        // Show content only if department is "CS"
+        // Show content based on department (can be extended to handle other departments)
         if (department === 'CS') {
-            document.getElementById('roomSelection').style.display = 'block';
+            document.getElementById('roomSelection').style.display = 'grid';
         } else {
-            document.getElementById('roomSelection').style.display = 'none';
+            // Handle other departments here, e.g., show a different message or redirect
+            console.log(`Department "${department}" not found.`); // Placeholder for handling
         }
-    }
+        }
 
-    // Run the check when the page loads
-    window.onload = checkURLAndShowContent;
+        // Run the check when the page loads
+        window.onload = checkURLAndShowContent;
+            // Run the check when the page loads
+            window.onload = checkURLAndShowContent;
 </script>
 
    
