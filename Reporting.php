@@ -27,20 +27,13 @@ if (!$user) {
 $username = $_SESSION['username'] ?? 'User';
 
 // Function to fetch rooms from the database based on department
-function fetchRooms($department = null)
+function fetchRooms()
 {
     global $pdo;
 
-    // If department is provided, fetch rooms by department
-    if ($department) {
-        $sql = "SELECT * FROM rooms WHERE department = :department";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute(['department' => $department]);
-    } else {
-        // Fetch all rooms if no department is specified
+        // Fetch all rooms
         $sql = "SELECT * FROM rooms";
         $stmt = $pdo->query($sql);
-    }
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -91,8 +84,6 @@ $totalBookings = countTotal($bookings_number);
 
 
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -103,11 +94,10 @@ $totalBookings = countTotal($bookings_number);
 
     <style>
         body {
+            background-color: #f4f7f6;
             margin: 0;
             font-family: Arial, sans-serif;
             display: flex;
-            justify-content: center; /* Centers horizontally */
-            
         }
         .sidebar {
             width: 250px;
@@ -150,16 +140,8 @@ $totalBookings = countTotal($bookings_number);
             color: #bdc3c7;
             gap: 10px;
         }
-        .menu li:hover {
-            background-color: #34495e;
-        }
-        .menu li.active {
-            background-color: #2980b9;
-            font-weight: bold;
-        }
-
-        .menu a {
-            padding: 15px 20px;
+         .menu a {
+            /* padding: 15px 20px; */
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -168,25 +150,41 @@ $totalBookings = countTotal($bookings_number);
         .menu a:hover {
             background-color: #34495e;
         }
-        .menu a.active {
+        .active {
             background-color: #2980b9;
             font-weight: bold;
         }
-       
-
-
 
         .Container{
             margin-left: 1rem;
+            color: black;
+            text-align: center;
+            background-color: #f4f7f6;
         }
 
-        .box{
-            margin:auto;        
-            width: 50%;          
-            border: 1px solid #ccc;
-            padding: 20px;
-            border-radius: 5px;
+        h1,h2,h3,p{
+            color: black;
+        }
 
+       
+        .box {
+            background-color: #e4f0f2;
+            margin: auto;
+            margin-top: 90px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            width: 500px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
 
         .top5{     
@@ -208,16 +206,16 @@ $totalBookings = countTotal($bookings_number);
     <div class="sidebar">
         <div class="profile">
          <img src="<?= !empty($user['profile_picture']) ? htmlspecialchars($user['profile_picture']) : 'uploads/Temp-user-face.jpg' ?>" alt="Profile Picture" class="profile-image">
-         <span> <?php echo htmlspecialchars($_SESSION['username']); ?></span>            <h3>Profile</h3>
-            <p>Type of profile</p>
+         <span> </span>            
+         <h3><?php echo htmlspecialchars($_SESSION['username']); ?></h3>
+            <p><?php echo htmlspecialchars($_SESSION['role']); ?></p>
         </div>
         <ul class="menu">
-            <li class="active"><i>📊</i> Room Statistics</li>
-            <li><i>📅</i> Past Bookings</li>
-            <li><i>📅</i> Current Bookings</li>
-            <li><i>📅</i> Upcoming Bookings</li>
-            <li><i>🏠</i><a href="HomeLog.php" class="button back-home-btn">Back to Home</a></li
-
+                <li class="active"><i>📊</i>Room Statistics</li>
+                <li><i>📅</i><a href="Past_bookings.php">Past Bookings</a></li>
+                <li><i>📅</i><a href="upcoming_bookings.php">Upcoming Bookings </a></li>
+                <li><i>🏠</i><a href="HomeLog.php" class="button back-home-btn">Back to Home</a></li>
+            
             
         </ul>
     </div>

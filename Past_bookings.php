@@ -46,15 +46,8 @@ function countTotal($booking){
 }
 
 $rooms = fetchRooms(); // Fetch all rooms
-$roomNum = $_POST['room_id'];
 
 
-for ($i =0 ; $i < count($rooms) ; $i++){
-if($rooms[$i]['id'] == $roomNum){
-    $roomNum = $i;
-    break;
-    }
-}
 
 try{
 $sqlstmt = $pdo->prepare("SELECT room_id, COUNT(*) AS total_bookings FROM bookings GROUP BY room_id");
@@ -64,11 +57,6 @@ $bookings_number = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 ?>
-
-
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -106,7 +94,6 @@ $bookings_number = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
         }
         .profile h3 {
             margin: 5px 0;
-            color: white;
         }
         .profile p {
             font-size: 14px;
@@ -139,12 +126,11 @@ $bookings_number = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
             margin-left: 1rem;
             color: black;
             text-align: center;
-            background-color: #f4f7f6;
         }
 
-        h1,h2,h3, p{
+        /* h1,h2,h3,p{
             color: black;
-        }
+        } */
 
        
         .box {
@@ -188,8 +174,8 @@ $bookings_number = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
             <p><?php echo htmlspecialchars($_SESSION['role']); ?></p>
         </div>
             <div class="menu">
-                <li class="active"><i>📊</i><a href="Reporting.php">Statistics </a></li>
-                <li><i>📅</i><a href="Past_bookings.php">Past Bookings</a></li>
+                <li><i>📊</i><a href="Reporting.php">Room Statistics</a></li>
+                <li class="active"><i>📅</i><a href="Past_bookings.php">Past Bookings</a></li>
                 <li><i>📅</i><a href="upcoming_bookings.php">Upcoming Bookings </a></li>
                 <li><i>🏠</i><a href="HomeLog.php" class="button back-home-btn">Back to Home</a></li>
             </div>
@@ -198,41 +184,8 @@ $bookings_number = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
 
     </div>
 
-        <main class="Container">
-            <h1>Room Statistics</h1>
-            
-             <div class="room-info">
-                <p> Room name: <?php echo $rooms[$roomNum]['room_name'] ?> <br>
-                    Room capacity: <?php echo $rooms[$roomNum]['capacity'] ?> <br>
-                    Total bookings: <?php if(isset($bookings_number[$roomNum])) echo $bookings_number[$roomNum]['total_bookings']; else echo 0 ?><br>
-                    Total bookings last month: <br>
-                    Utilization: <?php if(isset($bookings_number[$roomNum])) echo $bookings_number[$roomNum]['total_bookings']; else echo 0 ?> <br>
-                    Ratings: 
-                </p>
-                
-             </div>
+    <main class="container">
 
 
-            <form method="POST" action="room_statistics.php" class="box">
-                <h2>Select a Room</h2>
-                <select id="room-dropdown" name="room_id" required>
-                    <option value="" disabled selected>Select a room</option>
-                    <?php foreach ($rooms as $room): ?>
-                        <option value="<?= htmlspecialchars($room['id']) ?>">
-                            <?= htmlspecialchars($room['room_name']) ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-                <button type="submit">Show Statistics</button>
-            </form>
-
-                
-            
-        </main>
-
-
-
-    
+    </main>
 </body>
-</html>
-
