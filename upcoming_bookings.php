@@ -25,6 +25,9 @@ if (!$user) {
 
 $username = $_SESSION['username'] ?? 'User';
 
+
+
+
 // Function to fetch rooms from the database based on department
 function fetchRooms()
 {
@@ -50,11 +53,13 @@ $rooms = fetchRooms(); // Fetch all rooms
 
 
 try{
-$sqlstmt = $pdo->prepare("SELECT room_id, COUNT(*) AS total_bookings FROM bookings GROUP BY room_id");
+$sqlstmt = $pdo->prepare("SELECT * FROM bookings WHERE student_id = $userId AND start_time > CURDATE() AND Status != 'Cancelled' ORDER BY booking_id ASC");
 $sqlstmt->execute();
-$bookings_number = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
+$upcoming_bookings = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
+$total = count($upcoming_bookings);
 }catch(PDOException $e){  
 }
+
 
 ?>
 
@@ -68,11 +73,14 @@ $bookings_number = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
 
     <style>
         body {
-            background-color: #f4f7f6;
+            background-color: #c2c3c4;
             margin: 0;
             font-family: Arial, sans-serif;
             display: flex;
+            text-align: center;
         }
+
+    
         .sidebar {
             width: 250px;
             background-color: #2c3e50;
@@ -94,6 +102,7 @@ $bookings_number = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
         }
         .profile h3 {
             margin: 5px 0;
+            color: white;
         }
         .profile p {
             font-size: 14px;
@@ -104,6 +113,7 @@ $bookings_number = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
             padding: 0;
             margin: 0;
             list-style: none;
+            text-align: left;
         }
         .menu li {
             padding: 15px 20px;
@@ -123,59 +133,83 @@ $bookings_number = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
         .Container{
-            margin-left: 1rem;
-            color: black;
-            text-align: center;
-        }
-
-        /* h1,h2,h3,p{
-            color: black;
-        } */
-
-       
-        .box {
-            background-color: #e4f0f2;
-            margin: auto;
-            margin-top: 90px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
+            width: 80%;
+            margin: 50px auto;
             padding: 20px;
-            width: 500px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        
-        select {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
         }
 
-        .room-info{
-            background-color: #e4f0f2;
-            width: 33%;
-            border: 3px solid black;
-            border-radius: 5px;
-            padding: 30px;
-            text-align: left;
-            margin-left: 7%;
+        h1,h2,h3,p{
+            color: black;
         }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+        padding: 12px;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+
+        table th {
+            background-color: #1a2d42;
+            color: #ffffff;
+            font-weight: bold;
+        }
+        table tr{
+            background-color: #5f656e ;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #b2b7bf;
+        }
+
+        table tr:hover {
+            background-color: gray;
+        }
+
+        table td {
+            border-bottom: 1px solid #ddd;
+            color: black;
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .cancel{
+            color: red;          /* Blue color, like a standard link */
+            text-decoration: underline;  /* Underline the text to look like a link */
+            cursor: pointer;         /* Change the cursor to indicate it's clickable */
+            font-weight: bold; 
+        }
+        .cancel:hover {
+        color: #0056b3;  /* Darker blue on hover */
+        text-decoration: none; /* Optional: remove underline on hover */
+    }
+       
        
     </style>
 </head>
 <body>
     <div class="sidebar">
         <div class="profile">
-            <img src="<?= !empty($user['profile_picture']) ? htmlspecialchars($user['profile_picture']) : 'uploads/Temp-user-face.jpg' ?>" alt="Profile Picture" class="profile-image">          
+            <img src="<?= !empty($user['profile_picture']) ? htmlspecialchars($user['profile_picture']) : 'uploads/Temp-user-face.jpg' ?>" alt="Profile Picture" class="profile-image">
+            <span> </span>            
             <h3><?php echo htmlspecialchars($_SESSION['username']); ?></h3>
             <p><?php echo htmlspecialchars($_SESSION['role']); ?></p>
         </div>
             <div class="menu">
                 <li><i>📊</i><a href="Reporting.php">Room Statistics</a></li>
                 <li><i>📅</i><a href="Past_bookings.php">Past Bookings</a></li>
-                <li class="active"><i>📅</i><a href="upcoming_bookings.php">Upcoming Bookings </a></li>
+                <li  class="active"><i>📅</i><a href="upcoming_bookings.php">Upcoming Bookings </a></li>
                 <li><i>🏠</i><a href="HomeLog.php" class="button back-home-btn">Back to Home</a></li>
             </div>
             
@@ -185,6 +219,50 @@ $bookings_number = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
 
     <main class="container">
 
+            <header>
+                <h1>Upcoming bookings</h1>
+            </header>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Room Name</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Contact Number</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($upcoming_bookings as $booking): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($booking['booking_id']) ?></td>
+                            <td><?= htmlspecialchars($booking['room_name']) ?></td>
+                            <td><?= htmlspecialchars($booking['start_time']) ?></td>
+                            <td><?= htmlspecialchars($booking['end_time']) ?></td>
+                            <td><?= htmlspecialchars($booking['contact_number']) ?></td>
+                            <td class="cancel" onclick="confirmCancel(<?= $booking['booking_id']; ?>)">Cancel</td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+
+            <script>
+                function confirmCancel(bookingId) {
+                    // Ask for confirmation
+                    if (confirm("Are you sure you want to cancel this booking?")) {
+                        // Send a request to cancel the booking
+                        window.location.href = "cancel_booking.php?booking_id=" + bookingId;
+                    }
+                }
+            </script>
+
+        <!-- <p>
+            <?php 
+            var_dump($past_bookings);
+            ?>
+        </p> -->
 
     </main>
 </body>
