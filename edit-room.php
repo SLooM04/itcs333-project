@@ -3,7 +3,7 @@ session_start();
 require 'db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fetch_room'])) {
-    // جلب بيانات الغرفة بناءً على Room ID المُدخل
+   
     $id = $_POST['id'];
     $stmt = $pdo->prepare("SELECT * FROM rooms WHERE id = ?");
     $stmt->execute([$id]);
@@ -13,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fetch_room'])) {
         $error = "Room with ID $id not found.";
     }
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_room'])) {
-    // استخدام القيم المدخلة أو الاحتفاظ بالقيم القديمة إذا لم يتم تعديلها
     $id = $_POST['id'];
     $name = $_POST['name'] ?? null;
     $capacity = $_POST['capacity'] ?? null;
@@ -21,7 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fetch_room'])) {
     $equipment = $_POST['equipment'] ?? null;
     $department = $_POST['department'] ?? null;
 
-    // معالجة الصور
     $uploadDir = "uploads/";
     if (!is_dir($uploadDir)) {
         mkdir($uploadDir, 0777, true);
@@ -47,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fetch_room'])) {
         move_uploaded_file($_FILES['thumbnail_4']['tmp_name'], $thumbnail_4);
     }
 
-    // تحديث قاعدة البيانات
+  
     $stmt = $pdo->prepare("UPDATE rooms SET room_name = ?, capacity = ?, available_timeslot = ?, equipment = ?, department = ?, image = ?, thumbnail_2 = ?, thumbnail_3 = ?, thumbnail_4 = ? WHERE id = ?");
     $stmt->execute([$name, $capacity, $available_timeslot, $equipment, $department, $image, $thumbnail_2, $thumbnail_3, $thumbnail_4, $id]);
 
@@ -120,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fetch_room'])) {
     <main class="container">
         <h1>Edit Room</h1>
 
-        <!-- إذا لم يتم اختيار الغرفة بعد -->
+        
         <?php if (!isset($room) || !$room): ?>
             <form method="POST">
                 <label for="id">Enter Room ID:</label>
@@ -132,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fetch_room'])) {
                 <?php endif; ?>
             </form>
         <?php else: ?>
-            <!-- نموذج تعديل بيانات الغرفة -->
+           
             <form method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="id" value="<?= htmlspecialchars($room['id']) ?>">
                 <input type="hidden" name="existing_image" value="<?= htmlspecialchars($room['image']) ?>">

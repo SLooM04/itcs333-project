@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'db.php'; // الاتصال بقاعدة البيانات
+require 'db.php'; 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $first_name = $_POST['first_name'] ?? null;
@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $created_at = date('Y-m-d H:i:s');
     $updated_at = $created_at;
 
-    // رفع الصورة إذا تم اختيارها
+  
     $uploadDir = "uploads/teachers/";
     if (!is_dir($uploadDir)) {
         mkdir($uploadDir, 0777, true);

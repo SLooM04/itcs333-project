@@ -4,11 +4,11 @@ require 'db.php';
 
 
 
-// تحقق إذا كان الإدمن طلب تعديل بيانات الطالب
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['student_id'])) {
     $student_id = $_POST['student_id'];
 
-    // جلب بيانات الطالب من قاعدة البيانات
+    
     $stmt = $pdo->prepare("SELECT * FROM students WHERE student_id = ?");
     $stmt->execute([$student_id]);
     $student = $stmt->fetch();
@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['student_id'])) {
     }
 }
 
-// حفظ التعديلات الجديدة
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $student_id = $_POST['student_id'];
     $first_name = $_POST['first_name'];
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $mobile = $_POST['mobile'];
     $year_joined = $_POST['year_joined'];
 
-    // تحديث بيانات الطالب
+   
     $stmt = $pdo->prepare("UPDATE students SET first_name = ?, last_name = ?, email = ?, username = ?, major = ?, mobile = ?, year_joined = ?, updated_at = NOW() WHERE student_id = ?");
     $stmt->execute([$first_name, $last_name, $email, $username, $major, $mobile, $year_joined, $student_id]);
 
@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     <div class="container">
         <h1>Edit Student</h1>
 
-        <!-- عرض رسائل النجاح أو الأخطاء -->
+       
         <?php if (isset($error)): ?>
             <p class="error"><?= $error ?></p>
         <?php endif; ?>
@@ -109,14 +109,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
             <p class="success"><?= $success ?></p>
         <?php endif; ?>
 
-        <!-- الخطوة الأولى: البحث عن الطالب -->
+       
         <form method="POST">
             <label for="student_id">Enter Student ID:</label>
             <input type="number" id="student_id" name="student_id" required>
             <button type="submit">Find Student</button>
         </form>
 
-        <!-- الخطوة الثانية: تعديل بيانات الطالب -->
         <?php if (isset($student)): ?>
             <form method="POST">
                 <input type="hidden" name="student_id" value="<?= $student['student_id'] ?>">
