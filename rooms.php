@@ -57,6 +57,77 @@ if (isset($_GET['department'])) {
         body.dark-mode {
             background-color: #2e4156;
             color: white;
+            z-index: 1000000000;
+
+        }
+
+        body.dark-mode h1,
+        body.dark-mode h2,
+        body.dark-mode h3,
+        body.dark-mode p,
+        body.dark-mode a {
+            color: black;
+        }
+
+        body.dark-mode footer {
+            background: linear-gradient(1deg, #000724, #111d4d);  
+            color: #d1d1d1;
+        }
+
+        body.dark-mode .accordion-item {
+            background: #2b2b3b;
+        }
+
+        body.dark-mode .accordion-button {
+            background: #2b2b3b;
+            color: white;
+            border: white;
+        }
+
+        body.dark-mode .dropdown-content a {
+            color: #000;
+        }
+
+        body.dark-mode .dropdown-content a:hover{
+            background-color: #2e4156;
+        }
+
+        body.dark-mode .recommendation-card {
+            background-color: #2e344e;
+        }
+
+        body.dark-mode .recommendations h2 {
+            color: white;
+        }
+
+        body.dark-mode  .action-buttons a{
+            background-color: #0b2445;
+        }
+        
+
+        body.dark-mode header {
+            background: linear-gradient(1deg, #172047, #34417d);  
+            color: #d1d1d1;
+        }
+
+        body.dark-mode nav a {
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .dropdown-content {
+            background-color: #2b2b3b;
+        }
+
+        body.dark-mode .dropdown-content a {
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .dropdown-content a {
+            color: #edf4fa;
+        }
+        body.dark-mode {
+            background-color: #2e4156;
+            color: white;
         }
 
         body.dark-mode .dropdown-content a:hover {
@@ -165,23 +236,27 @@ if (isset($_GET['department'])) {
             align-items: center;
             justify-content: space-around;
             padding: 10px 30px;
-            background-color: #1a73e8;
+            background: linear-gradient(1deg, #1a73e8, #004db3 );  
             color: white;
-            height: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             position: relative;
+            height: 20px;
             z-index: 1000;
+        
         }
 
         /* Navigation Links */
         .nav-links {
             display: flex;
+            justify-content: space-between;
             gap: 40px;
             align-items: center;
         }
 
         .nav-item {
             text-decoration: none;
+            display: flex;
+            justify-content: space-between;
             color: white;
             font-size: 1em;
             padding: 8px 15px;
@@ -197,10 +272,34 @@ if (isset($_GET['department'])) {
             border-radius: 8px;
         }
 
-        .active {
-            border: 2px solid #f0f0f0;
-            background-color: rgba(255, 255, 255, 0.2);
+       
+
+        /* Logo Styles */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: white;
+            border-radius: 12px;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
+
+        .logo img {
+            width: 100px;
+            border-radius: 20%;
+            transition: transform 0.8s;
+        }
+
+        @media (min-width: 801px) and (max-width: 1000px) {
+            .logo img {
+                width: 3rem;
+            }
+        }
+
+
+
+
 
         /* User Profile Section */
         .user-profile {
@@ -255,6 +354,8 @@ if (isset($_GET['department'])) {
         .dropdown:hover .dropdown-content {
             display: block;
         }
+
+        
 
 
 
@@ -578,11 +679,12 @@ if (isset($_GET['department'])) {
         /* Footer styles */
         footer {
             color: white;
-            background-color: #1a73e8;
+            background: linear-gradient(1deg, #024ba9, #96c3ff);  
             text-align: center;
             padding: 1rem 1rem;
-            margin-top: 9rem;
+            margin-top: 0rem;
             font-size: 0.9rem;
+            z-index: 1;
         }
 
         footer .footer-container {
@@ -592,6 +694,7 @@ if (isset($_GET['department'])) {
             flex-wrap: wrap;
             max-width: 1200px;
             margin: 0 auto;
+            z-index: 1;
         }
 
         footer .footer-section {
@@ -599,6 +702,7 @@ if (isset($_GET['department'])) {
             padding: 1rem;
             margin-bottom: 1rem;
             text-align: left;
+            z-index: 1;
         }
 
         footer .footer-section h3 {
@@ -617,7 +721,6 @@ if (isset($_GET['department'])) {
         footer .footer-section ul li a:hover {
             text-decoration: underline;
         }
-
         /* Responsive design for the footer */
         @media (max-width: 768px) {
             footer .footer-container {
@@ -626,38 +729,21 @@ if (isset($_GET['department'])) {
             }
 
             footer .footer-section {
-                margin-bottom: 1.5rem;
+                margin-bottom: 1.5rem; 
                 text-align: center;
             }
 
             footer .footer-section ul li {
                 margin: 0.2rem 0;
-            }
-        }
+            }}
 
-        @media (max-width: 800px) {
+        @media (max-width: 768px) {
             .nav-links {
                 flex-direction: column;
                 width: 100%;
             }
 
-
-
-            header {
-                flex-direction: row;
-                align-items: center;
-            }
-
-            .logo img {
-                width: 60px;
-            }
-
-            .nav-links {
-                flex-direction: column;
-                width: 100%;
-            }
-
-            .user-profile {
+            .action-buttons {
                 flex-direction: column;
                 align-items: center;
             }
@@ -676,10 +762,7 @@ if (isset($_GET['department'])) {
 
 
 
-            footer .footer-section {
-                align-items: center;
-            }
-
+            
         }
 
         @media (max-width: 800px) {
@@ -691,32 +774,32 @@ if (isset($_GET['department'])) {
                 font-size: 0.8rem;
             }
 
-            .logo {
+            .logo{
                 size: 0.8rem;
             }
+       
+           
 
-
-
-            .nav-item {
-                text-decoration: none;
-                display: flex;
-                justify-content: space-between;
-                gap: 40px;
-                color: white;
-                font-size: 0.8em;
-                padding: 8px 15px;
-                border-radius: 8px;
-                transition: background-color 0.3s, border 0.3s;
-                position: relative;
-            }
-
+        .nav-item {
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+            color: white;
+            font-size: 0.8em;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s, border 0.3s;
+            position: relative;
+        }
+            
             .nav-item:hover,
-            .nav-item.active {
-                border: none;
-                border-radius: 8px;
-                box-sizing: content-box;
-
-            }
+        .nav-item.active {
+            border: none;
+            border-radius: 8px;
+            box-sizing: content-box;
+            
+        }
 
             .logo img {
                 width: 40px;
@@ -732,6 +815,12 @@ if (isset($_GET['department'])) {
                 align-items: center;
             }
 
+            .action-buttons .action-card {
+                font-size: 0.9rem;
+                padding: 10px;
+            }
+        }
+
             .room-gallery {
                 display: grid;
                 grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -743,7 +832,7 @@ if (isset($_GET['department'])) {
                 width: 100%;
                 /* Ensure it takes the full width of its parent */
             }
-        }
+        
 
         .all {
          text-align: center;
