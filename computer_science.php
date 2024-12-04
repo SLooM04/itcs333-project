@@ -167,6 +167,8 @@ if (isset($_GET['department'])) {
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             position: relative;
             z-index: 1000;
+            width: 100%;
+
         }
 
         /* Navigation Links */
@@ -696,6 +698,16 @@ if (isset($_GET['department'])) {
                 font-size: 0.8rem;
             }
 
+            .iframe {
+            height: 10px;
+            width: 10px;
+           }
+
+           .map {
+            height: 10px;
+            width: 10px;
+           }
+
             .logo {
                 size: 0.8rem;
             }
@@ -778,6 +790,79 @@ if (isset($_GET['department'])) {
       background-color: #dce7f5; /* Slightly darker background on hover */
       color: #618bb8; /* Slightly darker text */
      }
+
+     
+     .iframe-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100vh; /* Full viewport height */
+    background-color: #f9f9f9; /* Optional background for contrast */
+} 
+
+iframe {
+    width: 100%;
+    height: 100%; /* Adjust height for a better fit */
+    border: 2px solid #ccc; /* Optional border for styling */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.map {
+
+    display: none; 
+    height: 1980px; 
+    width: 486px; 
+    border: 1px solid #ccc;
+    margin-top: 0px;
+    padding-top: 0px;
+
+}
+
+
+
+     
+     
+.room-container {
+    display: flex;
+    gap: 36%; /* Space between rooms */
+}
+
+.room {
+    display: flex;
+    align-items: center; /* Align square and label vertically */
+    gap: 10%; /* Space between square and label */
+}
+
+.room-square {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow for effect */
+}
+
+.room-label {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.class-room {
+    background-color: #7ab1c0; /* Light blue */
+}
+
+.lab-room {
+    background-color: #b5a457; /* Light orange */
+}
+
+
     </style>
 </head>
 
@@ -827,11 +912,21 @@ if (isset($_GET['department'])) {
 <div id="rooms" class="rooms">
 
     <!-- Map View -->
-    <div id="mapclick" class="map" style="display: none; height: 2000px; width: 51%; border: 1px solid #ccc;">
+    <div id="mapclick" class="map" style="display: none; height: 1940px; width: 500px; border: 1px solid #ccc;">
+    <div class="room-container">
+        <div class="room">
+            <div class="room-square class-room">#</div>
+            <div class="room-label">Class Room</div>
+        </div>
+        <div class="room">
+            <div class="room-square lab-room">#</div>
+            <div class="room-label">Lab Room</div>
+        </div>
+    </div>
     <iframe 
         id="mapFrame" 
-        src="CS-map.php" 
-        style="width: 100%; height: 100%; border: none;" 
+        src="cs-map.php" 
+        style="height: 1940px; width: 500px; border: none;" 
         title="Map View">
     </iframe>
    </div>

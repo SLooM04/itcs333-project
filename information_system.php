@@ -163,6 +163,7 @@ if (isset($_GET['department'])) {
             padding: 10px 30px;
             background-color: #1a73e8;
             color: white;
+            width: 100%;
             height: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             position: relative;
@@ -701,6 +702,22 @@ if (isset($_GET['department'])) {
                 size: 0.8rem;
             }
 
+            .room-container {
+
+                gap: 1%;
+            }
+
+
+            .iframe {
+            height: 10px;
+            width: 10px;
+           }
+
+           .map {
+            height: 10px;
+            width: 10px;
+           }
+
 
 
             .nav-item {
@@ -794,6 +811,8 @@ iframe {
     border: 2px solid #ccc; /* Optional border for styling */
     border-radius: 8px; /* Rounded corners */
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    overflow: auto; /* Allow scrolling within the iframe */
+
 }
 
 .map {
@@ -806,6 +825,49 @@ iframe {
     padding-top: 0px;
 
 }
+
+
+     
+.room-container {
+    display: flex;
+    gap: 36%; /* Space between rooms */
+}
+
+.room {
+    display: flex;
+    align-items: center; /* Align square and label vertically */
+    gap: 10%; /* Space between square and label */
+}
+
+.room-square {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow for effect */
+}
+
+.room-label {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.class-room {
+    background-color: #7ab1c0; /* Light blue */
+}
+
+.lab-room {
+    background-color: #b5a457; /* Light orange */
+}
+
+
 
 
     </style>
@@ -857,12 +919,22 @@ iframe {
 <div id="rooms" class="rooms">
 
     <!-- Map View -->
-    <div id="mapclick" class="map">
+    <div id="mapclick" class="map" style="display: none; height: 2060px; width: 500px; border: 1px solid #ccc; overflow: hidden;">
+    <div class="room-container">
+        <div class="room">
+            <div class="room-square class-room">#</div>
+            <div class="room-label">Class Room</div>
+        </div>
+        <div class="room">
+            <div class="room-square lab-room">#</div>
+            <div class="room-label">Lab Room</div>
+        </div>
+    </div>
     <iframe 
         id="mapFrame" 
         src="IS-map.php" 
+        style="height: 2060px; width: 500px; border: none; overflow: auto;" 
         title="Map View">
-        
     </iframe>
    </div>
 
