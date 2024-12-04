@@ -113,7 +113,7 @@ $totalBookings = countTotal($bookings_number);
             width: 250px;
             background-color: #2c3e50;
             color: white;
-            height: 100vh;
+            height: 130vh;
             display: flex;
             flex-direction: column;
         }
@@ -130,6 +130,7 @@ $totalBookings = countTotal($bookings_number);
         }
         .profile h3 {
             margin: 5px 0;
+            color: white;
         }
         .profile p {
             font-size: 14px;
@@ -146,6 +147,8 @@ $totalBookings = countTotal($bookings_number);
             cursor: pointer;
             display: flex;
             align-items: center;
+            color: #bdc3c7;
+            gap: 10px;
         }
         .menu li:hover {
             background-color: #34495e;
@@ -154,9 +157,24 @@ $totalBookings = countTotal($bookings_number);
             background-color: #2980b9;
             font-weight: bold;
         }
-        .menu li i {
-            margin-right: 10px;
+
+        .menu a {
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            color: #b3b3b3;
         }
+        .menu a:hover {
+            background-color: #34495e;
+        }
+        .menu a.active {
+            background-color: #2980b9;
+            font-weight: bold;
+        }
+       
+
+
 
         .Container{
             margin-left: 1rem;
@@ -198,6 +216,8 @@ $totalBookings = countTotal($bookings_number);
             <li><i>📅</i> Past Bookings</li>
             <li><i>📅</i> Current Bookings</li>
             <li><i>📅</i> Upcoming Bookings</li>
+            <li><i>🏠</i><a href="HomeLog.php" class="button back-home-btn">Back to Home</a></li
+
             
         </ul>
     </div>
