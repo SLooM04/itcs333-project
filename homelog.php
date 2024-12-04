@@ -287,7 +287,7 @@ $username = $_SESSION['username'] ?? 'User';
         }
 
         /* Welcome section */
-        .welcome-section {
+        .greeting {
             text-align: center;
             margin: 20px 0;
             color: #003366;
@@ -295,14 +295,14 @@ $username = $_SESSION['username'] ?? 'User';
             z-index: 1;
         }
 
-        .welcome-section h1 {
+        .greeting h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
             color: #111;
             z-index: 1;
         }
 
-        .welcome-section p {
+        .greeting p {
             font-size: 1.2em;
             color: #111;
             z-index: 1;
@@ -329,6 +329,7 @@ $username = $_SESSION['username'] ?? 'User';
             font-size: 1.2em;
             display: flex;
             align-items: center;
+            flex-direction: column;
             justify-content: center;
             border: 2px solid #000;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -346,6 +347,13 @@ $username = $_SESSION['username'] ?? 'User';
             border: 3px solid #003366;
             animation: glowing 1.5s ease-in-out infinite;
         }
+
+        .action-buttons img{
+            width: 80px; /* Icon size */
+            height: auto;
+            margin-bottom: 10px; /* Space between icon and text */
+        }
+           
 
         @keyframes glowing {
             0% {
@@ -599,7 +607,7 @@ $username = $_SESSION['username'] ?? 'User';
 
 
         <!-- Welcome Section -->
-        <section class="welcome-section">
+        <section class="greeting">
             <?php
             if ($_SESSION['role'] == 'student') {
                 echo "<h1>Welcome, " . htmlspecialchars($username) . "!</h1>";
@@ -607,15 +615,26 @@ $username = $_SESSION['username'] ?? 'User';
                 echo "<h1>Welcome Dr." . htmlspecialchars($username) . "!</h1>";
             }
             ?>
+                <p id="greeting"></p> <!-- Element to hold the personalized greeting -->
+
             <p>Your personalized dashboard awaits.</p>
         </section>
 
-        <!-- Action Buttons -->
-        <section class="action-buttons">
-            <a href="rooms.php"><span> Rooms</span></a>
-            <a href="reservations.php"><span>My Reservations</span></a>
-            <a href="supportFAQ.php"><span>Support</span></a>
-        </section>
+        <!-- Action Buttons Section -->
+    <section class="action-buttons">
+        <a href="rooms.php" class="action-button">
+            <img src="uploads/classroom.png" alt="Rooms Icon">
+            <span>Rooms</span>
+        </a>
+        <a href="reporting.php" class="action-button">
+            <img src="uploads/calender.png" alt="Reservations Icon">
+            <span>My Reservations</span>
+        </a>
+        <a href="supportFAQ.php" class="action-button">
+            <img src="uploads/support.png" alt="Support Icon">
+            <span>Support</span>
+        </a>
+    </section>
 
         <!-- Recommendations -->
         <section class="recommendations">
@@ -671,6 +690,20 @@ $username = $_SESSION['username'] ?? 'User';
         </div>
     </footer>
     <script>
+         // Personalized Greetings
+        const greetingElement = document.getElementById('greeting');
+        const hour = new Date().getHours();
+        let greetingMessage = '';
+
+        if (hour < 12) {
+            greetingMessage = 'Good Morning';
+        } else if (hour < 18) {
+            greetingMessage = 'Good Afternoon';
+        } else {
+            greetingMessage = 'Good Evening';
+        }
+
+        greetingElement.textContent = `${greetingMessage}`;
     // Wait for the DOM to load
     document.addEventListener("DOMContentLoaded", function () {
         const themeToggle = document.getElementById('themeToggle');
