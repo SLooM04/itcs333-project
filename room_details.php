@@ -534,10 +534,14 @@ if (isset($_GET['id'])) {
 
                     <!-- Reserve Button -->
                     <form action="Room_Booking.php" method="GET">
-                        <input type="hidden" name="id" value="<?php echo $room['id']; ?>" />
-                        <button type="submit">Book Now</button>
-                    </form>
-
+    <input type="hidden" name="id" value="<?php echo $room['id']; ?>" />
+    <?php if (isset($_SESSION['username'])): ?>
+        <button type="submit">Book Now</button>
+    <?php else: ?>
+        <button type="button" disabled>Book Now</button>
+        <p style="color: red; font-size: 1.1em;">You need to log in to book this room.</p>
+    <?php endif; ?>
+</form>
                 </div>
             </figure>
 

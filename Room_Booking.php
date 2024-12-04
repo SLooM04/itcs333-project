@@ -320,8 +320,7 @@ a {
             <div class="form-group">
                 <label for="contact_number">Contact Number:</label>
                 <input type="tel" id="contact_number" name="contact_number" pattern="^(?:\+973\s?)?\d{8}$"
-                    placeholder="Enter your contact number" required>
-                <small>Example: +973 33311222 </small>
+                    placeholder="+973 33311222" required>
             </div>
 
             <div class="form-group">
