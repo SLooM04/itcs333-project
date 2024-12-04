@@ -57,6 +57,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // No user found
             $user = null;
         }
+        sleep(2);
+        header("Location: admin-dashboard.php");
+        exit();
     }
 
     // Verify the password for student

@@ -703,10 +703,10 @@ $username = $_SESSION['username'] ?? 'User';
                 <img src="RoomPic/008.jpg" alt="Slide 2">
             </div>
             <div class="slide">
-                <img src="RoomPic/image0.jpg" alt="Slide 3">
+                <img src="RoomPic/lab.jpg" alt="Slide 3">
             </div>
             <div class="slide">
-                <img src="RoomPic/images.png" alt="Slide 3">
+                <img src="RoomPic/i1.jpg" alt="Slide 3">
             </div>
         </div>
 
