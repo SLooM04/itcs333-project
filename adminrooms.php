@@ -68,27 +68,37 @@ if (isset($_GET['department'])) {
 ?>
 
 
-
 <?php
 // Ensure the search form values are provided
-if (isset($_GET['id'])) {
-    $roomId = $_GET['id'];
+if (isset($_GET['room_type']) && isset($_GET['room_number'])) {
+    $roomType = $_GET['room_type'];
+    $roomNumber = $_GET['room_number'];
 
-    // Prepare the SQL query to search for the room by ID
-    $stmt = $pdo->prepare("SELECT * FROM rooms WHERE id = ?");
-    $stmt->execute([$roomId]);
+    // Prepare the SQL query to search for rooms
+    $sql = "SELECT * FROM rooms WHERE room_name LIKE ? LIMIT 1";
+    
+    // Format the room_name like "Room ###" or "Lab ###"
+    $roomSearch = $roomType . ' ' . $roomNumber . '%';
+
+    // Execute the query
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$roomSearch]);
     $room = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // If a room is found, redirect to room_details.php with the id in the URL
     if ($room) {
-        // Redirect to room details page with the found room ID
         header("Location: room_details.php?id=" . $room['id']);
         exit();
     } else {
-        echo "No room found with that ID.";
+        echo "No room found matching that criteria.";
     }
-} 
-?> 
+}
+
+
+?>
+
+
+
 
 
 
@@ -931,8 +941,7 @@ if (isset($_GET['id'])) {
     text-align: center; /* Center text inside if needed */
     }
 
-    .search label { width: 220px;
-        font-size: 26px;
+    .search select { width: 280px;
 
     }
     .search input { width: 500px;
@@ -985,12 +994,18 @@ if (isset($_GET['id'])) {
      <img src="uploads/downA.png" alt="down here" class="down">
     </div>
     
-    <!-- Room search -->
-    <form class="search" action="room_details.php" method="GET">
-     <label for="id">Enter Room ID:</label>
-     <input type="text" id="id" name="id" required>
-     <button type="submit">Search</button>
-    </form>
+  <form action="convert.php" method="GET" class="search">
+    <select name="room_type">
+        <option value="">Select Room Type</option>
+        <option value="Room" <?php echo isset($_GET['room_type']) && $_GET['room_type'] == 'Room' ? 'selected' : ''; ?>>Room</option>
+        <option value="Lab" <?php echo isset($_GET['room_type']) && $_GET['room_type'] == 'Lab' ? 'selected' : ''; ?>>Lab</option>
+    </select>
+    <input type="text" name="room_number" placeholder="Enter Room Number" value="<?php echo isset($_GET['room_number']) ? htmlspecialchars($_GET['room_number']) : ''; ?>" />
+    <button type="submit">Search</button>
+  </form>
+
+
+
 
 
     <!-- Room Selection (Dynamic Content) -->
