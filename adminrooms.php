@@ -904,7 +904,7 @@ if (isset($_GET['id'])) {
          padding: 10px; /* Space inside the element */
          margin: 1px auto; /* Center the div horizontally (if block-level) */
          border: 1px solid #ccc; /* Optional border */
-         background-color: #f9f9f9; /* Optional background */
+         background: linear-gradient(135deg, #a9c9ff, #d0e6ff, #e3f2fd, #b3d4fc);
          border-radius: 338px; /* Rounded corners */
          max-width: 600px; /* Limit width */
          display: flex; /* Enable flexbox */
@@ -912,7 +912,6 @@ if (isset($_GET['id'])) {
          justify-content: center; /* Center content horizontally */
          gap: 10px; /* Space between .all and .down */
          height: 80px;
-         padding-left: 90px;
 
         }
 
@@ -981,8 +980,9 @@ if (isset($_GET['id'])) {
     
 
     <div class="all">
+    <img src="uploads/downA.png" alt="down here" class="down">
      All Departments room
-     <img src="uploads/down.png" alt="down here" class="down">
+     <img src="uploads/downA.png" alt="down here" class="down">
     </div>
     
     <!-- Room search -->
