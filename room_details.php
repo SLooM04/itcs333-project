@@ -79,6 +79,9 @@ function generateAvailableSlots($booked_slots)
 
     return $available_slots;
 }
+//finding the placement of the room in $room array
+
+
 
 // Get available slots
 $available_slots = generateAvailableSlots($booked_slots);
@@ -108,6 +111,27 @@ $stmt = $pdo->prepare("
 ");
 $stmt->execute([':room_id' => $room_id]);
 $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+
+//fetching total count for rooms and ratings
+$sqlstmt = $pdo->prepare("SELECT b.room_id, COUNT(*) AS total_bookings, 
+(SELECT AVG(c.rating) FROM comments c WHERE c.room_id = b.room_id) AS rating 
+    FROM bookings b GROUP BY b.room_id;");
+$sqlstmt->execute();
+$bookings_number = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
+
+//getting the array position of this room
+
+$roomNum_bookings = null;
+for ($i =0 ; $i < count($bookings_number) ; $i++){
+    if($bookings_number[$i]['room_id'] == $room_id){
+        $roomNum_bookings = $i;
+        break;
+        }
+    }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -723,9 +747,13 @@ color: gold;
 
 
                 <div class="feature-box">
-                    <div style="font-size: 30px;">🖥️</div>
-                    <h3 style="color: #000000">Room Equipment:</h3>
-                    <p><strong style="color:#1a73e8">Room Equipment:</strong> <?php echo htmlspecialchars($room['equipment']); ?></p>
+                    <div style="font-size: 30px;">📊</div>
+                    <h3 style="color: #000000">Analytics</h3>
+                    <p>
+                        <strong style="color:#1a73e8">Room Capacity:</strong> <?php echo htmlspecialchars($room['capacity']); ?><br>
+                        <strong style="color:#1a73e8">Total bookings:</strong> <?php if(isset($bookings_number[$roomNum_bookings])) echo htmlspecialchars($bookings_number[$roomNum_bookings]['total_bookings']); else echo 0 ?><br> 
+                        <strong style="color:#1a73e8">Rating:</strong> <?php if(isset($bookings_number[$roomNum_bookings])) {echo htmlspecialchars($bookings_number[$roomNum_bookings]['rating']);} else {echo 'No ratings';} ?>                     
+                    </p>
                 </div>
                 <div class="feature-box">
 
