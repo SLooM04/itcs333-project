@@ -83,7 +83,7 @@ $total = count($upcoming_bookings);
     
         .sidebar {
             width: 250px;
-            background-color: #2c3e50;
+            background: linear-gradient(1deg, #1a73e8, #004db3 );  
             color: white;
             height: 100vh;
             display: flex;
@@ -130,6 +130,13 @@ $total = count($upcoming_bookings);
         }
         .menu li i {
             margin-right: 10px;
+        }
+        .menu a {
+            /* padding: 15px 20px; */
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            color: #d0efff;
         }
 
         .Container{

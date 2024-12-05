@@ -102,7 +102,7 @@ $totalBookings = countTotal($bookings_number);
         }
         .sidebar {
             width: 250px;
-            background-color: #2c3e50;
+            background: linear-gradient(1deg, #1a73e8, #004db3 );  
             color: white;
             height: 100vh;
             display: flex;
@@ -147,7 +147,7 @@ $totalBookings = countTotal($bookings_number);
             cursor: pointer;
             display: flex;
             align-items: center;
-            color: #b3b3b3;
+            color: #d0efff;
         }
         .menu a:hover {
             background-color: #34495e;

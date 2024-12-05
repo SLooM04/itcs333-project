@@ -83,7 +83,7 @@ $total = count($past_bookings);
     
         .sidebar {
             width: 250px;
-            background-color: #2c3e50;
+            background: linear-gradient(1deg, #1a73e8, #004db3 );  
             color: white;
             height: 100vh;
             display: flex;
@@ -131,6 +131,12 @@ $total = count($past_bookings);
         .menu li i {
             margin-right: 10px;
         }
+
+        .menu a {
+
+         color : #d0efff;
+          }
+
 
         .Container{
             width: 80%;
