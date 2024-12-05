@@ -22,9 +22,22 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$user) {
     die("User not found.");
+    // die(var_dump($_SESSION));
 }
 
 $username = $_SESSION['username'] ?? 'User';
+
+$sqlstmt = $pdo->prepare("SELECT room_id, room_name, COUNT(*) as total_bookings FROM bookings GROUP BY room_id");
+$sqlstmt->execute();
+$bookings = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
+
+$max = 0;
+
+for($i=1 ; $i < count($bookings) ; $i++){
+    if($bookings[$i]['total_bookings'] > $bookings[$max]['total_bookings']){
+        $max = $i;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -630,7 +643,7 @@ $username = $_SESSION['username'] ?? 'User';
         <nav class="nav-links">
             <a href="homelog.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'homelog.php' ? 'active' : ''; ?>">Home</a>
             <a href="rooms.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'rooms.php' ? 'active' : ''; ?>">Rooms</a>
-            <a href="reporting.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'reservations.php' ? 'active' : ''; ?>">My Reservations</a>
+            <a href="upcoming_bookings.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'reservations.php' ? 'active' : ''; ?>">My Reservations</a>
             <a href="supportFAQ.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'support.php' ? 'active' : ''; ?>">Support</a>
         </nav>
 
@@ -683,7 +696,7 @@ $username = $_SESSION['username'] ?? 'User';
             <img src="uploads/classroom.png" alt="Rooms Icon">
             <span>Rooms</span>
         </a>
-        <a href="reporting.php" class="action-button">
+        <a href="upcoming_bookings.php" class="action-button">
             <img src="uploads/calender.png" alt="Reservations Icon">
             <span>My Reservations</span>
         </a>
@@ -770,7 +783,7 @@ $username = $_SESSION['username'] ?? 'User';
         <section class="recommendations">
             <h2 >Recommended for You</h2>
             <div class="recommendation-card">
-                <h3>Room 101</h3>
+                <h3><?php echo $bookings[$max]['room_name'] ?></h3>
                 <p>Most booked this month. Reserve now!</p>
                 <a href="rooms.php">View Details</a>
             </div>
