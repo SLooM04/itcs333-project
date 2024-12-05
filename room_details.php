@@ -121,6 +121,103 @@ $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
         /* Importing Google Fonts */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 
+
+        /* Styling comments section container */
+.comments-section {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #ffffff; 
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.comments-section h2 {
+    color: #0056b3; 
+    border-bottom: 2px solid #0056b3; 
+    padding-bottom: 5px;
+    font-family: 'Arial', sans-serif; 
+}
+
+.comments-section h3 {
+    color: #007bff; 
+    font-family: 'Verdana', sans-serif; 
+    margin-bottom: 10px;
+}
+
+/* Styling for comments */
+.comment {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Username and time styling */
+.comment strong {
+    color: #333; 
+    font-weight: bold;
+}
+
+.comment em {
+    font-size: 12px;
+    color: #888; 
+}
+
+/* Admin response styling */
+.admin-response {
+    margin-top: 15px;
+    padding: 10px;
+    border-left: 4px solid #28a745; 
+    background-color: #eafbe7; 
+    border-radius: 5px;
+    font-style: italic;
+}
+
+/* Star rating display */
+.comment .rating {
+    margin: 10px 0;
+    color: #ffcc00; 
+    font-size: 18px;
+}
+
+/* Styling for the comment form */
+.comment-form {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f8f9fa; 
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.comment-form textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    resize: none;
+}
+
+.comment-form button {
+    background-color: #007bff; 
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.comment-form button:hover {
+    background-color: #0056b3; 
+}
+
         /*stars styles*/
 
 .star-rating {
@@ -128,17 +225,17 @@ display: inline-block;
 }
 
 .star-rating input {
-display: none; /* Hide the radio buttons themselves */
+display: none; 
 }
 
 .star-rating label {
 font-size: 30px;
-color: gray;  /* Default color for empty stars */
+color: gray;  
 cursor: pointer;
 }
 
 .star-rating label:hover {
-color: gold; /* Hover effect to show gold color on star selection */
+color: gold; 
 }
         /* Basic Styles */
         body {
@@ -648,7 +745,7 @@ color: gold; /* Hover effect to show gold color on star selection */
 
 <!-- Comments Section -->
 <div class="comments-section">
-    <h2>[ FeedBacks ]</h2>
+    <h2> FeedBacks </h2>
 
    <!-- Display Existing Comments -->
 <div class="comments-list">

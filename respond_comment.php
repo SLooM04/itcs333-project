@@ -19,7 +19,6 @@ if (isset($_POST['comment_id']) && isset($_POST['response'])) {
         ':comment_id' => $comment_id
     ]);
 
-    // Redirect back to the admin dashboard after responding
     $_SESSION['success_message'] = "Your response has been submitted.";
     header("Location: admin_dashboard.php");
     exit();
