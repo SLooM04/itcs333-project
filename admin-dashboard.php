@@ -1,5 +1,9 @@
 <?php
 session_start();
+if($_SESSION['role'] != 'admin' && !isset($_SESSION['user_id'])){
+    header("Location: combined_login.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>

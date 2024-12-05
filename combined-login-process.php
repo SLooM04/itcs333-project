@@ -41,26 +41,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $admin = $stmtAdmin->fetch(PDO::FETCH_ASSOC);
 
      if($admin){
-        // If not a teacher and student, check if the user is a admin
-        $AdminEmailRegex = "/^[0-9a-z]+@admin\.uob\.edu\.bh$/";
-        if (!preg_match($email,$AdminEmailRegex)){
-            $_SESSION['login_error'] = "Invalid username or password";
-            sleep(2);
-            header("Location: combined_login.php");
-        }
-        
-
-        if ($admin) {
             $user = $admin;
             $user['role'] = 'admin';
         } else {
             // No user found
             $user = null;
         }
-        sleep(2);
-        header("Location: admin-dashboard.php");
-        exit();
-    }
+    
+  
 
     // Verify the password for student
     if ($student && password_verify($password, $student['password'])) {
@@ -99,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else if ($admin && $password==$admin['password']) {
         $_SESSION['user_id'] = $admin['id'];
         $_SESSION['username'] = $admin['username'];
-        $_SESSION['role'] = $admin['role'];
+        $_SESSION['role'] = $user['role'];
         $_SESSION["login_success"] = "Welcome, " . $admin['username'] . "!";
 
         // Set cookies for the teacher
@@ -108,15 +96,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         setcookie("role", $user['role'], time() + (86400 * 30), "/");
 
         sleep(2);
-        header("Location: admin-dashbord.php");
-        exit();
-    }
+        header("Location:admin-dashboard.php");
+        
+    }else{
     // Authentication failed
     $_SESSION['login_error'] = "Invalid username or password";
     sleep(2);
     header("Location: combined_login.php");
-    exit();
-} else {
+    exit();}
+
+    }else {
     header("Location: combined_login.php");
     exit();
 }
