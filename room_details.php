@@ -84,6 +84,31 @@ function generateAvailableSlots($booked_slots)
 $available_slots = generateAvailableSlots($booked_slots);
 ?>
 
+<?php
+// Fetch the room ID from the URL
+$room_id = $_GET['id'];
+
+// Fetch room details from the database
+$stmt = $pdo->prepare("SELECT * FROM rooms WHERE id = :room_id");
+$stmt->execute([':room_id' => $room_id]);
+$room = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Fetch comments for the room
+$stmt = $pdo->prepare("
+    SELECT c.*, 
+           CASE 
+               WHEN c.user_role = 'student' THEN s.username 
+               WHEN c.user_role = 'teacher' THEN t.username 
+           END AS username
+    FROM comments c
+    LEFT JOIN students s ON c.user_id = s.student_id AND c.user_role = 'student'
+    LEFT JOIN teachers t ON c.user_id = t.teacher_id AND c.user_role = 'teacher'
+    WHERE c.room_id = :room_id 
+    ORDER BY c.created_at DESC
+");
+$stmt->execute([':room_id' => $room_id]);
+$comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -96,6 +121,25 @@ $available_slots = generateAvailableSlots($booked_slots);
         /* Importing Google Fonts */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 
+        /*stars styles*/
+
+.star-rating {
+display: inline-block;
+}
+
+.star-rating input {
+display: none; /* Hide the radio buttons themselves */
+}
+
+.star-rating label {
+font-size: 30px;
+color: gray;  /* Default color for empty stars */
+cursor: pointer;
+}
+
+.star-rating label:hover {
+color: gold; /* Hover effect to show gold color on star selection */
+}
         /* Basic Styles */
         body {
             font-family: 'Poppins', sans-serif;
@@ -602,7 +646,95 @@ $available_slots = generateAvailableSlots($booked_slots);
 
             </div>
 
+<!-- Comments Section -->
+<div class="comments-section">
+    <h2>[ FeedBacks ]</h2>
 
+   <!-- Display Existing Comments -->
+<div class="comments-list">
+    <?php if ($comments): ?>
+        <?php foreach ($comments as $comment): ?>
+            <div class="comment">
+                <p><strong><?php echo htmlspecialchars($comment['username']); ?>:</strong></p>
+                <p><?php echo htmlspecialchars($comment['comment_text']); ?></p>
+                <p><em><?php echo htmlspecialchars($comment['created_at']); ?></em></p>
+
+                <!-- Display Rating as Stars -->
+                <p><strong>Rating:</strong>
+                    <?php
+                    for ($i = 1; $i <= 5; $i++) {
+                        if ($i <= $comment['rating']) {
+                            echo '★'; // Full star
+                        } else {
+                            echo '☆'; // Empty star
+                        }
+                    }
+                    ?>
+                </p>
+
+                <?php if (!empty($comment['admin_response'])): ?>
+                    <div class="admin-response">
+                        <p><strong>Admin:</strong> <?php echo htmlspecialchars($comment['admin_response']); ?></p>
+                    </div>
+                <?php endif; ?>
+            </div>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <p>No feedbacks yet. Be the first!</p>
+    <?php endif; ?>
+</div>
+
+
+
+   <!-- Comment Form -->
+   <h3>Leave your feedback</h3>
+<form action="add_comment.php" method="POST">
+    <input type="hidden" name="room_id" value="<?php echo $room_id; ?>"> <!-- Pass room_id -->
+
+    <!-- Star Rating -->
+    <label for="rating">Rating:</label>
+    <div class="star-rating">
+        <input type="radio" id="star1" name="rating" value="1" onclick="updateRating(1)">
+        <label for="star1">★</label>
+
+        <input type="radio" id="star2" name="rating" value="2" onclick="updateRating(2)">
+        <label for="star2">★</label>
+
+        <input type="radio" id="star3" name="rating" value="3" onclick="updateRating(3)">
+        <label for="star3">★</label>
+
+        <input type="radio" id="star4" name="rating" value="4" onclick="updateRating(4)">
+        <label for="star4">★</label>
+
+        <input type="radio" id="star5" name="rating" value="5" onclick="updateRating(5)">
+        <label for="star5">★</label>
+    </div>
+
+    <!-- Display Selected Rating Number (1 to 5) -->
+    <p>Selected Rating: <span id="rating-display">0</span>/5</p>
+
+    <!-- Comment Text -->
+    <textarea name="comment_text" placeholder="Write your feedback here.." required></textarea>
+
+    <button type="submit">Submit Feedback</button>
+</form>
+
+<script>
+    function updateRating(rating) {
+        // Display the numeric rating
+        document.getElementById("rating-display").textContent = rating;
+        
+        // Update the selected star rating
+        var stars = document.querySelectorAll(".star-rating input");
+        stars.forEach(function(star, index) {
+            if (index < rating) {
+                star.nextElementSibling.style.color = "gold"; // Filled star
+            } else {
+                star.nextElementSibling.style.color = "gray"; // Empty star
+            }
+        });
+    }
+</script>
 
 
 
