@@ -58,16 +58,30 @@ if (!$user) {
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,600');
 
 /* BASIC STYLES */
-
-body, html {
-  margin: 0%;
-  padding: 0;
-  font-family: 'Montserrat', sans-serif;
-  background-image: linear-gradient( #396391 , #87acd4 , #bac8d6 , #87acd4 , #396391  );  display:flex;
-  justify-content: center;
-  align-items: center;
-  height: 90%;
-}
+body {
+ font-family: 'Montserrat', sans-serif;
+  background-image: linear-gradient(#1a73e8, #004db3);
+  background-repeat: no-repeat;  /* Ensures the background doesn't repeat */
+ background-size: cover;  /* Ensures the gradient covers the full container */
+ height: 45%;
+ display: flex;
+justify-content: center;
+ align-items: flex-start;
+ margin: 0px;
+        }
+html {
+ font-family: 'Montserrat', sans-serif;
+ background-image: linear-gradient(#1a73e8, #004db3);
+ background-repeat: no-repeat;  /* Ensures the background doesn't repeat */
+ background-size: cover;  /* Ensures the gradient covers the full container */
+  height: 180%;
+  display: flex;
+ justify-content: center;
+ align-items: flex-start;
+ padding: 35px;
+ margin: 0px;
+    
+        }
 
 a {
   color: #046cdb;
@@ -184,14 +198,24 @@ h2 {
 }
 
 @media (max-width: 768px) {
-  .body, html{
-    margin-top: 45%;
-    height: 46%;
+  .body{
+
+    height: 30%;
+    width: 30%;
+
+
+
+  }
+  
+  html{
+    height: 55%;
   }
   
   .profile-container {
     padding: 2%;
-    height: 197%;
+    height: 190%;
+    max-width: 100%;
+
   }
 
   .profile-header h1 {

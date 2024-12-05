@@ -104,15 +104,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Edit Profile</title>
     <style>
         @import url('https://fonts.googleapis.com/css?family=Montserrat:400,600');
-        body, html {
+        body {
             font-family: 'Montserrat', sans-serif;
-            background: linear-gradient( #87acd4 , #bac8d6 , #bac8d6 , #87acd4 ); display:flex;
-            height: 60%;
+            background-image: linear-gradient(#1a73e8, #004db3);
+            background-repeat: no-repeat;  /* Ensures the background doesn't repeat */
+            background-size: cover;  /* Ensures the gradient covers the full container */
+            height: 100%;
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding-top: 0px;
-            margin: 10px;
+            margin: 0px;
+        }
+        html {
+            font-family: 'Montserrat', sans-serif;
+            background-image: linear-gradient(#1a73e8, #004db3);
+            background-repeat: no-repeat;  /* Ensures the background doesn't repeat */
+            background-size: cover;  /* Ensures the gradient covers the full container */
+            height: 180%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 35px;
+            margin: 0px;
+    
         }
 
         .edit-profile-container {
@@ -234,8 +248,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         @media (max-width: 480px) {
-            body, html {
+            body {
+
                 padding: 0px;
+                height: 100%;
+
+            }
+            
+            html {
+                padding: 25px;
+                height: 105%;
+
             }
             .edit-profile-container {
                 padding: 20px;
