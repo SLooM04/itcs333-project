@@ -934,6 +934,53 @@ if (isset($_GET['room_type']) && isset($_GET['room_number'])) {
 
 }
 
+/* Styles for tablets (between 600px and 1024px) */
+@media (max-width: 1024px) {
+    .search select, .search input {
+        width: 220px; /* Adjust width for tablet screens */
+    }
+
+    .search button {
+        width: 120px; /* Slightly smaller button on tablets */
+    }
+
+    .all {
+        font-size: 24px; /* Smaller font size for tablets */
+        height: 70px; /* Adjust height for tablets */
+        padding: 8px; /* Reduced padding */
+    }
+}
+
+/* Styles for mobile devices (max-width: 600px) */
+@media (max-width: 600px) {
+    .search {
+        flex-direction: column; /* Stack the elements vertically on mobile */
+        height: auto; /* Remove height limitation for mobile */
+        padding: 20px; /* Add some padding for mobile */
+    }
+
+    .search select, .search input {
+        width: 100%; /* Full width for input fields on mobile */
+        margin-bottom: 10px; /* Space between fields */
+    }
+
+    .search button {
+        width: 100%; /* Full width button on mobile */
+        padding-left: 0; /* Remove extra padding on mobile */
+    }
+    
+    .all {
+        font-size: 14px; /* Smaller font size for mobile */
+        height: 60px; /* Adjust height for mobile */
+        padding: 5px; /* Reduced padding */
+        max-width: 90%; /* Allow more width for smaller screens */
+
+    }
+    .down {
+        width:40px;
+    }
+}
+
     </style>
 </head>
 

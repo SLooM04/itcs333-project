@@ -192,7 +192,7 @@ if (!$user) {
         
        
         /* Header Styles */
-        header {
+  header {
             display: flex;
             align-items: center;
             justify-content: space-around;
@@ -237,6 +237,89 @@ if (!$user) {
 
         /* Logo Styles */
         .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: white;
+            border-radius: 12px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .logo img {
+            width: 100px;
+            border-radius: 20%;
+            transition: transform 0.8s;
+        }
+
+        @media (min-width: 801px) and (max-width: 1000px) {
+            .logo img {
+                width: 3rem;
+            }
+        }
+
+
+
+
+
+        /* User Profile Section */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: white;
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+        }
+
+        .user-profile span {
+            font-size: 1em;
+            white-space: nowrap;
+        }
+
+        /* Dropdown Menu */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: #ffffff;
+            color: #222;
+            min-width: 150px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            z-index: 2000;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: #222;
+            transition: background-color 0.3s;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+
+
+         /* Logo Styles */
+         .logo {
             display: flex;
             align-items: center;
             gap: 15px;
@@ -377,6 +460,8 @@ if (!$user) {
             footer .footer-section ul li {
                 margin: 0.2rem 0;
             }}
+
+            
     </style>
 </head>
 <body>
