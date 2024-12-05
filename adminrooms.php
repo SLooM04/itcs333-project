@@ -2,24 +2,41 @@
 session_start();
 require 'db.php'; // Include the DB connection file
 
-if (!isset($_SESSION['user_id'])) {
-    $isGuest = true; 
-    $username = 'Guest'; 
-} else {
-    $isGuest = false; 
-    $userId = $_SESSION['user_id'];
-    $userRole = $_SESSION['role']; 
-
-    if ($userRole == 'student') {
-        $stmt = $pdo->prepare("SELECT * FROM students WHERE student_id = ?");
-    } else {
-        $stmt = $pdo->prepare("SELECT * FROM teachers WHERE teacher_id = ?");
-    }
-    $stmt->execute([$userId]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    $username = $_SESSION['username'] ?? 'User';
+// Check if the user is logged in
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+    header("Location: combined_login.php");
+    exit();
 }
+
+
+
+
+// Fetch admin details from the database based on the session user ID
+$userId = $_SESSION['user_id'];
+$stmt = $pdo->prepare("SELECT * FROM admins WHERE id = ?");
+$stmt->execute([$userId]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Check if the admin exists in the database
+if (!$user) {
+    die("Admin not found.");
+}
+
+// Get user details from session
+$userId = $_SESSION['user_id'];
+$userRole = $_SESSION['role']; // 'student' or 'teacher'
+
+if ($userRole == 'student') {
+    $stmt = $pdo->prepare("SELECT * FROM students WHERE student_id = ?");
+} 
+$stmt->execute([$userId]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$user) {
+    die("User not found.");
+}
+
+$username = $_SESSION['username'] ?? 'User';
 
 // Function to fetch rooms from the database based on department
 function fetchRooms($department = null)
@@ -51,6 +68,7 @@ if (isset($_GET['department'])) {
 ?>
 
 
+
 <?php
 // Ensure the search form values are provided
 if (isset($_GET['id'])) {
@@ -71,6 +89,10 @@ if (isset($_GET['id'])) {
     }
 } 
 ?> 
+
+
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -269,9 +291,8 @@ if (isset($_GET['id'])) {
             border: 3px solid #003366;
             animation: glowing 1.5s ease-in-out infinite;
         }
-
-        /* Header Styles */
-        header {
+  /* Header Styles */
+  header {
             display: flex;
             align-items: center;
             justify-content: space-around;
@@ -280,7 +301,7 @@ if (isset($_GET['id'])) {
             color: white;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             position: relative;
-            height: 20px;
+            height: 133px;
             z-index: 1000;
         
         }
@@ -394,8 +415,6 @@ if (isset($_GET['id'])) {
         .dropdown:hover .dropdown-content {
             display: block;
         }
-
-        
 
 
 
@@ -874,7 +893,7 @@ if (isset($_GET['id'])) {
             }
         
 
-            .all {
+        .all {
          text-align: center;
          vertical-align: middle;
          line-height: 0.5; /* Adjust line spacing if needed */
@@ -895,6 +914,7 @@ if (isset($_GET['id'])) {
          height: 80px;
 
         }
+
         .down {
          width: 80px; /* Adjust width */
          height: auto; /* Maintain aspect ratio */
@@ -926,6 +946,7 @@ if (isset($_GET['id'])) {
 
     }
 
+
     </style>
 </head>
 
@@ -933,7 +954,7 @@ if (isset($_GET['id'])) {
     
     <header>
         <!-- Logo Section -->
-        <a href="homelog.php" class="logo">
+        <a  class="logo">
             <img src="uploads/UOB-Colleges-new-logo.png" alt="Logo">
             UOB
         </a>
@@ -941,105 +962,36 @@ if (isset($_GET['id'])) {
         <!-- Navigation Links -->
 
         <nav class="nav-links">
-            <a href="homelog.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'homelog.php' ? 'active' : ''; ?>">Home</a>
-            <a href="rooms.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'rooms.php' ? 'active' : ''; ?>">Rooms</a>
-            <a href="reporting.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'reservations.php' ? 'active' : ''; ?>">My Reservations</a>
-            <a href="supportFAQ.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'support.php' ? 'active' : ''; ?>">Support</a>
+            <a href="admin-dashboard.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'admin-dashboard.php' ? 'active' : ''; ?>">Home</a>
         </nav>
 
 
 
-       <!-- User Profile Section -->
-<div class="user-profile dropdown">
-    <img src="<?= isset($_SESSION['user_id']) && !empty($user['profile_picture']) 
-        ? htmlspecialchars($user['profile_picture']) 
-        : 'uploads/Temp-user-face.jpg'; ?>" 
-        alt="Profile Picture" 
-        class="profile-image">
-    <span><?= isset($_SESSION['username']) 
-        ? htmlspecialchars($_SESSION['username']) 
-        : 'Guest'; ?></span>
-
-    <div class="dropdown-content">
-        <?php if (isset($_SESSION['username'])): ?>
-            <a href="profile.php">My Profile</a>
-            <a href="settings.php">Settings</a>
-            <a id="themeToggle">Dark Mode</a>
-            <a href="logout.php" class="logout-button" onclick="return confirm('Are you sure you want to log out?')">Logout</a>
-        <?php else: ?>
-            <a href="combined_login.php">Login</a>
-            <a href="account_type.php">Register</a>
-            <a id="themeToggle">Dark Mode</a>
-        <?php endif; ?>
-    </div>
-</div>
-</div>
+        <!-- User Profile Section -->
+        <div class="user-profile dropdown">
+            <img src="<?= !empty($admin['profile_picture']) ? htmlspecialchars($admin['profile_picture']) : 'uploads/admin-default.png' ?>" alt="Profile Picture" class="profile-image">
+            <span> <?php echo htmlspecialchars($user['username']); ?></span>
+            <div class="dropdown-content">
+                <a href="adminprofile.php">My Profile</a>
+                <a href="logout.php" class="logout-button" onclick="return confirm('Are you sure you want to log out?')">Logout</a>
+            </div>
         </div>
     </header>
-    <!-- Department Selection -->
-    <div class="container">
-        <div class="department" onclick="redirectToPage('IS')">
-            
-            <div class="roof">|||||||||||||||||||||||||||</div>
-            <div class="top-circle"></div>
-            <div class="side">S40</div>
-            <div class="side-right">S40</div>
-            <div class="window"><br></div>
-            <div class="window"><br></div>
-            <div class="door-L">
-                <div class="door-L-text">-</div>
-            </div>
-            <div class="door-R">
-                <div class="door-R-text">-</div>
-            </div>
-            <div class="department-text">Information Systems</div>
-        </div>
+    
 
-        <div class="department" onclick="redirectToPage('CS')">
-            <div class="roof">|||||||||||||||||||||||||||</div>
-            <div class="top-circle"></div>
-            <div class="side">S40</div>
-            <div class="side-right">S40</div>
-            <div class="window"><br></div>
-            <div class="window"><br></div>
-            <div class="door-L">
-                <div class="door-L-text">-</div>
-            </div>
-            <div class="door-R">
-                <div class="door-R-text">-</div>
-            </div>
-            <div class="department-text">Computer Science</div>
-        </div>
-
-        <div class="department" onclick="redirectToPage('NE')">
-            <div class="roof">|||||||||||||||||||||||||||</div>
-            <div class="top-circle"></div>
-            <div class="side">S40</div>
-            <div class="side-right">S40</div>
-            <div class="window"><br></div>
-            <div class="window"><br></div>
-            <div class="door-L">
-                <div class="door-L-text">-</div>
-            </div>
-            <div class="door-R">
-                <div class="door-R-text">-</div>
-            </div>
-            <div class="department-text">Network Engineering</div>
-        </div>
-
-    </div>
     <div class="all">
     <img src="uploads/downA.png" alt="down here" class="down">
      All Departments room
      <img src="uploads/downA.png" alt="down here" class="down">
     </div>
-
-        <!-- Room search -->
+    
+    <!-- Room search -->
     <form class="search" action="room_details.php" method="GET">
      <label for="id">Enter Room ID:</label>
      <input type="text" id="id" name="id" required>
      <button type="submit">Search</button>
     </form>
+
 
     <!-- Room Selection (Dynamic Content) -->
     <div id="rooms" class="rooms">
@@ -1051,106 +1003,46 @@ if (isset($_GET['id'])) {
        </div>
 
        <!-- All rooms View -->
-       <div id="Allrooms" class="room-gallery" >
-            <?php if ($rooms): ?>
-                <?php foreach ($rooms as $room): ?>
-                    <div class="room">
-                        <a href="room_details.php?id=<?php echo htmlspecialchars($room['id']); ?>">
-                            <figure>
-                                <?php if (!empty($room['image'])): ?>
-                                    <img src="RoomPic/<?php echo htmlspecialchars($room['image']); ?>" alt="<?php echo htmlspecialchars($room['room_name']); ?>">
-                                <?php else: ?>
-                                    <img src="RoomPic/jpg" alt="Default Room Image">
-                                <?php endif; ?>
-                                <figcaption>
-                                    <h2><?php echo htmlspecialchars($room['room_name']); ?></h2>
-                                    <p>
-                                        <strong><img src="Seats.png" alt="Capacity Icon" style="width: 28px; height: 28px; vertical-align: middle;"> Capacity:</strong>
-                                        <?php echo htmlspecialchars($room['capacity']); ?>
-                                    </p>
-                                    <p>
-                                        <strong><img src="de.png" alt="Department Icon" style="width: 24px; height: 28px; vertical-align: middle;"> Department:</strong>
-                                        <?php echo htmlspecialchars($room['department']); ?>
-                                    </p>
-                                </figcaption>
+<div id="Allrooms" class="room-gallery">
+    <?php if ($rooms): ?>
+        <?php foreach ($rooms as $room): ?>
+            <div class="room">
+                <a href="room_details.php?id=<?php echo htmlspecialchars($room['id']); ?>">
+                    <figure>
+                        <?php if (!empty($room['image'])): ?>
+                            <img src="RoomPic/<?php echo htmlspecialchars($room['image']); ?>" alt="<?php echo htmlspecialchars($room['room_name']); ?>">
+                        <?php else: ?>
+                            <img src="RoomPic/jpg" alt="Default Room Image">
+                        <?php endif; ?>
+                        <figcaption>
+                            <h2><?php echo htmlspecialchars($room['room_name']); ?></h2>
+                            <p>
+                                <strong><img src="Seats.png" alt="Capacity Icon" style="width: 28px; height: 28px; vertical-align: middle;"> Capacity:</strong>
+                                <?php echo htmlspecialchars($room['capacity']); ?>
+                            </p>
+                            <p>
+                                <strong><img src="de.png" alt="Department Icon" style="width: 24px; height: 28px; vertical-align: middle;"> Department:</strong>
+                                <?php echo htmlspecialchars($room['department']); ?>
+                            </p>
+                        </figcaption>
+                    </figure>
+                </a>
+            </div>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <p>No rooms available for the selected criteria.</p>
+    <?php endif; ?>
+</div>
 
-                            </figure>
-                        </a>
-                    </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <p>No rooms available for the selected department.</p>
-            <?php endif; ?>
-        </div>
     </div>
         
     
-        <!-- department rooms View -->
-        <div id="roomSelection" class="room-gallery" style="display: none;">
-            <?php if ($rooms): ?>
-                <?php foreach ($rooms as $room): ?>
-                    <div class="room">
-                        <a href="room_details.php?id=<?php echo htmlspecialchars($room['id']); ?>">
-                            <figure>
-                                <?php if (!empty($room['image'])): ?>
-                                    <img src="RoomPic/<?php echo htmlspecialchars($room['image']); ?>" alt="<?php echo htmlspecialchars($room['room_name']); ?>">
-                                <?php else: ?>
-                                    <img src="RoomPic/jpg" alt="Default Room Image">
-                                <?php endif; ?>
-                                <figcaption>
-                                    <h2><?php echo htmlspecialchars($room['room_name']); ?></h2>
-                                    <p>
-                                        <strong><img src="Seats.png" alt="Capacity Icon" style="width: 28px; height: 28px; vertical-align: middle;"> Capacity:</strong>
-                                        <?php echo htmlspecialchars($room['capacity']); ?>
-                                    </p>
-                                    <p>
-                                        <strong><img src="de.png" alt="Department Icon" style="width: 24px; height: 28px; vertical-align: middle;"> Department:</strong>
-                                        <?php echo htmlspecialchars($room['department']); ?>
-                                    </p>
-                                </figcaption>
 
-                            </figure>
-                        </a>
-                    </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <p>No rooms available for the selected department.</p>
-            <?php endif; ?>
-        </div>
-    </div>
+    
 
-    <!-- selected department -->
-    <script>
-        function  showRooms(department) {
-            // Fetch rooms data based on the selected department
-            window.location.href = '?department =' + department ;
-        }
-    </script>
+ 
 
- <script>
-    function redirectToPage(department) {
-        // Redirect based on the department clicked
-        if (department === 'IS') {
-            window.location.href = "information_system.php";
-        } else if (department === 'CS') {
-            window.location.href = "computer_science.php";
-        } else if (department === 'NE') {
-            window.location.href = "network_engineering.php";
-        }
-    }
- </script>
-
-   <script >
-    function showView(viewId) {
-        // Hide all views initially
-        document.getElementById('Allrooms').style.display = 'none';
-        document.getElementById('roomSelection').style.display = 'none';
-        document.getElementById('mapclick').style.display = 'none';
-
-        // Show the selected view
-        document.getElementById(viewId).style.display = 'block';
-    }
-   </script>
+   
 
 
 
@@ -1202,34 +1094,7 @@ if (isset($_GET['id'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
     </script>
 
-    <script>
-         document.addEventListener("DOMContentLoaded", () => {
-        // Handle theme toggle
-        const themeToggle = document.getElementById('themeToggle');
-        const body = document.body;
 
-        // Check for saved theme in localStorage
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
-            body.classList.add('dark-mode');
-            themeToggle.textContent = 'Light Mode';
-        }
-
-        themeToggle.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-
-            // Update button text and save preference
-            if (body.classList.contains('dark-mode')) {
-                themeToggle.textContent = 'Light Mode';
-                localStorage.setItem('theme', 'dark');
-            } else {
-                themeToggle.textContent = 'Dark Mode';
-                localStorage.setItem('theme', 'light');
-            }
-        });
-    });
-       
-    </script>
 
 
 

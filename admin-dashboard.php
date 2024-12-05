@@ -46,10 +46,17 @@ if (!$user) {
             position: relative;
             z-index: 2;
         }
+        html {
+
+            padding: 0px;
+        }
 
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f4f5f7;
+            background: #fff;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
             color: #333;
         }
 
@@ -183,6 +190,7 @@ if (!$user) {
         }
 
         
+       
         /* Header Styles */
         header {
             display: flex;
@@ -193,7 +201,7 @@ if (!$user) {
             color: white;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             position: relative;
-            height: 90px;
+            height: 133px;
             z-index: 1000;
         
         }
@@ -239,7 +247,7 @@ if (!$user) {
         }
 
         .logo img {
-            width: 70px;
+            width: 100px;
             border-radius: 20%;
             transition: transform 0.8s;
         }
@@ -382,7 +390,7 @@ if (!$user) {
         <!-- Navigation Links -->
 
         <nav class="nav-links">
-            <a href="rooms.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'rooms.php' ? 'active' : ''; ?>">Rooms</a>
+            <a href="adminrooms.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'adminrooms.php' ? 'active' : ''; ?>">Rooms</a>
         </nav>
 
 
