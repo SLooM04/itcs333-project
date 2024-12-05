@@ -121,6 +121,92 @@ $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
         /* Importing Google Fonts */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 
+
+        /* comments section styling */
+.comments-section {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #f8f9fa; /*  background for the comments section */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for comments */
+.comment {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #ffffff; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+
+.comment p {
+    margin: 5px 0;
+}
+
+.comment strong {
+    color: #333; 
+    font-weight: bold;
+}
+
+.comment em {
+    font-size: 12px;
+    color: #888; 
+}
+
+.admin-response {
+    margin-top: 15px;
+    padding: 10px;
+    border-left: 4px solid #007bff; /* Blue border for admin responses */
+    background-color: #e9f5ff; /* Light blue background */
+    border-radius: 5px;
+    font-style: italic;
+}
+
+.comment .rating {
+    margin: 10px 0;
+    color: #ffcc00; /* Gold stars for ratings */
+    font-size: 18px;
+}
+
+/* Styling for the comment form */
+.comment-form {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f1f1f1; /* Light gray background for the form */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.comment-form textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    resize: none;
+}
+
+.comment-form button {
+    background-color: #007bff; /* Blue submit button */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.comment-form button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
         /*stars styles*/
 
 .star-rating {
