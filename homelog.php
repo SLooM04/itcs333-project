@@ -757,7 +757,7 @@ $username = $_SESSION['username'] ?? 'User';
             }
 
             // Automatically move to the next slide every 10 seconds
-            setInterval(nextSlide, 10000);
+            setInterval(nextSlide, 5000);
 
             // Show the initial slide
             showSlide(currentIndex);
