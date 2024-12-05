@@ -61,9 +61,6 @@ INSERT INTO `comments` (`comment_id`, `room_id`, `user_id`, `user_role`, `commen
 --
 -- Indexes for table `comments`
 --
-ALTER TABLE `comments`
-  ADD PRIMARY KEY (`comment_id`),
-  ADD KEY `room_id` (`room_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
