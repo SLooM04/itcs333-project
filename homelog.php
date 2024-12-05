@@ -672,8 +672,6 @@ for($i=1 ; $i < count($bookings) ; $i++){
         <source src="uploads/homelog2.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
-
-    
 </section>
 
 
