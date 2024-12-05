@@ -37,7 +37,9 @@ CREATE TABLE `rooms` (
   `image` varchar(255) DEFAULT NULL,
   `thumbnail_2` varchar(255) DEFAULT NULL,
   `thumbnail_3` varchar(255) DEFAULT NULL,
-  `thumbnail_4` varchar(255) DEFAULT NULL
+  `thumbnail_4` varchar(255) DEFAULT NULL,
+    PRIMARY KEY (`id`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
