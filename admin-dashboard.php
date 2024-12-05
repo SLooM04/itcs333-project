@@ -81,7 +81,7 @@ if (!$user) {
             position: relative;
             width: 250px;
             height: 250px;
-            background: #3498db;
+            background: linear-gradient(1deg, #1a73e8, #004db3 );  
             color: white;
             border-radius: 15px;
             display: flex;
