@@ -524,6 +524,7 @@ color: gold;
 
         .feature-box p {
             color: #555;
+            margin: 0%;
         }
 
         @media (max-width: 768px) {
@@ -671,7 +672,6 @@ color: gold;
 
 
         <!-- User Profile Section -->
-        <!-- User Profile Section -->
         <div class="user-profile dropdown">
             <img src="<?= !empty($user['profile_picture']) ? htmlspecialchars($user['profile_picture']) : 'uploads/Temp-user-face.jpg' ?>" alt="Profile Picture" class="profile-image">
             <span>
@@ -725,23 +725,23 @@ color: gold;
 
             <div class="features">
                 <div class="feature-box">
-                    <div style="font-size: 40px;"><img src="Seats.png" style="width:60px;"></div>
+                    <div style="font-size: 10px;"><img src="https://cdn.discordapp.com/attachments/695196527794061343/1314363167496994907/OH1BQS1.png?ex=67537f96&is=67522e16&hm=b52fbecaaf93b07a2ece160a8e6504d987e09c954b15c4e948aecd34749f6f7e&" style="width:40px; padding-top: 3px;  "> </div>
                     <h3 style="color: #000000">Room Volume</h3>
-                    <p><strong style="color:#1a73e8">Capacity:</strong> <?php echo htmlspecialchars($room['capacity']); ?> people</p>
+                    <p><strong style="color:#1a73e8">Capacity</strong><br>  <?php echo htmlspecialchars($room['capacity']); ?> people</p>
                 </div>
 
                 <div class="feature-box">
                     <div style="font-size: 30px;">🏢</div>
                     <h3 style="color: #000000">Location</h3>
 
-                    <p><strong style="color:#1a73e8">Department:</strong> <?php echo htmlspecialchars($room['department']); ?></p>
-                    <p><strong style="color:#1a73e8">Floor:</strong> <?php echo htmlspecialchars($room['floor']); ?></p>
+                    <p><strong style="color:#1a73e8">Department</strong><br> <?php echo htmlspecialchars($room['department']); ?></p>
+                    <p><strong style="color:#1a73e8">Floor</strong> <br><?php echo htmlspecialchars($room['floor']); ?></p>
                 </div>
 
                 <div class="feature-box">
                     <div style="font-size: 30px;">🖥️</div>
-                    <h3 style="color: #000000">Room Equipment:</h3>
-                    <p><strong style="color:#1a73e8">Room Equipment:</strong> <?php echo htmlspecialchars($room['equipment']); ?></p>
+                    <h3 style="color: #000000">Details</h3>
+                    <p><strong style="color:#1a73e8">Room Equipment</strong><br> <?php echo htmlspecialchars($room['equipment']); ?></p>
                 </div>
 
 
@@ -750,23 +750,22 @@ color: gold;
                     <div style="font-size: 30px;">📊</div>
                     <h3 style="color: #000000">Analytics</h3>
                     <p>
-                        <strong style="color:#1a73e8">Room Capacity:</strong> <?php echo htmlspecialchars($room['capacity']); ?><br>
-                        <strong style="color:#1a73e8">Total bookings:</strong> <?php if(isset($bookings_number[$roomNum_bookings])) echo htmlspecialchars($bookings_number[$roomNum_bookings]['total_bookings']); else echo 0 ?><br> 
-                        <strong style="color:#1a73e8">Rating:</strong> <?php if(isset($bookings_number[$roomNum_bookings])) {echo htmlspecialchars($bookings_number[$roomNum_bookings]['rating']);} else {echo 'No ratings';} ?>                     
+                        <strong style="color:#1a73e8">Total bookings</strong> <br><?php if(isset($bookings_number[$roomNum_bookings])) echo htmlspecialchars($bookings_number[$roomNum_bookings]['total_bookings']); else echo 0 ?><br> 
+                        <strong style="color:#1a73e8">Rating</strong><br> <?php if(isset($bookings_number[$roomNum_bookings])){echo htmlspecialchars($bookings_number[$roomNum_bookings]['rating']);} else {echo 'No ratings';} ?>                     
                     </p>
                 </div>
                 <div class="feature-box">
 
                     <!-- Reserve Button -->
-                    <form action="Room_Booking.php" method="GET">
-                        <input type="hidden" name="id" value="<?php echo $room['id']; ?>" />
-                        <?php if (isset($_SESSION['username'])): ?>
-                            <button type="submit">Book Now</button>
-                        <?php else: ?>
-                            <button type="button" disabled>Book Now</button>
-                            <p style="color: red; font-size: 1.1em;">You need to log in to book this room.</p>
-                        <?php endif; ?>
-                    </form>
+<form action="Room_Booking.php" method="GET">
+    <input type="hidden" name="id" value="<?php echo $room['id']; ?>" />
+    <?php if (isset($_SESSION['username'])): ?>
+        <button type="submit">Book Now</button>
+    <?php else: ?>
+        <button type="button" disabled>Book Now</button>
+        <p style="color: red; font-size: 1.1em;">You need to log in to book this room.</p>
+    <?php endif; ?>
+</form>
                 </div>
 
             </div>
