@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `comments` (
-  `comment_id` int(11) NOT NULL,
+  `comment_id` int(11) NOT NULL AUTO_INCREMENT,
   `room_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `user_role` enum('student','teacher') NOT NULL,
@@ -37,7 +37,10 @@ CREATE TABLE `comments` (
   `is_resolved` tinyint(1) DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `rating` int(11) NOT NULL DEFAULT 0
+  `rating` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`comment_id`),
+  KEY `room_id` (`room_id`),
+  CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
