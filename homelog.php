@@ -725,8 +725,6 @@ for($i=1 ; $i < count($bookings) ; $i++){
         <source src="uploads/homelog2.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
-
-    
 </section>
 
 
@@ -766,16 +764,16 @@ for($i=1 ; $i < count($bookings) ; $i++){
     <div class="slider-container">
         <div class="slider">
             <div class="slide">
-                <img src="RoomPic/h.jpg" alt="Slide 1">
+                <img src="RoomPic/Huawei.jpg" alt="Slide 1">
             </div>
             <div class="slide">
-                <img src="RoomPic/008.jpg" alt="Slide 2">
+                <img src="RoomPic/iot.jpg" alt="Slide 2">
             </div>
             <div class="slide">
-                <img src="RoomPic/lab.jpg" alt="Slide 3">
+                <img src="RoomPic/benefit0.jpg" alt="Slide 3">
             </div>
             <div class="slide">
-                <img src="RoomPic/i1.jpg" alt="Slide 3">
+                <img src="RoomPic/nell2.jpg" alt="Slide 3">
             </div>
         </div>
 

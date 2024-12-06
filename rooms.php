@@ -2,29 +2,24 @@
 session_start();
 require 'db.php'; // Include the DB connection file
 
-// Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header("Location: combined_login.php");
-    exit();
-}
-
-// Get user details from session
-$userId = $_SESSION['user_id'];
-$userRole = $_SESSION['role']; // 'student' or 'teacher'
-
-if ($userRole == 'student') {
-    $stmt = $pdo->prepare("SELECT * FROM students WHERE student_id = ?");
+    $isGuest = true; 
+    $username = 'Guest'; 
 } else {
-    $stmt = $pdo->prepare("SELECT * FROM teachers WHERE teacher_id = ?");
-}
-$stmt->execute([$userId]);
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
+    $isGuest = false; 
+    $userId = $_SESSION['user_id'];
+    $userRole = $_SESSION['role']; 
 
-if (!$user) {
-    die("User not found.");
-}
+    if ($userRole == 'student') {
+        $stmt = $pdo->prepare("SELECT * FROM students WHERE student_id = ?");
+    } else {
+        $stmt = $pdo->prepare("SELECT * FROM teachers WHERE teacher_id = ?");
+    }
+    $stmt->execute([$userId]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-$username = $_SESSION['username'] ?? 'User';
+    $username = $_SESSION['username'] ?? 'User';
+}
 
 // Function to fetch rooms from the database based on department
 function fetchRooms($department = null)
@@ -53,6 +48,36 @@ if (isset($_GET['department'])) {
 } else {
     $rooms = fetchRooms(); // Fetch all rooms
 }
+?>
+
+
+<?php
+// Ensure the search form values are provided
+if (isset($_GET['room_type']) && isset($_GET['room_number'])) {
+    $roomType = $_GET['room_type'];
+    $roomNumber = $_GET['room_number'];
+
+    // Prepare the SQL query to search for rooms
+    $sql = "SELECT * FROM rooms WHERE room_name LIKE ? LIMIT 1";
+    
+    // Format the room_name like "Room ###" or "Lab ###"
+    $roomSearch = $roomType . ' ' . $roomNumber . '%';
+
+    // Execute the query
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$roomSearch]);
+    $room = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // If a room is found, redirect to room_details.php with the id in the URL
+    if ($room) {
+        header("Location: room_details.php?id=" . $room['id']);
+        exit();
+    } else {
+        echo "No room found matching that criteria.";
+    }
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -593,14 +618,13 @@ if (isset($_GET['department'])) {
         .room-gallery {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            /* Create 3 equal columns */
-            gap: 20px;
-            /* Space between items */
-            margin: 20px;
-            /* Space around the gallery */
+            gap: 50px;
+            margin: 0%;
+            border-radius: 8px;
 
         }
-
+        
+        
 
 
         .room {
@@ -844,20 +868,9 @@ if (isset($_GET['department'])) {
             }
         }
 
-            .room-gallery {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                /* Dynamic columns */
-                gap: 40px;
-                /* Space between items */
-                margin: 20px 20px;
-                /* Add gap on the top/bottom and left/right sides */
-                width: 100%;
-                /* Ensure it takes the full width of its parent */
-            }
-        
+      
 
-        .all {
+            .all {
          text-align: center;
          vertical-align: middle;
          line-height: 0.5; /* Adjust line spacing if needed */
@@ -868,7 +881,7 @@ if (isset($_GET['department'])) {
          padding: 10px; /* Space inside the element */
          margin: 1px auto; /* Center the div horizontally (if block-level) */
          border: 1px solid #ccc; /* Optional border */
-         background-color: #f9f9f9; /* Optional background */
+         background: linear-gradient(135deg, #a9c9ff, #d0e6ff, #e3f2fd, #b3d4fc);
          border-radius: 338px; /* Rounded corners */
          max-width: 600px; /* Limit width */
          display: flex; /* Enable flexbox */
@@ -876,10 +889,8 @@ if (isset($_GET['department'])) {
          justify-content: center; /* Center content horizontally */
          gap: 10px; /* Space between .all and .down */
          height: 80px;
-         padding-left: 90px;
 
         }
-
         .down {
          width: 80px; /* Adjust width */
          height: auto; /* Maintain aspect ratio */
@@ -887,6 +898,76 @@ if (isset($_GET['department'])) {
          margin: 0 auto; /* Center horizontally */
          border-radius: 8px; /* Rounded corners (optional) */
        }
+
+       .search {
+        display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 24vh; /* Full viewport height to center vertically */
+    text-align: center; /* Center text inside if needed */
+    }
+
+    
+    .search select { width: 280px;
+
+}
+.search input { width: 500px;
+
+}
+
+.search button {
+     width: 140px;
+     padding-left: 20px;
+
+
+}
+
+/* Styles for tablets (between 600px and 1024px) */
+@media (max-width: 1024px) {
+    .search select, .search input {
+        width: 220px; /* Adjust width for tablet screens */
+    }
+
+    .search button {
+        width: 120px; /* Slightly smaller button on tablets */
+    }
+
+    .all {
+        font-size: 24px; /* Smaller font size for tablets */
+        height: 70px; /* Adjust height for tablets */
+        padding: 8px; /* Reduced padding */
+    }
+}
+
+/* Styles for mobile devices (max-width: 600px) */
+@media (max-width: 600px) {
+    .search {
+        flex-direction: column; /* Stack the elements vertically on mobile */
+        height: auto; /* Remove height limitation for mobile */
+        padding: 20px; /* Add some padding for mobile */
+    }
+
+    .search select, .search input {
+        width: 100%; /* Full width for input fields on mobile */
+        margin-bottom: 10px; /* Space between fields */
+    }
+
+    .search button {
+        width: 100%; /* Full width button on mobile */
+        padding-left: 0; /* Remove extra padding on mobile */
+    }
+    
+    .all {
+        font-size: 14px; /* Smaller font size for mobile */
+        height: 60px; /* Adjust height for mobile */
+        padding: 5px; /* Reduced padding */
+        max-width: 90%; /* Allow more width for smaller screens */
+
+    }
+    .down {
+        width:40px;
+    }
+}
 
     </style>
 </head>
@@ -913,8 +994,15 @@ if (isset($_GET['department'])) {
 
        <!-- User Profile Section -->
 <div class="user-profile dropdown">
-<img src="<?= !empty($user['profile_picture']) ? htmlspecialchars($user['profile_picture']) : 'uploads/Temp-user-face.jpg' ?>" alt="Profile Picture" class="profile-image">
-<span> <?php echo htmlspecialchars($_SESSION['username']); ?></span>
+    <img src="<?= isset($_SESSION['user_id']) && !empty($user['profile_picture']) 
+        ? htmlspecialchars($user['profile_picture']) 
+        : 'uploads/Temp-user-face.jpg'; ?>" 
+        alt="Profile Picture" 
+        class="profile-image">
+    <span><?= isset($_SESSION['username']) 
+        ? htmlspecialchars($_SESSION['username']) 
+        : 'Guest'; ?></span>
+
     <div class="dropdown-content">
         <?php if (isset($_SESSION['username'])): ?>
             <a href="profile.php">My Profile</a>
@@ -925,9 +1013,9 @@ if (isset($_GET['department'])) {
             <a href="combined_login.php">Login</a>
             <a href="account_type.php">Register</a>
             <a id="themeToggle">Dark Mode</a>
-
         <?php endif; ?>
     </div>
+</div>
 </div>
         </div>
     </header>
@@ -983,12 +1071,22 @@ if (isset($_GET['department'])) {
         </div>
 
     </div>
-      <div class="all">
+    <div class="all">
+    <img src="uploads/downA.png" alt="down here" class="down">
      All Departments room
-     <img src="uploads/down.png" alt="down here" class="down">
+     <img src="uploads/downA.png" alt="down here" class="down">
+    </div>
 
+    <form action="convert.php" method="GET" class="search">
+    <select name="room_type">
+        <option value="">Select Room Type</option>
+        <option value="Room" <?php echo isset($_GET['room_type']) && $_GET['room_type'] == 'Room' ? 'selected' : ''; ?>>Room</option>
+        <option value="Lab" <?php echo isset($_GET['room_type']) && $_GET['room_type'] == 'Lab' ? 'selected' : ''; ?>>Lab</option>
+    </select>
+    <input type="text" name="room_number" placeholder="Enter Room Number" value="<?php echo isset($_GET['room_number']) ? htmlspecialchars($_GET['room_number']) : ''; ?>" />
+    <button type="submit">Search</button>
+  </form>
 
-       </div>
     <!-- Room Selection (Dynamic Content) -->
     <div id="rooms" class="rooms">
 

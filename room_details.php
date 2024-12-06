@@ -79,6 +79,9 @@ function generateAvailableSlots($booked_slots)
 
     return $available_slots;
 }
+//finding the placement of the room in $room array
+
+
 
 // Get available slots
 $available_slots = generateAvailableSlots($booked_slots);
@@ -108,7 +111,50 @@ $stmt = $pdo->prepare("
 ");
 $stmt->execute([':room_id' => $room_id]);
 $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+
+//fetching total count for rooms and ratings
+$sqlstmt = $pdo->prepare("SELECT b.room_id, COUNT(*) AS total_bookings, 
+(SELECT AVG(c.rating) FROM comments c WHERE c.room_id = b.room_id) AS rating 
+    FROM bookings b GROUP BY b.room_id;");
+$sqlstmt->execute();
+$bookings_number = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
+
+//getting the array position of this room
+
+$roomNum_bookings = null;
+for ($i =0 ; $i < count($bookings_number) ; $i++){
+    if($bookings_number[$i]['room_id'] == $room_id){
+        $roomNum_bookings = $i;
+        break;
+        }
+    }
+
+// Check if the user has a past booking for the room
+$user_id = $_SESSION['user_id']; // Assuming user_id is stored in session after login
+$current_time = date('Y-m-d H:i:s'); // Current timestamp
+
+$stmt = $pdo->prepare("
+    SELECT * FROM bookings 
+    WHERE room_id = :room_id AND 
+          (student_id = :user_id OR teacher_id = :user_id) AND 
+          end_time < :current_time AND 
+          status = 'Confirmed'
+");
+$stmt->execute([
+    ':room_id' => $room_id,
+    ':user_id' => $user_id,
+    ':current_time' => $current_time
+]);
+
+$has_past_booking = $stmt->rowCount() > 0;
+
+
+
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -184,14 +230,6 @@ $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 /* Styling for the comment form */
-.comment-form {
-    margin-top: 30px;
-    padding: 20px;
-    background-color: #f8f9fa; 
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
 .comment-form textarea {
     width: 100%;
     height: 100px;
@@ -201,7 +239,28 @@ $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
     border-radius: 5px;
     font-size: 16px;
     resize: none;
+    background-color: #f8f8f8; 
+    color: #333; 
+    font-family: 'Arial', sans-serif; 
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); 
+    transition: background-color 0.3s ease, border-color 0.3s ease; 
 }
+
+.comment-form textarea:focus {
+    background-color: #ffffff; 
+    border-color: #007bff; 
+    outline: none; 
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
+}
+
+.comment-form {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f9f9f9; 
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
 
 .comment-form button {
     background-color: #007bff; 
@@ -218,25 +277,33 @@ $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
     background-color: #0056b3; 
 }
 
-        /*stars styles*/
-
+/* Star Stayle*/
 .star-rating {
-display: inline-block;
+    display: flex;
+    flex-direction: row-reverse; 
+    justify-content: center;
+    gap: 5px;
 }
 
 .star-rating input {
-display: none; 
+    display: none; /* Hide the radio buttons */
 }
 
 .star-rating label {
-font-size: 30px;
-color: gray;  
-cursor: pointer;
+    font-size: 30px;
+    color: gray; /* Default color for stars */
+    cursor: pointer;
+    transition: color 0.3s ease;
 }
 
-.star-rating label:hover {
-color: gold; 
+.star-rating input:checked ~ label {
+    color: gold; /* Gold color for selected stars */
 }
+
+.star-rating input:hover ~ label {
+    color: gold; /* Gold on hover */
+}
+
         /* Basic Styles */
         body {
             font-family: 'Poppins', sans-serif;
@@ -500,6 +567,7 @@ color: gold;
 
         .feature-box p {
             color: #555;
+            margin: 0%;
         }
 
         @media (max-width: 768px) {
@@ -647,7 +715,6 @@ color: gold;
 
 
         <!-- User Profile Section -->
-        <!-- User Profile Section -->
         <div class="user-profile dropdown">
             <img src="<?= !empty($user['profile_picture']) ? htmlspecialchars($user['profile_picture']) : 'uploads/Temp-user-face.jpg' ?>" alt="Profile Picture" class="profile-image">
             <span>
@@ -701,120 +768,107 @@ color: gold;
 
             <div class="features">
                 <div class="feature-box">
-                    <div style="font-size: 40px;"><img src="Seats.png" style="width:60px;"></div>
+                    <div style="font-size: 10px;"><img src="https://cdn.discordapp.com/attachments/695196527794061343/1314363167496994907/OH1BQS1.png?ex=67537f96&is=67522e16&hm=b52fbecaaf93b07a2ece160a8e6504d987e09c954b15c4e948aecd34749f6f7e&" style="width:40px; padding-top: 3px;  "> </div>
                     <h3 style="color: #000000">Room Volume</h3>
-                    <p><strong style="color:#1a73e8">Capacity:</strong> <?php echo htmlspecialchars($room['capacity']); ?> people</p>
+                    <p><strong style="color:#1a73e8">Capacity</strong><br>  <?php echo htmlspecialchars($room['capacity']); ?> people</p>
                 </div>
 
                 <div class="feature-box">
                     <div style="font-size: 30px;">🏢</div>
                     <h3 style="color: #000000">Location</h3>
 
-                    <p><strong style="color:#1a73e8">Department:</strong> <?php echo htmlspecialchars($room['department']); ?></p>
-                    <p><strong style="color:#1a73e8">Floor:</strong> <?php echo htmlspecialchars($room['floor']); ?></p>
+                    <p><strong style="color:#1a73e8">Department</strong><br> <?php echo htmlspecialchars($room['department']); ?></p>
+                    <p><strong style="color:#1a73e8">Floor</strong> <br><?php echo htmlspecialchars($room['floor']); ?></p>
                 </div>
 
                 <div class="feature-box">
                     <div style="font-size: 30px;">🖥️</div>
-                    <h3 style="color: #000000">Room Equipment:</h3>
-                    <p><strong style="color:#1a73e8">Room Equipment:</strong> <?php echo htmlspecialchars($room['equipment']); ?></p>
+                    <h3 style="color: #000000">Details</h3>
+                    <p><strong style="color:#1a73e8">Room Equipment</strong><br> <?php echo htmlspecialchars($room['equipment']); ?></p>
                 </div>
 
 
 
                 <div class="feature-box">
-                    <div style="font-size: 30px;">🖥️</div>
-                    <h3 style="color: #000000">Room Equipment:</h3>
-                    <p><strong style="color:#1a73e8">Room Equipment:</strong> <?php echo htmlspecialchars($room['equipment']); ?></p>
+                    <div style="font-size: 30px;">📊</div>
+                    <h3 style="color: #000000">Analytics</h3>
+                    <p>
+                        <strong style="color:#1a73e8">Total bookings</strong> <br><?php if(isset($bookings_number[$roomNum_bookings])) echo htmlspecialchars($bookings_number[$roomNum_bookings]['total_bookings']); else echo 0 ?><br> 
+                        <strong style="color:#1a73e8">Rating</strong><br> <?php if(isset($bookings_number[$roomNum_bookings])){echo htmlspecialchars($bookings_number[$roomNum_bookings]['rating']);} else {echo 'No ratings';} ?>                     
+                    </p>
                 </div>
                 <div class="feature-box">
 
                     <!-- Reserve Button -->
-                    <form action="Room_Booking.php" method="GET">
-                        <input type="hidden" name="id" value="<?php echo $room['id']; ?>" />
-                        <?php if (isset($_SESSION['username'])): ?>
-                            <button type="submit">Book Now</button>
-                        <?php else: ?>
-                            <button type="button" disabled>Book Now</button>
-                            <p style="color: red; font-size: 1.1em;">You need to log in to book this room.</p>
-                        <?php endif; ?>
-                    </form>
+<form action="Room_Booking.php" method="GET">
+    <input type="hidden" name="id" value="<?php echo $room['id']; ?>" />
+    <?php if (isset($_SESSION['username'])): ?>
+        <button type="submit">Book Now</button>
+    <?php else: ?>
+        <button type="button" disabled>Book Now</button>
+        <p style="color: red; font-size: 1.1em;">You need to log in to book this room.</p>
+    <?php endif; ?>
+</form>
                 </div>
 
             </div>
 
-<!-- Comments Section -->
-<div class="comments-section">
-    <h2> FeedBacks </h2>
+ <!-- Comment Section -->
+ <div class="comments-section">
+        <h2>Feedbacks</h2>
 
-   <!-- Display Existing Comments -->
-<div class="comments-list">
-    <?php if ($comments): ?>
-        <?php foreach ($comments as $comment): ?>
+        <!-- Fetch and Display Existing Feedbacks -->
+        <?php
+        $stmt = $pdo->prepare("
+            SELECT c.*, 
+                   CASE 
+                       WHEN c.user_role = 'student' THEN s.username 
+                       WHEN c.user_role = 'teacher' THEN t.username 
+                   END AS username
+            FROM comments c
+            LEFT JOIN students s ON c.user_id = s.student_id AND c.user_role = 'student'
+            LEFT JOIN teachers t ON c.user_id = t.teacher_id AND c.user_role = 'teacher'
+            WHERE c.room_id = :room_id
+            ORDER BY c.created_at DESC
+        ");
+        $stmt->execute([':room_id' => $room_id]);
+        $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($comments as $comment):
+        ?>
             <div class="comment">
                 <p><strong><?php echo htmlspecialchars($comment['username']); ?>:</strong></p>
                 <p><?php echo htmlspecialchars($comment['comment_text']); ?></p>
-                <p><em><?php echo htmlspecialchars($comment['created_at']); ?></em></p>
-
-                <!-- Display Rating as Stars -->
-                <p><strong>Rating:</strong>
-                    <?php
-                    for ($i = 1; $i <= 5; $i++) {
-                        if ($i <= $comment['rating']) {
-                            echo '★'; // Full star
-                        } else {
-                            echo '☆'; // Empty star
-                        }
-                    }
-                    ?>
-                </p>
-
-                <?php if (!empty($comment['admin_response'])): ?>
-                    <div class="admin-response">
-                        <p><strong>Admin:</strong> <?php echo htmlspecialchars($comment['admin_response']); ?></p>
-                    </div>
-                <?php endif; ?>
+                <p class="rating">Rating: <?php echo str_repeat('★', $comment['rating']) . str_repeat('☆', 5 - $comment['rating']); ?></p>
+                <p><em>Posted on: <?php echo htmlspecialchars($comment['created_at']); ?></em></p>
             </div>
         <?php endforeach; ?>
-    <?php else: ?>
-        <p>No feedbacks yet. Be the first!</p>
-    <?php endif; ?>
+
+        <!-- Display Feedback Form Conditionally -->
+        <?php if ($has_past_booking): ?>
+            <div class="comment-form">
+    <h3>Leave your Feedback</h3>
+    <form action="add_comment.php" method="POST">
+        <input type="hidden" name="room_id" value="<?php echo $room_id; ?>">
+        <textarea name="comment_text" placeholder="Write your Feedback here.." required></textarea>
+        
+        <!-- Star Rating -->
+        <label for="rating">Rating:</label>
+        <div class="star-rating">
+            <input type="radio" id="star5" name="rating" value="5"><label for="star5">★</label>
+            <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
+            <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
+            <input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
+            <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
+        </div>
+        
+        <button type="submit">Submit Feedback</button>
+    </form>
 </div>
-
-
-
-   <!-- Comment Form -->
-   <h3>Leave your feedback</h3>
-<form action="add_comment.php" method="POST">
-    <input type="hidden" name="room_id" value="<?php echo $room_id; ?>"> <!-- Pass room_id -->
-
-    <!-- Star Rating -->
-    <label for="rating">Rating:</label>
-    <div class="star-rating">
-        <input type="radio" id="star1" name="rating" value="1" onclick="updateRating(1)">
-        <label for="star1">★</label>
-
-        <input type="radio" id="star2" name="rating" value="2" onclick="updateRating(2)">
-        <label for="star2">★</label>
-
-        <input type="radio" id="star3" name="rating" value="3" onclick="updateRating(3)">
-        <label for="star3">★</label>
-
-        <input type="radio" id="star4" name="rating" value="4" onclick="updateRating(4)">
-        <label for="star4">★</label>
-
-        <input type="radio" id="star5" name="rating" value="5" onclick="updateRating(5)">
-        <label for="star5">★</label>
+        <?php else: ?>
+            <p>You must book this room to leave your feedback.</p>
+        <?php endif; ?>
     </div>
-
-    <!-- Display Selected Rating Number (1 to 5) -->
-    <p>Selected Rating: <span id="rating-display">0</span>/5</p>
-
-    <!-- Comment Text -->
-    <textarea name="comment_text" placeholder="Write your feedback here.." required></textarea>
-
-    <button type="submit">Submit Feedback</button>
-</form>
 
 <script>
     function updateRating(rating) {
