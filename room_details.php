@@ -316,12 +316,55 @@ $has_past_booking = $stmt->rowCount() > 0;
         body.dark-mode {
             background-color: #2e4156;
             color: white;
+            z-index: 1000000000;
+
         }
 
-        body.dark-mode header,
-        body.dark-mode footer {
-            background-color: #1a2d42;
+        
+
+        body.dark-mode .dropdown-content a {
+            color: #000;
+        }
+
+        body.dark-mode .dropdown-content a:hover{
+            background-color: #2e4156;
+        }
+
+        body.dark-mode .recommendation-card {
+            background-color: #2e344e;
+        }
+
+        body.dark-mode .recommendations h2 {
+            color: white;
+        }
+
+        body.dark-mode  .action-buttons a{
+            background-color: #0b2445;
+        }
+        
+
+        body.dark-mode header {
+            background: linear-gradient(1deg, #172047, #34417d);  
             color: #d1d1d1;
+            box-shadow: 0 4px 8px rgba(100, 100, 100, 0.5);
+        }
+        
+        body.dark-mode .feature-box{
+
+            background-color: #335e96;
+        }
+
+        body.dark-mode strong {
+          color: white;
+        }
+
+        body.dark-mode p {
+          color: #cbe2ff;
+        }
+
+
+        body.dark-mode nav a {
+            color: #e0e0e0;
         }
 
         body.dark-mode .dropdown-content {
@@ -329,15 +372,20 @@ $has_past_booking = $stmt->rowCount() > 0;
         }
 
         body.dark-mode .dropdown-content a {
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .dropdown-content a {
             color: #edf4fa;
         }
 
-        body.dark-mode .recommendation-card {
-            background-color: #2e344e;
+        body.dark-mode footer {
+            background: linear-gradient(1deg, #000724, #111d4d);  
+            color: #d1d1d1;
         }
 
-        body.dark-mode nav a {
-            color: #e0e0e0;
+        .roomnum {
+            color: black;
         }
 
         /* Logo Styles */
@@ -363,40 +411,70 @@ $has_past_booking = $stmt->rowCount() > 0;
             align-items: center;
             justify-content: space-around;
             padding: 10px 30px;
-            background-color: #1a73e8;
+            background: linear-gradient(1deg, #1a73e8, #004db3 );  
             color: white;
-            height: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             position: relative;
+            height: 20px;
             z-index: 1000;
+        
         }
 
         /* Navigation Links */
         .nav-links {
             display: flex;
+            justify-content: space-between;
             gap: 40px;
             align-items: center;
         }
 
         .nav-item {
             text-decoration: none;
+            display: flex;
+            justify-content: space-between;
             color: white;
             font-size: 1em;
             padding: 8px 15px;
             border-radius: 8px;
             transition: background-color 0.3s, border 0.3s;
+            position: relative;
         }
 
         .nav-item:hover,
         .nav-item.active {
             background-color: rgba(255, 255, 255, 0.1);
             border: 2px solid #ffffff;
+            border-radius: 8px;
         }
 
-        .active {
-            border: 2px solid #f0f0f0;
-            background-color: rgba(255, 255, 255, 0.2);
+       
+
+        /* Logo Styles */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: white;
+            border-radius: 12px;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
+
+        .logo img {
+            width: 100px;
+            border-radius: 20%;
+            transition: transform 0.8s;
+        }
+
+        @media (min-width: 801px) and (max-width: 1000px) {
+            .logo img {
+                width: 3rem;
+            }
+        }
+
+
+
+
 
         /* User Profile Section */
         .user-profile {
@@ -1005,7 +1083,7 @@ $has_past_booking = $stmt->rowCount() > 0;
         <div class="containerDee">
 
             <div class="title">
-                <p style="color: #000000"><strong>Detailed information for </strong><?php echo htmlspecialchars($room['room_name']); ?></p>
+                <p class="roomnum"><strong>Detailed information for </strong><?php echo htmlspecialchars($room['room_name']); ?></p>
             </div>
 
             <div class="features">
