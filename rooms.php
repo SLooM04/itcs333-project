@@ -618,14 +618,13 @@ if (isset($_GET['room_type']) && isset($_GET['room_number'])) {
         .room-gallery {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            /* Create 3 equal columns */
-            gap: 20px;
-            /* Space between items */
-            margin: 20px;
-            /* Space around the gallery */
+            gap: 50px;
+            margin: 0%;
+            border-radius: 8px;
 
         }
-
+        
+        
 
 
         .room {
@@ -869,18 +868,7 @@ if (isset($_GET['room_type']) && isset($_GET['room_number'])) {
             }
         }
 
-            .room-gallery {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                /* Dynamic columns */
-                gap: 40px;
-                /* Space between items */
-                margin: 20px 20px;
-                /* Add gap on the top/bottom and left/right sides */
-                width: 100%;
-                /* Ensure it takes the full width of its parent */
-            }
-        
+      
 
             .all {
          text-align: center;
