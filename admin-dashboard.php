@@ -158,6 +158,17 @@ session_start();
     <div class="container">
         <h1>Admin Dashboard</h1>
         <div class="sections">
+            <!-- Bookings Section -->
+            <div class="section">
+                <i class="fas fa-book"></i>
+                <p>Bookings</p>
+                <div class="options">
+                    <a href="admin-booking.php"><i class="fas fa-plus"></i> Add Booking</a>
+                    <a href="amin-cancel-dashboard.php"><i class="fas fa-times"></i> Cancel Booking</a>
+                    <a href="admin-block-booking.php"><i class="fas fa-ban"></i> Blocked Rooms</a>
+                </div>
+            </div>
+
             <!-- Room Section -->
             <div class="section">
                 <i class="fas fa-door-open"></i>
