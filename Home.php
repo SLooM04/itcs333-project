@@ -424,7 +424,7 @@ if (isset($_POST['reserve_now'])) {
                     <p class="lead">Our classrooms are thoughtfully designed to cater to your academic and professional needs. Whether you are conducting a lecture, hosting a seminar, or working on a collaborative project, our spaces offer advanced technology, ergonomic furniture, and a conducive environment to enhance productivity and learning.</p>
                 </div>
                 <div class="col-md-5">
-                    <img class="featurette-image img-fluid mx-auto" alt="Classroom Setup" style="border: solid #000; width: 400px; height: 100%;" src="RoomPic/n0.jpg" data-holder-rendered="true">
+                    <img class="featurette-image img-fluid mx-auto" alt="Classroom Setup" style="border: solid #000; width: 400px; height: 100%;" src="RoomPic/cs0.jpg" data-holder-rendered="true">
                 </div>
             </div>
 
@@ -436,7 +436,7 @@ if (isset($_POST['reserve_now'])) {
                 </div>
                 <hr class="featurette-divider">
                 <div class="col-md-5 order-md-1">
-                    <img  class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="500x500" style="border: solid #000; width: 400px; height: 100%;" src="RoomPic/008.jpg" data-holder-rendered="true">
+                    <img  class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="500x500" style="border: solid #000; width: 400px; height: 100%;" src="RoomPic/benefit1.jpg" data-holder-rendered="true">
                 </div>
             </div>
 
@@ -447,7 +447,7 @@ if (isset($_POST['reserve_now'])) {
                     <p class="lead">Whether you need a computer-equipped room to finalize a research project, a flexible setup for a collaborative workshop, or a venue for an academic event, our classrooms are tailored to meet your needs. Reserve now and benefit from spaces designed to elevate your experience.</p>
                 </div>
                 <div class="col-md-5">
-                    <img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="500x500" style="border: solid #000; width: 400px; height: 100%" src="RoomPic/h.jpg" data-holder-rendered="true">
+                    <img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="500x500" style="border: solid #000; width: 400px; height: 100%" src="RoomPic/Huawei.jpg" data-holder-rendered="true">
                 </div>
             </div>
         </div>

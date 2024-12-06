@@ -19,7 +19,141 @@ if (isset($_GET['id'])) {
     echo "No room selected.";
     exit();
 }
+
+// Fetch the room ID from the URL
+$room_id = isset($_GET['id']) ? intval($_GET['id']) : null;
+
+// Fetch room details
+$stmt = $pdo->prepare("SELECT * FROM rooms WHERE id = :id");
+$stmt->execute(['id' => $room_id]);
+$room = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$room) {
+    die("Invalid room ID");
+}
+
+// Fetch the booking date from the URL or request
+$booking_date = isset($_GET['date']) ? $_GET['date'] : date('Y-m-d');
+
+// Fetch already booked time slots for the selected date
+$stmt = $pdo->prepare("
+    SELECT start_time, end_time 
+    FROM bookings 
+    WHERE room_id = :room_id 
+    AND DATE(start_time) = :booking_date
+    AND status != 'Cancelled'
+");
+$stmt->execute(['room_id' => $room_id, 'booking_date' => $booking_date]);
+$booked_slots = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Function to check if a time slot is booked
+function isTimeSlotAvailable($start_time, $end_time, $booked_slots)
+{
+    foreach ($booked_slots as $slot) {
+        if (
+            ($start_time >= $slot['start_time'] && $start_time < $slot['end_time']) ||
+            ($end_time > $slot['start_time'] && $end_time <= $slot['end_time']) ||
+            ($start_time <= $slot['start_time'] && $end_time >= $slot['end_time'])
+        ) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// Generate available time slots for a day (8 AM to 10 PM, 1-hour slots)
+function generateAvailableSlots($booked_slots)
+{
+    $available_slots = [];
+    $start_hour = 8;
+    $end_hour = 22;
+
+    for ($hour = $start_hour; $hour < $end_hour; $hour++) {
+        $start_time = sprintf("%02d:00:00", $hour);
+        $end_time = sprintf("%02d:00:00", $hour + 1);
+
+        if (isTimeSlotAvailable($start_time, $end_time, $booked_slots)) {
+            $available_slots[] = $start_time . ' - ' . $end_time;
+        }
+    }
+
+    return $available_slots;
+}
+//finding the placement of the room in $room array
+
+
+
+// Get available slots
+$available_slots = generateAvailableSlots($booked_slots);
 ?>
+
+<?php
+// Fetch the room ID from the URL
+$room_id = $_GET['id'];
+
+// Fetch room details from the database
+$stmt = $pdo->prepare("SELECT * FROM rooms WHERE id = :room_id");
+$stmt->execute([':room_id' => $room_id]);
+$room = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Fetch comments for the room
+$stmt = $pdo->prepare("
+    SELECT c.*, 
+           CASE 
+               WHEN c.user_role = 'student' THEN s.username 
+               WHEN c.user_role = 'teacher' THEN t.username 
+           END AS username
+    FROM comments c
+    LEFT JOIN students s ON c.user_id = s.student_id AND c.user_role = 'student'
+    LEFT JOIN teachers t ON c.user_id = t.teacher_id AND c.user_role = 'teacher'
+    WHERE c.room_id = :room_id 
+    ORDER BY c.created_at DESC
+");
+$stmt->execute([':room_id' => $room_id]);
+$comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+
+//fetching total count for rooms and ratings
+$sqlstmt = $pdo->prepare("SELECT b.room_id, COUNT(*) AS total_bookings, 
+(SELECT AVG(c.rating) FROM comments c WHERE c.room_id = b.room_id) AS rating 
+    FROM bookings b GROUP BY b.room_id;");
+$sqlstmt->execute();
+$bookings_number = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
+
+//getting the array position of this room
+
+$roomNum_bookings = null;
+for ($i =0 ; $i < count($bookings_number) ; $i++){
+    if($bookings_number[$i]['room_id'] == $room_id){
+        $roomNum_bookings = $i;
+        break;
+        }
+    }
+
+// Check if the user has a past booking for the room
+$user_id = $_SESSION['user_id']; // Assuming user_id is stored in session after login
+$current_time = date('Y-m-d H:i:s'); // Current timestamp
+
+$stmt = $pdo->prepare("
+    SELECT * FROM bookings 
+    WHERE room_id = :room_id AND 
+          (student_id = :user_id OR teacher_id = :user_id) AND 
+          end_time < :current_time AND 
+          status = 'Confirmed'
+");
+$stmt->execute([
+    ':room_id' => $room_id,
+    ':user_id' => $user_id,
+    ':current_time' => $current_time
+]);
+
+$has_past_booking = $stmt->rowCount() > 0;
+
+
+
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -33,360 +167,837 @@ if (isset($_GET['id'])) {
         /* Importing Google Fonts */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 
- /* Basic Styles */
-body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #f4f7f6;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-}
 
-body.dark-mode {
-    background-color: #2e4156;
-    color: white;
-}
-
-body.dark-mode header,
-body.dark-mode footer {
-    background-color: #1a2d42;
-    color: #d1d1d1;
-}
-
-body.dark-mode .dropdown-content {
-    background-color: #2b2b3b;
-}
-
-body.dark-mode .dropdown-content a {
-    color: #edf4fa;
-}
-
-body.dark-mode .recommendation-card {
-    background-color: #2e344e;
-}
-
-body.dark-mode nav a {
-    color: #e0e0e0;
-}
-
-/* Logo Styles */
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    text-decoration: none;
-    color: white;
-    border-radius: 12px;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.logo img {
-    width: 100px;
-    border-radius: 20%;
-    transition: transform 0.8s;
-}
-
-/* Header Styles */
-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    padding: 10px 30px;
-    background-color: #1a73e8;
-    color: white;
-    height: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    position: relative;
-    z-index: 1000;
-}
-
-/* Navigation Links */
-.nav-links {
-    display: flex;
-    gap: 40px;
-    align-items: center;
-}
-
-.nav-item {
-    text-decoration: none;
-    color: white;
-    font-size: 1em;
-    padding: 8px 15px;
+        /* Styling comments section container */
+.comments-section {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #ffffff; 
     border-radius: 8px;
-    transition: background-color 0.3s, border 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.nav-item:hover,
-.nav-item.active {
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 2px solid #ffffff;
+
+.comments-section h2 {
+    color: #0056b3; 
+    border-bottom: 2px solid #0056b3; 
+    padding-bottom: 5px;
+    font-family: 'Arial', sans-serif; 
 }
 
-.active {
-    border: 2px solid #f0f0f0;
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
-/* User Profile Section */
-.user-profile {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    color: white;
-}
-
-.user-profile img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 2px solid #fff;
-}
-
-.user-profile span {
-    font-size: 1em;
-    white-space: nowrap;
-}
-
-/* Dropdown Menu */
-.dropdown {
-    position: relative;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background-color: #ffffff;
-    color: #222;
-    min-width: 150px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    z-index: 2000;
-}
-
-.dropdown-content a {
-    display: block;
-    padding: 10px 15px;
-    text-decoration: none;
-    color: #222;
-    transition: background-color 0.3s;
-}
-
-.dropdown-content a:hover {
-    background-color: #f1f1f1;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-/* Room Details Layout */
-.room-container {
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.info {
-    background-color: #e4f0f2;
-    border-radius: 15px;
-    padding: 3%;
-}
-
-.room-images {
-    width: 50%;
-    margin-right: 110px;
-}
-
-.main-image {
-    width: 60%;
-    height: auto;
-    margin-bottom: 20px;
-    border: 2px solid #1A2D42;
-    border-radius: 15px;
-}
-
-.thumbnail-images {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-}
-
-.thumbnail-images img {
-    width: 150px;
-    height: auto;
-    cursor: pointer;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    transition: transform 0.3s ease;
-}
-
-.thumbnail-images img:hover {
-    transform: scale(1.2);
-}
-
-.room-details {
-    width: 50%;
-    text-align: left;
-}
-
-.room-details h2 {
-    font-size: 2em;
+.comments-section h3 {
+    color: #007bff; 
+    font-family: 'Verdana', sans-serif; 
     margin-bottom: 10px;
-    color: #000000;
 }
 
-.room-details p {
-    font-size: 1.1em;
-    margin: 5px 0;
-    color: #000000;
+/* Styling for comments */
+.comment {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.reserve-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 1.2em;
-    background-color: #1A2D42;
+/* Username and time styling */
+.comment strong {
+    color: #333; 
+    font-weight: bold;
+}
+
+.comment em {
+    font-size: 12px;
+    color: #888; 
+}
+
+/* Admin response styling */
+.admin-response {
+    margin-top: 15px;
+    padding: 10px;
+    border-left: 4px solid #28a745; 
+    background-color: #eafbe7; 
+    border-radius: 5px;
+    font-style: italic;
+}
+
+/* Star rating display */
+.comment .rating {
+    margin: 10px 0;
+    color: #ffcc00; 
+    font-size: 18px;
+}
+
+/* Styling for the comment form */
+.comment-form textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    resize: none;
+    background-color: #f8f8f8; 
+    color: #333; 
+    font-family: 'Arial', sans-serif; 
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); 
+    transition: background-color 0.3s ease, border-color 0.3s ease; 
+}
+
+.comment-form textarea:focus {
+    background-color: #ffffff; 
+    border-color: #007bff; 
+    outline: none; 
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
+}
+
+.comment-form {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f9f9f9; 
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+
+.comment-form button {
+    background-color: #007bff; 
     color: white;
-    border-radius: 15px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.reserve-button:hover {
-    background-color: #AAB7B7;
+.comment-form button:hover {
+    background-color: #0056b3; 
 }
 
-/* Footer Styles */
-footer {
-    color: white;
-    background-color: #1a73e8;
-    text-align: center;
-    padding: 1rem;
-    margin-top: 9rem;
-    font-size: 0.9rem;
-}
-
-footer .footer-container {
+/* Star Stayle*/
+.star-rating {
     display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    max-width: 1200px;
-    margin: 0 auto;
+    flex-direction: row-reverse; 
+    justify-content: center;
+    gap: 5px;
 }
 
-footer .footer-section {
-    flex: 1 1 200px;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    text-align: left;
+.star-rating input {
+    display: none; /* Hide the radio buttons */
 }
 
-footer .footer-section h3 {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-    color: #ffffff;
-    font-weight: 600;
+.star-rating label {
+    font-size: 30px;
+    color: gray; /* Default color for stars */
+    cursor: pointer;
+    transition: color 0.3s ease;
 }
 
-footer .footer-section ul li a {
-    color: white;
-    text-decoration: none;
-    font-size: 1rem;
+.star-rating input:checked ~ label {
+    color: gold; /* Gold color for selected stars */
 }
 
-footer .footer-section ul li a:hover {
-    text-decoration: underline;
+.star-rating input:hover ~ label {
+    color: gold; /* Gold on hover */
 }
 
-/* Media Queries */
-@media (min-width: 801px) and (max-width: 1000px) {
-    .logo img {
-        width: 3rem;
-    }
+        /* Basic Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        body.dark-mode {
+            background-color: #2e4156;
+            color: white;
+            z-index: 1000000000;
+
+        }
+
+        
+
+        body.dark-mode .dropdown-content a {
+            color: #000;
+        }
+
+        body.dark-mode .dropdown-content a:hover{
+            background-color: #2e4156;
+        }
+
+        body.dark-mode .recommendation-card {
+            background-color: #2e344e;
+        }
+
+        body.dark-mode .recommendations h2 {
+            color: white;
+        }
+
+        body.dark-mode  .action-buttons a{
+            background-color: #0b2445;
+        }
+        
+
+        body.dark-mode header {
+            background: linear-gradient(1deg, #172047, #34417d);  
+            color: #d1d1d1;
+            box-shadow: 0 4px 8px rgba(100, 100, 100, 0.5);
+        }
+        
+        body.dark-mode .feature-box{
+
+            background-color: #335e96;
+        }
+
+        body.dark-mode strong {
+          color: white;
+        }
+
+        body.dark-mode p {
+          color: #cbe2ff;
+        }
+
+
+        body.dark-mode nav a {
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .dropdown-content {
+            background-color: #2b2b3b;
+        }
+
+        body.dark-mode .dropdown-content a {
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .dropdown-content a {
+            color: #edf4fa;
+        }
+
+        body.dark-mode footer {
+            background: linear-gradient(1deg, #000724, #111d4d);  
+            color: #d1d1d1;
+        }
+
+        .roomnum {
+            color: black;
+        }
+
+        /* Logo Styles */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: white;
+            border-radius: 12px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .logo img {
+            width: 100px;
+            border-radius: 20%;
+            transition: transform 0.8s;
+        }
+
+        /* Header Styles */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 10px 30px;
+            background: linear-gradient(1deg, #1a73e8, #004db3 );  
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+            height: 20px;
+            z-index: 1000;
+        
+        }
+
+        /* Navigation Links */
+        .nav-links {
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nav-item {
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            color: white;
+            font-size: 1em;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s, border 0.3s;
+            position: relative;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px solid #ffffff;
+            border-radius: 8px;
+        }
+
+       
+
+        /* Logo Styles */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: white;
+            border-radius: 12px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .logo img {
+            width: 100px;
+            border-radius: 20%;
+            transition: transform 0.8s;
+        }
+
+        @media (min-width: 801px) and (max-width: 1000px) {
+            .logo img {
+                width: 3rem;
+            }
+        }
+
+
+
+
+
+        /* User Profile Section */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: white;
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+        }
+
+        .user-profile span {
+            font-size: 1em;
+            white-space: nowrap;
+        }
+
+        /* Dropdown Menu */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: #ffffff;
+            color: #222;
+            min-width: 150px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            z-index: 2000;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: #222;
+            transition: background-color 0.3s;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Room Details Layout */
+        .room-container {
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .info {
+            padding: 3%;
+        }
+
+        .room-images {
+            width: 50%;
+            margin-right: 110px;
+        }
+
+        .main-image {
+            width: 35%;
+            height: auto;
+            border: 2px solid #1A2D42;
+            border-radius: 15px;
+            margin: 30px;
+        }
+
+        .thumbnail-images {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            /* Space between thumbnail images */
+        }
+
+        .thumbnail-images img {
+            width: 150px;
+            height: auto;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .thumbnail-images img:hover {
+            transform: scale(1.2);
+        }
+
+        .room-details {
+            width: 50%;
+            text-align: left;
+        }
+
+        .room-details h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #000000;
+        }
+
+        .room-details p {
+            font-size: 1.1em;
+            margin: 5px 0;
+            color: #000000;
+        }
+
+        .reserve-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background-color: #1A2D42;
+            color: white;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        .reserve-button:hover {
+            background-color: #AAB7B7;
+        }
+
+        .containerDee {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .features {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .feature-box {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            flex: 1 1 calc(25% - 20px);
+            min-width: 200px;
+        }
+
+        .feature-box img {
+            width: 50px;
+            margin-bottom: 10px;
+        }
+
+        .feature-box h3 {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .feature-box p {
+            color: #555;
+            margin: 0%;
+        }
+
+        @media (max-width: 768px) {
+            .feature-box {
+                flex: 1 1 calc(50% - 20px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .feature-box {
+                flex: 1 1 100%;
+            }
+        }
+
+        /* Footer Styles */
+        footer {
+            color: white;
+            background-color: #1a73e8;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 9rem;
+            font-size: 0.9rem;
+        }
+
+        footer .footer-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        footer .footer-section {
+            flex: 1 1 200px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+
+        footer .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        footer .footer-section ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+
+        footer .footer-section ul li a:hover {
+            text-decoration: underline;
+        }
+
+        /* Media Queries */
+        @media (min-width: 801px) and (max-width: 1000px) {
+            .logo img {
+                width: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            footer .footer-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            footer .footer-section {
+                margin-bottom: 1.5rem;
+                text-align: center;
+            }
+
+            footer .footer-section ul li {
+                margin: 0.2rem 0;
+            }
+        }
+
+        @media (min-width: 600px) and (max-width: 1024px) {
+            .room-container {
+                flex-direction: row;
+            }
+
+            .room-images,
+            .room-details {
+                width: 45%;
+            }
+
+            .thumbnail-images img {
+                width: 100px;
+                height: 100px;
+            }
+        }
+
+        @media (max-width: 599px) {
+            header {
+                flex-direction: column;
+            }
+
+            nav {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .room-images,
+            .room-details {
+                width: 100%;
+            }
+
+            .info {
+                display: grid;
+            }
+
+            .thumbnail-images img {
+                width: 60px;
+                height: 60px;
+            }
+
+            .reserve-button {
+                width: 100%;
+            }
+        }
+
+        
+ /* From Uiverse.io by Galahhad */ 
+ .theme-switch {
+  --toggle-size: 10px;
+  /* the size is adjusted using font-size,
+     this is not transform scale,
+     so you can choose any size */
+  --container-width: 5.625em;
+  --container-height: 2.5em;
+  --container-radius: 6.25em;
+  /* radius 0 - minecraft mode :) */
+  --container-light-bg: #3D7EAE;
+  --container-night-bg: #1D1F2C;
+  --circle-container-diameter: 3.375em;
+  --sun-moon-diameter: 2.125em;
+  --sun-bg: #ECCA2F;
+  --moon-bg: #C4C9D1;
+  --spot-color: #959DB1;
+  --circle-container-offset: calc((var(--circle-container-diameter) - var(--container-height)) / 2 * -1);
+  --stars-color: #fff;
+  --clouds-color: #F3FDFF;
+  --back-clouds-color: #AACADF;
+  --transition: .5s cubic-bezier(0, -0.02, 0.4, 1.25);
+  --circle-transition: .3s cubic-bezier(0, -0.02, 0.35, 1.17);
 }
 
-@media (max-width: 768px) {
-    footer .footer-container {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    footer .footer-section {
-        margin-bottom: 1.5rem;
-        text-align: center;
-    }
-
-    footer .footer-section ul li {
-        margin: 0.2rem 0;
-    }
+.theme-switch, .theme-switch *, .theme-switch *::before, .theme-switch *::after {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-size: var(--toggle-size);
 }
 
-@media (min-width: 600px) and (max-width: 1024px) {
-    .room-container {
-        flex-direction: row;
-    }
-
-    .room-images,
-    .room-details {
-        width: 45%;
-    }
-
-    .thumbnail-images img {
-        width: 100px;
-        height: 100px;
-    }
+.theme-switch__container {
+  width: var(--container-width);
+  height: var(--container-height);
+  background-color: var(--container-light-bg);
+  border-radius: var(--container-radius);
+  overflow: hidden;
+  cursor: pointer;
+  -webkit-box-shadow: 0em -0.062em 0.062em rgba(0, 0, 0, 0.25), 0em 0.062em 0.125em rgba(255, 255, 255, 0.94);
+  box-shadow: 0em -0.062em 0.062em rgba(0, 0, 0, 0.25), 0em 0.062em 0.125em rgba(255, 255, 255, 0.94);
+  -webkit-transition: var(--transition);
+  -o-transition: var(--transition);
+  transition: var(--transition);
+  position: relative;
 }
 
-@media (max-width: 599px) {
-    header {
-        flex-direction: column;
-    }
-
-    nav {
-        flex-direction: column;
-        gap: 5px;
-    }
-
-    .room-images,
-    .room-details {
-        width: 100%;
-    }
-
-    .info {
-        display: grid;
-    }
-
-    .thumbnail-images img {
-        width: 60px;
-        height: 60px;
-    }
-
-    .reserve-button {
-        width: 100%;
-    }
+.theme-switch__container::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  -webkit-box-shadow: 0em 0.05em 0.187em rgba(0, 0, 0, 0.25) inset, 0em 0.05em 0.187em rgba(0, 0, 0, 0.25) inset;
+  box-shadow: 0em 0.05em 0.187em rgba(0, 0, 0, 0.25) inset, 0em 0.05em 0.187em rgba(0, 0, 0, 0.25) inset;
+  border-radius: var(--container-radius)
 }
-</style>
 
+.theme-switch__checkbox {
+  display: none;
+}
+
+.theme-switch__circle-container {
+  width: var(--circle-container-diameter);
+  height: var(--circle-container-diameter);
+  background-color: rgba(255, 255, 255, 0.1);
+  position: absolute;
+  left: var(--circle-container-offset);
+  top: var(--circle-container-offset);
+  border-radius: var(--container-radius);
+  -webkit-box-shadow: inset 0 0 0 3.375em rgba(255, 255, 255, 0.1), inset 0 0 0 3.375em rgba(255, 255, 255, 0.1), 0 0 0 0.625em rgba(255, 255, 255, 0.1), 0 0 0 1.25em rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 0 0 3.375em rgba(255, 255, 255, 0.1), inset 0 0 0 3.375em rgba(255, 255, 255, 0.1), 0 0 0 0.625em rgba(255, 255, 255, 0.1), 0 0 0 1.25em rgba(255, 255, 255, 0.1);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-transition: var(--circle-transition);
+  -o-transition: var(--circle-transition);
+  transition: var(--circle-transition);
+  pointer-events: none;
+}
+
+.theme-switch__sun-moon-container {
+  pointer-events: auto;
+  position: relative;
+  z-index: 2;
+  width: var(--sun-moon-diameter);
+  height: var(--sun-moon-diameter);
+  margin: auto;
+  border-radius: var(--container-radius);
+  background-color: var(--sun-bg);
+  -webkit-box-shadow: 0.062em 0.062em 0.062em 0em rgba(254, 255, 239, 0.61) inset, 0em -0.062em 0.062em 0em #a1872a inset;
+  box-shadow: 0.062em 0.062em 0.062em 0em rgba(254, 255, 239, 0.61) inset, 0em -0.062em 0.062em 0em #a1872a inset;
+  -webkit-filter: drop-shadow(0.062em 0.125em 0.125em rgba(0, 0, 0, 0.25)) drop-shadow(0em 0.062em 0.125em rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0.062em 0.125em 0.125em rgba(0, 0, 0, 0.25)) drop-shadow(0em 0.062em 0.125em rgba(0, 0, 0, 0.25));
+  overflow: hidden;
+  -webkit-transition: var(--transition);
+  -o-transition: var(--transition);
+  transition: var(--transition);
+}
+
+.theme-switch__moon {
+  -webkit-transform: translateX(100%);
+  -ms-transform: translateX(100%);
+  transform: translateX(100%);
+  width: 100%;
+  height: 100%;
+  background-color: var(--moon-bg);
+  border-radius: inherit;
+  -webkit-box-shadow: 0.062em 0.062em 0.062em 0em rgba(254, 255, 239, 0.61) inset, 0em -0.062em 0.062em 0em #969696 inset;
+  box-shadow: 0.062em 0.062em 0.062em 0em rgba(254, 255, 239, 0.61) inset, 0em -0.062em 0.062em 0em #969696 inset;
+  -webkit-transition: var(--transition);
+  -o-transition: var(--transition);
+  transition: var(--transition);
+  position: relative;
+}
+
+.theme-switch__spot {
+  position: absolute;
+  top: 0.75em;
+  left: 0.312em;
+  width: 0.75em;
+  height: 0.75em;
+  border-radius: var(--container-radius);
+  background-color: var(--spot-color);
+  -webkit-box-shadow: 0em 0.0312em 0.062em rgba(0, 0, 0, 0.25) inset;
+  box-shadow: 0em 0.0312em 0.062em rgba(0, 0, 0, 0.25) inset;
+}
+
+.theme-switch__spot:nth-of-type(2) {
+  width: 0.375em;
+  height: 0.375em;
+  top: 0.937em;
+  left: 1.375em;
+}
+
+.theme-switch__spot:nth-last-of-type(3) {
+  width: 0.25em;
+  height: 0.25em;
+  top: 0.312em;
+  left: 0.812em;
+}
+
+.theme-switch__clouds {
+  width: 1.25em;
+  height: 1.25em;
+  background-color: var(--clouds-color);
+  border-radius: var(--container-radius);
+  position: absolute;
+  bottom: -0.625em;
+  left: 0.312em;
+  -webkit-box-shadow: 0.937em 0.312em var(--clouds-color), -0.312em -0.312em var(--back-clouds-color), 1.437em 0.375em var(--clouds-color), 0.5em -0.125em var(--back-clouds-color), 2.187em 0 var(--clouds-color), 1.25em -0.062em var(--back-clouds-color), 2.937em 0.312em var(--clouds-color), 2em -0.312em var(--back-clouds-color), 3.625em -0.062em var(--clouds-color), 2.625em 0em var(--back-clouds-color), 4.5em -0.312em var(--clouds-color), 3.375em -0.437em var(--back-clouds-color), 4.625em -1.75em 0 0.437em var(--clouds-color), 4em -0.625em var(--back-clouds-color), 4.125em -2.125em 0 0.437em var(--back-clouds-color);
+  box-shadow: 0.937em 0.312em var(--clouds-color), -0.312em -0.312em var(--back-clouds-color), 1.437em 0.375em var(--clouds-color), 0.5em -0.125em var(--back-clouds-color), 2.187em 0 var(--clouds-color), 1.25em -0.062em var(--back-clouds-color), 2.937em 0.312em var(--clouds-color), 2em -0.312em var(--back-clouds-color), 3.625em -0.062em var(--clouds-color), 2.625em 0em var(--back-clouds-color), 4.5em -0.312em var(--clouds-color), 3.375em -0.437em var(--back-clouds-color), 4.625em -1.75em 0 0.437em var(--clouds-color), 4em -0.625em var(--back-clouds-color), 4.125em -2.125em 0 0.437em var(--back-clouds-color);
+  -webkit-transition: 0.5s cubic-bezier(0, -0.02, 0.4, 1.25);
+  -o-transition: 0.5s cubic-bezier(0, -0.02, 0.4, 1.25);
+  transition: 0.5s cubic-bezier(0, -0.02, 0.4, 1.25);
+}
+
+.theme-switch__stars-container {
+  position: absolute;
+  color: var(--stars-color);
+  top: -100%;
+  left: 0.312em;
+  width: 2.75em;
+  height: auto;
+  -webkit-transition: var(--transition);
+  -o-transition: var(--transition);
+  transition: var(--transition);
+}
+
+/* actions */
+
+.theme-switch__checkbox:checked + .theme-switch__container {
+  background-color: var(--container-night-bg);
+}
+
+.theme-switch__checkbox:checked + .theme-switch__container .theme-switch__circle-container {
+  left: calc(100% - var(--circle-container-offset) - var(--circle-container-diameter));
+}
+
+.theme-switch__checkbox:checked + .theme-switch__container .theme-switch__circle-container:hover {
+  left: calc(100% - var(--circle-container-offset) - var(--circle-container-diameter) - 0.187em)
+}
+
+.theme-switch__circle-container:hover {
+  left: calc(var(--circle-container-offset) + 0.187em);
+}
+
+.theme-switch__checkbox:checked + .theme-switch__container .theme-switch__moon {
+  -webkit-transform: translate(0);
+  -ms-transform: translate(0);
+  transform: translate(0);
+}
+
+.theme-switch__checkbox:checked + .theme-switch__container .theme-switch__clouds {
+  bottom: -4.062em;
+}
+
+.theme-switch__checkbox:checked + .theme-switch__container .theme-switch__stars-container {
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+    </style>
 </head>
 
 <body>
-    <!-- Main content starts here -->
     <header>
+        <!-- Logo Section -->
         <a href="homelog.php" class="logo">
             <img src="uploads/UOB-Colleges-new-logo.png" alt="Logo">
             UOB
         </a>
 
+        <!-- Navigation Links -->
+
         <nav class="nav-links">
             <a href="homelog.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'homelog.php' ? 'active' : ''; ?>">Home</a>
             <a href="rooms.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'rooms.php' ? 'active' : ''; ?>">Rooms</a>
-            <a href="reservations.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'reservations.php' ? 'active' : ''; ?>">My Reservations</a>
+            <a href="reporting.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'reservations.php' ? 'active' : ''; ?>">My Reservations</a>
             <a href="supportFAQ.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'support.php' ? 'active' : ''; ?>">Support</a>
         </nav>
 
+
+
+        <!-- User Profile Section -->
         <div class="user-profile dropdown">
             <img src="<?= !empty($user['profile_picture']) ? htmlspecialchars($user['profile_picture']) : 'uploads/Temp-user-face.jpg' ?>" alt="Profile Picture" class="profile-image">
             <span>
@@ -395,62 +1006,223 @@ footer .footer-section ul li a:hover {
             <div class="dropdown-content">
                 <?php if (isset($_SESSION['username'])): ?>
                     <a href="profile.php">My Profile</a>
-                    <a href="settings.php">Settings</a>
-                    <a id="themeToggle">Dark Mode</a>
                     <a href="logout.php" class="logout-button" onclick="return confirm('Are you sure you want to log out?')">Logout</a>
+
+                    <label class="theme-switch">
+  <input id="themeToggle" type="checkbox" class="theme-switch__checkbox">
+  <div class="theme-switch__container">
+    <div class="theme-switch__clouds"></div>
+    <div class="theme-switch__stars-container">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144 55" fill="none">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M135.831 3.00688C135.055 3.85027 134.111 4.29946 133 4.35447C134.111 4.40947 135.055 4.85867 135.831 5.71123C136.607 6.55462 136.996 7.56303 136.996 8.72727C136.996 7.95722 137.172 7.25134 137.525 6.59129C137.886 5.93124 138.372 5.39954 138.98 5.00535C139.598 4.60199 140.268 4.39114 141 4.35447C139.88 4.2903 138.936 3.85027 138.16 3.00688C137.384 2.16348 136.996 1.16425 136.996 0C136.996 1.16425 136.607 2.16348 135.831 3.00688ZM31 23.3545C32.1114 23.2995 33.0551 22.8503 33.8313 22.0069C34.6075 21.1635 34.9956 20.1642 34.9956 19C34.9956 20.1642 35.3837 21.1635 36.1599 22.0069C36.9361 22.8503 37.8798 23.2903 39 23.3545C38.2679 23.3911 37.5976 23.602 36.9802 24.0053C36.3716 24.3995 35.8864 24.9312 35.5248 25.5913C35.172 26.2513 34.9956 26.9572 34.9956 27.7273C34.9956 26.563 34.6075 25.5546 33.8313 24.7112C33.0551 23.8587 32.1114 23.4095 31 23.3545ZM0 36.3545C1.11136 36.2995 2.05513 35.8503 2.83131 35.0069C3.6075 34.1635 3.99559 33.1642 3.99559 32C3.99559 33.1642 4.38368 34.1635 5.15987 35.0069C5.93605 35.8503 6.87982 36.2903 8 36.3545C7.26792 36.3911 6.59757 36.602 5.98015 37.0053C5.37155 37.3995 4.88644 37.9312 4.52481 38.5913C4.172 39.2513 3.99559 39.9572 3.99559 40.7273C3.99559 39.563 3.6075 38.5546 2.83131 37.7112C2.05513 36.8587 1.11136 36.4095 0 36.3545ZM56.8313 24.0069C56.0551 24.8503 55.1114 25.2995 54 25.3545C55.1114 25.4095 56.0551 25.8587 56.8313 26.7112C57.6075 27.5546 57.9956 28.563 57.9956 29.7273C57.9956 28.9572 58.172 28.2513 58.5248 27.5913C58.8864 26.9312 59.3716 26.3995 59.9802 26.0053C60.5976 25.602 61.2679 25.3911 62 25.3545C60.8798 25.2903 59.9361 24.8503 59.1599 24.0069C58.3837 23.1635 57.9956 22.1642 57.9956 21C57.9956 22.1642 57.6075 23.1635 56.8313 24.0069ZM81 25.3545C82.1114 25.2995 83.0551 24.8503 83.8313 24.0069C84.6075 23.1635 84.9956 22.1642 84.9956 21C84.9956 22.1642 85.3837 23.1635 86.1599 24.0069C86.9361 24.8503 87.8798 25.2903 89 25.3545C88.2679 25.3911 87.5976 25.602 86.9802 26.0053C86.3716 26.3995 85.8864 26.9312 85.5248 27.5913C85.172 28.2513 84.9956 28.9572 84.9956 29.7273C84.9956 28.563 84.6075 27.5546 83.8313 26.7112C83.0551 25.8587 82.1114 25.4095 81 25.3545ZM136 36.3545C137.111 36.2995 138.055 35.8503 138.831 35.0069C139.607 34.1635 139.996 33.1642 139.996 32C139.996 33.1642 140.384 34.1635 141.16 35.0069C141.936 35.8503 142.88 36.2903 144 36.3545C143.268 36.3911 142.598 36.602 141.98 37.0053C141.372 37.3995 140.886 37.9312 140.525 38.5913C140.172 39.2513 139.996 39.9572 139.996 40.7273C139.996 39.563 139.607 38.5546 138.831 37.7112C138.055 36.8587 137.111 36.4095 136 36.3545ZM101.831 49.0069C101.055 49.8503 100.111 50.2995 99 50.3545C100.111 50.4095 101.055 50.8587 101.831 51.7112C102.607 52.5546 102.996 53.563 102.996 54.7273C102.996 53.9572 103.172 53.2513 103.525 52.5913C103.886 51.9312 104.372 51.3995 104.98 51.0053C105.598 50.602 106.268 50.3911 107 50.3545C105.88 50.2903 104.936 49.8503 104.16 49.0069C103.384 48.1635 102.996 47.1642 102.996 46C102.996 47.1642 102.607 48.1635 101.831 49.0069Z" fill="currentColor"></path>
+      </svg>
+    </div>
+    <div class="theme-switch__circle-container">
+      <div class="theme-switch__sun-moon-container">
+        <div class="theme-switch__moon">
+          <div class="theme-switch__spot"></div>
+          <div class="theme-switch__spot"></div>
+          <div class="theme-switch__spot"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</label>                    
                 <?php else: ?>
                     <a href="combined_login.php">Login</a>
                     <a href="account_type.php">Register</a>
-                    <a id="themeToggle">Dark Mode</a>
-                <?php endif; ?>
+                    <label class="theme-switch">
+  <input id="themeToggle" type="checkbox" class="theme-switch__checkbox">
+  <div class="theme-switch__container">
+    <div class="theme-switch__clouds"></div>
+    <div class="theme-switch__stars-container">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144 55" fill="none">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M135.831 3.00688C135.055 3.85027 134.111 4.29946 133 4.35447C134.111 4.40947 135.055 4.85867 135.831 5.71123C136.607 6.55462 136.996 7.56303 136.996 8.72727C136.996 7.95722 137.172 7.25134 137.525 6.59129C137.886 5.93124 138.372 5.39954 138.98 5.00535C139.598 4.60199 140.268 4.39114 141 4.35447C139.88 4.2903 138.936 3.85027 138.16 3.00688C137.384 2.16348 136.996 1.16425 136.996 0C136.996 1.16425 136.607 2.16348 135.831 3.00688ZM31 23.3545C32.1114 23.2995 33.0551 22.8503 33.8313 22.0069C34.6075 21.1635 34.9956 20.1642 34.9956 19C34.9956 20.1642 35.3837 21.1635 36.1599 22.0069C36.9361 22.8503 37.8798 23.2903 39 23.3545C38.2679 23.3911 37.5976 23.602 36.9802 24.0053C36.3716 24.3995 35.8864 24.9312 35.5248 25.5913C35.172 26.2513 34.9956 26.9572 34.9956 27.7273C34.9956 26.563 34.6075 25.5546 33.8313 24.7112C33.0551 23.8587 32.1114 23.4095 31 23.3545ZM0 36.3545C1.11136 36.2995 2.05513 35.8503 2.83131 35.0069C3.6075 34.1635 3.99559 33.1642 3.99559 32C3.99559 33.1642 4.38368 34.1635 5.15987 35.0069C5.93605 35.8503 6.87982 36.2903 8 36.3545C7.26792 36.3911 6.59757 36.602 5.98015 37.0053C5.37155 37.3995 4.88644 37.9312 4.52481 38.5913C4.172 39.2513 3.99559 39.9572 3.99559 40.7273C3.99559 39.563 3.6075 38.5546 2.83131 37.7112C2.05513 36.8587 1.11136 36.4095 0 36.3545ZM56.8313 24.0069C56.0551 24.8503 55.1114 25.2995 54 25.3545C55.1114 25.4095 56.0551 25.8587 56.8313 26.7112C57.6075 27.5546 57.9956 28.563 57.9956 29.7273C57.9956 28.9572 58.172 28.2513 58.5248 27.5913C58.8864 26.9312 59.3716 26.3995 59.9802 26.0053C60.5976 25.602 61.2679 25.3911 62 25.3545C60.8798 25.2903 59.9361 24.8503 59.1599 24.0069C58.3837 23.1635 57.9956 22.1642 57.9956 21C57.9956 22.1642 57.6075 23.1635 56.8313 24.0069ZM81 25.3545C82.1114 25.2995 83.0551 24.8503 83.8313 24.0069C84.6075 23.1635 84.9956 22.1642 84.9956 21C84.9956 22.1642 85.3837 23.1635 86.1599 24.0069C86.9361 24.8503 87.8798 25.2903 89 25.3545C88.2679 25.3911 87.5976 25.602 86.9802 26.0053C86.3716 26.3995 85.8864 26.9312 85.5248 27.5913C85.172 28.2513 84.9956 28.9572 84.9956 29.7273C84.9956 28.563 84.6075 27.5546 83.8313 26.7112C83.0551 25.8587 82.1114 25.4095 81 25.3545ZM136 36.3545C137.111 36.2995 138.055 35.8503 138.831 35.0069C139.607 34.1635 139.996 33.1642 139.996 32C139.996 33.1642 140.384 34.1635 141.16 35.0069C141.936 35.8503 142.88 36.2903 144 36.3545C143.268 36.3911 142.598 36.602 141.98 37.0053C141.372 37.3995 140.886 37.9312 140.525 38.5913C140.172 39.2513 139.996 39.9572 139.996 40.7273C139.996 39.563 139.607 38.5546 138.831 37.7112C138.055 36.8587 137.111 36.4095 136 36.3545ZM101.831 49.0069C101.055 49.8503 100.111 50.2995 99 50.3545C100.111 50.4095 101.055 50.8587 101.831 51.7112C102.607 52.5546 102.996 53.563 102.996 54.7273C102.996 53.9572 103.172 53.2513 103.525 52.5913C103.886 51.9312 104.372 51.3995 104.98 51.0053C105.598 50.602 106.268 50.3911 107 50.3545C105.88 50.2903 104.936 49.8503 104.16 49.0069C103.384 48.1635 102.996 47.1642 102.996 46C102.996 47.1642 102.607 48.1635 101.831 49.0069Z" fill="currentColor"></path>
+      </svg>
+    </div>
+    <div class="theme-switch__circle-container">
+      <div class="theme-switch__sun-moon-container">
+        <div class="theme-switch__moon">
+          <div class="theme-switch__spot"></div>
+          <div class="theme-switch__spot"></div>
+          <div class="theme-switch__spot"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</label>                 <?php endif; ?>
             </div>
+        </div>
         </div>
     </header>
     <main>
+
+
         <div class="room-container">
-            <div class="room-images">
-                <img src="RoomPic/<?php echo htmlspecialchars($room['image']); ?>" alt="Room Image" class="main-image" id="main-image">
+            <!-- Main Room Image -->
+            <img src="RoomPic/<?php echo htmlspecialchars($room['image']); ?>" alt="Room Image" class="main-image" id="main-image">
 
-                <div class="thumbnail-images">
-                    <img src="RoomPic/<?php echo htmlspecialchars($room['image']); ?>" alt="Main Image" onclick="changeMainImage('<?php echo htmlspecialchars($room['image']); ?>')">
+            <!-- Thumbnail Images -->
+            <div class="thumbnail-images">
+                <!-- First thumbnail is the main image -->
+                <img src="RoomPic/<?php echo htmlspecialchars($room['image']); ?>" alt="Main Image" onclick="changeMainImage('<?php echo htmlspecialchars($room['image']); ?>')">
 
-                    <?php
-                    for ($i = 1; $i <= 4; $i++) {
-                        $thumb = $room['thumbnail_' . $i] ?? 'default-thumbnail.jpg';
-                        if ($i > 1) {
-                            echo '<img src="RoomPic/' . htmlspecialchars($thumb) . '" alt="Thumbnail ' . $i . '" onclick="changeMainImage(\'' . htmlspecialchars($thumb) . '\')">';
-                        }
+                <?php
+                // Display additional thumbnail images if available
+                for ($i = 1; $i <= 4; $i++) {
+                    $thumb = $room['thumbnail_' . $i] ?? 'default-thumbnail.jpg'; // Default if no thumbnail
+                    if ($i > 1) { // Skip the first one since it's already the main image
+                        echo '<img src="RoomPic/' . htmlspecialchars($thumb) . '" alt="Thumbnail ' . $i . '" onclick="changeMainImage(\'' . htmlspecialchars($thumb) . '\')">';
                     }
-                    ?>
-                </div>
+                }
+                ?>
             </div>
-            <figure class="info">
-                <div class="room-details">
-                    <h2><?php echo htmlspecialchars($room['room_name']); ?></h2>
-                    <p><strong>Room Capacity:</strong> <?php echo htmlspecialchars($room['capacity']); ?> people</p>
-                    <p><strong>Room Equipment:</strong> <?php echo htmlspecialchars($room['equipment']); ?></p>
+        </div>
 
-                    <form action="Room_Booking.php" method="GET">
-                        <input type="hidden" name="id" value="<?php echo $room['id']; ?>" />
-                        <?php if (isset($_SESSION['username'])): ?>
-                            <button type="submit">Book Now</button>
-                        <?php else: ?>
-                            <button type="button" disabled>Book Now</button>
-                            <p style="color: red; font-size: 1.1em;">You need to log in to book this room.</p>
-                        <?php endif; ?>
-                    </form>
+
+        <div class="containerDee">
+
+            <div class="title">
+                <p class="roomnum"><strong>Detailed information for </strong><?php echo htmlspecialchars($room['room_name']); ?></p>
+            </div>
+
+            <div class="features">
+                <div class="feature-box">
+                    <div style="font-size: 10px;"><img src="https://cdn.discordapp.com/attachments/695196527794061343/1314363167496994907/OH1BQS1.png?ex=67537f96&is=67522e16&hm=b52fbecaaf93b07a2ece160a8e6504d987e09c954b15c4e948aecd34749f6f7e&" style="width:40px; padding-top: 3px;  "> </div>
+                    <h3 style="color: #000000">Room Volume</h3>
+                    <p><strong style="color:#1a73e8">Capacity</strong><br>  <?php echo htmlspecialchars($room['capacity']); ?> people</p>
                 </div>
-            </figure>
+
+                <div class="feature-box">
+                    <div style="font-size: 30px;">🏢</div>
+                    <h3 style="color: #000000">Location</h3>
+
+                    <p><strong style="color:#1a73e8">Department</strong><br> <?php echo htmlspecialchars($room['department']); ?></p>
+                    <p><strong style="color:#1a73e8">Floor</strong> <br><?php echo htmlspecialchars($room['floor']); ?></p>
+                </div>
+
+                <div class="feature-box">
+                    <div style="font-size: 30px;">🖥️</div>
+                    <h3 style="color: #000000">Details</h3>
+                    <p><strong style="color:#1a73e8">Room Equipment</strong><br> <?php echo htmlspecialchars($room['equipment']); ?></p>
+                </div>
+
+
+
+                <div class="feature-box">
+                    <div style="font-size: 30px;">📊</div>
+                    <h3 style="color: #000000">Analytics</h3>
+                    <p>
+                        <strong style="color:#1a73e8">Total bookings</strong> <br><?php if(isset($bookings_number[$roomNum_bookings])) echo htmlspecialchars($bookings_number[$roomNum_bookings]['total_bookings']); else echo 0 ?><br> 
+                        <strong style="color:#1a73e8">Rating</strong><br> <?php if(isset($bookings_number[$roomNum_bookings])){echo htmlspecialchars($bookings_number[$roomNum_bookings]['rating']);} else {echo 'No ratings';} ?>                     
+                    </p>
+                </div>
+                <div class="feature-box">
+
+                    <!-- Reserve Button -->
+<form action="Room_Booking.php" method="GET">
+    <input type="hidden" name="id" value="<?php echo $room['id']; ?>" />
+    <?php if (isset($_SESSION['username'])): ?>
+        <button type="submit">Book Now</button>
+    <?php else: ?>
+        <button type="button" disabled>Book Now</button>
+        <p style="color: red; font-size: 1.1em;">You need to log in to book this room.</p>
+    <?php endif; ?>
+</form>
+                </div>
+
+            </div>
+
+ <!-- Comment Section -->
+ <div class="comments-section">
+        <h2>Feedbacks</h2>
+
+        <!-- Fetch and Display Existing Feedbacks -->
+        <?php
+        $stmt = $pdo->prepare("
+            SELECT c.*, 
+                   CASE 
+                       WHEN c.user_role = 'student' THEN s.username 
+                       WHEN c.user_role = 'teacher' THEN t.username 
+                   END AS username
+            FROM comments c
+            LEFT JOIN students s ON c.user_id = s.student_id AND c.user_role = 'student'
+            LEFT JOIN teachers t ON c.user_id = t.teacher_id AND c.user_role = 'teacher'
+            WHERE c.room_id = :room_id
+            ORDER BY c.created_at DESC
+        ");
+        $stmt->execute([':room_id' => $room_id]);
+        $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($comments as $comment):
+        ?>
+            <div class="comment">
+                <p><strong><?php echo htmlspecialchars($comment['username']); ?>:</strong></p>
+                <p><?php echo htmlspecialchars($comment['comment_text']); ?></p>
+                <p class="rating">Rating: <?php echo str_repeat('★', $comment['rating']) . str_repeat('☆', 5 - $comment['rating']); ?></p>
+                <p><em>Posted on: <?php echo htmlspecialchars($comment['created_at']); ?></em></p>
+            </div>
+        <?php endforeach; ?>
+
+        <!-- Display Feedback Form Conditionally -->
+        <?php if ($has_past_booking): ?>
+            <div class="comment-form">
+    <h3>Leave your Feedback</h3>
+    <form action="add_comment.php" method="POST">
+        <input type="hidden" name="room_id" value="<?php echo $room_id; ?>">
+        <textarea name="comment_text" placeholder="Write your Feedback here.." required></textarea>
+        
+        <!-- Star Rating -->
+        <label for="rating">Rating:</label>
+        <div class="star-rating">
+            <input type="radio" id="star5" name="rating" value="5"><label for="star5">★</label>
+            <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
+            <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
+            <input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
+            <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
+        </div>
+        
+        <button type="submit">Submit Feedback</button>
+    </form>
+</div>
+        <?php else: ?>
+            <p>You must book this room to leave your feedback.</p>
+        <?php endif; ?>
+    </div>
+
+<script>
+    function updateRating(rating) {
+        // Display the numeric rating
+        document.getElementById("rating-display").textContent = rating;
+        
+        // Update the selected star rating
+        var stars = document.querySelectorAll(".star-rating input");
+        stars.forEach(function(star, index) {
+            if (index < rating) {
+                star.nextElementSibling.style.color = "gold"; // Filled star
+            } else {
+                star.nextElementSibling.style.color = "gray"; // Empty star
+            }
+        });
+    }
+</script>
+
+
+
 
             <script>
                 function changeMainImage(image) {
                     document.getElementById("main-image").src = "RoomPic/" + image;
                 }
             </script>
+
     </main>
 
+
+    <!-- Footer -->
     <footer>
         <div class="footer-container">
+            <!-- University Info -->
             <div class="footer-section">
                 <h3>University Info</h3>
                 <ul>
@@ -460,6 +1232,7 @@ footer .footer-section ul li a:hover {
                 </ul>
             </div>
 
+            <!-- Quick Links -->
             <div class="footer-section">
                 <h3>Quick Links</h3>
                 <ul>
@@ -468,6 +1241,7 @@ footer .footer-section ul li a:hover {
                 </ul>
             </div>
 
+            <!-- Contact Info -->
             <div class="footer-section">
                 <h3>Contact Us</h3>
                 <ul>
@@ -488,9 +1262,11 @@ footer .footer-section ul li a:hover {
     </footer>
 
     <script>
+        // Handle theme toggle
         const themeToggle = document.getElementById('themeToggle');
         const body = document.body;
 
+        // Check for saved theme in localStorage
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme === 'dark') {
             body.classList.add('dark-mode');
@@ -500,6 +1276,7 @@ footer .footer-section ul li a:hover {
         themeToggle.addEventListener('click', () => {
             body.classList.toggle('dark-mode');
 
+            // Update button text and save preference
             if (body.classList.contains('dark-mode')) {
                 themeToggle.textContent = 'Light Mode';
                 localStorage.setItem('theme', 'dark');
@@ -508,7 +1285,36 @@ footer .footer-section ul li a:hover {
                 localStorage.setItem('theme', 'light');
             }
         });
+
+        
+        document.addEventListener('DOMContentLoaded', () => {
+  const themeSwitch = document.querySelector('.theme-switch__checkbox');
+
+  // Load saved state from localStorage
+  const savedState = localStorage.getItem('theme-switch-state');
+  if (savedState === 'off') {
+    themeSwitch.checked = true; // Reversed: "off" means checkbox is checked
+    document.body.classList.add('dark-mode'); // Apply dark mode if reversed
+  } else {
+    themeSwitch.checked = false;
+    document.body.classList.remove('dark-mode');
+  }
+
+  // Listen for state change
+  themeSwitch.addEventListener('change', () => {
+    if (themeSwitch.checked) {
+      // Checkbox is checked -> Should turn off
+      localStorage.setItem('theme-switch-state', 'off');
+      document.body.classList.add('dark-mode'); // Apply dark mode if reversed
+    } else {
+      // Checkbox is unchecked -> Should turn on
+      localStorage.setItem('theme-switch-state', 'on');
+      document.body.classList.remove('dark-mode'); // Remove dark mode
+    }
+  });
+});
     </script>
+
 </body>
 
 </html>

@@ -46,24 +46,54 @@ function countTotal($booking){
 }
 
 $rooms = fetchRooms(); // Fetch all rooms
-$roomNum = $_POST['room_id'];
+$roomID = $_POST['room_id'];
+$roomNum = null;
+$roomNum_bookings = null;
+$lastMonth_roomNum = null;
 
 
 for ($i =0 ; $i < count($rooms) ; $i++){
-if($rooms[$i]['id'] == $roomNum){
+if($rooms[$i]['id'] == $roomID){
     $roomNum = $i;
     break;
     }
 }
 
+
+$firstDayOfLastMonth = (new DateTime('first day of last month'))->format('Y-m-d 00:00:00');
+$lastDayOfLastMonth = (new DateTime('last day of last month'))->format('Y-m-d 23:59:59');
+
 try{
-$sqlstmt = $pdo->prepare("SELECT room_id, COUNT(*) AS total_bookings FROM bookings GROUP BY room_id");
+    
+$sqlstmt = $pdo->prepare("SELECT b.room_id, COUNT(*) AS total_bookings, 
+(SELECT AVG(c.rating) FROM comments c WHERE c.room_id = b.room_id) AS rating 
+    FROM bookings b GROUP BY b.room_id;");
 $sqlstmt->execute();
 $bookings_number = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+$sqlstmt = $pdo->prepare("SELECT room_id, COUNT(*) AS total_bookings, SUM(CASE WHEN status = 'Cancelled' THEN 1 ELSE 0 END) as total_cancelled,
+ SUM(TIME_TO_SEC(TIMEDIFF(end_time, start_time))) / 3600 as time
+ FROM bookings WHERE start_time BETWEEN :start_date AND :end_date GROUP BY room_id;");
+$sqlstmt->execute([':start_date' => $firstDayOfLastMonth, ':end_date' => $lastDayOfLastMonth]);
+$lastMonth_number = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
 }catch(PDOException $e){  
 }
 
-?>
+for ($i =0 ; $i < count($bookings_number) ; $i++){
+    if($bookings_number[$i]['room_id'] == $roomID){
+        $roomNum_bookings = $i;
+        break;
+        }
+    }
+
+    for ($i =0 ; $i < count($lastMonth_number) ; $i++){
+        if($lastMonth_number[$i]['room_id'] == $roomID){
+            $lastMonth_roomNum = $i;
+            break;
+            }
+        }
+    ?>
 
 
 
@@ -89,7 +119,7 @@ $bookings_number = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
             width: 250px;
             background-color: #2c3e50;
             color: white;
-            height: 100vh;
+            height: 130vh;
             display: flex;
             flex-direction: column;
         }
@@ -180,6 +210,8 @@ $bookings_number = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
     </style>
 </head>
 <body>
+
+
     <div class="sidebar">
         <div class="profile">
             <img src="<?= !empty($user['profile_picture']) ? htmlspecialchars($user['profile_picture']) : 'uploads/Temp-user-face.jpg' ?>" alt="Profile Picture" class="profile-image">
@@ -204,10 +236,15 @@ $bookings_number = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
              <div class="room-info">
                 <p> Room name: <?php echo $rooms[$roomNum]['room_name'] ?> <br>
                     Room capacity: <?php echo $rooms[$roomNum]['capacity'] ?> <br>
-                    Total bookings: <?php if(isset($bookings_number[$roomNum])) echo $bookings_number[$roomNum]['total_bookings']; else echo 0 ?><br>
-                    Total bookings last month: <br>
-                    Utilization: <?php if(isset($bookings_number[$roomNum])) echo $bookings_number[$roomNum]['total_bookings']; else echo 0 ?> <br>
-                    Ratings: 
+                    Total bookings: <?php if(isset($bookings_number[$roomNum_bookings])) echo $bookings_number[$roomNum_bookings]['total_bookings']; else echo 0 ?><br>
+                    Total bookings last month: <?php if(isset($lastMonth_number[$lastMonth_roomNum])) echo $lastMonth_number[$lastMonth_roomNum]['total_bookings']; else echo 0 ?><br>
+                    Utilization last month: <?php if(isset($lastMonth_number[$lastMonth_roomNum])) echo number_format($lastMonth_number[$lastMonth_roomNum]['time'] / 315, 2); else echo 0 ?>% <br>
+                    Cancelled books last month: <?php if(isset($lastMonth_number[$lastMonth_roomNum])) echo $lastMonth_number[$lastMonth_roomNum]['total_cancelled']; else echo 0 ?> <br>
+                    Ratings: <?php if(isset($bookings_number[$roomNum_bookings])) echo number_format($bookings_number[$roomNum_bookings]['rating'], 1); else echo 'Not rated yet' ?>
+                    <?php 
+                    // var_dump($lastMonth_number);
+                    
+                    ?>
                 </p>
                 
              </div>
@@ -225,6 +262,8 @@ $bookings_number = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
                 </select>
                 <button type="submit">Show Statistics</button>
             </form>
+
+
 
                 
             

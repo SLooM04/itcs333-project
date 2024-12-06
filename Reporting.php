@@ -94,16 +94,17 @@ $totalBookings = countTotal($bookings_number);
 
     <style>
         body {
-            background-color: #f4f7f6;
+            background-color: #c2c3c4;
             margin: 0;
+            padding: 0;
             font-family: Arial, sans-serif;
             display: flex;
         }
         .sidebar {
             width: 250px;
-            background-color: #2c3e50;
+            background: linear-gradient(1deg, #1a73e8, #004db3 );  
             color: white;
-            height: 130vh;
+            height: 100vh;
             display: flex;
             flex-direction: column;
         }
@@ -131,6 +132,7 @@ $totalBookings = countTotal($bookings_number);
             padding: 0;
             margin: 0;
             list-style: none;
+            text-align: left;
         }
         .menu li {
             padding: 15px 20px;
@@ -145,7 +147,7 @@ $totalBookings = countTotal($bookings_number);
             cursor: pointer;
             display: flex;
             align-items: center;
-            color: #b3b3b3;
+            color: #d0efff;
         }
         .menu a:hover {
             background-color: #34495e;
@@ -156,45 +158,91 @@ $totalBookings = countTotal($bookings_number);
         }
 
         .Container{
+            flex:1;
+            
             margin-left: 1rem;
             color: black;
             text-align: center;
-            background-color: #f4f7f6;
+            background-color: #c2c3c4;
+            flex-direction:column;
         }
+
+        .statistics-wrapper {
+            display: flex; /* Use Flexbox for horizontal alignment */
+            gap: 20px; /* Space between form and top5 section */
+            align-items: flex-start; /* Align items to the top */
+}
 
         h1,h2,h3,p{
             color: black;
         }
 
        
+        .Container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+        /* Flexbox container for layout */
+        .layout {
+            display: flex;
+            justify-content: space-between; /* Space between items */
+            align-items: flex-start; /* Align items to the top */
+            padding: 20px 0;
+        }
+
+        /* Styling for the form box */
         .box {
-            background-color: #e4f0f2;
-            margin: auto;
-            margin-top: 90px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
+            flex: 0 0 40%; /* Takes 40% of the width */
             padding: 20px;
-            width: 500px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
-        
-        select {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
 
-        .top5{     
-            margin:auto;        
-            width: 50%;         
-            border: 1px solid #ccc;
+        /* Styling for the top5 section */
+        .top5 {
+            flex: 0 0 20%; /* Takes 20% of the width */
             padding: 20px;
-            border-radius: 5px;
-
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
+
+        .top5 h1 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .top5 h2 {
+            font-size: 16px;
+            color: #555;
+            margin: 5px 0;
+        }
+
+        .top5 h2 span {
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Responsive behavior for smaller screens */
+        @media (max-width: 768px) {
+            .layout {
+                flex-direction: column; /* Stacks items vertically */
+                align-items: center;
+            }
+
+            .box,
+            .top5 {
+                flex: 1 0 auto; /* Items take full width */
+                margin-bottom: 20px;
+            }
+        }
+
 
 
        
@@ -203,6 +251,8 @@ $totalBookings = countTotal($bookings_number);
     </style>
 </head>
 <body>
+
+
     <div class="sidebar">
         <div class="profile">
          <img src="<?= !empty($user['profile_picture']) ? htmlspecialchars($user['profile_picture']) : 'uploads/Temp-user-face.jpg' ?>" alt="Profile Picture" class="profile-image">
@@ -220,32 +270,39 @@ $totalBookings = countTotal($bookings_number);
         </ul>
     </div>
 
-        <main class="Container">
-            <h1>Room Statistics</h1>
-            <!-- <p><?php var_dump($bookings_number) ?></p> -->
-            <form method="POST" action="room_statistics.php" class="box">
-                <h2>Select a Room</h2>
-                <select id="room-dropdown" name="room_id" required>
-                    <option value="" disabled selected>Select a room</option>
-                    <?php foreach ($rooms as $room): ?>
-                        <option value="<?= htmlspecialchars($room['id']) ?>">
-                            <?= htmlspecialchars($room['room_name']) ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-                <button type="submit">Show Statistics</button>
-            </form>
-                <div class="top5">
-                    <h2>Top 5 booked rooms</h2>
-                    <?php 
-                    for($i=1 ; $i <= 5 ; $i++){
-                        echo "<h2> $i- " , $bookings_number[$i-1]['room_name'] , "\t", $bookings_number[$i-1]['total_bookings'] , "  books </h2>"; 
-                    }
-                    ?>
-                    
+            <main class="Container">
+                <h1>Room Statistics</h1>
+                <div class="layout">
+                    <!-- Room Selection Form -->
+                    <form method="POST" action="room_statistics.php" class="box">
+                        <h2>Select a Room</h2>
+                        <select id="room-dropdown" name="room_id" required>
+                            <option value="" disabled selected>Select a room</option>
+                            <?php foreach ($rooms as $room): ?>
+                                <option value="<?= htmlspecialchars($room['id']) ?>">
+                                    <?= htmlspecialchars($room['room_name']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <button type="submit">Show Statistics</button>
+                    </form>
+
+                    <!-- Top 5 Booked Rooms -->
+                    <div class="top5">
+                        <h1>Top 5 Booked Rooms</h1>
+                        <?php 
+                        for($i = 1; $i <= 5; $i++) {
+                            if(isset($bookings_number[$i-1])) {
+                                echo "<h2>$i. <span>" . htmlspecialchars($bookings_number[$i-1]['room_name']) . "</span> - " 
+                                . htmlspecialchars($bookings_number[$i-1]['total_bookings']) . " books</h2>"; 
+                            }
+                        }
+                        ?>
+                    </div>
                 </div>
-            </div>
-        </main>
+            </main>
+
+
 
 
 

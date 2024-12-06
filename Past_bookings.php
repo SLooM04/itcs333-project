@@ -25,6 +25,9 @@ if (!$user) {
 
 $username = $_SESSION['username'] ?? 'User';
 
+
+
+
 // Function to fetch rooms from the database based on department
 function fetchRooms()
 {
@@ -50,11 +53,21 @@ $rooms = fetchRooms(); // Fetch all rooms
 
 
 try{
-$sqlstmt = $pdo->prepare("SELECT room_id, COUNT(*) AS total_bookings FROM bookings GROUP BY room_id");
+    if($userRole == 'student'){
+$sqlstmt = $pdo->prepare("SELECT * FROM bookings WHERE student_id = $userId AND end_time < CURDATE() OR student_id = $userId AND status = 'Cancelled' ORDER BY start_time ASC");
 $sqlstmt->execute();
-$bookings_number = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
+$past_bookings = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
+$total = count($past_bookings);
+    }
+    else{
+        $sqlstmt = $pdo->prepare("SELECT * FROM bookings WHERE teacher_id = $userId AND end_time < CURDATE() OR teacher_id = $userId AND status = 'Cancelled' ORDER BY start_time ASC");
+        $sqlstmt->execute();
+        $past_bookings = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
+        $total = count($past_bookings);
+    }
 }catch(PDOException $e){  
 }
+
 
 ?>
 
@@ -68,14 +81,17 @@ $bookings_number = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
 
     <style>
         body {
-            background-color: #f4f7f6;
+            background-color: #c2c3c4;
             margin: 0;
             font-family: Arial, sans-serif;
             display: flex;
+            text-align: center;
         }
+
+    
         .sidebar {
             width: 250px;
-            background-color: #2c3e50;
+            background: linear-gradient(1deg, #1a73e8, #004db3 );  
             color: white;
             height: 100vh;
             display: flex;
@@ -94,6 +110,7 @@ $bookings_number = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
         }
         .profile h3 {
             margin: 5px 0;
+            color: white;
         }
         .profile p {
             font-size: 14px;
@@ -104,6 +121,7 @@ $bookings_number = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
             padding: 0;
             margin: 0;
             list-style: none;
+            text-align: left;
         }
         .menu li {
             padding: 15px 20px;
@@ -122,46 +140,65 @@ $bookings_number = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
             margin-right: 10px;
         }
 
+        .menu a {
+
+         color : #d0efff;
+          }
+
+
         .Container{
-            margin-left: 1rem;
-            color: black;
-            text-align: center;
-        }
-
-        /* h1,h2,h3,p{
-            color: black;
-        } */
-
-       
-        .box {
-            background-color: #e4f0f2;
-            margin: auto;
-            margin-top: 90px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
+            width: 80%;
+            margin: 50px auto;
             padding: 20px;
-            width: 500px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        
-        select {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
         }
 
-        .room-info{
-            background-color: #e4f0f2;
-            width: 33%;
-            border: 3px solid black;
-            border-radius: 5px;
-            padding: 30px;
-            text-align: left;
-            margin-left: 7%;
+        h1,h2,h3,p{
+            color: black;
         }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+        padding: 12px;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+
+        table th {
+            background-color: #1a2d42;
+            color: #ffffff;
+            font-weight: bold;
+        }
+        table tr{
+            background-color: #5f656e ;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #b2b7bf;
+        }
+
+        table tr:hover {
+            background-color: gray;
+        }
+
+        table td {
+            border-bottom: 1px solid #ddd;
+            color: black;
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+            font-size: 24px;
+        }
+       
+       
        
     </style>
 </head>
@@ -186,6 +223,42 @@ $bookings_number = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
 
     <main class="container">
 
+            <header>
+                <h1>Past bookings</h1>
+            </header>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Room Name</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Contact Number</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($past_bookings as $booking): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($booking['booking_id']) ?></td>
+                            <td><?= htmlspecialchars($booking['room_name']) ?></td>
+                            <td><?= htmlspecialchars($booking['start_time']) ?></td>
+                            <td><?= htmlspecialchars($booking['end_time']) ?></td>
+                            <td><?= htmlspecialchars($booking['contact_number']) ?></td>
+                            <td><?= htmlspecialchars($booking['status']) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+
+        
+
+        <!-- <p>
+            <?php 
+            var_dump($past_bookings);
+            ?>
+        </p> -->
 
     </main>
 </body>

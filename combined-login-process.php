@@ -11,17 +11,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmtTeacher->execute([':email' => $email]);
     $teacher = $stmtTeacher->fetch(PDO::FETCH_ASSOC);
 
+    $stmtStudent = $pdo->prepare("SELECT * FROM students WHERE email = :email");
+    $stmtStudent->execute([':email' => $email]);
+    $student = $stmtStudent->fetch(PDO::FETCH_ASSOC);
+
+    $stmtAdmin = $pdo->prepare("SELECT * FROM admins WHERE email = :email");
+    $stmtAdmin->execute([':email' => $email]);
+    $admin = $stmtAdmin->fetch(PDO::FETCH_ASSOC);
+
     if ($teacher) {
         
         $user = $teacher;
         $user['role'] = 'teacher';
     }
 
-        $stmtStudent = $pdo->prepare("SELECT * FROM students WHERE email = :email");
-        $stmtStudent->execute([':email' => $email]);
-        $student = $stmtStudent->fetch(PDO::FETCH_ASSOC);
+       
 
-     if ($student) {
+    else if ($student) {
         // If not a teacher, check if the user is a student
         $StudentEmailRegex = "/^[0-9]{9}@stu\.uob\.edu\.bh$/";
         
@@ -36,28 +42,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
 
-        $stmtAdmin = $pdo->prepare("SELECT * FROM admins WHERE email = :email");
-        $stmtAdmin->execute([':email' => $email]);
-        $admin = $stmtAdmin->fetch(PDO::FETCH_ASSOC);
-
-     if($admin){
-        // If not a teacher and student, check if the user is a admin
-        $AdminEmailRegex = "/^[0-9a-z]+@admin\.uob\.edu\.bh$/";
-        if (!preg_match($email,$AdminEmailRegex)){
-            $_SESSION['login_error'] = "Invalid username or password";
-            sleep(2);
-            header("Location: combined_login.php");
-        }
-        
-
-        if ($admin) {
+    else if($admin){
             $user = $admin;
             $user['role'] = 'admin';
-        } else {
+        } 
+
+    else if ($student) {
+            // If not a teacher, check if the user is a student
+            $StudentEmailRegex = "/^[0-9]{9}@stu\.uob\.edu\.bh$/";
+            
+            
+            if ($student) {
+                $user = $student;
+                $user['role'] = 'student';
+            } else {
+                // No user found
+                $user = null;
+            }
+        }
+        
+    else {
             // No user found
             $user = null;
         }
-    }
+    
+  
 
     // Verify the password for student
     if ($student && password_verify($password, $student['password'])) {
@@ -96,7 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else if ($admin && $password==$admin['password']) {
         $_SESSION['user_id'] = $admin['id'];
         $_SESSION['username'] = $admin['username'];
-        $_SESSION['role'] = $admin['role'];
+        $_SESSION['role'] = $user['role'];
         $_SESSION["login_success"] = "Welcome, " . $admin['username'] . "!";
 
         // Set cookies for the teacher
@@ -105,15 +114,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         setcookie("role", $user['role'], time() + (86400 * 30), "/");
 
         sleep(2);
-        header("Location: admin-dashbord.php");
-        exit();
-    }
+        header("Location:admin-dashboard.php");
+        
+    }else{
     // Authentication failed
     $_SESSION['login_error'] = "Invalid username or password";
     sleep(2);
     header("Location: combined_login.php");
-    exit();
-} else {
+    exit();}
+
+    }else {
     header("Location: combined_login.php");
     exit();
 }

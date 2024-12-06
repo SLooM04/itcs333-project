@@ -123,14 +123,14 @@ if (isset($_GET['department'])) {
 </head>
 <body>
 <div class="button-container">
-    <a class="transparent-button" href="room_details.php?id=35" target="_blank"><br>2048</a>
-    <a class="transparent-button" href="room_details.php?id=36" target="_blank"><br>2049</a>
-    <a class="transparent-button" href="room_details.php?id=34" target="_blank"><br>2046</a>
-    <a class="transparent-button" href="room_details.php?id=37" target="_blank"><br>2050</a>
-    <a class="transparent-button" href="room_details.php?id=33" target="_blank"><br>2045</a>
-    <a class="transparent-button" href="room_details.php?id=38" target="_blank"><br>2051</a>
-    <a class="transparent-button" href="room_details.php?id=39" target="_blank"><br>2043</a>
-    <a class="transparent-button" href="room_details.php?id=51" target="_blank"><br>2053</a>
+    <a class="transparent-button" href="room_details.php?id=36" target="_blank"><br>2048</a>
+    <a class="transparent-button" href="room_details.php?id=37" target="_blank"><br>2049</a>
+    <a class="transparent-button" href="room_details.php?id=35" target="_blank"><br>2046</a>
+    <a class="transparent-button" href="room_details.php?id=38" target="_blank"><br>2050</a>
+    <a class="transparent-button" href="room_details.php?id=34" target="_blank"><br>2045</a>
+    <a class="transparent-button" href="room_details.php?id=39" target="_blank"><br>2051</a>
+    <a class="transparent-button" href="room_details.php?id=33" target="_blank"><br>2043</a>
+    <a class="transparent-button" href="room_details.php?id=40" target="_blank"><br>2053</a>
     <a class="transparent-button" href="room_details.php?id=29" target="_blank"><br>1047</a>
     <a class="transparent-button" href="room_details.php?id=30" target="_blank"><br>1048</a>
     <a class="transparent-button" href="room_details.php?id=28" target="_blank"><br>1045</a>
