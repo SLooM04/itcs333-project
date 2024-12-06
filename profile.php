@@ -63,7 +63,7 @@ body {
   background-image: linear-gradient(#1a73e8, #004db3);
   background-repeat: no-repeat;  /* Ensures the background doesn't repeat */
  background-size: cover;  /* Ensures the gradient covers the full container */
- height: 45%;
+ height: 95%;
  display: flex;
 justify-content: center;
  align-items: flex-start;
@@ -74,7 +74,7 @@ html {
  background-image: linear-gradient(#1a73e8, #004db3);
  background-repeat: no-repeat;  /* Ensures the background doesn't repeat */
  background-size: cover;  /* Ensures the gradient covers the full container */
-  height: 180%;
+  height: 100%;
   display: flex;
  justify-content: center;
  align-items: flex-start;
@@ -198,22 +198,22 @@ h2 {
 }
 
 @media (max-width: 768px) {
-  .body{
+  body{
 
-    height: 30%;
-    width: 30%;
+    height: 80%;
+    width: 130%;
 
 
 
   }
-  
+ 
   html{
-    height: 55%;
+    height: 100%;
   }
   
   .profile-container {
     padding: 2%;
-    height: 190%;
+    height: 100%;
     max-width: 100%;
 
   }
