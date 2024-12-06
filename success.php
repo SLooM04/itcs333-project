@@ -15,7 +15,7 @@ if (isset($_SESSION['registration_success'])) {
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #222, #222); /* Gradient background */
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9); /* Light green gradient */
             color: #fff;
             margin: 0;
             padding: 0;
@@ -35,16 +35,16 @@ if (isset($_SESSION['registration_success'])) {
         .container h1 {
             font-size: 2.5em;
             margin: 0 0 10px;
-            color: green;
+            color: #388e3c;
         }
         .container p {
             font-size: 1.2em;
             margin: 10px 0 20px;
-            color: white;
+            color: #1b5e20;
         }
         .loader {
-            border: 6px solid #fff; /* Light grey */
-            border-top: 6px solid green; /* Yellow */
+            border: 5px solid #e8f5e9; /* Light green background */
+            border-top: 5px solid #388e3c; /* Dark green for spinning animation */
             border-radius: 50%;
             width: 50px;
             height: 50px;
