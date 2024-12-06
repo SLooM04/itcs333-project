@@ -22,7 +22,6 @@ if (!$room) {
     die("Invalid room ID");
 }
 
-// Initialize message variables
 $success_message = "";
 $error_message = "";
 
@@ -40,62 +39,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $duration = isset($_POST['duration']) ? $_POST['duration'] : '';
     $time_slot = isset($_POST['time_slot']) ? $_POST['time_slot'] : '';
 
-   // Validate that all fields are filled
-   if ($contact_number && $booking_date && $duration && $time_slot) {
-    // Get the current datetime
-    $current_datetime = new DateTime();
-    $start_datetime = new DateTime("$booking_date $time_slot"); 
+    // Validate that all fields are filled
+    if ($contact_number && $booking_date && $duration && $time_slot) {
+        // Get the current datetime
+        $current_datetime = new DateTime();
+        $start_datetime = new DateTime("$booking_date $time_slot"); 
 
-    // Check if the selected time is too close to the current time
-    $interval = $current_datetime->diff($start_datetime);
+        // Check if the selected time is too close to the current time
+        $interval = $current_datetime->diff($start_datetime);
 
-    // Ensure the booking time is true ( not in the past )
-    if ($start_datetime < $current_datetime || $interval->h <= 0 && $interval->invert === 0) {
-        $error_message = "The selected time cannot be in the past.";
-    } else {
-        // Proceed with the booking logic (existing code)
-        if ($duration == '1.5') {
-            $end_time = date('Y-m-d H:i:s', strtotime($start_datetime->format('Y-m-d H:i:s') . ' +90 minutes'));
+        if ($start_datetime < $current_datetime || $interval->h <= 0 && $interval->invert === 0) {
+            $error_message = "The selected time cannot be in the past.";
         } else {
-            $end_time = date('Y-m-d H:i:s', strtotime($start_datetime->format('Y-m-d H:i:s') . ' +60 minutes'));
-        }
+            // Proceed with the booking logic (existing code)
+            if ($duration == '1.5') {
+                $end_time = date('Y-m-d H:i:s', strtotime($start_datetime->format('Y-m-d H:i:s') . ' +90 minutes'));
+            } else {
+                $end_time = date('Y-m-d H:i:s', strtotime($start_datetime->format('Y-m-d H:i:s') . ' +60 minutes'));
+            }
 
-    
-        // Check for conflicting bookings
-        $stmt = $pdo->prepare("
-            SELECT * FROM bookings
-            WHERE room_id = :room_id
-            AND (
-                (:start_time < end_time AND :end_time > start_time)
-            )
-            AND status != 'Cancelled'
-        ");
-        $stmt->execute([
-            'room_id' => $room_id,
-            'start_time' => $start_datetime->format('Y-m-d H:i:s'),
-            'end_time' => $end_time
-        ]);
-        $existing_booking = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($existing_booking) {
-            $error_message = "The selected time slot is already booked for this room.";
-        } else {
-            // Proceed with the booking
+            // Check for conflicting bookings
             $stmt = $pdo->prepare("
-                INSERT INTO bookings (room_id, room_name, student_id, teacher_id, username, start_time, end_time, contact_number) 
-                VALUES (:room_id, :room_name, :student_id, :teacher_id, :username, :start_time, :end_time, :contact_number)
+                SELECT * FROM bookings
+                WHERE room_id = :room_id
+                AND (
+                    (:start_time < end_time AND :end_time > start_time)
+                )
+                AND status != 'Cancelled'
             ");
             $stmt->execute([
-                ':room_id' => $room_id,
-                ':room_name' => $room_name,
-                ':student_id' => ($user_role === 'student') ? $_SESSION['user_id'] : null,
-                ':teacher_id' => ($user_role === 'teacher') ? $_SESSION['user_id'] : null,
-                ':username' => $username,
-                ':start_time' => $start_datetime->format('Y-m-d H:i:s'),
-                ':end_time' => $end_time,
-                ':contact_number' => $contact_number,
+                'room_id' => $room_id,
+                'start_time' => $start_datetime->format('Y-m-d H:i:s'),
+                'end_time' => $end_time
             ]);
-            $success_message = "Your booking has been successfully completed!";
+            $existing_booking = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($existing_booking) {
+                $error_message = "The selected time slot is already booked for this room.";
+            } else {
+                // Proceed with the booking
+                $stmt = $pdo->prepare("
+                    INSERT INTO bookings (room_id, room_name, student_id, teacher_id, username, start_time, end_time, contact_number) 
+                    VALUES (:room_id, :room_name, :student_id, :teacher_id, :username, :start_time, :end_time, :contact_number)
+                ");
+                $stmt->execute([
+                    ':room_id' => $room_id,
+                    ':room_name' => $room_name,
+                    ':student_id' => ($user_role === 'student') ? $_SESSION['user_id'] : null,
+                    ':teacher_id' => ($user_role === 'teacher') ? $_SESSION['user_id'] : null,
+                    ':username' => $username,
+                    ':start_time' => $start_datetime->format('Y-m-d H:i:s'),
+                    ':end_time' => $end_time,
+                    ':contact_number' => $contact_number,
+                ]);
+                $success_message = "Your booking has been successfully completed!";
             }
         }
     }
@@ -166,6 +163,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="en">
 
 <head>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Room: <?php echo htmlspecialchars($room['room_name']); ?></title>
@@ -438,6 +436,27 @@ a {
         const roomDetailsUrl = `room_details.php?id=${roomId}`;
         window.open(roomDetailsUrl, '_blank'); // Open in a new tab
     }
+</script>
+<script>
+    <?php if ($success_message): ?>
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: '<?php echo $success_message; ?>',
+            confirmButtonText: 'OK'
+        }).then(function() {
+            window.location.href = 'upcoming_bookings.php';      
+          });
+    <?php elseif ($error_message): ?>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: '<?php echo $error_message; ?>',
+            timer:"4000",
+            confirmButtonText: 'Try Again'
+        });
+    <?php endif; ?>
+    
 </script>
 </body>
 
