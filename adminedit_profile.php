@@ -90,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             background-image: linear-gradient(#1a73e8, #004db3);
             background-repeat: no-repeat;
             background-size: cover;
-            height: 180%;
+            height: 100%;
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -189,6 +189,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         @media (max-width: 768px) {
+
+            body{
+
+height: 70%;
+width: 130%;
+
+
+
+}
+
+html{
+height: 100%;
+}
+
+.profile-container {
+padding: 2%;
+height: 100%;
+max-width: 100%;
+
+}
             .submit-btn {
                 padding: 12px 100px;
             }
@@ -215,14 +235,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         @media (max-width: 480px) {
             body {
                 padding: 0px;
-                height: 100%;
+                height: 60%;
             }
             
             html {
                 padding: 25px;
-                height: 105%;
+                height: 100%;
             }
             .edit-profile-container {
+                height: 100%;
                 padding: 20px;
                 width: 100%;
                 max-width: 100%;

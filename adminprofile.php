@@ -47,7 +47,19 @@ if (!$admin) {
 <style>
 /* Same CSS styles as provided */
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,600');
-body, html {
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-image: linear-gradient(#1a73e8, #004db3);
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 70%;
+    margin: 15px;
+    padding: 0;
+}
+
+html{
     font-family: 'Montserrat', sans-serif;
     background-image: linear-gradient(#1a73e8, #004db3);
     background-size: cover;
@@ -57,6 +69,7 @@ body, html {
     height: 100%;
     margin: 0;
     padding: 0;
+
 }
 a {
     color: #046cdb;
@@ -122,6 +135,42 @@ a {
 .back-home-btn:hover {
     background-color: #42566b;
 }
+
+@media (max-width: 768px) {
+  body{
+
+    height: 80%;
+    width: 130%;
+
+
+
+  }
+ 
+  html{
+    height: 100%;
+  }
+  
+  .profile-container {
+    padding: 2%;
+    height: 100%;
+    max-width: 100%;
+
+  }
+
+  .profile-header h1 {
+    font-size: 22px;
+  }
+  .button{
+
+    margin-bottom: 4%;
+  }
+  .profile-image {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+
 </style>
 </body>
 </html>
