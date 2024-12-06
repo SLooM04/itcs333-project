@@ -911,7 +911,7 @@ if (isset($_GET['room_type']) && isset($_GET['room_number'])) {
     .search select { width: 280px;
 
 }
-.search input { width: 500px;
+.search input { width: 200px;
 
 }
 
@@ -937,6 +937,15 @@ if (isset($_GET['room_type']) && isset($_GET['room_number'])) {
         height: 70px; /* Adjust height for tablets */
         padding: 8px; /* Reduced padding */
     }
+
+    .room-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 50px;
+            margin: 0%;
+            border-radius: 8px;
+
+        }
 }
 
 /* Styles for mobile devices (max-width: 600px) */
@@ -967,6 +976,15 @@ if (isset($_GET['room_type']) && isset($_GET['room_number'])) {
     .down {
         width:40px;
     }
+
+    .room-gallery {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 50px;
+            margin: 0%;
+            border-radius: 8px;
+
+        }
 }
 
         /* From Uiverse.io by Galahhad */ 
@@ -1173,6 +1191,29 @@ if (isset($_GET['room_type']) && isset($_GET['room_number'])) {
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
   }
+
+  /* From Uiverse.io by laminelawal */ 
+.inputS {
+  padding: 10px;
+  width: 120px;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  box-shadow: 0 1px  gray;
+  font-size: 18px;
+  transition: width 0.3s;
+  font-family: Consolas,monaco,monospace;
+}
+
+.inputS:focus {
+  outline: 1px solid blue;
+  box-shadow: none;
+  width: 230px;
+}
+
+.inputS::placeholder {
+  color: blue;
+}
     </style>
 </head>
 
@@ -1323,7 +1364,7 @@ if (isset($_GET['room_type']) && isset($_GET['room_number'])) {
         <option value="Room" <?php echo isset($_GET['room_type']) && $_GET['room_type'] == 'Room' ? 'selected' : ''; ?>>Room</option>
         <option value="Lab" <?php echo isset($_GET['room_type']) && $_GET['room_type'] == 'Lab' ? 'selected' : ''; ?>>Lab</option>
     </select>
-    <input type="text" name="room_number" placeholder="Enter Room Number" value="<?php echo isset($_GET['room_number']) ? htmlspecialchars($_GET['room_number']) : ''; ?>" />
+    <input class="inputS" type="text" name="room_number" placeholder="Enter Room Number" value="<?php echo isset($_GET['room_number']) ? htmlspecialchars($_GET['room_number']) : ''; ?>" />
     <button type="submit">Search</button>
   </form>
 
