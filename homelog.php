@@ -448,13 +448,13 @@ for($i=1 ; $i < count($bookings) ; $i++){
         /* Slider Container */
         .slider-container {
             width: 100%;
-            max-width: 1000px;
-            height: auto;
+            max-width: 800px;
+            height: 400px;
             aspect-ratio: 5 / 3; /* Maintains a 5:3 aspect ratio */
             margin: auto;
             overflow: hidden;
             position: relative;
-            border-radius: 20px;
+            border-radius: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1027,16 +1027,19 @@ for($i=1 ; $i < count($bookings) ; $i++){
     <div class="slider-container">
         <div class="slider">
             <div class="slide">
-                <img src="RoomPic/Huawei.jpg" alt="Slide 1">
+                <img src="RoomPic/HuaweiS.jpg" alt="Slide 1">
             </div>
             <div class="slide">
-                <img src="RoomPic/iot.jpg" alt="Slide 2">
+                <img src="RoomPic/nell2S.jpeg" alt="Slide 2">
             </div>
             <div class="slide">
-                <img src="RoomPic/benefit0.jpg" alt="Slide 3">
+                <img src="RoomPic/benefitS.jpeg" alt="Slide 3">
             </div>
             <div class="slide">
-                <img src="RoomPic/nell2.jpg" alt="Slide 3">
+                <img src="RoomPic/labbS.jpeg" alt="Slide 4">
+            </div>
+            <div class="slide">
+                <img src="RoomPic/iotS.jpeg" alt="Slide 5">
             </div>
         </div>
 
@@ -1045,6 +1048,8 @@ for($i=1 ; $i < count($bookings) ; $i++){
             <span class="dot" onclick="currentSlide(1)"></span>
             <span class="dot" onclick="currentSlide(2)"></span>
             <span class="dot" onclick="currentSlide(3)"></span>
+            <span class="dot" onclick="currentSlide(4)"></span>
+
             <!-- Add more dots as needed -->
     </div>
     </div>
