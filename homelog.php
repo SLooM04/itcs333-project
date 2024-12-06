@@ -320,6 +320,28 @@ for($i=1 ; $i < count($bookings) ; $i++){
             color: #111;
             z-index: 1;
         }
+        .wlc {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        max-width: 1200px;
+        margin: 50px auto;
+    }
+
+    .wlc img {
+        width: 40%; /* Adjust size of the image */
+        max-width: 400px;
+        border-radius: 15px;
+    }
+
+    .welcome-paragraph {
+        flex: 1;
+        text-align: justify;
+        font-size: 1.2em;
+        line-height: 1.5;
+        color: #333;
+    }
 
         /* Action Buttons */
         .action-buttons {
@@ -331,6 +353,8 @@ for($i=1 ; $i < count($bookings) ; $i++){
             margin: 40px 10px;
             z-index: 1;
         }
+        
+        
 
         .action-buttons a {
             flex: 1;
@@ -358,7 +382,7 @@ for($i=1 ; $i < count($bookings) ; $i++){
             transform: scale(1.05);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
             border: 3px solid #003366;
-            animation: glowing 1.5s ease-in-out infinite;
+            animation:  glowing 1.5s ease-in-out infinite;
         }
 
         .action-buttons img{
@@ -385,6 +409,39 @@ for($i=1 ; $i < count($bookings) ; $i++){
             }
         }
 
+        .test {
+            display: inline-block;
+            padding: 0.9rem 1.8rem;
+            font-size: 16px;
+            font-weight: 700;
+            color: white;
+            border: 3px solid rgb(0, 102, 204);
+            border-radius: 170px;
+            cursor: pointer;
+            position: relative;
+            background-color: transparent;
+            text-decoration: none;
+            overflow: hidden;
+            z-index: 1;
+            font-family: inherit;
+        }
+
+        .test::before {
+                    content: "";
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: rgb(0, 102, 204);
+                    transform: translateX(-100%);
+                    transition: all .3s;
+                    z-index: -1;
+                }
+
+                .test:hover::before {
+                transform: translateX(0);
+                }
         .slider-container {
             width: 50%;
             height: 80%;
@@ -473,11 +530,7 @@ for($i=1 ; $i < count($bookings) ; $i++){
             z-index: 1;
         }
 
-        .recommendations a:hover {
-            color: #004db3;
-            font-weight: bold;
-            text-decoration: none;
-        }
+      
 
         /* Footer styles */
         footer {
@@ -686,9 +739,12 @@ for($i=1 ; $i < count($bookings) ; $i++){
                 echo "<h1>Welcome Dr." . htmlspecialchars($username) . "!</h1>";
             }
             ?>
-                <p id="greeting"></p> <!-- Element to hold the personalized greeting -->
+            <p id="greeting"></p> <!-- Element to hold the personalized greeting -->
+            
+          
 
         </section>
+     
 
         <!-- Action Buttons Section -->
     <section class="action-buttons">
@@ -706,7 +762,7 @@ for($i=1 ; $i < count($bookings) ; $i++){
         </a>
     </section>
 
-            <h2>Our Special Labs</h2>
+            <h2>Our Special Classes</h2>
     <div class="slider-container">
         <div class="slider">
             <div class="slide">
@@ -785,7 +841,7 @@ for($i=1 ; $i < count($bookings) ; $i++){
             <div class="recommendation-card">
                 <h3><?php echo $bookings[$max]['room_name'] ?></h3>
                 <p>Most booked this month. Reserve now!</p>
-                <a href="rooms.php">View Details</a>
+                <a href="rooms.php" class = "test">View Details</a>
             </div>
         </section>
 
