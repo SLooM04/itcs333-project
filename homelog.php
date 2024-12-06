@@ -463,13 +463,13 @@ for($i=1 ; $i < count($bookings) ; $i++){
         /* Slider */
         .slider {
             display: flex;
-            transition: transform 1s ease-in-out;
+            transition: transform 0.5s ease-in-out; /* Reduce transition duration for a smoother effect */
         }
 
         /* Slide */
         .slide {
             min-width: 100%;
-            transition: transform 1s ease-in-out, width 1s ease-in-out;
+            transition: transform 0.5s ease-in-out, width 0.5s ease-in-out;
         }
 
         /* Dot Container */
