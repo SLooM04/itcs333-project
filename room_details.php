@@ -150,7 +150,11 @@ $stmt->execute([
 
 $has_past_booking = $stmt->rowCount() > 0;
 
+
+
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -226,14 +230,6 @@ $has_past_booking = $stmt->rowCount() > 0;
 }
 
 /* Styling for the comment form */
-.comment-form {
-    margin-top: 30px;
-    padding: 20px;
-    background-color: #f8f9fa; 
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
 .comment-form textarea {
     width: 100%;
     height: 100px;
@@ -243,7 +239,28 @@ $has_past_booking = $stmt->rowCount() > 0;
     border-radius: 5px;
     font-size: 16px;
     resize: none;
+    background-color: #f8f8f8; 
+    color: #333; 
+    font-family: 'Arial', sans-serif; 
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); 
+    transition: background-color 0.3s ease, border-color 0.3s ease; 
 }
+
+.comment-form textarea:focus {
+    background-color: #ffffff; 
+    border-color: #007bff; 
+    outline: none; 
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
+}
+
+.comment-form {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f9f9f9; 
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
 
 .comment-form button {
     background-color: #007bff; 
@@ -260,25 +277,33 @@ $has_past_booking = $stmt->rowCount() > 0;
     background-color: #0056b3; 
 }
 
-        /*stars styles*/
-
+/* Star Stayle*/
 .star-rating {
-display: inline-block;
+    display: flex;
+    flex-direction: row-reverse; 
+    justify-content: center;
+    gap: 5px;
 }
 
 .star-rating input {
-display: none; 
+    display: none; /* Hide the radio buttons */
 }
 
 .star-rating label {
-font-size: 30px;
-color: gray;  
-cursor: pointer;
+    font-size: 30px;
+    color: gray; /* Default color for stars */
+    cursor: pointer;
+    transition: color 0.3s ease;
 }
 
-.star-rating label:hover {
-color: gold; 
+.star-rating input:checked ~ label {
+    color: gold; /* Gold color for selected stars */
 }
+
+.star-rating input:hover ~ label {
+    color: gold; /* Gold on hover */
+}
+
         /* Basic Styles */
         body {
             font-family: 'Poppins', sans-serif;
@@ -822,21 +847,24 @@ color: gold;
         <!-- Display Feedback Form Conditionally -->
         <?php if ($has_past_booking): ?>
             <div class="comment-form">
-                <h3>Leave your Feedback</h3>
-                <form action="add_comment.php" method="POST">
-                    <input type="hidden" name="room_id" value="<?php echo $room_id; ?>">
-                    <textarea name="comment_text" placeholder="Write your comment here..." required></textarea>
-                    <label for="rating">Rating:</label>
-                    <select name="rating" required>
-                        <option value="5">★★★★★</option>
-                        <option value="4">★★★★☆</option>
-                        <option value="3">★★★☆☆</option>
-                        <option value="2">★★☆☆☆</option>
-                        <option value="1">★☆☆☆☆</option>
-                    </select>
-                    <button type="submit">Submit Feedback</button>
-                </form>
-            </div>
+    <h3>Leave your Feedback</h3>
+    <form action="add_comment.php" method="POST">
+        <input type="hidden" name="room_id" value="<?php echo $room_id; ?>">
+        <textarea name="comment_text" placeholder="Write your Feedback here.." required></textarea>
+        
+        <!-- Star Rating -->
+        <label for="rating">Rating:</label>
+        <div class="star-rating">
+            <input type="radio" id="star5" name="rating" value="5"><label for="star5">★</label>
+            <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
+            <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
+            <input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
+            <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
+        </div>
+        
+        <button type="submit">Submit Feedback</button>
+    </form>
+</div>
         <?php else: ?>
             <p>You must book this room to leave your feedback.</p>
         <?php endif; ?>
