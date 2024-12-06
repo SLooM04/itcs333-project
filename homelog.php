@@ -1102,8 +1102,8 @@ for($i=1 ; $i < count($bookings) ; $i++){
             <div class="recommendation-card">
                 <h3><?php echo $bookings[$max]['room_name'] ?></h3>
                 <p>Most booked this month. Reserve now!</p>
-                <a href="rooms.php" class = "test">View Details</a>
-            </div>
+                <a href="room_details.php?id=<?php echo $bookings[$max]['room_id']; ?>" class="test">View Details</a>
+                </div>
         </section>
 
     </main>
