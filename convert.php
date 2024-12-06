@@ -27,9 +27,12 @@ if (isset($_GET['room_type']) && isset($_GET['room_number'])) {
         header("Location: room_details.php?id=" . $roomId);
         exit();
     } else {
-        echo "No room found matching that criteria.";
+        echo '<script>alert("No room found matching that criteria."); 
+        window.history.back(); </script>';
+
     }
-} else {
+} else { 
     echo "Room type or room number not provided.";
+
 }
 ?>
