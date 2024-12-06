@@ -911,7 +911,7 @@ if (isset($_GET['room_type']) && isset($_GET['room_number'])) {
     .search select { width: 280px;
 
 }
-.search input { width: 200px;
+.search input { width: 500px;
 
 }
 
@@ -1193,27 +1193,23 @@ if (isset($_GET['room_type']) && isset($_GET['room_number'])) {
   }
 
   /* From Uiverse.io by laminelawal */ 
-.inputS {
-  padding: 10px;
-  width: 120px;
-  border: none;
-  outline: none;
-  border-radius: 5px;
-  box-shadow: 0 1px  gray;
-  font-size: 18px;
-  transition: width 0.3s;
-  font-family: Consolas,monaco,monospace;
-}
 
-.inputS:focus {
-  outline: 1px solid blue;
-  box-shadow: none;
-  width: 230px;
-}
+  .inputS input {
+    width: 500px;
+    padding: 15px;
+    font-size: 1em;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    color: #333;
+    transition: all 0.3s;
+  }
 
-.inputS::placeholder {
-  color: blue;
-}
+  .inputS input:focus {
+    border-color: #0061f2;
+    background-color: #f1faff;
+    outline: none;
+  }
     </style>
 </head>
 
@@ -1364,7 +1360,7 @@ if (isset($_GET['room_type']) && isset($_GET['room_number'])) {
         <option value="Room" <?php echo isset($_GET['room_type']) && $_GET['room_type'] == 'Room' ? 'selected' : ''; ?>>Room</option>
         <option value="Lab" <?php echo isset($_GET['room_type']) && $_GET['room_type'] == 'Lab' ? 'selected' : ''; ?>>Lab</option>
     </select>
-    <input class="inputS" type="text" name="room_number" placeholder="Enter Room Number" value="<?php echo isset($_GET['room_number']) ? htmlspecialchars($_GET['room_number']) : ''; ?>" />
+    <input class="inputS"  type="text" name="room_number" placeholder="Enter Room Number" value="<?php echo isset($_GET['room_number']) ? htmlspecialchars($_GET['room_number']) : ''; ?>" />
     <button type="submit">Search</button>
   </form>
 

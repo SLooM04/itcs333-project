@@ -972,7 +972,12 @@ if (isset($_GET['room_type']) && isset($_GET['room_number'])) {
     text-align: center;
 }
 
-.search select, .search input {
+.search input {
+
+    width: 500px;
+}
+
+.search select{
     width: 280px; /* Default width for select and input */
 }
 
@@ -1030,27 +1035,23 @@ if (isset($_GET['room_type']) && isset($_GET['room_number'])) {
 
 
   /* From Uiverse.io by laminelawal */ 
-  .inputS {
-  padding: 10px;
-  width: 120px;
-  border: none;
-  outline: none;
-  border-radius: 5px;
-  box-shadow: 0 1px  gray;
-  font-size: 18px;
-  transition: width 0.3s;
-  font-family: Consolas,monaco,monospace;
-}
+ 
+  .inputS input {
+    width: 500px;
+    padding: 15px;
+    font-size: 1em;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    color: #333;
+    transition: all 0.3s;
+  }
 
-.inputS:focus {
-  outline: 1px solid blue;
-  box-shadow: none;
-  width: 230px;
-}
-
-.inputS::placeholder {
-  color: blue;
-}
+  .inputS input:focus {
+    border-color: #0061f2;
+    background-color: #f1faff;
+    outline: none;
+  }
 
     </style>
 </head>
