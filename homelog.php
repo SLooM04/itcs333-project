@@ -859,7 +859,6 @@ for($i=1 ; $i < count($bookings) ; $i++){
             <span> <?php echo htmlspecialchars($_SESSION['username']); ?></span>
             <div class="dropdown-content">
                 <a href="profile.php">My Profile</a>
-                <a href="settings.php">Settings</a>
                 <a href="logout.php" class="logout-button" onclick="return confirm('Are you sure you want to log out?')">Logout</a>
 
 <label class="theme-switch">
