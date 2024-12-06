@@ -452,6 +452,7 @@ a {
             icon: 'error',
             title: 'Error!',
             text: '<?php echo $error_message; ?>',
+            timer:"4000",
             confirmButtonText: 'Try Again'
         });
     <?php endif; ?>
