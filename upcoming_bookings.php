@@ -53,7 +53,7 @@ $rooms = fetchRooms(); // Fetch all rooms
 try{
 if($userRole == 'student'){
 
-$sqlstmt = $pdo->prepare("SELECT * FROM bookings WHERE student_id = $userId AND start_time > CURDATE() AND Status != 'Cancelled' ORDER BY booking_id ASC");
+$sqlstmt = $pdo->prepare("SELECT * FROM bookings WHERE student_id = $userId AND start_time > CURDATE() AND Status != 'Cancelled' ORDER BY start_time ASC");
 $sqlstmt->execute();
 $upcoming_bookings = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
 $total = count($upcoming_bookings);
@@ -61,7 +61,7 @@ $total = count($upcoming_bookings);
     }
 else {
     
-    $sqlstmt = $pdo->prepare("SELECT * FROM bookings WHERE teacher_id = $userId AND start_time > CURDATE() AND Status != 'Cancelled' ORDER BY booking_id ASC");
+    $sqlstmt = $pdo->prepare("SELECT * FROM bookings WHERE teacher_id = $userId AND start_time > CURDATE() AND Status != 'Cancelled' ORDER BY start_time ASC");
     $sqlstmt->execute();
     $upcoming_bookings = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
     $total = count($upcoming_bookings);
@@ -88,6 +88,8 @@ else {
             font-family: Arial, sans-serif;
             display: flex;
             text-align: center;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
     
@@ -211,6 +213,8 @@ else {
         color: #0056b3;  /* Darker blue on hover */
         text-decoration: none; /* Optional: remove underline on hover */
     }
+
+    
        
        
     </style>
@@ -243,7 +247,7 @@ else {
             <table>
                 <thead>
                     <tr>
-                        <th>Booking ID</th>
+                        <th>ID</th>
                         <th>Room Name</th>
                         <th>Start Time</th>
                         <th>End Time</th>
