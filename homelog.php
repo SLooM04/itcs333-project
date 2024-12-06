@@ -47,7 +47,8 @@ for($i=1 ; $i < count($bookings) ; $i++){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome, <?php echo htmlspecialchars($username); ?></title>
-    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.5.7/css/pico.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.5.7/css/pico.min.css" >
+
     <style>
         /* Importing Google Fonts */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
@@ -276,6 +277,7 @@ for($i=1 ; $i < count($bookings) ; $i++){
 
         .dropdown-content a {
             display: block;
+            align-items: center;
             padding: 10px 15px;
             text-decoration: none;
             color: #222;
@@ -442,26 +444,35 @@ for($i=1 ; $i < count($bookings) ; $i++){
                 .test:hover::before {
                 transform: translateX(0);
                 }
+                
+        /* Slider Container */
         .slider-container {
-            width: 50%;
-            height: 80%;
+            width: 100%;
+            max-width: 1000px;
+            height: auto;
+            aspect-ratio: 5 / 3; /* Maintains a 5:3 aspect ratio */
             margin: auto;
             overflow: hidden;
             position: relative;
             border-radius: 20px;
+            display: flex;
             align-items: center;
+            justify-content: center;
         }
 
+        /* Slider */
         .slider {
             display: flex;
             transition: transform 1s ease-in-out;
         }
 
+        /* Slide */
         .slide {
             min-width: 100%;
             transition: transform 1s ease-in-out, width 1s ease-in-out;
         }
 
+        /* Dot Container */
         .dot-container {
             z-index: 5;
             position: absolute;
@@ -469,11 +480,12 @@ for($i=1 ; $i < count($bookings) ; $i++){
             transform: translateX(-50%);
             bottom: 1.5em;
             text-align: center;
-            border-radius: 10px;
             background-color: rgba(0, 0, 0, 0.3);
             padding: 5px;
-            border-radius: 20px;
+            border-radius: 20px;
         }
+
+        /* Dot */
         .dot {
             height: 15px;
             width: 15px;
@@ -485,8 +497,38 @@ for($i=1 ; $i < count($bookings) ; $i++){
             cursor: pointer;
         }
 
+        /* Active Dot */
         .active-dot {
-            background-color: white;
+            background-color: white;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .slider-container {
+                max-width: 90%; /* Use a larger percentage for smaller screens */
+                height: auto; /* Height adjusts based on width */
+                aspect-ratio: 16 / 9; /* Adjust for mobile aspect ratio */
+            }
+
+            .dot {
+                height: 12px;
+                width: 12px;
+                margin: 0 3px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .slider-container {
+                max-width: 100%; /* Full width on smaller screens */
+                height: auto;
+                aspect-ratio: 16 / 9; /* Maintain aspect ratio */
+            }
+
+            .dot {
+                height: 10px;
+                width: 10px;
+                margin: 0 2px;
+            }
         }
 
         h2{
@@ -594,10 +636,7 @@ for($i=1 ; $i < count($bookings) ; $i++){
             }}
 
         @media (max-width: 768px) {
-            .nav-links {
-                flex-direction: column;
-                width: 100%;
-            }
+            
 
             .action-buttons {
                 flex-direction: column;
@@ -737,6 +776,7 @@ for($i=1 ; $i < count($bookings) ; $i++){
 
 .theme-switch__checkbox {
   display: none;
+ 
 }
 
 .theme-switch__circle-container {
