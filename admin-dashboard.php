@@ -23,7 +23,32 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$user) {
     die("Admin not found.");
 }
+
+// Fetch all feedbacks with room names
+$stmt = $pdo->prepare("
+    SELECT c.*, r.room_name, 
+           CASE 
+               WHEN c.user_role = 'student' THEN s.username 
+               WHEN c.user_role = 'teacher' THEN t.username 
+           END AS username
+    FROM comments c
+    LEFT JOIN rooms r ON c.room_id = r.id
+    LEFT JOIN students s ON c.user_id = s.student_id AND c.user_role = 'student'
+    LEFT JOIN teachers t ON c.user_id = t.teacher_id AND c.user_role = 'teacher'
+    ORDER BY c.created_at DESC
+");
+$stmt->execute();
+$feedbacks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
+<?php
+// Display success messages if they exist
+if (isset($_SESSION['success_message'])): ?>
+    <div class="success-message">
+        <?php echo $_SESSION['success_message']; unset($_SESSION['success_message']); ?>
+    </div>
+<?php endif; ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -35,6 +60,51 @@ if (!$user) {
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+
+/* Success Message Styling */
+.success-message {
+    margin: 20px 0; /* Space around the message */
+    padding: 15px; /* Inner spacing for the message */
+    background-color: #d4edda; /* Light green background */
+    border-left: 5px solid #28a745; /* Dark green border for emphasis */
+    color: #155724; /* Dark green text */
+    border-radius: 8px; /* Rounded corners */
+    font-size: 1rem; /* Adjust font size */
+    font-weight: bold; /* Make the text bold */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table th {
+    background-color: #1a73e8;
+    color: white;
+}
+
+table tr:hover {
+    background-color: #f1f1f1;
+}
+
+button {
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
          /* General styles */
          main {
             display: grid;
@@ -629,6 +699,44 @@ if (!$user) {
             </div>
         </div>
     </div>
+    <div class="container">
+    <h1>Feedback Management</h1>
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="background-color: #1a73e8; color: white;">
+                <th style="padding: 10px;">Room</th>
+                <th style="padding: 10px;">User</th>
+                <th style="padding: 10px;">Feedback</th>
+                <th style="padding: 10px;">Response</th>
+                <th style="padding: 10px;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($feedbacks as $feedback): ?>
+                <tr style="border-bottom: 1px solid #ddd;">
+                    <td style="padding: 10px;"><?php echo htmlspecialchars($feedback['room_name']); ?></td>
+                    <td style="padding: 10px;"><?php echo htmlspecialchars($feedback['username']); ?></td>
+                    <td style="padding: 10px;"><?php echo htmlspecialchars($feedback['comment_text']); ?></td>
+                    <td style="padding: 10px;"><?php echo $feedback['admin_response'] ? htmlspecialchars($feedback['admin_response']) : 'No response'; ?></td>
+                    <td style="padding: 10px;">
+                        <!-- Reply Form -->
+                        <form action="respond_comment.php" method="POST" style="display:inline;">
+                            <input type="hidden" name="comment_id" value="<?php echo $feedback['comment_id']; ?>">
+                            <input type="text" name="response" placeholder="Reply..." required>
+                            <button type="submit" style="background-color: #4caf50; color: white; padding: 5px 10px; border: none; border-radius: 5px;">Reply</button>
+                        </form>
+                        <!-- Delete Button -->
+                        <form action="delete_comment.php" method="POST" style="display:inline;">
+                            <input type="hidden" name="comment_id" value="<?php echo $feedback['comment_id']; ?>">
+                            <button type="submit" style="background-color: #e74c3c; color: white; padding: 5px 10px; border: none; border-radius: 5px;" onclick="return confirm('Are you sure you want to delete this feedback?');">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+
 </main>
 <!-- Footer -->
 <footer>

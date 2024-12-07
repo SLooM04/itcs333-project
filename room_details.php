@@ -169,6 +169,8 @@ $has_past_booking = $stmt->rowCount() > 0;
 
 
         /* Styling comments section container */
+        
+        
 .comments-section {
     margin-top: 40px;
     padding: 20px;
@@ -1137,32 +1139,35 @@ $has_past_booking = $stmt->rowCount() > 0;
  <div class="comments-section">
         <h2>Feedbacks</h2>
 
-        <!-- Fetch and Display Existing Feedbacks -->
-        <?php
-        $stmt = $pdo->prepare("
-            SELECT c.*, 
-                   CASE 
-                       WHEN c.user_role = 'student' THEN s.username 
-                       WHEN c.user_role = 'teacher' THEN t.username 
-                   END AS username
-            FROM comments c
-            LEFT JOIN students s ON c.user_id = s.student_id AND c.user_role = 'student'
-            LEFT JOIN teachers t ON c.user_id = t.teacher_id AND c.user_role = 'teacher'
-            WHERE c.room_id = :room_id
-            ORDER BY c.created_at DESC
-        ");
-        $stmt->execute([':room_id' => $room_id]);
-        $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+       <!-- Fetch and Display Existing Comments -->
+<div class="comments-section">
+    <?php foreach ($comments as $comment): ?>
+        <div class="comment" style="margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
+            <!-- Display Comment -->
+            <p><strong><?php echo htmlspecialchars($comment['username']); ?>:</strong></p>
+            <p><?php echo nl2br(htmlspecialchars($comment['comment_text'])); ?></p>
+            <p class="rating">
+                Rating: 
+                <?php
+                $filled_stars = $comment['rating'];
+                $empty_stars = 5 - $filled_stars;
+                echo str_repeat('<span style="color: gold;">★</span>', $filled_stars);
+                echo str_repeat('<span style="color: gray;">★</span>', $empty_stars);
+                ?>
+            </p>
+            <p><em>Posted on: <?php echo htmlspecialchars($comment['created_at']); ?></em></p>
 
-        foreach ($comments as $comment):
-        ?>
-            <div class="comment">
-                <p><strong><?php echo htmlspecialchars($comment['username']); ?>:</strong></p>
-                <p><?php echo htmlspecialchars($comment['comment_text']); ?></p>
-                <p class="rating">Rating: <?php echo str_repeat('★', $comment['rating']) . str_repeat('☆', 5 - $comment['rating']); ?></p>
-                <p><em>Posted on: <?php echo htmlspecialchars($comment['created_at']); ?></em></p>
-            </div>
-        <?php endforeach; ?>
+            <!-- Display Admin Response (If Available) -->
+            <?php if (!empty($comment['admin_response'])): ?>
+                <div class="admin-response" style="margin-top: 10px; padding: 10px; border-left: 4px solid #28a745; background-color: #eafbe7; border-radius: 5px;">
+                    <strong>Admin Reply:</strong>
+                    <p><?php echo nl2br(htmlspecialchars($comment['admin_response'])); ?></p>
+                </div>
+            <?php endif; ?>
+        </div>
+    <?php endforeach; ?>
+</div>
+
 
         <!-- Display Feedback Form Conditionally -->
         <?php if ($has_past_booking): ?>
