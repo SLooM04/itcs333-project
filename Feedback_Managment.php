@@ -640,7 +640,6 @@ button:hover {
         <nav class="nav-links">
             <a href="adminrooms.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'adminrooms.php' ? 'active' : ''; ?>">Rooms</a>
             <a href="admin-dashboard.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'admin-dashboard.php' ? 'active' : ''; ?>">Home</a>
-            <a href="feedback-management.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'feedback-management.php' ? 'active' : ''; ?>">feedbacks</a>
 
         </nav>
 
@@ -657,60 +656,6 @@ button:hover {
         </div>
     </header>
     <main>
-    
-
-
-    
-
-
-    <div class="container">
-        <h1>Admin Dashboard</h1>
-        <div class="sections">
-            <!-- Bookings Section -->
-            <div class="section">
-                <i class="fas fa-book"></i>
-                <p>Bookings</p>
-                <div class="options">
-                    <a href="admin-booking.php"><i class="fas fa-plus"></i> Add Booking</a>
-                    <a href="amin-cancel-dashboard.php"><i class="fas fa-times"></i> Cancel Booking</a>
-                    <a href="admin-block-booking.php"><i class="fas fa-ban"></i> Blocked Rooms</a>
-                </div>
-            </div>
-
-            <!-- Room Section -->
-            <div class="section">
-                <i class="fas fa-door-open"></i>
-                <p>Rooms</p>
-                <div class="options">
-                    <a href="add-room.php"><i class="fas fa-plus"></i> Add Room</a>
-                    <a href="edit-room.php"><i class="fas fa-edit"></i> Edit Room</a>
-                    <a href="delete-room.php"><i class="fas fa-trash"></i> Delete Room</a>
-                </div>
-            </div>
-
-            <!-- Student Section -->
-            <div class="section">
-                <i class="fas fa-user-graduate"></i>
-                <p>Students</p>
-                <div class="options">
-                    <a href="admin-addStudent.php"><i class="fas fa-plus"></i> Add Student</a>
-                    <a href="admin-editStudent.php"><i class="fas fa-edit"></i> Edit Student</a>
-                    <a href="admin-deleteStudent.php"><i class="fas fa-trash"></i> Delete Student</a>
-                </div>
-            </div>
-
-            <!-- Teacher Section -->
-            <div class="section">
-                <i class="fas fa-chalkboard-teacher"></i>
-                <p>Teachers</p>
-                <div class="options">
-                    <a href="admin-addTeacher.php"><i class="fas fa-plus"></i> Add Teacher</a>
-                    <a href="admin-editTeacher.php"><i class="fas fa-edit"></i> Edit Teacher</a>
-                    <a href="admin-deleteTeacher.php"><i class="fas fa-trash"></i> Delete Teacher</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Feedback Management -->
     <div class="container">
