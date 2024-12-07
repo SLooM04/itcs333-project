@@ -1141,32 +1141,40 @@ $has_past_booking = $stmt->rowCount() > 0;
 
        <!-- Fetch and Display Existing Comments -->
 <div class="comments-section">
-    <?php foreach ($comments as $comment): ?>
-        <div class="comment" style="margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
-            <!-- Display Comment -->
-            <p><strong><?php echo htmlspecialchars($comment['username']); ?>:</strong></p>
-            <p><?php echo nl2br(htmlspecialchars($comment['comment_text'])); ?></p>
-            <p class="rating">
-                Rating: 
-                <?php
-                $filled_stars = $comment['rating'];
-                $empty_stars = 5 - $filled_stars;
-                echo str_repeat('<span style="color: gold;">★</span>', $filled_stars);
-                echo str_repeat('<span style="color: gray;">★</span>', $empty_stars);
-                ?>
-            </p>
-            <p><em>Posted on: <?php echo htmlspecialchars($comment['created_at']); ?></em></p>
+    <?php if (empty($comments)): ?>
+        <!-- Display message if no comments -->
+        <p style="color: #888; font-size: 1.2em; text-align: center; margin: 20px 0;">
+            There is no Feedbacks, Be the First.
+        </p>
+    <?php else: ?>
+        <?php foreach ($comments as $comment): ?>
+            <div class="comment" style="margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
+                <!-- Display Comment -->
+                <p><strong><?php echo htmlspecialchars($comment['username']); ?>:</strong></p>
+                <p><?php echo nl2br(htmlspecialchars($comment['comment_text'])); ?></p>
+                <p class="rating">
+                    Rating: 
+                    <?php
+                    $filled_stars = $comment['rating'];
+                    $empty_stars = 5 - $filled_stars;
+                    echo str_repeat('<span style="color: gold;">★</span>', $filled_stars);
+                    echo str_repeat('<span style="color: gray;">★</span>', $empty_stars);
+                    ?>
+                </p>
+                <p><em>Posted on: <?php echo htmlspecialchars($comment['created_at']); ?></em></p>
 
-            <!-- Display Admin Response (If Available) -->
-            <?php if (!empty($comment['admin_response'])): ?>
-                <div class="admin-response" style="margin-top: 10px; padding: 10px; border-left: 4px solid #28a745; background-color: #eafbe7; border-radius: 5px;">
-                    <strong>Admin Reply:</strong>
-                    <p><?php echo nl2br(htmlspecialchars($comment['admin_response'])); ?></p>
-                </div>
-            <?php endif; ?>
-        </div>
-    <?php endforeach; ?>
+                <!-- Display Admin Response (If Available) -->
+                <?php if (!empty($comment['admin_response'])): ?>
+                    <div class="admin-response" style="margin-top: 10px; padding: 10px; border-left: 4px solid #28a745; background-color: #eafbe7; border-radius: 5px;">
+                        <strong>Admin Reply:</strong>
+                        <p><?php echo nl2br(htmlspecialchars($comment['admin_response'])); ?></p>
+                    </div>
+                <?php endif; ?>
+            </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
 </div>
+
 
 
         <!-- Display Feedback Form Conditionally -->
