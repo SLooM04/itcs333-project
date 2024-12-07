@@ -5,20 +5,18 @@ session_start();
 // Include the database connection file
 require 'db.php'; // This includes the db.php file
 
-// Check if room_type and room_number are provided in the URL
-if (isset($_GET['room_type'], $_GET['room_number'])) {
-    $roomType = $_GET['room_type'];
+// Check if room_number is provided in the URL
+if (isset($_GET['room_number'])) {
     $roomNumber = $_GET['room_number'];
 
-    // Construct the room_name (e.g., "Room 1048" or "Lab 1048")
-    $roomName = $roomType . ' ' . $roomNumber;
-
-    // Prepare the SQL query to search for the room by room_name
-    $sql = "SELECT id FROM rooms WHERE room_name = ? LIMIT 1";
+    // Prepare the SQL query to find whether the number corresponds to "Room" or "Lab"
+    $sql = "SELECT id, room_name 
+            FROM rooms 
+            WHERE room_name LIKE ? OR room_name LIKE ? LIMIT 1";
     
-    // Execute the query
+    // Execute the query with placeholders for "Room" and "Lab"
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$roomName]);
+    $stmt->execute(["Room $roomNumber", "Lab $roomNumber"]);
     $room = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($room) {
@@ -31,10 +29,10 @@ if (isset($_GET['room_type'], $_GET['room_number'])) {
             
             if (strpos($referrer, '/rooms.php') !== false) {
                 // Redirect to room_details.php
-                header("Location: room_details.php?id=" . $roomId);
-            } elseif (strpos($referrer, 'adminrooms.php') !== false) {
+                header("Location: room_details.php?id=$roomId");
+            } elseif (strpos($referrer, '/adminrooms.php') !== false) {
                 // Redirect to admin-room_details.php
-                header("Location: admin-room_details.php?id=" . $roomId);
+                header("Location: admin-room_details.php?id=$roomId");
             } else {
                 echo '<script>alert("Invalid referrer."); 
                 window.history.back(); </script>';
@@ -45,12 +43,12 @@ if (isset($_GET['room_type'], $_GET['room_number'])) {
         }
         exit();
     } else {
-        // If no room is found, show an alert and go back
-        echo '<script>alert("No room found matching that criteria."); 
+        // If no room or lab is found, show an alert and go back
+        echo '<script>alert("No room or lab found with this number."); 
         window.history.back(); </script>';
     }
 } else {
-    // If required parameters are missing, display an error
-    echo "Room type or room number not provided.";
+    // If room_number is missing, display an error
+    echo "Room number not provided.";
 }
 ?>

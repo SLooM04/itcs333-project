@@ -1355,11 +1355,7 @@ if (isset($_GET['room_type']) && isset($_GET['room_number'])) {
     </div>
 
     <form action="convert.php" method="GET" class="search">
-    <select name="room_type">
-        <option value="">Select Room Type</option>
-        <option value="Room" <?php echo isset($_GET['room_type']) && $_GET['room_type'] == 'Room' ? 'selected' : ''; ?>>Room</option>
-        <option value="Lab" <?php echo isset($_GET['room_type']) && $_GET['room_type'] == 'Lab' ? 'selected' : ''; ?>>Lab</option>
-    </select>
+    
     <input class="inputS"  type="text" name="room_number" placeholder="Enter Room Number" value="<?php echo isset($_GET['room_number']) ? htmlspecialchars($_GET['room_number']) : ''; ?>" />
     <button type="submit">Search</button>
   </form>
