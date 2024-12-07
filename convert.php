@@ -34,21 +34,20 @@ if (isset($_GET['room_number'])) {
                 // Redirect to admin-room_details.php
                 header("Location: admin-room_details.php?id=$roomId");
             } else {
-                echo '<script>alert("Invalid referrer."); 
-                window.history.back(); </script>';
+                header("Location: error.php?msg=Invalid referrer");
             }
         } else {
-            echo '<script>alert("Referrer not detected."); 
-            window.history.back(); </script>';
+            header("Location: error.php?msg=Referrer not detected");
         }
         exit();
     } else {
-        // If no room or lab is found, show an alert and go back
-        echo '<script>alert("No room or lab found with this number."); 
-        window.history.back(); </script>';
+        // If no room or lab is found, redirect to error page
+        header("Location: error.php?msg=No room or lab found with this number");
+        exit();
     }
 } else {
-    // If room_number is missing, display an error
-    echo "Room number not provided.";
+    // If room_number is missing, redirect to error page
+    header("Location: error.php?msg=Room number not provided");
+    exit();
 }
 ?>

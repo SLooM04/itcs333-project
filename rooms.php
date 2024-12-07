@@ -1355,10 +1355,29 @@ if (isset($_GET['room_type']) && isset($_GET['room_number'])) {
     </div>
 
     <form action="convert.php" method="GET" class="search">
-    
-    <input class="inputS"  type="text" name="room_number" placeholder="Enter Room Number" value="<?php echo isset($_GET['room_number']) ? htmlspecialchars($_GET['room_number']) : ''; ?>" />
+    <input 
+        class="inputS" 
+        type="text" 
+        name="room_number" 
+        placeholder="Enter Room Number" 
+        value="<?php echo isset($_GET['room_number']) ? htmlspecialchars($_GET['room_number']) : ''; ?>" 
+        pattern="\d{3,4}" 
+        title="Please enter a room number with 3 or 4 digits" 
+        required 
+        maxlength="4"
+    />
     <button type="submit">Search</button>
-  </form>
+</form>
+
+<script>
+    // Real-time validation to ensure only numbers are entered and length is limited to 4
+    document.querySelector('.inputS').addEventListener('input', function (e) {
+        const value = e.target.value;
+        if (!/^\d{0,4}$/.test(value)) {
+            e.target.value = value.slice(0, -1); // Remove invalid characters
+        }
+    });
+</script>
 
     <!-- Room Selection (Dynamic Content) -->
     <div id="rooms" class="rooms">
