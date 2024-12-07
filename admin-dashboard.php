@@ -63,17 +63,28 @@ if (isset($_SESSION['success_message'])): ?>
 
 /* Success Message Styling */
 .success-message {
-    margin: 20px 0; /* Space around the message */
-    padding: 15px; /* Inner spacing for the message */
-    background-color: #d4edda; /* Light green background */
-    border-left: 5px solid #28a745; /* Dark green border for emphasis */
-    color: #155724; /* Dark green text */
-    border-radius: 8px; /* Rounded corners */
-    font-size: 1rem; /* Adjust font size */
-    font-weight: bold; /* Make the text bold */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    margin: 20px 0; 
+    padding: 15px;
+    background-color: #d4edda; 
+    border-left: 5px solid #28a745; 
+    color: #155724; 
+    border-radius: 8px; 
+    font-size: 1rem; 
+    font-weight: bold; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
 
+/* Room name link */
+a {
+    color: #1e90ff; 
+    text-decoration: none; 
+    font-weight: bold; 
+}
+
+a:hover {
+    color: #87cefa; /* Lighter blue on hover */
+    text-decoration: underline; /* Underline on hover */
+}
 
 table {
     width: 100%;
@@ -699,6 +710,9 @@ button:hover {
             </div>
         </div>
     </div>
+
+    <!-- Feedback Management -->
+    <div class="container">
     <div class="container">
     <h1>Feedback Management</h1>
     <table style="width: 100%; border-collapse: collapse;">
@@ -714,7 +728,12 @@ button:hover {
         <tbody>
             <?php foreach ($feedbacks as $feedback): ?>
                 <tr style="border-bottom: 1px solid #ddd;">
-                    <td style="padding: 10px;"><?php echo htmlspecialchars($feedback['room_name']); ?></td>
+                    <!-- Room name as a clickable link -->
+                    <td style="padding: 10px;">
+                        <a href="room_details.php?id=<?php echo $feedback['room_id']; ?>" style="color: #1e90ff; text-decoration: none;">
+                            <?php echo htmlspecialchars($feedback['room_name']); ?>
+                        </a>
+                    </td>
                     <td style="padding: 10px;"><?php echo htmlspecialchars($feedback['username']); ?></td>
                     <td style="padding: 10px;"><?php echo htmlspecialchars($feedback['comment_text']); ?></td>
                     <td style="padding: 10px;"><?php echo $feedback['admin_response'] ? htmlspecialchars($feedback['admin_response']) : 'No response'; ?></td>
