@@ -629,6 +629,7 @@ button:hover {
         <nav class="nav-links">
             <a href="adminrooms.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'adminrooms.php' ? 'active' : ''; ?>">Rooms</a>
             <a href="admin-dashboard.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'admin-dashboard.php' ? 'active' : ''; ?>">Home</a>
+            <a href="feedback-management.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'feedback-management.php' ? 'active' : ''; ?>">feedbacks</a>
 
         </nav>
 

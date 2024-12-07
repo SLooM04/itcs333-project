@@ -85,9 +85,9 @@ if (isset($_GET['room_type']) && isset($_GET['room_number'])) {
     $stmt->execute([$roomSearch]);
     $room = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // If a room is found, redirect to room_details.php with the id in the URL
+    // If a room is found, redirect to asdmin-room_details.php with the id in the URL
     if ($room) {
-        header("Location: room_details.php?id=" . $room['id']);
+        header("Location: admin-room_details.php?id=" . $room['id']);
         exit();
     } else {
         echo "No room found matching that criteria.";
@@ -1070,6 +1070,8 @@ if (isset($_GET['room_type']) && isset($_GET['room_number'])) {
         <nav class="nav-links">
             <a href="adminrooms.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'adminrooms.php' ? 'active' : ''; ?>">Rooms</a>
             <a href="admin-dashboard.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'admin-dashboard.php' ? 'active' : ''; ?>">Home</a>
+            <a href="feedback-management.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'feedback-management.php' ? 'active' : ''; ?>">feedbacks</a>
+
         </nav>
 
 
@@ -1120,7 +1122,7 @@ if (isset($_GET['room_type']) && isset($_GET['room_number'])) {
     <?php if ($rooms): ?>
         <?php foreach ($rooms as $room): ?>
             <div class="room">
-                <a href="room_details.php?id=<?php echo htmlspecialchars($room['id']); ?>">
+                <a href="admin-room_details.php?id=<?php echo htmlspecialchars($room['id']); ?>">
                     <figure>
                         <?php if (!empty($room['image'])): ?>
                             <img src="RoomPic/<?php echo htmlspecialchars($room['image']); ?>" alt="<?php echo htmlspecialchars($room['room_name']); ?>">

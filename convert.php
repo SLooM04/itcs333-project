@@ -21,10 +21,10 @@ if (isset($_GET['room_type']) && isset($_GET['room_number'])) {
     $stmt->execute([$roomName]);
     $room = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // If a room is found, redirect to room_details.php with the room id in the URL
+    // If a room is found, redirect to admin-room_details.php with the room id in the URL
     if ($room) {
         $roomId = $room['id'];
-        header("Location: room_details.php?id=" . $roomId);
+        header("Location: admin-room_details.php?id=" . $roomId);
         exit();
     } else {
         echo '<script>alert("No room found matching that criteria."); 
