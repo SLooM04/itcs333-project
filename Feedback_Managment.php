@@ -677,7 +677,7 @@ button:hover {
                 <tr style="border-bottom: 1px solid #ddd;">
                     <!-- Room name as a clickable link -->
                     <td style="padding: 10px;">
-                        <a href="room_details.php?id=<?php echo $feedback['room_id']; ?>" style="color: #1e90ff; text-decoration: none;">
+                        <a href="admin-room_details.php?id=<?php echo $feedback['room_id']; ?>" style="color: #1e90ff; text-decoration: none;">
                             <?php echo htmlspecialchars($feedback['room_name']); ?>
                         </a>
                     </td>
