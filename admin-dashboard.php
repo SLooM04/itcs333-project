@@ -712,50 +712,6 @@ button:hover {
         </div>
     </div>
 
-    <!-- Feedback Management -->
-    <div class="container">
-    <div class="container">
-    <h1>Feedback Management</h1>
-    <table style="width: 100%; border-collapse: collapse;">
-        <thead>
-            <tr style="background-color: #1a73e8; color: white;">
-                <th style="padding: 10px;">Room</th>
-                <th style="padding: 10px;">User</th>
-                <th style="padding: 10px;">Feedback</th>
-                <th style="padding: 10px;">Response</th>
-                <th style="padding: 10px;">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($feedbacks as $feedback): ?>
-                <tr style="border-bottom: 1px solid #ddd;">
-                    <!-- Room name as a clickable link -->
-                    <td style="padding: 10px;">
-                        <a href="room_details.php?id=<?php echo $feedback['room_id']; ?>" style="color: #1e90ff; text-decoration: none;">
-                            <?php echo htmlspecialchars($feedback['room_name']); ?>
-                        </a>
-                    </td>
-                    <td style="padding: 10px;"><?php echo htmlspecialchars($feedback['username']); ?></td>
-                    <td style="padding: 10px;"><?php echo htmlspecialchars($feedback['comment_text']); ?></td>
-                    <td style="padding: 10px;"><?php echo $feedback['admin_response'] ? htmlspecialchars($feedback['admin_response']) : 'No response'; ?></td>
-                    <td style="padding: 10px;">
-                        <!-- Reply Form -->
-                        <form action="respond_comment.php" method="POST" style="display:inline;">
-                            <input type="hidden" name="comment_id" value="<?php echo $feedback['comment_id']; ?>">
-                            <input type="text" name="response" placeholder="Reply..." required>
-                            <button type="submit" style="background-color: #4caf50; color: white; padding: 5px 10px; border: none; border-radius: 5px;">Reply</button>
-                        </form>
-                        <!-- Delete Button -->
-                        <form action="delete_comment.php" method="POST" style="display:inline;">
-                            <input type="hidden" name="comment_id" value="<?php echo $feedback['comment_id']; ?>">
-                            <button type="submit" style="background-color: #e74c3c; color: white; padding: 5px 10px; border: none; border-radius: 5px;" onclick="return confirm('Are you sure you want to delete this feedback?');">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-</div>
 
 </main>
 <!-- Footer -->
