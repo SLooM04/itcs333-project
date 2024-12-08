@@ -1,5 +1,5 @@
 <?php
-// معالجة طلب البحث
+// Handling the search request
 $bookings = [];
 $message = '';
 
@@ -7,7 +7,7 @@ if (isset($_POST['search'])) {
     $user_type = $_POST['user_type'];
     $user_id = $_POST['user_id'];
 
-    // استعلام لجلب الحجوزات بناءً على نوع المستخدم والمعرف
+    // Query to fetch bookings based on user type and ID
     if ($user_type == 'teacher') {
         $query = "SELECT * FROM bookings WHERE teacher_id = ?";
     } elseif ($user_type == 'student') {
@@ -30,7 +30,7 @@ if (isset($_POST['search'])) {
     }
 }
 
-// إلغاء الحجز
+// Cancel booking
 if (isset($_GET['cancel_booking_id'])) {
     $cancel_booking_id = $_GET['cancel_booking_id'];
 
