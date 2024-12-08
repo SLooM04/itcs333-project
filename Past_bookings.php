@@ -68,11 +68,11 @@ try{
 }catch(PDOException $e){  
 }
 
-
-foreach($past_bookings as $bookings){
-    if($bookings['status'] != 'Cancelled')
-        $bookings['status'] = "Successful";
+for ($i=0 ; $i < count($past_bookings) ; $i++){
+    if($past_bookings[$i]['status'] != "Cancelled")
+        $past_bookings[$i]['status'] = "Successful";
 }
+
 ?>
 
 <!DOCTYPE html>
