@@ -82,10 +82,12 @@ else {
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.5.7/css/pico.min.css">
 
     <style>
+        /* Importing Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
         body {
             background-color: #c2c3c4;
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             display: flex;
             text-align: center;
             min-height: 100vh;
@@ -135,6 +137,7 @@ else {
         }
         .menu li:hover {
             background-color: #34495e;
+            text-decoration:none;
         }
         .menu li.active {
             background-color: #2980b9;
