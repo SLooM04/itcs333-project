@@ -779,7 +779,7 @@ if (isset($_GET['room_type']) && isset($_GET['room_number'])) {
             <a href="adminrooms.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'adminrooms.php' ? 'active' : ''; ?>">Rooms</a>
             <a href="admin-dashboard.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'admin-dashboard.php' ? 'active' : ''; ?>">Home</a>
             <a href="Feedback_Managment.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'Feedback_Managment.php' ? 'active' : ''; ?>">feedbacks</a>
-
+            <a href="admin-support-page.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'admin-support-page.php' ? 'active' : ''; ?>">Support</a>
         </nav>
 
 
