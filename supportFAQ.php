@@ -734,10 +734,8 @@ $username = $_SESSION['username'] ?? 'User';
                 <div id="collapseAccount" class="accordion-collapse collapse" aria-labelledby="headingAccount" data-bs-parent="#faqAccordion">
                     <div class="accordion-body">
                         <p><strong>How do I register?</strong></p>
-                        <p>Visit the registration page, fill out the required fields, and ensure you use your UoB email for validation. A confirmation email will be sent upon successful registration.</p>
+                        <p>Visit the registration page, fill out the required fields, and ensure you use your UoB email for validation.</p>
 
-                        <p><strong>I forgot my password. What should I do?</strong></p>
-                        <p>Use the "Forgot Password" link on the login page to reset your password. Follow the instructions sent to your registered email.</p>
                     </div>
                 </div>
             </div>
@@ -754,8 +752,14 @@ $username = $_SESSION['username'] ?? 'User';
                         <p><strong>How do I book a room?</strong></p>
                         <p>Navigate to the room browsing page, select a room, choose an available timeslot, and confirm your booking. You will receive a confirmation notification.</p>
 
+                        <p><strong>What is the Booking Credit?</strong></p>
+                        <p>The booking credit system is designed to manage room bookings efficiently:
+                        <br><br>•	Students: Each student receives 10 booking credits per month. Each booking reduces the credit by 1. The credits are renewed at the beginning of every month.
+	                    <br><br>•	Teachers: Each teacher receives 30 booking credits per month. Similarly, each booking reduces the credit by 1, and the credits are renewed monthly.
+                        <br><br>This system ensures fair and organized access to room bookings.</p>
+
                         <p><strong>Can I cancel a booking?</strong></p>
-                        <p>Yes, you can cancel a booking from your user dashboard under "Upcoming Bookings". Please note that cancellations must be made at least 24 hours in advance.</p>
+                        <p>Yes, you can cancel a booking from your user dashboard under "Upcoming Bookings".</p>
                     </div>
                 </div>
             </div>
