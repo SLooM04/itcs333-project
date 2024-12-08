@@ -1,3 +1,51 @@
+<?php
+// معالجة طلب البحث
+$bookings = [];
+$message = '';
+
+if (isset($_POST['search'])) {
+    $user_type = $_POST['user_type'];
+    $user_id = $_POST['user_id'];
+
+    // استعلام لجلب الحجوزات بناءً على نوع المستخدم والمعرف
+    if ($user_type == 'teacher') {
+        $query = "SELECT * FROM bookings WHERE teacher_id = ?";
+    } elseif ($user_type == 'student') {
+        $query = "SELECT * FROM bookings WHERE student_id = ?";
+    } else {
+        $message = "Please select a valid user type.";
+    }
+
+    if (empty($message)) {
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+            $bookings[] = $row;
+        }
+
+        $stmt->close();
+    }
+}
+
+// إلغاء الحجز
+if (isset($_GET['cancel_booking_id'])) {
+    $cancel_booking_id = $_GET['cancel_booking_id'];
+
+    $delete_query = "DELETE FROM bookings WHERE booking_id = ?";
+    $stmt = $conn->prepare($delete_query);
+    $stmt->bind_param("i", $cancel_booking_id);
+    if ($stmt->execute()) {
+        $message = "Booking canceled successfully.";
+    } else {
+        $message = "Error canceling booking.";
+    }
+    $stmt->close();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,7 +70,7 @@
         }
         h1 {
             text-align: center;
-            color: #4a90e2; /* Updated color */
+            color: #4a90e2;
             margin-bottom: 20px;
         }
         form {
@@ -43,18 +91,18 @@
             border-radius: 5px;
         }
         form input:focus, form select:focus {
-            outline-color: #4a90e2; /* Updated color */
-            border-color: #4a90e2; /* Updated color */
+            outline-color: #4a90e2;
+            border-color: #4a90e2;
         }
         button {
-            background-color: #4a90e2; /* Updated color */
+            background-color: #4a90e2;
             color: white;
             border: none;
             cursor: pointer;
             font-size: 1.1em;
         }
         button:hover {
-            background-color: #357ab7; /* Updated hover color */
+            background-color: #357ab7;
         }
         table {
             width: 100%;
@@ -69,16 +117,16 @@
             text-align: center;
         }
         th {
-            background-color: #4a90e2; /* Updated color */
+            background-color: #4a90e2;
             color: white;
         }
         a {
-            color: #4a90e2; /* Updated color */
+            color: #4a90e2;
             text-decoration: none;
             font-weight: bold;
         }
         a:hover {
-            color: #357ab7; /* Updated hover color */
+            color: #357ab7;
         }
         .error-message {
             color: red;
@@ -119,6 +167,7 @@
                         <th>Room Name</th>
                         <th>Start Time</th>
                         <th>End Time</th>
+                        <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -129,6 +178,7 @@
                             <td><?php echo $booking['room_name']; ?></td>
                             <td><?php echo $booking['start_time']; ?></td>
                             <td><?php echo $booking['end_time']; ?></td>
+                            <td><?php echo $booking['status']; ?></td>
                             <td>
                                 <a href="cancel_booking.php?cancel_booking_id=<?php echo $booking['booking_id']; ?>" 
                                    onclick="return confirm('Are you sure you want to cancel this booking?')">Cancel Booking</a>
