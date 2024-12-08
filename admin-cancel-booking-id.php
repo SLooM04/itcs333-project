@@ -1,49 +1,93 @@
 <?php
+session_start();
+require 'db.php';
+
 // Handling the search request
 $bookings = [];
 $message = '';
 
-if (isset($_POST['search'])) {
-    $user_type = $_POST['user_type'];
-    $user_id = $_POST['user_id'];
+if(isset($_GET['user_id'])){
+    $user_id = $_GET['user_id'];
+    $user_type = $_GET['role'];
 
     // Query to fetch bookings based on user type and ID
     if ($user_type == 'teacher') {
-        $query = "SELECT * FROM bookings WHERE teacher_id = ?";
+        $query = "SELECT * FROM bookings WHERE teacher_id = :user_id AND start_time > NOW() AND Status != 'Cancelled' ORDER BY start_time ASC";
     } elseif ($user_type == 'student') {
-        $query = "SELECT * FROM bookings WHERE student_id = ?";
+        $query = "SELECT * FROM bookings WHERE teacher_id = :user_id AND start_time > NOW() AND Status != 'Cancelled' ORDER BY start_time ASC";
     } else {
         $message = "Please select a valid user type.";
     }
 
     if (empty($message)) {
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param("i", $user_id);
+        // Prepare the query
+        $stmt = $pdo->prepare($query);
+
+        // Bind the user_id parameter using PDO
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+
+        // Execute the statement
         $stmt->execute();
-        $result = $stmt->get_result();
 
-        while ($row = $result->fetch_assoc()) {
-            $bookings[] = $row;
-        }
+        // Fetch all results
+        $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $stmt->close();
+        // Close the statement
+        $stmt->closeCursor();
+    }
+
+}
+
+else if (isset($_POST['search'])) {
+    $user_type = $_POST['user_type'];
+    $user_id = $_POST['user_id'];
+
+    // Query to fetch bookings based on user type and ID
+    if ($user_type == 'teacher') {
+        $query = "SELECT * FROM bookings WHERE teacher_id = :user_id AND start_time > NOW() AND Status != 'Cancelled' ORDER BY start_time ASC";
+    } elseif ($user_type == 'student') {
+        $query = "SELECT * FROM bookings WHERE teacher_id = :user_id AND start_time > NOW() AND Status != 'Cancelled' ORDER BY start_time ASC";
+    } else {
+        $message = "Please select a valid user type.";
+    }
+
+    if (empty($message)) {
+        // Prepare the query
+        $stmt = $pdo->prepare($query);
+
+        // Bind the user_id parameter using PDO
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+
+        // Execute the statement
+        $stmt->execute();
+
+        // Fetch all results
+        $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Close the statement
+        $stmt->closeCursor();
     }
 }
 
 // Cancel booking
-if (isset($_GET['cancel_booking_id'])) {
-    $cancel_booking_id = $_GET['cancel_booking_id'];
+// if (isset($_GET['cancel_booking_id'])) {
+//     $cancel_booking_id = $_GET['cancel_booking_id'];
 
-    $delete_query = "DELETE FROM bookings WHERE booking_id = ?";
-    $stmt = $conn->prepare($delete_query);
-    $stmt->bind_param("i", $cancel_booking_id);
-    if ($stmt->execute()) {
-        $message = "Booking canceled successfully.";
-    } else {
-        $message = "Error canceling booking.";
-    }
-    $stmt->close();
-}
+//     $delete_query = "UPDATE bookings SET status = 'Cancelled' WHERE booking_id = :id";
+//     $stmt = $pdo->prepare($delete_query);
+
+//     // Bind the booking_id parameter using PDO
+//     $stmt->bindValue(':id', $cancel_booking_id, PDO::PARAM_INT);
+
+//     if ($stmt->execute()) {
+//         $message = "Booking canceled successfully.";
+//     } else {
+//         $message = "Error canceling booking.";
+//     }
+
+//     // Close the statement
+//     $stmt->closeCursor();
+// }
 ?>
 
 <!DOCTYPE html>
@@ -120,13 +164,14 @@ if (isset($_GET['cancel_booking_id'])) {
             background-color: #4a90e2;
             color: white;
         }
-        a {
+        .cancel {
             color: #4a90e2;
             text-decoration: none;
             font-weight: bold;
         }
-        a:hover {
+        .cancel:hover {
             color: #357ab7;
+            cursor: pointer;
         }
         .error-message {
             color: red;
@@ -179,14 +224,21 @@ if (isset($_GET['cancel_booking_id'])) {
                             <td><?php echo $booking['start_time']; ?></td>
                             <td><?php echo $booking['end_time']; ?></td>
                             <td><?php echo $booking['status']; ?></td>
-                            <td>
-                                <a href="cancel_booking.php?cancel_booking_id=<?php echo $booking['booking_id']; ?>" 
-                                   onclick="return confirm('Are you sure you want to cancel this booking?')">Cancel Booking</a>
-                            </td>
+                            <td class="cancel" onclick="confirmCancel(<?= $booking['booking_id']; ?>, <?= $user_id; ?>, '<?= $user_type; ?>')">Cancel</td>
                         </tr>
                     <?php } ?>
                 </tbody>
             </table>
+
+            <script>
+                function confirmCancel(bookingId,userId,role) {
+                    // Ask for confirmation
+                    if (confirm("Are you sure you want to cancel this booking?")) {
+                        // Send a request to cancel the booking
+                        window.location.href = "cancel_booking_admin.php?booking_id=" + bookingId + "&user_id=" + userId + "&role=" + role;
+                    }
+                }
+            </script>
         <?php } ?>
 
     </div>
