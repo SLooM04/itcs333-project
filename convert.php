@@ -5,34 +5,49 @@ session_start();
 // Include the database connection file
 require 'db.php'; // This includes the db.php file
 
-// Check if room_type and room_number are provided in the URL
-if (isset($_GET['room_type']) && isset($_GET['room_number'])) {
-    $roomType = $_GET['room_type'];
+// Check if room_number is provided in the URL
+if (isset($_GET['room_number'])) {
     $roomNumber = $_GET['room_number'];
 
-    // Construct the room_name (e.g., "Room 1048" or "Lab 1048")
-    $roomName = $roomType . ' ' . $roomNumber;
-
-    // Prepare the SQL query to search for the room by room_name
-    $sql = "SELECT id FROM rooms WHERE room_name = ? LIMIT 1";
+    // Prepare the SQL query to find whether the number corresponds to "Room" or "Lab"
+    $sql = "SELECT id, room_name 
+            FROM rooms 
+            WHERE room_name LIKE ? OR room_name LIKE ? LIMIT 1";
     
-    // Execute the query
+    // Execute the query with placeholders for "Room" and "Lab"
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$roomName]);
+    $stmt->execute(["Room $roomNumber", "Lab $roomNumber"]);
     $room = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // If a room is found, redirect to admin-room_details.php with the room id in the URL
     if ($room) {
+        // Get the room ID
         $roomId = $room['id'];
-        header("Location: admin-room_details.php?id=" . $roomId);
+
+        // Determine the source based on HTTP_REFERER
+        if (isset($_SERVER['HTTP_REFERER'])) {
+            $referrer = $_SERVER['HTTP_REFERER'];
+            
+            if (strpos($referrer, '/rooms.php') !== false) {
+                // Redirect to room_details.php
+                header("Location: room_details.php?id=$roomId");
+            } elseif (strpos($referrer, '/adminrooms.php') !== false) {
+                // Redirect to admin-room_details.php
+                header("Location: admin-room_details.php?id=$roomId");
+            } else {
+                header("Location: error.php?msg=Invalid referrer");
+            }
+        } else {
+            header("Location: error.php?msg=Referrer not detected");
+        }
         exit();
     } else {
-        echo '<script>alert("No room found matching that criteria."); 
-        window.history.back(); </script>';
-
+        // If no room or lab is found, redirect to error page
+        header("Location: error.php?msg=No room or lab found with this number");
+        exit();
     }
-} else { 
-    echo "Room type or room number not provided.";
-
+} else {
+    // If room_number is missing, redirect to error page
+    header("Location: error.php?msg=Room number not provided");
+    exit();
 }
 ?>

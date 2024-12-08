@@ -802,15 +802,31 @@ if (isset($_GET['room_type']) && isset($_GET['room_number'])) {
        <img src="uploads/downA.png" alt="down here" class="down">
       </div>
     
-  <form action="convert.php" method="GET" class="search">
-    <select name="room_type">
-        <option value="">Select Room Type</option>
-        <option value="Room" <?php echo isset($_GET['room_type']) && $_GET['room_type'] == 'Room' ? 'selected' : ''; ?>>Room</option>
-        <option value="Lab" <?php echo isset($_GET['room_type']) && $_GET['room_type'] == 'Lab' ? 'selected' : ''; ?>>Lab</option>
-    </select>
-    <input class="inputS" type="text" name="room_number" placeholder="Enter Room Number" value="<?php echo isset($_GET['room_number']) ? htmlspecialchars($_GET['room_number']) : ''; ?>" />
+      <form action="convert.php" method="GET" class="search">
+    <input 
+        class="inputS" 
+        type="text" 
+        name="room_number" 
+        placeholder="Enter Room Number" 
+        value="<?php echo isset($_GET['room_number']) ? htmlspecialchars($_GET['room_number']) : ''; ?>" 
+        pattern="\d{3,4}" 
+        title="Please enter a room number with 3 or 4 digits" 
+        required 
+        maxlength="4"
+    />
     <button type="submit">Search</button>
-  </form>
+</form>
+
+<script>
+    // Real-time validation to ensure only numbers are entered and length is limited to 4
+    document.querySelector('.inputS').addEventListener('input', function (e) {
+        const value = e.target.value;
+        if (!/^\d{0,4}$/.test(value)) {
+            e.target.value = value.slice(0, -1); // Remove invalid characters
+        }
+    });
+</script>
+
 
 
 
