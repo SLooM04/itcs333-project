@@ -13,22 +13,22 @@
             padding: 0;
         }
         .container {
-            max-width: 700px;
+            max-width: 600px;
             margin: 40px auto;
-            padding: 30px;
+            padding: 20px;
             background: #fff;
-            border-radius: 10px;
+            border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
         h1 {
             text-align: center;
-            color: #1a3d7c;
+            color: #4a90e2; /* Updated color */
             margin-bottom: 20px;
             font-size: 1.8em;
         }
         form label {
             display: block;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-size: 1.1em;
             color: #555;
         }
@@ -39,11 +39,11 @@
         form select,
         form button {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             margin-bottom: 20px;
             font-size: 1em;
             border: 1px solid #ccc;
-            border-radius: 8px;
+            border-radius: 5px;
             box-sizing: border-box;
         }
         form input[type="text"]:focus,
@@ -51,65 +51,64 @@
         form select:focus,
         form input[type="time"]:focus,
         form input[type="date"]:focus {
-            outline-color: #1a3d7c;
-            border-color: #1a3d7c;
+            outline-color: #4a90e2; /* Updated color */
+            border-color: #4a90e2; /* Updated color */
         }
         form button {
-            background-color: #1a3d7c;
+            background-color: #4a90e2; /* Updated color */
             color: white;
             border: none;
+            padding: 10px;
             cursor: pointer;
             font-size: 1.2em;
+            border-radius: 5px;
         }
         form button:hover {
-            background-color: #134a7f;
+            background-color: #357ab7; /* Updated hover color */
         }
         .form-section {
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
         .form-section:last-child {
             margin-bottom: 0;
         }
-        .form-group {
-            display: flex;
-            justify-content: space-between;
-            gap: 20px;
-        }
-        .form-group > div {
-            flex: 1;
-        }
-        .form-group label {
-            margin-bottom: 5px;
-        }
-        .form-group input,
-        .form-group select {
-            width: 100%;
-        }
     </style>
     <script>
-        // Function to toggle visibility of the start time and duration fields based on the selected date
-        function toggleTimeSelection() {
-            const start_date = document.getElementById('start_date').value;
-            const durationContainer = document.getElementById('duration_container');
-            const start_hourContainer = document.getElementById('start_hour_container');
+        // Toggle visibility of person ID field
+        function togglePersonInput() {
+            const personType = document.getElementById('person_type').value;
+            const personInputSection = document.getElementById('person_input_section');
 
-            if (start_date) {
-                durationContainer.style.display = "block";
+            if (personType) {
+                personInputSection.style.display = 'block';
             } else {
-                durationContainer.style.display = "none";
-                start_hourContainer.style.display = "none";
+                personInputSection.style.display = 'none';
             }
         }
 
-        // Function to display the start hour selection based on selected duration
+        // Toggle visibility of the start time and duration fields based on the selected date
+        function toggleTimeSelection() {
+            const startDate = document.getElementById('start_date').value;
+            const durationContainer = document.getElementById('duration_container');
+            const startHourContainer = document.getElementById('start_hour_container');
+
+            if (startDate) {
+                durationContainer.style.display = "block";
+            } else {
+                durationContainer.style.display = "none";
+                startHourContainer.style.display = "none";
+            }
+        }
+
+        // Display the start hour selection based on selected duration
         function toggleStartHour() {
             const duration = document.getElementById('duration').value;
-            const start_hourContainer = document.getElementById('start_hour_container');
+            const startHourContainer = document.getElementById('start_hour_container');
 
             if (duration) {
-                start_hourContainer.style.display = "block";
+                startHourContainer.style.display = "block";
             } else {
-                start_hourContainer.style.display = "none";
+                startHourContainer.style.display = "none";
             }
         }
     </script>
@@ -133,7 +132,7 @@
             </div>
 
             <div class="form-section" id="person_input_section" style="display:none;">
-                <label id="person_label">Person ID:</label>
+                <label for="person_id">Person ID:</label>
                 <input type="number" id="person_id" name="person_id">
             </div>
 

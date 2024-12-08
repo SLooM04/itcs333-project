@@ -2,11 +2,14 @@
 session_start();
 require 'db.php';
 
+$error = '';
+$success = '';
+$teacher = null;
 
+// Handle finding teacher
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['teacher_id'])) {
     $teacher_id = $_POST['teacher_id'];
 
-    
     $stmt = $pdo->prepare("SELECT * FROM teachers WHERE teacher_id = ?");
     $stmt->execute([$teacher_id]);
     $teacher = $stmt->fetch();
@@ -16,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['teacher_id'])) {
     }
 }
 
-
+// Handle updating teacher
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $teacher_id = $_POST['teacher_id'];
     $first_name = $_POST['first_name'];
@@ -26,7 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $department = $_POST['department'];
     $mobile = $_POST['mobile'];
 
-  
     $stmt = $pdo->prepare("UPDATE teachers SET first_name = ?, last_name = ?, email = ?, username = ?, department = ?, mobile = ?, updated_at = NOW() WHERE teacher_id = ?");
     $stmt->execute([$first_name, $last_name, $email, $username, $department, $mobile, $teacher_id]);
 
@@ -58,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
         }
         h1 {
             text-align: center;
-            color: #1a3d7c;
+            color: #4a90e2; /* Updated color */
         }
         form label {
             display: block;
@@ -74,15 +76,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
             border: 1px solid #ccc;
             border-radius: 5px;
         }
+        form input:focus {
+            outline-color: #4a90e2; /* Updated color */
+            border-color: #4a90e2; /* Updated color */
+        }
         form button {
-            background-color: #1a3d7c;
+            background-color: #4a90e2; /* Updated color */
             color: white;
             border: none;
             padding: 10px 20px;
             cursor: pointer;
         }
         form button:hover {
-            background-color: #134a7f;
+            background-color: #357ab7; /* Updated hover color */
         }
         .error {
             color: red;
@@ -98,42 +104,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     <div class="container">
         <h1>Edit Teacher</h1>
 
-        
-        <?php if (isset($error)): ?>
-            <p class="error"><?= $error ?></p>
+        <?php if ($error): ?>
+            <p class="error"><?= htmlspecialchars($error) ?></p>
         <?php endif; ?>
-        <?php if (isset($success)): ?>
-            <p class="success"><?= $success ?></p>
+        <?php if ($success): ?>
+            <p class="success"><?= htmlspecialchars($success) ?></p>
         <?php endif; ?>
 
-        
+        <!-- Form to find teacher -->
         <form method="POST">
             <label for="teacher_id">Enter Teacher ID:</label>
-            <input type="number" id="teacher_id" name="teacher_id" required>
+            <input type="number" id="teacher_id" name="teacher_id" placeholder="Enter teacher ID" required>
             <button type="submit">Find Teacher</button>
         </form>
 
-        <?php if (isset($teacher)): ?>
+        <!-- Form to edit teacher -->
+        <?php if ($teacher): ?>
             <form method="POST">
-                <input type="hidden" name="teacher_id" value="<?= $teacher['teacher_id'] ?>">
+                <input type="hidden" name="teacher_id" value="<?= htmlspecialchars($teacher['teacher_id']) ?>">
 
                 <label for="first_name">First Name:</label>
-                <input type="text" id="first_name" name="first_name" value="<?= $teacher['first_name'] ?>" required>
+                <input type="text" id="first_name" name="first_name" value="<?= htmlspecialchars($teacher['first_name']) ?>" required>
 
                 <label for="last_name">Last Name:</label>
-                <input type="text" id="last_name" name="last_name" value="<?= $teacher['last_name'] ?>" required>
+                <input type="text" id="last_name" name="last_name" value="<?= htmlspecialchars($teacher['last_name']) ?>" required>
 
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" value="<?= $teacher['email'] ?>" required>
+                <input type="email" id="email" name="email" value="<?= htmlspecialchars($teacher['email']) ?>" required>
 
                 <label for="username">Username:</label>
-                <input type="text" id="username" name="username" value="<?= $teacher['username'] ?>" required>
+                <input type="text" id="username" name="username" value="<?= htmlspecialchars($teacher['username']) ?>" required>
 
                 <label for="department">Department:</label>
-                <input type="text" id="department" name="department" value="<?= $teacher['department'] ?>" required>
+                <input type="text" id="department" name="department" value="<?= htmlspecialchars($teacher['department']) ?>" required>
 
                 <label for="mobile">Mobile:</label>
-                <input type="text" id="mobile" name="mobile" value="<?= $teacher['mobile'] ?>" required>
+                <input type="text" id="mobile" name="mobile" value="<?= htmlspecialchars($teacher['mobile']) ?>" required>
 
                 <button type="submit" name="update">Update Teacher</button>
             </form>

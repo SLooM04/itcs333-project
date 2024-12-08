@@ -1,46 +1,3 @@
-<?php
-session_start();
-require 'db.php';
-
-$bookings = [];
-$message = '';
-
-// Handle search and cancel booking actions
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['search'])) {
-    $user_type = $_POST['user_type'] ?? null;
-    $user_id = $_POST['user_id'] ?? null;
-
-    // Fetch bookings based on user type and ID
-    if ($user_type && $user_id) {
-        $column = ($user_type === 'teacher') ? 'teacher_id' : 'student_id';
-        $stmt = $pdo->prepare("SELECT b.id AS booking_id, r.id AS room_id, r.room_name, b.start_time, b.end_time
-                               FROM bookings b
-                               JOIN rooms r ON b.room_id = r.id
-                               WHERE b.$column = ?");
-        $stmt->execute([$user_id]);
-        $bookings = $stmt->fetchAll();
-
-        if (count($bookings) == 0) {
-            $message = "This $user_type with ID $user_id has no bookings.";
-        }
-    }
-}
-
-// Handle cancel booking action (after confirmation)
-if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['cancel_booking_id'])) {
-    $booking_id = $_GET['cancel_booking_id'];
-
-    // Delete the booking from the database
-    $stmt = $pdo->prepare("DELETE FROM bookings WHERE id = ?");
-    $stmt->execute([$booking_id]);
-
-    // Redirect after cancellation
-    header('Location: cancel_booking.php');
-    exit();
-}
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,18 +22,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['cancel_booking_id'])) {
         }
         h1 {
             text-align: center;
-            color: #1a3d7c;
+            color: #4a90e2; /* Updated color */
+            margin-bottom: 20px;
         }
-        form label, form input, table {
+        form {
+            margin-bottom: 30px;
+        }
+        form label {
+            font-size: 1.1em;
+            margin-bottom: 5px;
             display: block;
-            margin-bottom: 10px;
+            color: #555;
         }
-        form input[type="number"], form input[type="text"], form select {
-            padding: 10px;
+        form input, form select, button {
             width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
             font-size: 1em;
             border: 1px solid #ccc;
             border-radius: 5px;
+        }
+        form input:focus, form select:focus {
+            outline-color: #4a90e2; /* Updated color */
+            border-color: #4a90e2; /* Updated color */
+        }
+        button {
+            background-color: #4a90e2; /* Updated color */
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+        }
+        button:hover {
+            background-color: #357ab7; /* Updated hover color */
         }
         table {
             width: 100%;
@@ -87,19 +65,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['cancel_booking_id'])) {
             border: 1px solid #ccc;
         }
         th, td {
-            padding: 10px;
+            padding: 12px;
             text-align: center;
         }
-        button {
-            padding: 10px 20px;
-            background-color: #1a3d7c;
+        th {
+            background-color: #4a90e2; /* Updated color */
             color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
         }
-        button:hover {
-            background-color: #134a7f;
+        a {
+            color: #4a90e2; /* Updated color */
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            color: #357ab7; /* Updated hover color */
+        }
+        .error-message {
+            color: red;
+            font-size: 1em;
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -123,7 +107,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['cancel_booking_id'])) {
             <button type="submit" name="search">Search Bookings</button>
         </form>
 
-        <?php if (!empty($message)) { echo "<p style='color: red;'>$message</p>"; } ?>
+        <!-- Display Error or Success Message -->
+        <?php if (!empty($message)) { echo "<p class='error-message'>$message</p>"; } ?>
 
         <!-- Display Bookings Table if there are results -->
         <?php if (!empty($bookings)) { ?>
@@ -145,7 +130,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['cancel_booking_id'])) {
                             <td><?php echo $booking['start_time']; ?></td>
                             <td><?php echo $booking['end_time']; ?></td>
                             <td>
-                                <!-- Link to cancel booking -->
                                 <a href="cancel_booking.php?cancel_booking_id=<?php echo $booking['booking_id']; ?>" 
                                    onclick="return confirm('Are you sure you want to cancel this booking?')">Cancel Booking</a>
                             </td>

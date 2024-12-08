@@ -1,28 +1,3 @@
-<?php
-session_start();
-require 'db.php';
-
-$bookings = []; // To store the booking results
-
-// Check if the form is submitted
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['search'])) {
-    $room_id = $_POST['room_id'] ?? null;
-
-    // Query to fetch bookings based on the room ID
-    if ($room_id) {
-        $stmt = $pdo->prepare("SELECT * FROM bookings WHERE room_id = ?");
-        $stmt->execute([$room_id]);
-        $bookings = $stmt->fetchAll();
-
-        // Check if there are no bookings for the room
-        if (count($bookings) == 0) {
-            $message = "No bookings found for this room.";
-        }
-    }
-}
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,18 +22,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['search'])) {
         }
         h1 {
             text-align: center;
-            color: #1a3d7c;
+            color: #4a90e2; /* Updated color */
+            margin-bottom: 20px;
         }
-        form label, form input, table {
+        form label {
             display: block;
-            margin-bottom: 10px;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            color: #555;
         }
-        form input[type="number"] {
-            padding: 10px;
+        form input, button {
             width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
             font-size: 1em;
             border: 1px solid #ccc;
             border-radius: 5px;
+        }
+        form input:focus {
+            border-color: #4a90e2; /* Updated color */
+            outline-color: #4a90e2; /* Updated color */
+        }
+        button {
+            background-color: #4a90e2; /* Updated color */
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+        }
+        button:hover {
+            background-color: #357ab7; /* Updated hover color */
         }
         table {
             width: 100%;
@@ -69,19 +62,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['search'])) {
             border: 1px solid #ccc;
         }
         th, td {
-            padding: 10px;
+            padding: 12px;
             text-align: center;
         }
-        button {
-            padding: 10px 20px;
-            background-color: #1a3d7c;
+        th {
+            background-color: #4a90e2; /* Updated color */
             color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
         }
-        button:hover {
-            background-color: #134a7f;
+        a {
+            color: #4a90e2; /* Updated color */
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            color: #357ab7; /* Updated hover color */
+        }
+        .message {
+            font-size: 1em;
+            color: red;
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -91,12 +90,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['search'])) {
         <h1>Cancel Room Booking</h1>
         <form method="POST" action="">
             <label for="room_id">Room ID:</label>
-            <input type="number" id="room_id" name="room_id" required>
+            <input type="number" id="room_id" name="room_id" placeholder="Enter Room ID" required>
 
             <button type="submit" name="search">Search Bookings</button>
         </form>
 
-        <?php if (isset($message)) { echo "<p style='color: red;'>$message</p>"; } ?>
+        <?php if (isset($message)) { echo "<p class='message'>$message</p>"; } ?>
 
         <?php if (!empty($bookings)) { ?>
             <table>
@@ -113,13 +112,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['search'])) {
                 <tbody>
                     <?php foreach ($bookings as $booking) { ?>
                         <tr>
-                            <td><?php echo $booking['id']; ?></td>
-                            <td><?php echo $booking['room_id']; ?></td>
-                            <td><?php echo $booking['start_time']; ?></td>
-                            <td><?php echo $booking['end_time']; ?></td>
-                            <td><?php echo $booking['student_id'] ? 'Student ' . $booking['student_id'] : 'Teacher ' . $booking['teacher_id']; ?></td>
+                            <td><?php echo htmlspecialchars($booking['id']); ?></td>
+                            <td><?php echo htmlspecialchars($booking['room_id']); ?></td>
+                            <td><?php echo htmlspecialchars($booking['start_time']); ?></td>
+                            <td><?php echo htmlspecialchars($booking['end_time']); ?></td>
+                            <td><?php echo $booking['student_id'] 
+                                ? 'Student ' . htmlspecialchars($booking['student_id']) 
+                                : 'Teacher ' . htmlspecialchars($booking['teacher_id']); ?></td>
                             <td>
-                                <a href="cancel_booking.php?id=<?php echo $booking['id']; ?>" onclick="return confirm('Are you sure you want to cancel this booking?')">Cancel Booking</a>
+                                <a href="cancel_booking.php?id=<?php echo htmlspecialchars($booking['id']); ?>" 
+                                   onclick="return confirm('Are you sure you want to cancel this booking?')">Cancel Booking</a>
                             </td>
                         </tr>
                     <?php } ?>

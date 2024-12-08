@@ -1,110 +1,67 @@
-<?php
-session_start();
-require 'db.php';
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $id = $_POST['id'] ?? null;
-    $name = $_POST['name'] ?? null;
-    $capacity = $_POST['capacity'] ?? null;
-    $available_timeslot = $_POST['available_timeslot'] ?? null;
-    $equipment = $_POST['equipment'] ?? null;
-    $department = $_POST['department'] ?? null;
-
-    
-    $image = $_FILES['image']['name'] ?? null;
-    $thumbnail_2 = $_FILES['thumbnail_2']['name'] ?? null;
-    $thumbnail_3 = $_FILES['thumbnail_3']['name'] ?? null;
-    $thumbnail_4 = $_FILES['thumbnail_4']['name'] ?? null;
-
-  
-    $uploadDir = "uploads/";
-    if (!is_dir($uploadDir)) {
-        mkdir($uploadDir, 0777, true);
-    }
-    if ($image) {
-        move_uploaded_file($_FILES['image']['tmp_name'], $uploadDir . $image);
-    }
-    if ($thumbnail_2) {
-        move_uploaded_file($_FILES['thumbnail_2']['tmp_name'], $uploadDir . $thumbnail_2);
-    }
-    if ($thumbnail_3) {
-        move_uploaded_file($_FILES['thumbnail_3']['tmp_name'], $uploadDir . $thumbnail_3);
-    }
-    if ($thumbnail_4) {
-        move_uploaded_file($_FILES['thumbnail_4']['tmp_name'], $uploadDir . $thumbnail_4);
-    }
-
-    
-    if ($id && $name && $capacity && $available_timeslot && $equipment && $department) {
-        $stmt = $pdo->prepare("INSERT INTO rooms (id, room_name, capacity, available_timeslot, equipment, department, image, thumbnail_2, thumbnail_3, thumbnail_4) 
-                               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$id, $name, $capacity, $available_timeslot, $equipment, $department, $image, $thumbnail_2, $thumbnail_3, $thumbnail_4]);
-
-      
-        header('Location: admin_panel.php');
-        exit();
-    } else {
-        echo "Please fill all required fields.";
-    }
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Room</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f7f9fc;
             color: #333;
             margin: 0;
             padding: 0;
         }
         .container {
-            max-width: 600px;
+            max-width: 900px;
             margin: 40px auto;
-            padding: 20px;
+            padding: 30px;
             background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
         }
         h1 {
             text-align: center;
-            color: #1a3d7c;
+            color: #4a90e2;
+            font-size: 2.5em;
+            margin-bottom: 30px;
         }
         form label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 1.1em;
+            font-weight: bold;
             color: #555;
+            margin-bottom: 8px;
         }
-        form input[type="text"],
         form input[type="number"],
+        form input[type="text"],
         form input[type="file"],
-        form button {
+        button {
             width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
+            padding: 12px;
             font-size: 1em;
+            border-radius: 8px;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            margin-bottom: 15px;
         }
-        form button {
-            background-color: #1a3d7c;
+        form input[type="number"],
+        form input[type="text"],
+        form input[type="file"] {
+            background-color: #f0f2f5;
+        }
+        button {
+            background-color: #4a90e2;
             color: white;
             border: none;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
-        form button:hover {
-            background-color: #134a7f;
+        button:hover {
+            background-color: #357ab7;
         }
     </style>
 </head>
 <body>
-    <main class="container">
+    <div class="container">
         <h1>Add a New Room</h1>
         <form method="POST" enctype="multipart/form-data">
             <label for="id">Room ID:</label>
@@ -113,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <label for="name">Room Name:</label>
             <input type="text" id="name" name="name" required>
 
-            <label for="available_timeslot">Time:</label>
+            <label for="available_timeslot">Available Time:</label>
             <input type="text" id="available_timeslot" name="available_timeslot" required>
 
             <label for="capacity">Capacity:</label>
@@ -125,20 +82,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <label for="department">Department:</label>
             <input type="text" id="department" name="department" required>
 
-            <label for="image">Image 1:</label>
+            <label for="image">Main Image:</label>
             <input type="file" id="image" name="image">
 
-            <label for="thumbnail_2">Image 2:</label>
+            <label for="thumbnail_2">Thumbnail 2:</label>
             <input type="file" id="thumbnail_2" name="thumbnail_2">
 
-            <label for="thumbnail_3">Image 3:</label>
+            <label for="thumbnail_3">Thumbnail 3:</label>
             <input type="file" id="thumbnail_3" name="thumbnail_3">
 
-            <label for="thumbnail_4">Image 4:</label>
+            <label for="thumbnail_4">Thumbnail 4:</label>
             <input type="file" id="thumbnail_4" name="thumbnail_4">
 
-            <button type="submit" class="primary">Add Room</button>
+            <button type="submit">Add Room</button>
         </form>
-    </main>
+    </div>
 </body>
 </html>
