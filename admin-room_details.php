@@ -469,6 +469,8 @@ $has_past_booking = $stmt->rowCount() > 0;
             background-color: rgba(255, 255, 255, 0.1);
             border: 2px solid #ffffff;
             border-radius: 8px;
+            text-decoration: none;
+            color: white;
         }
 
        
@@ -1116,7 +1118,7 @@ $has_past_booking = $stmt->rowCount() > 0;
             <a href="adminrooms.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'adminrooms.php' ? 'active' : ''; ?>">Rooms</a>
             <a href="admin-dashboard.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'admin-dashboard.php' ? 'active' : ''; ?>">Home</a>
             <a href="Feedback_Managment.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'Feedback_Managment.php' ? 'active' : ''; ?>">feedbacks</a>
-
+            <a href="admin-support-page.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'admin-support-page.php' ? 'active' : ''; ?>">Support</a>
         </nav>
 
 
