@@ -54,13 +54,13 @@ $rooms = fetchRooms(); // Fetch all rooms
 
 try{
     if($userRole == 'student'){
-$sqlstmt = $pdo->prepare("SELECT * FROM bookings WHERE student_id = $userId AND end_time < CURDATE() OR student_id = $userId AND status = 'Cancelled' ORDER BY start_time ASC");
+$sqlstmt = $pdo->prepare("SELECT * FROM bookings WHERE student_id = $userId AND end_time < NOW() OR student_id = $userId AND status = 'Cancelled' ORDER BY start_time ASC");
 $sqlstmt->execute();
 $past_bookings = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
 $total = count($past_bookings);
     }
     else{
-        $sqlstmt = $pdo->prepare("SELECT * FROM bookings WHERE teacher_id = $userId AND end_time < CURDATE() OR teacher_id = $userId AND status = 'Cancelled' ORDER BY start_time ASC");
+        $sqlstmt = $pdo->prepare("SELECT * FROM bookings WHERE teacher_id = $userId AND end_time < NOW() OR teacher_id = $userId AND status = 'Cancelled' ORDER BY start_time ASC");
         $sqlstmt->execute();
         $past_bookings = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
         $total = count($past_bookings);
