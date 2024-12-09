@@ -91,7 +91,6 @@ else {
             font-family: 'Poppins', sans-serif;
             display: flex;
             text-align: center;
-            min-height: 100vh;
             overflow-x: hidden;
             min-height: 100%;
         }
@@ -140,7 +139,6 @@ else {
             width: 250px;
             background: linear-gradient(1deg, #1a73e8, #004db3 );  
             color: white;
-            height: 100vh;
             display: flex;
             flex-direction: column;
             min-height: 100%;

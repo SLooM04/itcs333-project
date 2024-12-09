@@ -802,6 +802,9 @@ for ($i =0 ; $i < count($bookings_number) ; $i++){
             .feature-box {
                 flex: 1 1 100%;
             }
+            .main-image{
+                width: 60%;
+            }
         }
 
         /* Footer Styles */
