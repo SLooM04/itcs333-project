@@ -30,15 +30,17 @@ if ($stmt->rowCount() === 0) {
 
 // Insert the comment
 $stmt = $pdo->prepare("
-    INSERT INTO comments (room_id, user_id, comment_text, rating) 
-    VALUES (:room_id, :user_id, :comment_text, :rating)
+    INSERT INTO comments (room_id, user_id, user_role, comment_text, rating) 
+    VALUES (:room_id, :user_id, :user_role, :comment_text, :rating)
 ");
 $stmt->execute([
     ':room_id' => $room_id,
     ':user_id' => $user_id,
+    ':user_role' => $_SESSION['role'], // Ensure the session has the correct role
     ':comment_text' => $comment_text,
     ':rating' => $rating
 ]);
+
 
 header("Location: room_details.php?id=$room_id");  // Redirect back to room details page
 exit();
