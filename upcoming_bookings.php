@@ -154,6 +154,7 @@ else {
             display: flex;
             align-items: center;
             color: #d0efff;
+            text-decoration:none;
         }
 
         .Container{
