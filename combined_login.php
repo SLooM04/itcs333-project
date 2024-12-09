@@ -9,6 +9,7 @@ session_start(); // Ensure session is started at the top of the file
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
   <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.5.7/css/pico.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" >
   <style>
   /* General styling */
   body {
@@ -205,10 +206,31 @@ session_start(); // Ensure session is started at the top of the file
         </div>
 
         <!-- Password -->
-        <div class="form-group" id="password-container">
-          <label for="login-password">Password</label>
-          <input type="password" id="login-password" name="password" placeholder="Enter your password" required>
-        </div>
+    <div class="form-group" id="password-container">
+      <label for="login-password">Password</label>
+      <div style="position: relative;">
+        <input type="password" id="login-password" name="password" placeholder="Enter your password" required style="width: 100%; padding-right: 40px;">
+        <span id="toggle-password" style="position: absolute; right: 10px; top: 40%; transform: translateY(-50%); cursor: pointer; color: #555;">
+          <i class="fa-solid fa-eye"></i>
+        </span>
+      </div>
+    </div>
+
+    <!-- Include JavaScript to toggle visibility -->
+    <script>
+      document.getElementById("toggle-password").addEventListener("click", function() {
+        const passwordField = document.getElementById("login-password");
+        const icon = this.querySelector("i");
+        const isPassword = passwordField.getAttribute("type") === "password";
+
+        // Toggle input type
+        passwordField.setAttribute("type", isPassword ? "text" : "password");
+
+        // Toggle icon
+        icon.classList.toggle("fa-eye");
+        icon.classList.toggle("fa-eye-slash");
+      });
+    </script>
 
         <!-- Submit Button -->
         <div id="submit-container">
