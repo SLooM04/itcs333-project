@@ -227,7 +227,7 @@ else {
         <div class="profile">
             <img src="<?= !empty($user['profile_picture']) ? htmlspecialchars($user['profile_picture']) : 'uploads/Temp-user-face.jpg' ?>" alt="Profile Picture" class="profile-image">
             <span> </span>            
-            <h3><?php echo htmlspecialchars($_SESSION['username']); ?></h3>
+            <a href="profile.php"><h3><?php echo htmlspecialchars($_SESSION['username']); ?></h3></a>
             <p><?php echo htmlspecialchars($_SESSION['role']); ?></p>
         </div>
             <div class="menu">

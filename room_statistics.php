@@ -130,10 +130,13 @@ $totalBookings = countTotal($bookings_number);
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.5.7/css/pico.min.css">
 
     <style>
+         /* Importing Google Fonts */
+         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
         body {
+            
             background-color: #f4f7f6;
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             display: flex;
             white-space: nowrap; 
             overflow-x: auto;    
@@ -141,7 +144,7 @@ $totalBookings = countTotal($bookings_number);
         }
         .sidebar {
             width: 15%;
-            background-color: #2c3e50;
+            background: linear-gradient(1deg, #1a73e8, #004db3 );  
             color: white;
             height: 100vh;
             display: flex;
@@ -174,6 +177,7 @@ $totalBookings = countTotal($bookings_number);
             word-wrap: break-word;
         }
         .menu li {
+            color: white;
             padding: 15px 20px;
             cursor: pointer;
             display: flex;
@@ -192,6 +196,10 @@ $totalBookings = countTotal($bookings_number);
         .menu li i {
             margin-right: 10px;
         }
+        .menu a {
+
+            color : #d0efff;
+            }
 
         .Container{
             margin-left: 1rem;
