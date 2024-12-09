@@ -93,6 +93,7 @@ else {
             text-align: center;
             min-height: 100vh;
             overflow-x: hidden;
+            min-height: 100%;
         }
 
 
@@ -142,6 +143,7 @@ else {
             height: 100vh;
             display: flex;
             flex-direction: column;
+            min-height: 100%;
         }
         .profile {
             text-align: center;
