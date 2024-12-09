@@ -1030,7 +1030,8 @@ $has_past_booking = $stmt->rowCount() > 0;
             </span>
             <div class="dropdown-content">
                 <?php if (isset($_SESSION['username'])): ?>
-            <a href="logout.php" class="logout-button" onclick="return confirm('Are you sure you want to log out?')">Logout</a>
+                    <a href="profile.php">My Profile</a>
+                    <a href="logout.php" class="logout-button" onclick="return confirm('Are you sure you want to log out?')">Logout</a>
            
                     <label class="theme-switch">
   <input id="themeToggle" type="checkbox" class="theme-switch__checkbox">
