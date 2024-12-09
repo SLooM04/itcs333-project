@@ -39,6 +39,16 @@ for($i=1 ; $i < count($bookings) ; $i++){
     }
 }
 
+
+if($userRole == 'student'){
+    $query = "UPDATE bookings SET status = 'Confirmed' WHERE student_id = :id AND end_time < NOW()";
+}
+else if($userRole == 'teacher'){
+    $query = "UPDATE bookings SET status = 'Confirmed' WHERE teacher_id = :id AND end_time < NOW()";
+}
+$updater = $pdo->prepare($query);
+$updater->execute([':id' => $userId]);
+
 ?>
 
 <!DOCTYPE html>
