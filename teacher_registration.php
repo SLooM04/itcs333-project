@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($_POST['email']);
     $username = trim($_POST['username']);
     $password = $_POST['password'];
-    $confirmPassword = $_POST['confirm_password'];
+    $confirmPassword = $_POST['confirm-password'];
     $department = $_POST['department'];
     $mobile = trim($_POST['mobile']);
 
@@ -119,6 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teacher Registration</title>
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.5.7/css/pico.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -361,17 +362,56 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="text" id="username" name="username" placeholder="Choose a username" required>
                 </div>
 
-                <!-- Password & Confirm Password -->
-                <div class="form-row">
-                    <div id="registration-password" class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" name="password" placeholder="Create a password" required>
-                    </div>
-                    <div id="registration-confirm-password" class="form-group">
-                        <label for="confirm_password">Confirm Password</label>
-                        <input type="password" id="confirm_password" name="confirm_password" placeholder="Re-enter your password" required>
+                <!-- Password Field -->
+                <div class="form-row" id="password-container">
+                <div id="registration-password" class="form-group">
+                    <label for="password">Password</label>
+                    <div style="position: relative;">
+                        <input type="password" id="password" name="password" placeholder="Create a password"  required />
+                        <span id="toggle-password" style="position: absolute; right: 10px; top: 40%; transform: translateY(-50%); cursor: pointer; color: #555;">
+                            <i class="fa-solid fa-eye"></i>
+                        </span>
                     </div>
                 </div>
+                
+
+                <!-- Confirm Password Field -->
+                <div class="form-group" id="confirm-password-container">
+                    <label for="confirm-password">Confirm Password</label>
+                    <div style="position: relative;">
+                        <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required />
+                        <span id="toggle-confirm-password" style="position: absolute; right: 10px; top: 40%; transform: translateY(-50%); cursor: pointer; color: #555;">
+                            <i class="fa-solid fa-eye"></i>
+                        </span>
+                    </div>
+                    </div>
+                </div>
+
+                <script>
+                    // Toggle visibility function
+                    function toggleVisibility(toggleId, inputId) {
+                        const toggleButton = document.getElementById(toggleId);
+                        const passwordField = document.getElementById(inputId);
+                        const icon = toggleButton.querySelector("i");
+                        const isPassword = passwordField.getAttribute("type") === "password";
+
+                        // Toggle input type
+                        passwordField.setAttribute("type", isPassword ? "text" : "password");
+
+                        // Toggle icon
+                        icon.classList.toggle("fa-eye");
+                        icon.classList.toggle("fa-eye-slash");
+                    }
+
+                    // Event listeners for password toggle buttons
+                    document.getElementById("toggle-password").addEventListener("click", function () {
+                        toggleVisibility("toggle-password", "password");
+                    });
+
+                    document.getElementById("toggle-confirm-password").addEventListener("click", function () {
+                        toggleVisibility("toggle-confirm-password", "confirm-password");
+                    });
+                </script>
 
                 <!-- Department -->
                 <div id="registration-department" class="form-group">
