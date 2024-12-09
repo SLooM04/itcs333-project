@@ -376,6 +376,7 @@ if (isset($_GET['room_type']) && isset($_GET['room_number'])) {
         }
 
         .dropdown-content {
+            
             display: none;
             position: absolute;
             top: 100%;
@@ -1248,6 +1249,7 @@ if (isset($_GET['room_type']) && isset($_GET['room_number'])) {
     <div class="dropdown-content">
         <?php if (isset($_SESSION['username'])): ?>
             <a href="profile.php">My Profile</a>
+            <a href="past_bookings.php">Past Bookings</a>
             <a href="logout.php" class="logout-button" onclick="return confirm('Are you sure you want to log out?')">Logout</a>
             <label class="theme-switch">
   <input id="themeToggle" type="checkbox" class="theme-switch__checkbox">

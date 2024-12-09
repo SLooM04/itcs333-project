@@ -94,6 +94,8 @@ else {
             overflow-x: hidden;
         }
 
+        
+
     
         .sidebar {
             width: 250px;

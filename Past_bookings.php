@@ -153,8 +153,8 @@ for ($i=0 ; $i < count($past_bookings) ; $i++){
         }
 
         .menu a {
-
-         color : #d0efff;
+            text-decoration: none;
+            color : #d0efff;
           }
 
 
@@ -213,7 +213,7 @@ for ($i=0 ; $i < count($past_bookings) ; $i++){
         }
         .feedback{
             text-align: center;
-            color: red;         
+            color: #2d96cf;         
             text-decoration: underline;  
             cursor: pointer;       
             font-weight: bold; 

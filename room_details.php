@@ -1188,6 +1188,7 @@ body.dark-mode .star-rating input:hover ~ label {
             <div class="dropdown-content">
                 <?php if (isset($_SESSION['username'])): ?>
                     <a href="profile.php">My Profile</a>
+                    <a href="past_bookings.php">Past Bookings</a>
                     <a href="logout.php" class="logout-button" onclick="return confirm('Are you sure you want to log out?')">Logout</a>
            
                     <label class="theme-switch">
