@@ -207,6 +207,8 @@ $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
         /* Styling comments section container */
+
+        
         
         
 .comments-section {
@@ -326,22 +328,161 @@ $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 .star-rating input {
-    display: none; /* Hide the radio buttons */
+    display: none; 
 }
 
 .star-rating label {
     font-size: 30px;
-    color: gray; /* Default color for stars */
+    color: gray; 
     cursor: pointer;
     transition: color 0.3s ease;
 }
 
 .star-rating input:checked ~ label {
-    color: gold; /* Gold color for selected stars */
+    color: gold; 
 }
 
 .star-rating input:hover ~ label {
-    color: gold; /* Gold on hover */
+    color: gold; 
+}
+
+/* Dark Mode Styles for Feedback and Comments */
+
+/* Feedback and Comments Section */
+body.dark-mode .comments-section {
+    background-color: #2e4156; 
+    color: #ffffff; 
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+}
+
+body.dark-mode .comments-section h2 {
+    color: #1e90ff; 
+    border-bottom: 2px solid #1e90ff;
+    padding-bottom: 5px;
+}
+
+/* Individual Comment Styling in Dark Mode */
+body.dark-mode .comment {
+    background-color: #3a4b61 !important; 
+    border: 1px solid #555; 
+    color: #ffffff; 
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+
+body.dark-mode .comment strong {
+    color: #ffffff; 
+}
+
+body.dark-mode .comment em {
+    color: #bbbbbb; 
+}
+
+
+/* Admin Response Styling in Dark Mode */
+
+body.dark-mode .admin-response {
+    background-color: #324c39 !important; 
+    border-left-color: #52c476 !important; 
+    color: #d1ffd9 !important; 
+}
+
+.admin-response {
+    margin-top: 15px;
+    padding: 10px;
+    border-left: 4px solid #28a745; 
+    background-color: #eafbe7; 
+    border-radius: 5px;
+    font-style: italic;
+    color: #333;
+}
+
+/* Dark Mode Styling for Admin Response */
+body.dark-mode .admin-response {
+    background-color: #324c39; 
+    border-left-color: #52c476; 
+    color: #d1ffd9; 
+}
+
+body.dark-mode .admin-response {
+    background-color: #2b4a3f; 
+    color: #ffffff; 
+    font-style: italic;
+    padding: 15px;
+    margin-top: 15px;
+    border-left: 5px solid #28a745; 
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
+}
+
+/* Star Rating Display */
+body.dark-mode .comment .rating {
+    color: #ffcc00; 
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+/* Comment Form */
+body.dark-mode .comment-form {
+    background-color: #4f5b66; 
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+    margin-top: 30px;
+}
+
+body.dark-mode .comment-form textarea {
+    background-color: #2e4156; 
+    color: #ffffff; 
+    border: 1px solid #555; 
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    resize: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+body.dark-mode .comment-form textarea:focus {
+    background-color: #1a2d42; 
+    border-color: #1e90ff; 
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
+}
+
+body.dark-mode .comment-form button {
+    background-color: #28a745; 
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+body.dark-mode .comment-form button:hover {
+    background-color: #1e7e34; 
+}
+
+/* Star Rating in Dark Mode */
+body.dark-mode .star-rating input:checked ~ label {
+    color: #f1c40f; 
+}
+
+body.dark-mode .star-rating label {
+    color: #bbb; 
+    font-size: 30px; 
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+body.dark-mode .star-rating input:hover ~ label {
+    color: #f1c40f; 
 }
 
         /* Basic Styles */
@@ -1032,7 +1173,7 @@ $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <nav class="nav-links">
             <a href="homelog.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'homelog.php' ? 'active' : ''; ?>">Home</a>
             <a href="rooms.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'rooms.php' ? 'active' : ''; ?>">Rooms</a>
-            <a href="upcoming_bookings.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'reservations.php' ? 'active' : ''; ?>">My Reservations</a>
+            <a href="reporting.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'reservations.php' ? 'active' : ''; ?>">My Reservations</a>
             <a href="supportFAQ.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'support.php' ? 'active' : ''; ?>">Support</a>
         </nav>
 
@@ -1152,7 +1293,7 @@ $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                 <div class="feature-box">
                     <div style="font-size: 30px;">📊</div>
-                    <a href="room_statistics.php?id=<?= htmlspecialchars($room_id) ?>"><h3 style="color: #000000"> Analytics</h3></a>
+                    <h3 style="color: #000000">Analytics</h3>
                     <p>
                         <strong style="color:#1a73e8">Total bookings</strong> <br><?php if(isset($bookings_number[$roomNum_bookings])) echo htmlspecialchars($bookings_number[$roomNum_bookings]['total_bookings']); else echo 0 ?><br> 
                         <strong style="color:#1a73e8">Rating</strong><br> <?php if(isset($bookings_number[$roomNum_bookings])){echo htmlspecialchars($bookings_number[$roomNum_bookings]['rating']);} else {echo 'No ratings';} ?>                     
