@@ -99,6 +99,39 @@ for ($i=0 ; $i < count($past_bookings) ; $i++){
             text-align: center;
         }
 
+        body.dark-mode{
+            background-color: #2e4156;
+        }
+
+        body.dark-mode .sidebar{
+            background: linear-gradient(1deg, #172047, #34417d);  
+            color: #d1d1d1;
+            box-shadow: 0 4px 8px rgba(100, 100, 100, 0.5);
+        }
+
+        body.dark-mode h1,
+        body.dark-mode h2,
+        body.dark-mode h3,
+        body.dark-mode p,
+        body.dark-mode a {
+            color: white;
+        }
+
+        body.dark-mode table th{
+            background: linear-gradient(1deg, #172047, #34417d);
+        }
+
+        body.dark-mode table tr{
+            background-color: #004a68;
+        }
+
+        body.dark-mode table tr:nth-child(even) {
+            background-color: #005a79;
+        }
+        body.dark-mode .feedback{
+            color: gray;
+        }
+
     
         .sidebar {
             width: 250px;
@@ -289,4 +322,30 @@ for ($i=0 ; $i < count($past_bookings) ; $i++){
         </p> -->
 
     </main>
+
+    <script>
+        // Handle theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        // Check for saved theme in localStorage
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-mode');
+            themeToggle.textContent = 'Light Mode';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+
+            // Update button text and save preference
+            if (body.classList.contains('dark-mode')) {
+                themeToggle.textContent = 'Light Mode';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeToggle.textContent = 'Dark Mode';
+                localStorage.setItem('theme', 'light');
+            }
+        });
+    </script>
 </body>
