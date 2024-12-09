@@ -192,23 +192,48 @@ if (isset($_POST['update']) && isset($room)) {
 
     <?php if (isset($room)): ?>
         <!-- Form to edit room details -->
-        <form method="POST" action="" enctype="multipart/form-data">
-            <input type="hidden" name="id" value="<?= $room['id'] ?>">
-            <input type="text" name="room_name" value="<?= $room['room_name'] ?>" required>
-            <input type="number" name="capacity" value="<?= $room['capacity'] ?>" required>
-            <input type="text" name="equipment" value="<?= $room['equipment'] ?>" required>
-            <input type="text" name="department" value="<?= $room['department'] ?>" required>
-            <input type="text" name="floor" value="<?= $room['floor'] ?>" required>
-            <label>Room Image (Optional):</label>
-            <input type="file" name="image">
-            <label>Thumbnail 2 (Optional):</label>
-            <input type="file" name="thumbnail_2">
-            <label>Thumbnail 3 (Optional):</label>
-            <input type="file" name="thumbnail_3">
-            <label>Thumbnail 4 (Optional):</label>
-            <input type="file" name="thumbnail_4">
-            <button type="submit" name="update">Update Room</button>
-        </form>
+<form method="POST" action="" enctype="multipart/form-data">
+
+<!-- Hidden field to pass Room ID -->
+<input type="hidden" name="id" value="<?= $room['id'] ?>">
+
+<!-- Room Name Field -->
+<label for="room_name">Room Name:</label>
+<input type="text" id="room_name" name="room_name" value="<?= $room['room_name'] ?>" required>
+
+<!-- Capacity Field -->
+<label for="capacity">Capacity:</label>
+<input type="number" id="capacity" name="capacity" value="<?= $room['capacity'] ?>" required>
+
+<!-- Equipment Field -->
+<label for="equipment">Equipment:</label>
+<input type="text" id="equipment" name="equipment" value="<?= $room['equipment'] ?>" required>
+
+<!-- Department Field -->
+<label for="department">Department:</label>
+<input type="text" id="department" name="department" value="<?= $room['department'] ?>" required>
+
+<!-- Floor Field -->
+<label for="floor">Floor:</label>
+<input type="text" id="floor" name="floor" value="<?= $room['floor'] ?>" required>
+
+<!-- Optional Image Upload Fields -->
+<label for="image">Room Image (Optional):</label>
+<input type="file" id="image" name="image">
+
+<label for="thumbnail_2">Thumbnail 2 (Optional):</label>
+<input type="file" id="thumbnail_2" name="thumbnail_2">
+
+<label for="thumbnail_3">Thumbnail 3 (Optional):</label>
+<input type="file" id="thumbnail_3" name="thumbnail_3">
+
+<label for="thumbnail_4">Thumbnail 4 (Optional):</label>
+<input type="file" id="thumbnail_4" name="thumbnail_4">
+
+<!-- Submit Button -->
+<button type="submit" name="update">Update Room</button>
+</form>
+
     <?php endif; ?>
 
     <!-- Button to go back to admin-dashboard.php, centered horizontally -->
