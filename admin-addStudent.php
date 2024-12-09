@@ -60,6 +60,43 @@
         button:hover {
             background-color: #357ab7;
         }
+
+         
+        .form-group {
+            flex: 1;
+            margin-right: 24px;
+        }
+
+        .form-group:last-child {
+            margin-right: 0;
+        }
+
+        .form-group label {
+            font-size: 1.1em;
+            color: #555;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 10px;
+            font-size: 0.9em;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 60%;
+            background-color: white;
+            color: #333;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #0061f2;
+            background-color: #f1faff;
+            outline: none;
+        }
     </style>
 </head>
 <body>
@@ -81,17 +118,36 @@
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
 
-            <label for="major">Major:</label>
-            <input type="text" id="major" name="major" required>
+            <div id="registration-major" class="form-group">
+                    <label for="major">Major</label>
+                    <select id="major" name="major" required>
+                        <option value="CY">Cybersecurity (CY)</option>
+                        <option value="CS">Computer Science (CS)</option>
+                        <option value="NE">Network Engineering (NE)</option>
+                        <option value="CE">Computer Engineering (CE)</option>
+                        <option value="SE">Software Engineering (SE)</option>
+                        <option value="IS">Information Systems (IS)</option>
+                        <option value="CC">Cloud Computing (CC)</option>
+                    </select>
+            </div>
 
             <label for="mobile">Mobile:</label>
             <input type="text" id="mobile" name="mobile" required>
-
-            <label for="year_joined">Year Joined:</label>
-            <input type="number" id="year_joined" name="year_joined" required>
+            <div id="registration-level" class="form-group">
+                    <label for="year">Level</label>
+                    <select id="level" name="level" required>
+                        <option value="Freshman">Freshman (1st Year)</option>
+                        <option value="Sophomore">Sophomore (2nd Year)</option>
+                        <option value="Junior">Junior (3rd Year)</option>
+                        <option value="Senior">Senior (last Year)</option>
+                        <option value="Post">Postgraduate</option>
+                    </select>
+            </div>
 
             <button type="submit">Add Student</button>
         </form>
+        <button style="margin-top:10px; padding:10px 20px;background-color:#b9c6d6;color:white;border:none;border-radius:5px;cursor:pointer;font-size:16px;" onclick="window.history.back()">Go Back</button>
+
     </div>
 </body>
 </html>

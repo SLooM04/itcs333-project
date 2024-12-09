@@ -95,6 +95,8 @@
             <input type="file" id="thumbnail_4" name="thumbnail_4">
 
             <button type="submit">Add Room</button>
+            <button style="margin-top:10px; padding:10px 20px;background-color:#b9c6d6;color:white;border:none;border-radius:5px;cursor:pointer;font-size:16px;" onclick="window.history.back(); return false;">Go Back</button>
+
         </form>
     </div>
 </body>

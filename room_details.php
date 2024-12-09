@@ -137,7 +137,7 @@ $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 //fetching total count for rooms and ratings
 $sqlstmt = $pdo->prepare("SELECT b.room_id, COUNT(*) AS total_bookings, 
 (SELECT AVG(c.rating) FROM comments c WHERE c.room_id = b.room_id) AS rating 
-    FROM bookings b GROUP BY b.room_id;");
+    FROM bookings b WHERE b.status != 'Cancelled' GROUP BY b.room_id;");
 $sqlstmt->execute();
 $bookings_number = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -151,95 +151,47 @@ for ($i =0 ; $i < count($bookings_number) ; $i++){
         }
     }
 
-// Check if the user has a past booking for the room
-$user_id = $_SESSION['user_id']; // Assuming user_id is stored in session after login
-$current_time = date('Y-m-d H:i:s'); // Current timestamp
+// Fetch user details and room details
+$user_id = $_SESSION['user_id'];
+$room_id = $_GET['id'];  // Assuming the room ID is passed as a GET parameter
 
+// Check if the user has a past booking for the room
 $stmt = $pdo->prepare("
     SELECT * FROM bookings 
-    WHERE room_id = :room_id AND 
-          (student_id = :user_id OR teacher_id = :user_id) AND 
-          end_time < :current_time AND 
-          status = 'Confirmed'
+    WHERE room_id = :room_id 
+      AND (student_id = :user_id OR teacher_id = :user_id) 
+      AND end_time < NOW() 
+      AND status IN ('Confirmed', 'Successful')
 ");
 $stmt->execute([
     ':room_id' => $room_id,
-    ':user_id' => $user_id,
-    ':current_time' => $current_time
+    ':user_id' => $user_id
 ]);
 
 $has_past_booking = $stmt->rowCount() > 0;
 
 
-
 ?>
+
 <?php
-if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
-    $userId = $_SESSION['user_id'];
-    $role = $_SESSION['role']; // 'student' or 'teacher'
+// Fetch room_id from the URL
+$room_id = $_GET['id'];  // Get room_id from the URL
 
-    if ($role === 'student') {
-        // Fetch the booking credits for the student
-        $sql = "SELECT booking_credit FROM students WHERE student_id = ?";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$userId]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        // Check if the student was found
-        if ($user) {
-            $credits = $user['booking_credit']; // Get the number of credits
-        } else {
-            $credits = 0; // Default to 0 if no student found
-        }
-    } elseif ($role === 'teacher') {
-        // Fetch the booking credits for the teacher
-        $sql = "SELECT booking_credit FROM teachers WHERE teacher_id = ?";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$userId]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        // Check if the teacher was found
-        if ($user) {
-            $credits = $user['booking_credit']; // Get the number of credits
-        } else {
-            $credits = 0; // Default to 0 if no teacher found
-        }
-    } else {
-        $credits = 0; // Default to 0 if no valid role found
-    }
-} else {
-    $credits = 0; // If no user is logged in
-}
-
-// Initialize variables
-$creditss = null;
-$message = '';
-$isStudent = false;
-$isTeacher = false; // Track if the user is a teacher
-
-// Check user role and fetch from appropriate table
-$userId = $_SESSION['user_id'];
-if ($role == 'student') {
-    $stmt = $pdo->prepare("SELECT * FROM students WHERE student_id = ?");
-} else {
-    $stmt = $pdo->prepare("SELECT * FROM teachers WHERE teacher_id = ?");
-}
-$stmt->execute([$userId]);
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-// Check if user exists in the database and set the role
-if ($user) {
-    $creditss = $user['booking_credit'];
-    if ($role == 'student') {
-        $isStudent = true;
-    } elseif ($role == 'teacher') {
-        $isTeacher = true;
-    }
-}
-
+// Fetch the comments for the current room
+$stmt = $pdo->prepare("
+    SELECT comments.*, 
+           CASE 
+               WHEN comments.user_role = 'student' THEN students.username
+               WHEN comments.user_role = 'teacher' THEN teachers.username
+           END AS username
+    FROM comments
+    LEFT JOIN students ON comments.user_id = students.student_id
+    LEFT JOIN teachers ON comments.user_id = teachers.teacher_id
+    WHERE comments.room_id = :room_id
+");
+$stmt->execute([':room_id' => $room_id]);
+$comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -255,6 +207,8 @@ if ($user) {
 
 
         /* Styling comments section container */
+
+        
         
         
 .comments-section {
@@ -374,22 +328,161 @@ if ($user) {
 }
 
 .star-rating input {
-    display: none; /* Hide the radio buttons */
+    display: none; 
 }
 
 .star-rating label {
     font-size: 30px;
-    color: gray; /* Default color for stars */
+    color: gray; 
     cursor: pointer;
     transition: color 0.3s ease;
 }
 
 .star-rating input:checked ~ label {
-    color: gold; /* Gold color for selected stars */
+    color: gold; 
 }
 
 .star-rating input:hover ~ label {
-    color: gold; /* Gold on hover */
+    color: gold; 
+}
+
+/* Dark Mode Styles for Feedback and Comments */
+
+/* Feedback and Comments Section */
+body.dark-mode .comments-section {
+    background-color: #2e4156; 
+    color: #ffffff; 
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+}
+
+body.dark-mode .comments-section h2 {
+    color: #1e90ff; 
+    border-bottom: 2px solid #1e90ff;
+    padding-bottom: 5px;
+}
+
+/* Individual Comment Styling in Dark Mode */
+body.dark-mode .comment {
+    background-color: #3a4b61 !important; 
+    border: 1px solid #555; 
+    color: #ffffff; 
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+
+body.dark-mode .comment strong {
+    color: #ffffff; 
+}
+
+body.dark-mode .comment em {
+    color: #bbbbbb; 
+}
+
+
+/* Admin Response Styling in Dark Mode */
+
+body.dark-mode .admin-response {
+    background-color: #324c39 ; 
+    border-left-color: #52c476; 
+    color: #d1ffd9 ; 
+}
+
+.admin-response {
+    margin-top: 15px;
+    padding: 10px;
+    border-left: 4px solid #28a745; 
+    background-color: #eafbe7; 
+    border-radius: 5px;
+    font-style: italic;
+    color: #333;
+}
+
+/* Dark Mode Styling for Admin Response */
+body.dark-mode .admin-response {
+    background-color: #324c39; 
+    border-left-color: #52c476; 
+    color: #d1ffd9; 
+}
+
+body.dark-mode .admin-response {
+    background-color: #2b4a3f; 
+    color: #ffffff; 
+    font-style: italic;
+    padding: 15px;
+    margin-top: 15px;
+    border-left: 5px solid #28a745; 
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
+}
+
+/* Star Rating Display */
+body.dark-mode .comment .rating {
+    color: #ffcc00; 
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+/* Comment Form */
+body.dark-mode .comment-form {
+    background-color: #4f5b66; 
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+    margin-top: 30px;
+}
+
+body.dark-mode .comment-form textarea {
+    background-color: #2e4156; 
+    color: #ffffff; 
+    border: 1px solid #555; 
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    resize: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+body.dark-mode .comment-form textarea:focus {
+    background-color: #1a2d42; 
+    border-color: #1e90ff; 
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
+}
+
+body.dark-mode .comment-form button {
+    background-color: #28a745; 
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+body.dark-mode .comment-form button:hover {
+    background-color: #1e7e34; 
+}
+
+/* Star Rating in Dark Mode */
+body.dark-mode .star-rating input:checked ~ label {
+    color: #f1c40f; 
+}
+
+body.dark-mode .star-rating label {
+    color: #bbb; 
+    font-size: 30px; 
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+body.dark-mode .star-rating input:hover ~ label {
+    color: #f1c40f; 
 }
 
         /* Basic Styles */
@@ -1063,33 +1156,6 @@ if ($user) {
   transform: translateY(-50%);
 }
 
-.credit-msg {
-
-    font-size: 15px;
-    float: right;
-
-}
-.credit-cost {
-    background-color: #ddd;
-  font-size: 30px;
-  float: left;
-  color: #e0645b;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5), 0 0 15px rgba(224, 100, 91, 0.7); /* Shadow for depth and glow effect */
-  font-family: 'Roboto', sans-serif;
-  border-radius: 10%; /* Rounded corners */
-  padding: 20px;
-  width: 70px; /* Adjust width */
-  height: 20px; /* Adjust height */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.credits-value {
-    color: #8e702c; /* Change to the color you want */
-    font-weight: bold; /* Optional: Make the credit value bold */
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Optional: Add a shadow effect */
-}
 
     </style>
 </head>
@@ -1107,7 +1173,7 @@ if ($user) {
         <nav class="nav-links">
             <a href="homelog.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'homelog.php' ? 'active' : ''; ?>">Home</a>
             <a href="rooms.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'rooms.php' ? 'active' : ''; ?>">Rooms</a>
-            <a href="reporting.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'reservations.php' ? 'active' : ''; ?>">My Reservations</a>
+            <a href="upcoming_bookings.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'reservations.php' ? 'active' : ''; ?>">My Reservations</a>
             <a href="supportFAQ.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'support.php' ? 'active' : ''; ?>">Support</a>
         </nav>
 
@@ -1122,10 +1188,7 @@ if ($user) {
             <div class="dropdown-content">
                 <?php if (isset($_SESSION['username'])): ?>
                     <a href="profile.php">My Profile</a>
-            <a href="credit-STU.php">Credit<span class="credits-value"><?php echo $credits; ?></span>   
-            <iframe src="coin.php" width="28" height="31" frameborder="0" scrolling="no" allowfullscreen ></iframe>
-            </a>
-            <a href="logout.php" class="logout-button" onclick="return confirm('Are you sure you want to log out?')">Logout</a>
+                    <a href="logout.php" class="logout-button" onclick="return confirm('Are you sure you want to log out?')">Logout</a>
            
                     <label class="theme-switch">
   <input id="themeToggle" type="checkbox" class="theme-switch__checkbox">
@@ -1230,10 +1293,10 @@ if ($user) {
 
                 <div class="feature-box">
                     <div style="font-size: 30px;">📊</div>
-                    <h3 style="color: #000000">Analytics</h3>
+                    <h3 style="color: #000000"><a href="room_statistics.php?id=<?= htmlspecialchars($room_id) ?>">Analytics</a></h3>
                     <p>
                         <strong style="color:#1a73e8">Total bookings</strong> <br><?php if(isset($bookings_number[$roomNum_bookings])) echo htmlspecialchars($bookings_number[$roomNum_bookings]['total_bookings']); else echo 0 ?><br> 
-                        <strong style="color:#1a73e8">Rating</strong><br> <?php if(isset($bookings_number[$roomNum_bookings])){echo htmlspecialchars($bookings_number[$roomNum_bookings]['rating']);} else {echo 'No ratings';} ?>                     
+                        <strong style="color:#1a73e8">Rating:</strong><br> <?php if(isset($bookings_number[$roomNum_bookings])){echo number_format($bookings_number[$roomNum_bookings]['rating'], 1) . "/5";} else {echo 'No ratings';} ?>                     
                     </p>
                 </div>
                 <div class="feature-box">
@@ -1243,26 +1306,8 @@ if ($user) {
     <input type="hidden" name="id" value="<?php echo $room['id']; ?>" />
     
     <?php if (isset($_SESSION['username'])): ?>
-        <?php if ($credits > 0): ?>
-            <button type="submit">
-                <div class="credit-cost">-1
-                    <iframe src="coin-Gray.php" width="28" height="31" frameborder="0" scrolling="no" allowfullscreen ></iframe>
-                </div> 
-                Book Now
-                <div class="credit-msg">Your Credit: <?php echo $credits; ?>
-                    <iframe src="coin.php" width="28" height="31" frameborder="0" scrolling="no" allowfullscreen ></iframe>
-                </div>
-            </button>
-        <?php else: ?>
-            <button type="button" disabled>Book Now</button>
-            <p style="color: red; font-size: 1.1em;">Your credit is empty!<iframe src="coin-Gray.php" width="28" height="31" frameborder="0" scrolling="no" allowfullscreen ></iframe></p>
-             
-          <!-- Dynamic link for students or teachers -->
-          <?php if ($isStudent): ?>
-           <a href="credit-STU.php" class="btn-book">Check Coin Status</a>
-         <?php elseif ($isTeacher): ?>
-           <a href="credit-TECH.php" class="btn-book">Check Coin Status</a>
-         <?php endif; ?>         <?php endif; ?>
+        <button type="submit">Book Now</button>
+              
 
 
     <?php else: ?>
@@ -1320,7 +1365,7 @@ if ($user) {
         <!-- Display Feedback Form Conditionally -->
         <?php if ($has_past_booking): ?>
             <div class="comment-form">
-    <h3>Leave your Feedback</h3>
+    <h3 id= strval($room_id)>Leave your Feedback</h3>
     <form action="add_comment.php" method="POST">
         <input type="hidden" name="room_id" value="<?php echo $room_id; ?>">
         <textarea name="comment_text" placeholder="Write your Feedback here.." required></textarea>

@@ -1,10 +1,25 @@
 <?php
 session_start();
-require 'db.php';
+require 'db.php'; // Include the DB connection file
+
 // Check if the user is logged in
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     header("Location: combined_login.php");
     exit();
+}
+
+
+
+
+// Fetch admin details from the database based on the session user ID
+$userId = $_SESSION['user_id'];
+$stmt = $pdo->prepare("SELECT * FROM admins WHERE id = ?");
+$stmt->execute([$userId]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Check if the admin exists in the database
+if (!$user) {
+    die("Admin not found.");
 }
 
 // Get user details from session
@@ -13,9 +28,7 @@ $userRole = $_SESSION['role']; // 'student' or 'teacher'
 
 if ($userRole == 'student') {
     $stmt = $pdo->prepare("SELECT * FROM students WHERE student_id = ?");
-} else {
-    $stmt = $pdo->prepare("SELECT * FROM teachers WHERE teacher_id = ?");
-}
+} 
 $stmt->execute([$userId]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 

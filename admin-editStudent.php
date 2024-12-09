@@ -44,9 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Student</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+      body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f7f9fc;
             color: #333;
             margin: 0;
             padding: 0;
@@ -65,11 +65,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
             margin-bottom: 20px;
         }
         form label {
-            display: block;
-            font-size: 1.1em;
-            margin-bottom: 8px;
-            color: #555;
-        }
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 8px;
+    text-align: left; /* Aligns text to the left */
+    display: block;   /* Ensures label occupies full width for proper alignment */
+}
         form input, button {
             width: 100%;
             padding: 12px;
@@ -101,6 +102,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
             color: green;
             margin-top: 20px;
         }
+
+        
+        .form-group {
+            flex: 1;
+            margin-right: 24px;
+            text-align: left;
+        }
+
+        .form-group:last-child {
+            margin-right: 0;
+        }
+
+        .form-group label {
+            font-size: 1.1em;
+            color: #555;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 10px;
+            font-size: 0.9em;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 60%;
+            background-color: white;
+            color: #333;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #0061f2;
+            background-color: #f1faff;
+            outline: none;
+        }
     </style>
 </head>
 <body>
@@ -119,6 +158,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
             <label for="student_id">Enter Student ID:</label>
             <input type="number" id="student_id" name="student_id" placeholder="Enter student ID" required>
             <button type="submit">Find Student</button>
+            <?php if (!$student): ?>
+        <button style="margin-top:10px; padding:10px 20px;background-color:#b9c6d6;color:white;border:none;border-radius:5px;cursor:pointer;font-size:16px;" onclick="window.history.back()">Go Back</button>
+    <?php endif; ?>
         </form>
 
         <!-- Form to edit student -->
@@ -138,16 +180,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" value="<?= htmlspecialchars($student['username']) ?>" required>
 
-                <label for="major">Major:</label>
-                <input type="text" id="major" name="major" value="<?= htmlspecialchars($student['major']) ?>" required>
-
+                <div id="registration-major" class="form-group">
+                <label for="major">Major</label>
+                <select id="major" name="major" required>
+                        <option value="CY">Cybersecurity (CY)</option>
+                        <option value="CS">Computer Science (CS)</option>
+                        <option value="NE">Network Engineering (NE)</option>
+                        <option value="CE">Computer Engineering (CE)</option>
+                        <option value="SE">Software Engineering (SE)</option>
+                        <option value="IS">Information Systems (IS)</option>
+                        <option value="CC">Cloud Computing (CC)</option>
+                </select>
+                
+                </div>
                 <label for="mobile">Mobile:</label>
                 <input type="text" id="mobile" name="mobile" value="<?= htmlspecialchars($student['mobile']) ?>" required>
 
-                <label for="year_joined">Year Joined:</label>
-                <input type="number" id="year_joined" name="year_joined" value="<?= htmlspecialchars($student['year_joined']) ?>" required>
-
                 <button type="submit" name="update" class="primary">Update Student</button>
+                <button style="margin-top:10px; padding:10px 20px;background-color:#b9c6d6;color:white;border:none;border-radius:5px;cursor:pointer;font-size:16px;" onclick="window.history.go(-2); return false;">Go Back</button>
+
             </form>
         <?php endif; ?>
     </main>

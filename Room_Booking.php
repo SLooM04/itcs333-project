@@ -443,6 +443,7 @@ a {
             icon: 'success',
             title: 'Success!',
             text: '<?php echo $success_message; ?>',
+            timer:"4000",
             confirmButtonText: 'OK'
         }).then(function() {
             window.location.href = 'upcoming_bookings.php';      

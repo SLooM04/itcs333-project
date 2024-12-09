@@ -53,7 +53,7 @@ $rooms = fetchRooms(); // Fetch all rooms
 try{
 if($userRole == 'student'){
 
-$sqlstmt = $pdo->prepare("SELECT * FROM bookings WHERE student_id = $userId AND start_time > NOW() AND Status != 'Cancelled' ORDER BY start_time ASC");
+$sqlstmt = $pdo->prepare("SELECT * FROM bookings WHERE student_id = $userId AND end_time > NOW() AND Status != 'Cancelled' ORDER BY start_time ASC");
 $sqlstmt->execute();
 $upcoming_bookings = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
 $total = count($upcoming_bookings);
@@ -61,7 +61,7 @@ $total = count($upcoming_bookings);
     }
 else {
     
-    $sqlstmt = $pdo->prepare("SELECT * FROM bookings WHERE teacher_id = $userId AND start_time > NOW() AND Status != 'Cancelled' ORDER BY start_time ASC");
+    $sqlstmt = $pdo->prepare("SELECT * FROM bookings WHERE teacher_id = $userId AND end_time > NOW() AND Status != 'Cancelled' ORDER BY start_time ASC");
     $sqlstmt->execute();
     $upcoming_bookings = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
     $total = count($upcoming_bookings);
@@ -85,7 +85,7 @@ else {
         /* Importing Google Fonts */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
         body {
-            background-color: #c2c3c4;
+            background-color: #f4f7f6;
             margin: 0;
             font-family: 'Poppins', sans-serif;
             display: flex;
@@ -170,13 +170,15 @@ else {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            border: 2px solid black;
         }
 
         table th, table td {
         padding: 12px;
         text-align: left;
-        border: 1px solid #ddd;
-    }
+        border: 2px solid black;
+        
+        }
 
         table th {
             background-color: #1a2d42;
@@ -184,11 +186,11 @@ else {
             font-weight: bold;
         }
         table tr{
-            background-color: #5f656e ;
+            background-color: white ;
         }
 
         table tr:nth-child(even) {
-            background-color: #b2b7bf;
+            background-color: #d6d6d6;
         }
 
         table tr:hover {
@@ -211,6 +213,7 @@ else {
             text-decoration: underline;  /* Underline the text to look like a link */
             cursor: pointer;         /* Change the cursor to indicate it's clickable */
             font-weight: bold; 
+            text-align: center;
         }
         .cancel:hover {
         color: #0056b3;  /* Darker blue on hover */
@@ -227,11 +230,11 @@ else {
         <div class="profile">
             <img src="<?= !empty($user['profile_picture']) ? htmlspecialchars($user['profile_picture']) : 'uploads/Temp-user-face.jpg' ?>" alt="Profile Picture" class="profile-image">
             <span> </span>            
-            <h3><?php echo htmlspecialchars($_SESSION['username']); ?></h3>
+            <a href="profile.php"><h3><?php echo htmlspecialchars($_SESSION['username']); ?></h3></a>
             <p><?php echo htmlspecialchars($_SESSION['role']); ?></p>
         </div>
             <div class="menu">
-                <li><i>📊</i><a href="Reporting.php">Room Statistics</a></li>
+                <!-- <li><i>📊</i><a href="Reporting.php">Room Statistics</a></li> -->
                 <li><i>📅</i><a href="Past_bookings.php">Past Bookings</a></li>
                 <li  class="active"><i>📅</i><a href="upcoming_bookings.php">Upcoming Bookings </a></li>
                 <li><i>🏠</i><a href="HomeLog.php" class="button back-home-btn">Back to Home</a></li>
@@ -255,7 +258,7 @@ else {
                         <th>Start Time</th>
                         <th>End Time</th>
                         <th>Contact Number</th>
-                        <th></th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
