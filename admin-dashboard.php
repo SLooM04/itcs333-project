@@ -679,8 +679,7 @@ button:hover {
                 <p>Bookings</p>
                 <div class="options">
                     <a href="admin-booking.php"><i class="fas fa-plus"></i> Add Booking</a>
-                    <a href="admin-cancel-dashboard.php"><i class="fas fa-times"></i> Cancel Booking</a>
-                    <a href="admin-block-booking.php"><i class="fas fa-ban"></i> Blocked Rooms</a>
+                    <a href="admin-cancel-booking.php"><i class="fas fa-times"></i> Cancel Booking</a>
                 </div>
             </div>
 
