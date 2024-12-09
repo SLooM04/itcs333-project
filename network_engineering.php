@@ -1230,7 +1230,7 @@ iframe {
             <div class="footer-section">
                 <h3>University Info</h3>
                 <ul>
-                    <li><a href="#about">About Us</a></li>
+                    <li><a href="https://www.uob.edu.bh/about/our-leadership/">About Us</a></li>
                     <li><a href="https://www.uob.edu.bh/locations">Campus Locations</a></li>
                     <li><a href="#events">Upcoming Events</a></li>
                 </ul>

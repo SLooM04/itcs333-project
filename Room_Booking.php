@@ -181,28 +181,42 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+body.dark-mode {
+    background-color: #2e344e;
+    color: #f0f0f0;
+}
 
 .container {
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 90%; 
-    max-width: 600px; 
+    width: 90%;
+    max-width: 600px;
     box-sizing: border-box;
-    margin: 10px auto; 
+    margin: 10px auto;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+body.dark-mode .container {
+    background-color: #2e4156;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
 
 h1 {
     text-align: center;
     color: #0066cc;
     margin-bottom: 20px;
     font-size: 1.8rem;
+    transition: color 0.3s ease;
 }
 
+body.dark-mode h1 {
+    color: #f0f0f0;
+}
 
 label {
     display: block;
@@ -210,6 +224,11 @@ label {
     margin-bottom: 8px;
     color: #333;
     font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+body.dark-mode label {
+    color: #ddd;
 }
 
 input[type="text"],
@@ -224,9 +243,18 @@ button {
     font-size: 1rem;
     margin-bottom: 20px;
     box-sizing: border-box;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
-/* Button styles */
+body.dark-mode input[type="text"],
+body.dark-mode input[type="date"],
+body.dark-mode input[type="tel"],
+body.dark-mode select {
+    background-color: #2e4156;
+    color: #f0f0f0;
+    border-color: #555;
+}
+
 button {
     background-color: #0066cc;
     color: white;
@@ -243,11 +271,23 @@ button:hover {
     background-color: #005bb5;
 }
 
+body.dark-mode button {
+    background-color: #34417d;
+    color: #fff;
+}
+
+body.dark-mode button:hover {
+    background-color: #172047;
+}
 
 .error-message {
     color: red;
     text-align: center;
     font-size: 1rem;
+}
+
+body.dark-mode .error-message {
+    color: #ff6666;
 }
 
 .success-message {
@@ -256,13 +296,20 @@ button:hover {
     font-size: 1rem;
 }
 
+body.dark-mode .success-message {
+    color: #80ff80;
+}
 
 a {
     color: #0066cc;
     text-decoration: underline;
     font-size: 0.9rem;
+    transition: color 0.3s ease;
 }
 
+body.dark-mode a {
+    color: #80c1ff;
+}
 
 @media screen and (min-width: 768px) {
     body {
@@ -291,6 +338,7 @@ a {
         font-size: 1rem;
     }
 }
+
     </style>
 </head>
 
@@ -396,6 +444,7 @@ a {
         </form>
     </div>
 
+    
     <script>
         function checkWeekday(input) {
             var date = new Date(input.value);
@@ -406,6 +455,39 @@ a {
                 input.value = ''; // Clear the input
             }
         }
+        
+    </script>
+    <script>
+    function openRoomDetails() {
+        const roomId = "<?php echo $room_id; ?>"; // Pass the room ID dynamically 1
+        const roomDetailsUrl = `room_details.php?id=${roomId}`;
+        window.open(roomDetailsUrl, '_blank'); // Open in a new tab
+    }
+    </script>
+
+<script>
+    <?php if ($success_message): ?>
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: '<?php echo $success_message; ?>',
+            timer:"4000",
+            confirmButtonText: 'OK'
+        }).then(function() {
+            window.location.href = 'upcoming_bookings.php';      
+          });
+    <?php elseif ($error_message): ?>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: '<?php echo $error_message; ?>',
+            timer:"4000",
+            confirmButtonText: 'Try Again'
+        });
+    <?php endif; ?>
+    </script>
+     <script>
+         document.addEventListener("DOMContentLoaded", () => {
         // Handle theme toggle
         const themeToggle = document.getElementById('themeToggle');
         const body = document.body;
@@ -429,36 +511,33 @@ a {
                 localStorage.setItem('theme', 'light');
             }
         });
+    });
     </script>
-    <script>
-    function openRoomDetails() {
-        const roomId = "<?php echo $room_id; ?>"; // Pass the room ID dynamically 1
-        const roomDetailsUrl = `room_details.php?id=${roomId}`;
-        window.open(roomDetailsUrl, '_blank'); // Open in a new tab
-    }
-</script>
 <script>
-    <?php if ($success_message): ?>
-        Swal.fire({
-            icon: 'success',
-            title: 'Success!',
-            text: '<?php echo $success_message; ?>',
-            timer:"4000",
-            confirmButtonText: 'OK'
-        }).then(function() {
-            window.location.href = 'upcoming_bookings.php';      
-          });
-    <?php elseif ($error_message): ?>
-        Swal.fire({
-            icon: 'error',
-            title: 'Error!',
-            text: '<?php echo $error_message; ?>',
-            timer:"4000",
-            confirmButtonText: 'Try Again'
+            
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-mode');
+            themeToggle.textContent = 'Light Mode';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+
+            // Update button text and save preference
+            if (body.classList.contains('dark-mode')) {
+                themeToggle.textContent = 'Light Mode';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeToggle.textContent = 'Dark Mode';
+                localStorage.setItem('theme', 'light');
+            }
         });
-    <?php endif; ?>
-    
 </script>
+
 </body>
 
 </html>
