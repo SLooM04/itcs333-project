@@ -636,7 +636,7 @@ $updater->execute([':id' => $userId]);
 
         body.dark-mode .recommendation-table th,
         body.dark-mode .recommendation-table td {
-            border: 1px solid white;
+            border: 1px solid black;
             color: white;
         }
 

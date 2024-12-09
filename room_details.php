@@ -110,13 +110,51 @@ for ($i = 0; $i < count($bookings_number); $i++) {
 $stmt = $pdo->prepare("SELECT * FROM bookings WHERE room_id = :room_id AND (student_id = :user_id OR teacher_id = :user_id) AND end_time < NOW() AND status IN ('Confirmed', 'Successful')");
 $stmt->execute([":room_id" => $room_id, ":user_id" => $userId]);
 $has_past_booking = $stmt->rowCount() > 0;
-?>
 
+
+
+// for rooms bookings statistics 
+
+$roomNum = null;
+$roomNum_bookings = null;
+$lastMonth_roomNum = null;
+
+
+$firstDayOfLastMonth = (new DateTime('first day of last month'))->format('Y-m-d 00:00:00');
+$lastDayOfLastMonth = (new DateTime('last day of last month'))->format('Y-m-d 23:59:59');
+
+try{
+    
+
+$sqlstmt = $pdo->prepare("SELECT room_id, COUNT(*) AS total_bookings, SUM(CASE WHEN status = 'Cancelled' THEN 1 ELSE 0 END) as total_cancelled,
+ SUM(TIME_TO_SEC(TIMEDIFF(end_time, start_time))) / 3600 as time
+ FROM bookings WHERE start_time BETWEEN :start_date AND :end_date GROUP BY room_id;");
+$sqlstmt->execute([':start_date' => $firstDayOfLastMonth, ':end_date' => $lastDayOfLastMonth]);
+$lastMonth_number = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
+}catch(PDOException $e){  
+}
+
+for ($i =0 ; $i < count($bookings_number) ; $i++){
+    if($bookings_number[$i]['room_id'] == $room_id){
+        $roomNum_bookings = $i;
+        break;
+        }
+    }
+
+    for ($i =0 ; $i < count($lastMonth_number) ; $i++){
+        if($lastMonth_number[$i]['room_id'] == $roomID){
+            $lastMonth_roomNum = $i;
+            break;
+            }
+        }
+ 
+?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Room Details</title>
@@ -487,6 +525,11 @@ $has_past_booking = $stmt->rowCount() > 0;
 
         .roomnum {
             color: black;
+        }
+
+        .dark-mode .sweetalert-details{
+            background-color: #2e4156;
+            color: white;
         }
 
         /* Logo Styles */
@@ -1135,6 +1178,7 @@ $has_past_booking = $stmt->rowCount() > 0;
             transform: translateY(-50%);
         }
     </style>
+
 </head>
 
 <body>
@@ -1271,16 +1315,12 @@ $has_past_booking = $stmt->rowCount() > 0;
 
                 <div class="feature-box">
                     <div style="font-size: 30px;">📊</div>
-                    <h3 style="color: #000000"><a href="room_statistics.php?id=<?= htmlspecialchars($room_id) ?>">Analytics</a></h3>
+                    <h3 style="color: #000000">Analytics</h3>
                     <p>
                         <strong style="color:#1a73e8">Total bookings</strong> <br><?php if (isset($bookings_number[$roomNum_bookings])) echo htmlspecialchars($bookings_number[$roomNum_bookings]['total_bookings']);
                                                                                     else echo 0 ?><br>
-                        <strong style="color:#1a73e8">Rating:</strong><br> <?php if (isset($bookings_number[$roomNum_bookings])) {
-                                                                                echo number_format($bookings_number[$roomNum_bookings]['rating'], 1) . "/5";
-                                                                            } else {
-                                                                                echo 'No ratings';
-                                                                            } ?>
                     </p>
+                    <button id="moreDetails">More details</button>
                 </div>
                 <div class="feature-box">
 
@@ -1354,7 +1394,8 @@ $has_past_booking = $stmt->rowCount() > 0;
                             <textarea name="comment_text" placeholder="Write your Feedback here.." required></textarea>
 
                             <!-- Star Rating -->
-                            <label for="rating">Rating:</label>
+                            <label for="rating">Rating: <?php if (isset($bookings_number[$roomNum_bookings])) { echo number_format($bookings_number[$roomNum_bookings]['rating'], 1) . "/5";} 
+                            else { echo 'No ratings';} ?></label>
                             <div class="star-rating">
                                 <input type="radio" id="star5" name="rating" value="5"><label for="star5">★</label>
                                 <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
@@ -1494,6 +1535,28 @@ $has_past_booking = $stmt->rowCount() > 0;
                 }
             });
         });
+    </script>
+
+    <script>
+        
+        document.getElementById('moreDetails').addEventListener('click', function () {
+        Swal.fire({
+            title: '<?php echo addslashes($room["room_name"]); ?>',
+            // text: "Capacity: <?php echo $room['capacity'] ?>",
+             html: `Room capacity: <?php echo addslashes($room["capacity"]); ?><br>
+                    Total bookings: <?php if(isset($bookings_number[$roomNum_bookings])) echo $bookings_number[$roomNum_bookings]['total_bookings']; else echo 0 ?><br>
+                    Total bookings last month: <?php if(isset($lastMonth_number[$lastMonth_roomNum])) echo $lastMonth_number[$lastMonth_roomNum]['total_bookings']; else echo 0 ?><br>
+                    Utilization last month: <?php if(isset($lastMonth_number[$lastMonth_roomNum])) echo number_format($lastMonth_number[$lastMonth_roomNum]['time'] / 315, 2); else echo 0 ?>% <br>
+                    Cancelled books last month: <?php if(isset($lastMonth_number[$lastMonth_roomNum])) echo $lastMonth_number[$lastMonth_roomNum]['total_cancelled']; else echo 0 ?> <br>
+                    Ratings: <?php if(isset($bookings_number[$roomNum_bookings])) echo number_format($bookings_number[$roomNum_bookings]['rating'], 1) . "/5"; else echo 'Not rated yet' ?>`, 
+            confirmButtonText: 'OK',
+            customClass: {
+            popup: 'sweetalert-details'
+        }
+            
+        });
+    });
+        
     </script>
 
 </body>

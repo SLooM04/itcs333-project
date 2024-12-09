@@ -91,9 +91,14 @@ for ($i=0 ; $i < count($past_bookings) ; $i++){
          @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 
          
+         html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+        }
         body {
             background-color: #f4f7f6;
-            margin: 0;
             font-family: 'Poppins', sans-serif;
             display: flex;
             text-align: center;
@@ -137,7 +142,7 @@ for ($i=0 ; $i < count($past_bookings) ; $i++){
             width: 250px;
             background: linear-gradient(1deg, #1a73e8, #004db3 );  
             color: white;
-            height: 100vh;
+            height: 100%;
             display: flex;
             flex-direction: column;
         }
@@ -192,7 +197,7 @@ for ($i=0 ; $i < count($past_bookings) ; $i++){
 
 
         .Container{
-            width: 80%;
+            max-width: 100%;
             margin: 50px auto;
             padding: 20px;
             background-color: #ffffff;
@@ -255,6 +260,15 @@ for ($i=0 ; $i < count($past_bookings) ; $i++){
         .feedback:hover{
             text-decoration: none; 
             color: #0056b3; 
+        }
+
+        @media(max-width: 768px){
+            .container{
+                width: 100%;
+            }
+            .sidebar{
+                height: 200vh;
+            }
         }
        
        
