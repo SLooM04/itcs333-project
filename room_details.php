@@ -842,10 +842,15 @@ $has_past_booking = $stmt->rowCount() > 0;
                 height: 100px;
             }
         }
+        @media (min-width: 801px) and (max-width: 1000px) {
+            .logo img {
+                width: 3rem;
+            }
+        }
 
         @media (max-width: 599px) {
             header {
-                flex-direction: column;
+                flex-direction: row;
             }
 
             nav {
@@ -871,6 +876,56 @@ $has_past_booking = $stmt->rowCount() > 0;
                 width: 100%;
             }
         }
+
+        @media (max-width: 800px) {
+            header {
+                display: flex;
+                justify-content: space-evenly;
+                height: auto;
+                flex-direction: row;
+                font-size: 0.8rem;
+            }
+
+            .logo{
+                size: 0.8rem;
+            }
+       
+           
+
+        .nav-item {
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+            color: white;
+            font-size: 0.8em;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s, border 0.3s;
+            position: relative;
+        }
+            
+            .nav-item:hover,
+        .nav-item.active {
+            border: none;
+            border-radius: 8px;
+            box-sizing: content-box;
+            
+        }
+
+            .logo img {
+                width: 40px;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .user-profile {
+                flex-direction: column;
+                align-items: center;
+            }}
 
 
         /* From Uiverse.io by Galahhad */
