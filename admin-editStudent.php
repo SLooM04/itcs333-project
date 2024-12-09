@@ -28,10 +28,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $username = $_POST['username'];
     $major = $_POST['major'];
     $mobile = $_POST['mobile'];
-    $year_joined = $_POST['year_joined'];
+    $level = $_POST['level'];
 
-    $stmt = $pdo->prepare("UPDATE students SET first_name = ?, last_name = ?, email = ?, username = ?, major = ?, mobile = ?, year_joined = ?, updated_at = NOW() WHERE student_id = ?");
-    $stmt->execute([$first_name, $last_name, $email, $username, $major, $mobile, $year_joined, $student_id]);
+    $stmt = $pdo->prepare("UPDATE students SET first_name = ?, last_name = ?, email = ?, username = ?, major = ?, mobile = ?, level = ?, updated_at = NOW() WHERE student_id = ?");
+    $stmt->execute([$first_name, $last_name, $email, $username, $major, $mobile, $level, $student_id]);
 
     $success = "Student updated successfully!";
 }
@@ -40,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.5.7/css/pico.min.css"> -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Student</title>
@@ -179,6 +180,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
 
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" value="<?= htmlspecialchars($student['username']) ?>" required>
+
+                <div id="registration-level" class="form-group">
+                    <label for="year">Level</label>
+                    <select id="level" name="level" required>
+                        <option value="Freshman">Freshman (1st Year)</option>
+                        <option value="Sophomore">Sophomore (2nd Year)</option>
+                        <option value="Junior">Junior (3rd Year)</option>
+                        <option value="Senior">Senior (last Year)</option>
+                        <option value="Post">Postgraduate</option>
+                    </select>
+                </div>
 
                 <div id="registration-major" class="form-group">
                 <label for="major">Major</label>

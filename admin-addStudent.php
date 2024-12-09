@@ -1,3 +1,69 @@
+<?php
+session_start();
+require 'db.php';
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $first_name = $_POST['first_name'] ?? null;
+    $last_name = $_POST['last_name'] ?? null;
+    $email = $_POST['email'] ?? null;
+    $username = $_POST['username'] ?? null;
+    $password = $_POST['password'] ?? null;
+    $level = $_POST['level'];
+    $major = $_POST['major'] ?? null;
+    $mobile = $_POST['mobile'] ?? null;
+    $profile_picture = $_FILES['profile_picture']['name'] ?? null;
+
+    $created_at = date('Y-m-d H:i:s');
+    $updated_at = $created_at;
+
+    // Directory for uploading images
+    $uploadDir = "uploads/teachers/";
+    if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0777, true);
+    }
+
+    // File upload handling
+    if ($profile_picture) {
+        $target_file = $uploadDir . basename($profile_picture);
+        $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $allowed_types = ['jpg', 'jpeg', 'png', 'gif'];
+
+        if (in_array($file_type, $allowed_types)) {
+            move_uploaded_file($_FILES['profile_picture']['tmp_name'], $target_file);
+        } else {
+            $error = "Invalid file type. Only JPG, JPEG, PNG, and GIF are allowed.";
+        }
+    }
+
+    // Validate required fields
+    if ($first_name && $last_name && $email && $username && $password && $level && $mobile) {
+        // Insert into database
+        $stmt = $pdo->prepare("INSERT INTO students (first_name, last_name, email, username, password, major, mobile, level)
+                        VALUES (:first_name, :last_name, :email, :username, :password, :major, :mobile, :level)");
+        $stmt->execute([
+            ':first_name' => $first_name,
+            ':last_name' => $last_name,
+            ':email' => $email,
+            ':username' => $username,
+            ':password' => password_hash($password, PASSWORD_DEFAULT),
+            ':major' => $major,
+            ':mobile' => $mobile,
+            ':level' => $level,  // Ensure that $level is being passed correctly
+        ]);
+        
+
+        header("Location: admin-dashboard.php?success=teacher_added");
+        exit();
+    } else {
+        $error = $error ?? "Please fill all required fields.";
+    }
+}
+?>
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
