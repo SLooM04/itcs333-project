@@ -355,19 +355,7 @@ $totalBookings = countTotal($bookings_number);
                     </div>  
                 </div>
 
-<!-- 
-            <form method="POST" action="room_statistics.php" class="box">
-                <h2>Select a Room</h2>
-                <select id="room-dropdown" name="room_id" required>
-                    <option value="" disabled selected>Select a room</option>
-                    <?php foreach ($rooms as $room): ?>
-                        <option value="<?= htmlspecialchars($room['id']) ?>">
-                            <?= htmlspecialchars($room['room_name']) ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-                <button type="submit">Show Statistics</button>
-            </form> -->
+
 
 
 
