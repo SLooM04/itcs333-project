@@ -76,6 +76,7 @@ else {
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Room </title>
@@ -313,12 +314,23 @@ else {
 
             <script>
                 function confirmCancel(bookingId) {
-                    // Ask for confirmation
-                    if (confirm("Are you sure you want to cancel this booking?")) {
-                        // Send a request to cancel the booking
-                        window.location.href = "cancel_booking.php?booking_id=" + bookingId;
-                    }
-                }
+        // Use SweetAlert for confirmation
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Do you really want to cancel this booking?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, cancel it!',
+                cancelButtonText: 'No, keep it'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                // If confirmed, redirect to the cancel_booking.php with the booking ID
+                window.location.href = "cancel_booking.php?booking_id=" + bookingId;
+            }
+            });
+    }
             </script>
 
             <script>
