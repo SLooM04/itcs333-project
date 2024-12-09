@@ -194,7 +194,7 @@ else {
         }
 
         table tr:hover {
-            background-color: gray;
+            background-color: darkgray;
         }
 
         table td {
@@ -209,15 +209,15 @@ else {
         }
 
         .cancel{
-            color: red;          /* Blue color, like a standard link */
-            text-decoration: underline;  /* Underline the text to look like a link */
-            cursor: pointer;         /* Change the cursor to indicate it's clickable */
+            color: red;          
+            text-decoration: underline;  
+            cursor: pointer;       
             font-weight: bold; 
             text-align: center;
         }
         .cancel:hover {
-        color: #0056b3;  /* Darker blue on hover */
-        text-decoration: none; /* Optional: remove underline on hover */
+        color: #0056b3;  
+        text-decoration: none; 
     }
 
     

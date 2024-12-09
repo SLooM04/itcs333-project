@@ -198,7 +198,7 @@ for ($i=0 ; $i < count($past_bookings) ; $i++){
         }
 
         table tr:hover {
-            background-color: gray;
+            background-color: darkgray;
         }
 
         table td {
@@ -210,6 +210,18 @@ for ($i=0 ; $i < count($past_bookings) ; $i++){
             color: #333;
             text-align: center;
             font-size: 24px;
+        }
+        .feedback{
+            text-align: center;
+            color: red;         
+            text-decoration: underline;  
+            cursor: pointer;       
+            font-weight: bold; 
+            
+        }
+        .feedback:hover{
+            text-decoration: none; 
+            color: #0056b3; 
         }
        
        
@@ -262,7 +274,7 @@ for ($i=0 ; $i < count($past_bookings) ; $i++){
                             <td><?= htmlspecialchars($booking['end_time']) ?></td>
                             <td><?= htmlspecialchars($booking['contact_number']) ?></td>
                             <td><?= htmlspecialchars($booking['status']) ?></td>
-                            <td><a href="room_details.php?id=<?php echo $booking['room_id']; ?>#<?php echo $booking['room_id']; ?>">Submit</a></td>
+                            <td class="feedback"><a href="room_details.php?id=<?php echo $booking['room_id']; ?>#<?php echo $booking['room_id']; ?>" class= "feedback" >Submit</a></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
