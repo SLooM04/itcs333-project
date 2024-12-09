@@ -168,6 +168,8 @@
             <div class="form-section">
                 <button type="submit">Book Now</button>
             </div>
+            <button style="margin-top:10px; padding:10px 20px;background-color:#b9c6d6;color:white;border:none;border-radius:5px;cursor:pointer;font-size:16px;" onclick="window.history.back()">Go Back</button>
+
         </form>
     </main>
 </body>

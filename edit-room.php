@@ -125,6 +125,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fetch_room'])) {
                 <input type="number" id="id" name="id" required>
                 <button type="submit" name="fetch_room">Fetch Room</button>
 
+                <?php if (!isset($room) || !$room): ?>
+                  <button style="margin-top:10px; padding:10px 20px;background-color:#b9c6d6;color:white;border:none;border-radius:5px;cursor:pointer;font-size:16px;" onclick="window.history.back()">Go Back</button>
+                <?php endif; ?>   
+
                 <?php if (isset($error)): ?>
                     <p class="error"><?= htmlspecialchars($error) ?></p>
                 <?php endif; ?>
@@ -166,6 +170,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fetch_room'])) {
                 <input type="file" id="thumbnail_4" name="thumbnail_4">
 
                 <button type="submit" name="update_room">Update Room</button>
+                <button type="button" onclick="window.location.href='admin-dashboard.php'" style="margin-top:10px; padding:10px 20px;background-color:#b9c6d6;color:white;border:none;border-radius:5px;cursor:pointer;font-size:16px;">
+                    Go Back </button>
+                
             </form>
         <?php endif; ?>
     </main>

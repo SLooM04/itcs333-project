@@ -98,6 +98,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
             color: green;
             text-align: center;
         }
+
+        
+        .form-group {
+            flex: 1;
+            margin-right: 24px;
+        }
+
+        .form-group:last-child {
+            margin-right: 0;
+        }
+
+        .form-group label {
+            font-size: 1.1em;
+            color: #555;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 10px;
+            font-size: 0.9em;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 60%;
+            background-color: white;
+            color: #333;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #0061f2;
+            background-color: #f1faff;
+            outline: none;
+        }
     </style>
 </head>
 <body>
@@ -116,6 +153,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
             <label for="teacher_id">Enter Teacher ID:</label>
             <input type="number" id="teacher_id" name="teacher_id" placeholder="Enter teacher ID" required>
             <button type="submit">Find Teacher</button>
+            <?php if (!$teacher): ?>
+        <button style="margin-top:10px; padding:10px 20px;background-color:#b9c6d6;color:white;border:none;border-radius:5px;cursor:pointer;font-size:16px;" onclick="window.history.back()">Go Back</button>
+    <?php endif; ?>             
         </form>
 
         <!-- Form to edit teacher -->
@@ -134,9 +174,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
 
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" value="<?= htmlspecialchars($teacher['username']) ?>" required>
-
+                 
                 <label for="department">Department:</label>
-                <input type="text" id="department" name="department" value="<?= htmlspecialchars($teacher['department']) ?>" required>
+                <div id="registration-department" class="form-group">
+                <select id="department" name="department" value="<?= htmlspecialchars($teacher['department']) ?>" required>
+                        <option value="Information Systems">Information Systems</option>
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="Computer Engineering">Computer Engineering</option>
+                </select>
+                </div>
+
 
                 <label for="mobile">Mobile:</label>
                 <input type="text" id="mobile" name="mobile" value="<?= htmlspecialchars($teacher['mobile']) ?>" required>
@@ -144,6 +191,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
                 <button type="submit" name="update">Update Teacher</button>
             </form>
         <?php endif; ?>
+        <?php if ($teacher): ?>
+        <button style="margin-top:10px; padding:10px 20px;background-color:#b9c6d6;color:white;border:none;border-radius:5px;cursor:pointer;font-size:16px;" onclick="window.history.go(-2)">Go Back</button>
+        <?php endif; ?>
+
     </div>
 </body>
 </html>
