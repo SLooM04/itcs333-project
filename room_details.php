@@ -173,71 +173,7 @@ $has_past_booking = $stmt->rowCount() > 0;
 
 
 ?>
-<?php
-if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
-    $userId = $_SESSION['user_id'];
-    $role = $_SESSION['role']; // 'student' or 'teacher'
 
-    if ($role === 'student') {
-        // Fetch the booking credits for the student
-        $sql = "SELECT booking_credit FROM students WHERE student_id = ?";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$userId]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        // Check if the student was found
-        if ($user) {
-            $credits = $user['booking_credit']; // Get the number of credits
-        } else {
-            $credits = 0; // Default to 0 if no student found
-        }
-    } elseif ($role === 'teacher') {
-        // Fetch the booking credits for the teacher
-        $sql = "SELECT booking_credit FROM teachers WHERE teacher_id = ?";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$userId]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        // Check if the teacher was found
-        if ($user) {
-            $credits = $user['booking_credit']; // Get the number of credits
-        } else {
-            $credits = 0; // Default to 0 if no teacher found
-        }
-    } else {
-        $credits = 0; // Default to 0 if no valid role found
-    }
-} else {
-    $credits = 0; // If no user is logged in
-}
-
-// Initialize variables
-$creditss = null;
-$message = '';
-$isStudent = false;
-$isTeacher = false; // Track if the user is a teacher
-
-// Check user role and fetch from appropriate table
-$userId = $_SESSION['user_id'];
-if ($role == 'student') {
-    $stmt = $pdo->prepare("SELECT * FROM students WHERE student_id = ?");
-} else {
-    $stmt = $pdo->prepare("SELECT * FROM teachers WHERE teacher_id = ?");
-}
-$stmt->execute([$userId]);
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-// Check if user exists in the database and set the role
-if ($user) {
-    $creditss = $user['booking_credit'];
-    if ($role == 'student') {
-        $isStudent = true;
-    } elseif ($role == 'teacher') {
-        $isTeacher = true;
-    }
-}
-
-?>
 
 
 
@@ -1063,33 +999,6 @@ if ($user) {
   transform: translateY(-50%);
 }
 
-.credit-msg {
-
-    font-size: 15px;
-    float: right;
-
-}
-.credit-cost {
-    background-color: #ddd;
-  font-size: 30px;
-  float: left;
-  color: #e0645b;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5), 0 0 15px rgba(224, 100, 91, 0.7); /* Shadow for depth and glow effect */
-  font-family: 'Roboto', sans-serif;
-  border-radius: 10%; /* Rounded corners */
-  padding: 20px;
-  width: 70px; /* Adjust width */
-  height: 20px; /* Adjust height */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.credits-value {
-    color: #8e702c; /* Change to the color you want */
-    font-weight: bold; /* Optional: Make the credit value bold */
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Optional: Add a shadow effect */
-}
 
     </style>
 </head>
@@ -1121,10 +1030,6 @@ if ($user) {
             </span>
             <div class="dropdown-content">
                 <?php if (isset($_SESSION['username'])): ?>
-                    <a href="profile.php">My Profile</a>
-            <a href="credit-STU.php">Credit<span class="credits-value"><?php echo $credits; ?></span>   
-            <iframe src="coin.php" width="28" height="31" frameborder="0" scrolling="no" allowfullscreen ></iframe>
-            </a>
             <a href="logout.php" class="logout-button" onclick="return confirm('Are you sure you want to log out?')">Logout</a>
            
                     <label class="theme-switch">
@@ -1243,26 +1148,8 @@ if ($user) {
     <input type="hidden" name="id" value="<?php echo $room['id']; ?>" />
     
     <?php if (isset($_SESSION['username'])): ?>
-        <?php if ($credits > 0): ?>
-            <button type="submit">
-                <div class="credit-cost">-1
-                    <iframe src="coin-Gray.php" width="28" height="31" frameborder="0" scrolling="no" allowfullscreen ></iframe>
-                </div> 
-                Book Now
-                <div class="credit-msg">Your Credit: <?php echo $credits; ?>
-                    <iframe src="coin.php" width="28" height="31" frameborder="0" scrolling="no" allowfullscreen ></iframe>
-                </div>
-            </button>
-        <?php else: ?>
-            <button type="button" disabled>Book Now</button>
-            <p style="color: red; font-size: 1.1em;">Your credit is empty!<iframe src="coin-Gray.php" width="28" height="31" frameborder="0" scrolling="no" allowfullscreen ></iframe></p>
-             
-          <!-- Dynamic link for students or teachers -->
-          <?php if ($isStudent): ?>
-           <a href="credit-STU.php" class="btn-book">Check Coin Status</a>
-         <?php elseif ($isTeacher): ?>
-           <a href="credit-TECH.php" class="btn-book">Check Coin Status</a>
-         <?php endif; ?>         <?php endif; ?>
+        <button type="submit">Book Now</button>
+              
 
 
     <?php else: ?>
