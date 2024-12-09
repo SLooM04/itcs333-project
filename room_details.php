@@ -1032,7 +1032,7 @@ $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <nav class="nav-links">
             <a href="homelog.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'homelog.php' ? 'active' : ''; ?>">Home</a>
             <a href="rooms.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'rooms.php' ? 'active' : ''; ?>">Rooms</a>
-            <a href="reporting.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'reservations.php' ? 'active' : ''; ?>">My Reservations</a>
+            <a href="upcoming_bookings.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'reservations.php' ? 'active' : ''; ?>">My Reservations</a>
             <a href="supportFAQ.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'support.php' ? 'active' : ''; ?>">Support</a>
         </nav>
 
@@ -1152,7 +1152,7 @@ $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                 <div class="feature-box">
                     <div style="font-size: 30px;">📊</div>
-                    <h3 style="color: #000000">Analytics</h3>
+                    <a href="room_statistics.php?id=<?= htmlspecialchars($room_id) ?>"><h3 style="color: #000000"> Analytics</h3></a>
                     <p>
                         <strong style="color:#1a73e8">Total bookings</strong> <br><?php if(isset($bookings_number[$roomNum_bookings])) echo htmlspecialchars($bookings_number[$roomNum_bookings]['total_bookings']); else echo 0 ?><br> 
                         <strong style="color:#1a73e8">Rating</strong><br> <?php if(isset($bookings_number[$roomNum_bookings])){echo htmlspecialchars($bookings_number[$roomNum_bookings]['rating']);} else {echo 'No ratings';} ?>                     

@@ -46,7 +46,7 @@ function countTotal($booking){
 }
 
 $rooms = fetchRooms(); // Fetch all rooms
-$roomID = $_POST['room_id'];
+$roomID = $_GET['id'];
 $roomNum = null;
 $roomNum_bookings = null;
 $lastMonth_roomNum = null;
@@ -314,7 +314,7 @@ $totalBookings = countTotal($bookings_number);
                 <p><?php echo htmlspecialchars($_SESSION['role']); ?></p>
             </div>
                 <div class="menu">
-                    <li class="active"><i>📊</i><a href="Reporting.php">Statistics </a></li>
+                    <!-- <li class="active"><i>📊</i><a href="Reporting.php">Statistics </a></li> -->
                     <li><i>📅</i><a href="Past_bookings.php">Past Bookings</a></li>
                     <li><i>📅</i><a href="upcoming_bookings.php">Upcoming Bookings </a></li>
                     <li><i>🏠</i><a href="HomeLog.php" class="button back-home-btn">Back to Home</a></li>

@@ -218,7 +218,7 @@ for ($i=0 ; $i < count($past_bookings) ; $i++){
             <p><?php echo htmlspecialchars($_SESSION['role']); ?></p>
         </div>
             <div class="menu">
-                <li><i>📊</i><a href="Reporting.php">Room Statistics</a></li>
+                <!-- <li><i>📊</i><a href="Reporting.php">Room Statistics</a></li> -->
                 <li class="active"><i>📅</i><a href="Past_bookings.php">Past Bookings</a></li>
                 <li><i>📅</i><a href="upcoming_bookings.php">Upcoming Bookings </a></li>
                 <li><i>🏠</i><a href="HomeLog.php" class="button back-home-btn">Back to Home</a></li>
