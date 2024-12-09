@@ -527,6 +527,11 @@ for ($i =0 ; $i < count($bookings_number) ; $i++){
             color: black;
         }
 
+        .dark-mode .sweetalert-details{
+            background-color: #2e4156;
+            color: white;
+        }
+
         /* Logo Styles */
         .logo {
             display: flex;
@@ -1544,7 +1549,11 @@ for ($i =0 ; $i < count($bookings_number) ; $i++){
                     Utilization last month: <?php if(isset($lastMonth_number[$lastMonth_roomNum])) echo number_format($lastMonth_number[$lastMonth_roomNum]['time'] / 315, 2); else echo 0 ?>% <br>
                     Cancelled books last month: <?php if(isset($lastMonth_number[$lastMonth_roomNum])) echo $lastMonth_number[$lastMonth_roomNum]['total_cancelled']; else echo 0 ?> <br>
                     Ratings: <?php if(isset($bookings_number[$roomNum_bookings])) echo number_format($bookings_number[$roomNum_bookings]['rating'], 1) . "/5"; else echo 'Not rated yet' ?>`, 
-            confirmButtonText: 'OK'
+            confirmButtonText: 'OK',
+            customClass: {
+            popup: 'sweetalert-details'
+        }
+            
         });
     });
         
