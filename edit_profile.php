@@ -316,7 +316,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <!-- Profile Picture Section -->
                         <div class="form-group">
                 <div class="profile-img-container">
-                    <img src="<?= htmlspecialchars($user['profile_picture']) ?>" id="profilePic" alt="Profile Picture" onclick="document.getElementById('profile_picture').click();">
+                    <img src="<?= htmlspecialchars($user['profile_picture']) ?? 'uploads/Temp-user-face.jpg' ?>" id="profilePic" alt="Picture" onclick="document.getElementById('profile_picture').click();">
                     <button type="button" class="delete-icon" onclick="deleteProfilePic()">
                         <img src="uploads/delete.png" alt="Delete Profile Picture" />
                     </button>
