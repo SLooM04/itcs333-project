@@ -11,6 +11,7 @@ if (!isset($_SESSION['user_id'])) {
 $userId = $_SESSION['user_id'];
 $userRole = $_SESSION['role']; // 'student' or 'teacher'
 
+
 if ($userRole == 'student') {
     $stmt = $pdo->prepare("SELECT * FROM students WHERE student_id = ?");
 } else {
@@ -73,6 +74,8 @@ for ($i=0 ; $i < count($past_bookings) ; $i++){
         $past_bookings[$i]['status'] = "Successful";
 }
 
+
+
 ?>
 
 <!DOCTYPE html>
@@ -86,8 +89,10 @@ for ($i=0 ; $i < count($past_bookings) ; $i++){
     <style>
          /* Importing Google Fonts */
          @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+
+         
         body {
-            background-color: #c2c3c4;
+            background-color: #f4f7f6;
             margin: 0;
             font-family: 'Poppins', sans-serif;
             display: flex;
@@ -169,13 +174,15 @@ for ($i=0 ; $i < count($past_bookings) ; $i++){
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            border: 2px solid black;
         }
 
         table th, table td {
         padding: 12px;
         text-align: left;
-        border: 1px solid #ddd;
-    }
+        border: 2px solid black;
+        
+        }
 
         table th {
             background-color: #1a2d42;
@@ -183,11 +190,11 @@ for ($i=0 ; $i < count($past_bookings) ; $i++){
             font-weight: bold;
         }
         table tr{
-            background-color: #5f656e ;
+            background-color: white ;
         }
 
         table tr:nth-child(even) {
-            background-color: #b2b7bf;
+            background-color: #d6d6d6;
         }
 
         table tr:hover {
@@ -243,6 +250,7 @@ for ($i=0 ; $i < count($past_bookings) ; $i++){
                         <th>End Time</th>
                         <th>Contact Number</th>
                         <th>Status</th>
+                        <th>Feedback</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -254,6 +262,7 @@ for ($i=0 ; $i < count($past_bookings) ; $i++){
                             <td><?= htmlspecialchars($booking['end_time']) ?></td>
                             <td><?= htmlspecialchars($booking['contact_number']) ?></td>
                             <td><?= htmlspecialchars($booking['status']) ?></td>
+                            <td><a href="room_details.php?id=<?php echo $booking['room_id']; ?>#<?php echo $booking['room_id']; ?>">Submit</a></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

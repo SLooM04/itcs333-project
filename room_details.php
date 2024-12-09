@@ -1365,7 +1365,7 @@ body.dark-mode .star-rating input:hover ~ label {
         <!-- Display Feedback Form Conditionally -->
         <?php if ($has_past_booking): ?>
             <div class="comment-form">
-    <h3>Leave your Feedback</h3>
+    <h3 id= strval($room_id)>Leave your Feedback</h3>
     <form action="add_comment.php" method="POST">
         <input type="hidden" name="room_id" value="<?php echo $room_id; ?>">
         <textarea name="comment_text" placeholder="Write your Feedback here.." required></textarea>
