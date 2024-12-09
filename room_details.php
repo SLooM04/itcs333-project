@@ -151,31 +151,47 @@ for ($i =0 ; $i < count($bookings_number) ; $i++){
         }
     }
 
-// Check if the user has a past booking for the room
-$user_id = $_SESSION['user_id']; // Assuming user_id is stored in session after login
-$current_time = date('Y-m-d H:i:s'); // Current timestamp
+// Fetch user details and room details
+$user_id = $_SESSION['user_id'];
+$room_id = $_GET['id'];  // Assuming the room ID is passed as a GET parameter
 
+// Check if the user has a past booking for the room
 $stmt = $pdo->prepare("
     SELECT * FROM bookings 
-    WHERE room_id = :room_id AND 
-          (student_id = :user_id OR teacher_id = :user_id) AND 
-          end_time < :current_time AND 
-          status = 'Confirmed'
+    WHERE room_id = :room_id 
+      AND (student_id = :user_id OR teacher_id = :user_id) 
+      AND end_time < NOW() 
+      AND status IN ('Confirmed', 'Successful')
 ");
 $stmt->execute([
     ':room_id' => $room_id,
-    ':user_id' => $user_id,
-    ':current_time' => $current_time
+    ':user_id' => $user_id
 ]);
 
 $has_past_booking = $stmt->rowCount() > 0;
 
 
-
 ?>
 
+<?php
+// Fetch room_id from the URL
+$room_id = $_GET['id'];  // Get room_id from the URL
 
-
+// Fetch the comments for the current room
+$stmt = $pdo->prepare("
+    SELECT comments.*, 
+           CASE 
+               WHEN comments.user_role = 'student' THEN students.username
+               WHEN comments.user_role = 'teacher' THEN teachers.username
+           END AS username
+    FROM comments
+    LEFT JOIN students ON comments.user_id = students.student_id
+    LEFT JOIN teachers ON comments.user_id = teachers.teacher_id
+    WHERE comments.room_id = :room_id
+");
+$stmt->execute([':room_id' => $room_id]);
+$comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 
 <!DOCTYPE html>
 <html lang="en">
