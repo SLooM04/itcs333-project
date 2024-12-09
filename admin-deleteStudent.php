@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             text-align: center;
         }
         h1 {
-            color: #4a90e2; /* Updated color */
+            color: #4a90e2;
             margin-bottom: 20px;
         }
         form label {
@@ -66,26 +66,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             box-sizing: border-box;
         }
         form input:focus {
-            outline-color: #4a90e2; /* Updated color */
-            border-color: #4a90e2; /* Updated color */
+            outline-color: #4a90e2;
+            border-color: #4a90e2;
         }
         button {
-            background-color: #4a90e2; /* Updated color */
+            background-color: #007bff;
             color: white;
             border: none;
             cursor: pointer;
             font-size: 1.1em;
         }
         button:hover {
-            background-color: #357ab7; /* Updated hover color */
+            background-color: #0056b3;
         }
         .message {
             font-size: 1em;
-            color: red;
             margin-top: 20px;
         }
         .success {
             color: green;
+        }
+        .error {
+            color: red;
+        }
+        .back-button {
+            display: block;
+            width: 200px;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 20px auto;
+            font-size: 16px;
+        }
+        .back-button:hover {
+            background-color: #218838;
         }
     </style>
 </head>
@@ -100,12 +118,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <!-- Display success or error message -->
         <?php if (!empty($message)) { ?>
-            <p class="message <?php echo (strpos($message, 'successfully') !== false) ? 'success' : ''; ?>">
+            <p class="message <?php echo (strpos($message, 'successfully') !== false) ? 'success' : 'error'; ?>">
                 <?php echo htmlspecialchars($message); ?>
             </p>
         <?php } ?>
-        <button style="margin-top:10px; padding:10px 20px;background-color:#b9c6d6;color:white;border:none;border-radius:5px;cursor:pointer;font-size:16px;" onclick="window.history.back()">Go Back</button>
-
+        
+        <a href="admin-dashboard.php" class="back-button">Back to Dashboard</a>
     </div>
 </body>
 </html>
