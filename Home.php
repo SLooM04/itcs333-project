@@ -353,7 +353,7 @@ if (isset($_POST['reserve_now'])) {
 
     <header>
         <!-- Logo Section -->
-        <a href="homelog.php" class="logo" style="text-decoration:none;">
+        <a href="Home.php" class="logo" style="text-decoration:none;">
             <img src="uploads/UOB-Colleges-new-logo.png" alt="Logo">
             UOB
         </a>
