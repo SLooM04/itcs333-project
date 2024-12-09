@@ -41,13 +41,6 @@ $stmt->execute();
 $feedbacks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
-<?php
-// Display success messages if they exist
-if (isset($_SESSION['success_message'])): ?>
-    <div class="success-message">
-        <?php echo $_SESSION['success_message']; unset($_SESSION['success_message']); ?>
-    </div>
-<?php endif; ?>
 
 
 <!DOCTYPE html>
@@ -568,7 +561,81 @@ button:hover {
             }
 
 
+ /* Reply Button */
+    .reply-button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 5px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
 
+    .reply-button:hover {
+        background-color: #45a049;
+        transform: translateY(-3px);  /* Slight lift effect */
+    }
+
+    /* Delete Button (Garbage Icon) */
+    .delete-button {
+        background-color: #e74c3c;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 5px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .delete-button:hover {
+        background-color: #c0392b;
+        transform: translateY(-3px); /* Slight lift effect */
+    }
+
+    .delete-button i {
+        margin-right: 5px; /* Space between icon and text */
+    }
+    
+    /* Success Message */
+    .success-message {
+        margin: 20px 0; 
+        padding: 15px;
+        background-color: #d4edda; 
+        border-left: 5px solid #28a745; 
+        color: #155724; 
+        border-radius: 8px; 
+        font-size: 1rem; 
+        font-weight: bold; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    }
+
+    /* Table Style */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 1rem;
+    }
+
+    table th, table td {
+        padding: 12px;
+        text-align: left;
+    }
+
+    table th {
+        background-color: #1a73e8;
+        color: white;
+    }
+
+    table tr:hover {
+        background-color: #f1f1f1;
+    }
+    
+    table td {
+        border-bottom: 1px solid #ddd;
+    }
             
         }
 
@@ -660,49 +727,77 @@ button:hover {
     </header>
     <main>
 
+    <?php
+// Display success messages
+if (isset($_SESSION['success_message'])): ?>
+    <div class="success-message" style="margin-top: 20px;">
+        <?php echo $_SESSION['success_message']; unset($_SESSION['success_message']); ?>
+    </div>
+<?php endif; ?>
+
     <!-- Feedback Management -->
     <div class="container">
     <div class="container">
     <h1>Feedback Management</h1>
     <table style="width: 100%; border-collapse: collapse;">
-        <thead>
-            <tr style="background-color: #1a73e8; color: white;">
-                <th style="padding: 10px;">Room</th>
-                <th style="padding: 10px;">User</th>
-                <th style="padding: 10px;">Feedback</th>
-                <th style="padding: 10px;">Response</th>
-                <th style="padding: 10px;">Actions</th>
+    <thead>
+        <tr style="background-color: #1a73e8; color: white;">
+            <th style="padding: 10px;">Room</th>
+            <th style="padding: 10px;">User</th>
+            <th style="padding: 10px;">Feedback</th>
+            <th style="padding: 10px;">Response</th>
+            <th style="padding: 10px;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($feedbacks as $feedback): ?>
+            <tr style="border-bottom: 1px solid #ddd;">
+                <!-- Room name as a clickable link -->
+                <td style="padding: 10px;">
+                    <a href="admin-room_details.php?id=<?php echo $feedback['room_id']; ?>" style="color: #1e90ff; text-decoration: none;">
+                        <?php echo htmlspecialchars($feedback['room_name']); ?>
+                    </a>
+                </td>
+                <td style="padding: 10px;"><?php echo htmlspecialchars($feedback['username']); ?></td>
+                <td style="padding: 10px;"><?php echo nl2br(htmlspecialchars($feedback['comment_text'])); ?></td>
+                <td style="padding: 10px;">
+                    <?php echo $feedback['admin_response'] ? htmlspecialchars($feedback['admin_response']) : 'No response'; ?>
+                </td>
+                <td style="padding: 10px;">
+    <!-- Reply Form -->
+    <form action="respond_comment.php" method="POST" style="display:inline-block; margin-bottom: 10px;">
+        <input type="hidden" name="comment_id" value="<?php echo $feedback['comment_id']; ?>">
+        <input type="text" name="response" placeholder="Reply..." required style="padding: 5px; font-size: 1rem; width: 180px; margin-right: 10px;">
+        <button type="submit" style="background-color: #4caf50; color: white; padding: 5px 10px; border: none; border-radius: 5px;">Reply</button>
+    </form>
+
+    <!-- Delete Button -->
+    <form action="delete_comment.php" method="POST" style="display:inline;">
+        <input type="hidden" name="comment_id" value="<?php echo $feedback['comment_id']; ?>">
+        <button type="submit" style="background-color: #e74c3c; color: white; padding: 5px 10px; border: none; border-radius: 5px;" onclick="return confirm('Are you sure you want to delete this feedback?');">
+            <i class="fas fa-trash-alt"></i> 
+        </button>
+    </form>
+
+    <!-- Delete Response Button -->
+    <?php if ($feedback['admin_response']): ?>
+        <form action="delete_response.php" method="POST" style="display:inline-block; margin-top: 10px;">
+            <input type="hidden" name="comment_id" value="<?php echo $feedback['comment_id']; ?>">
+            <button type="submit" style="background-color: #f39c12; color: white; padding: 5px 10px; border: none; border-radius: 5px;" onclick="return confirm('Are you sure you want to delete your response?');">
+                <i class="fas fa-trash-alt"></i> <!-- Font Awesome Garbage Icon -->
+            </button>
+        </form>
+    <?php endif; ?>
+</td>
+
             </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($feedbacks as $feedback): ?>
-                <tr style="border-bottom: 1px solid #ddd;">
-                    <!-- Room name as a clickable link -->
-                    <td style="padding: 10px;">
-                        <a href="admin-room_details.php?id=<?php echo $feedback['room_id']; ?>" style="color: #1e90ff; text-decoration: none;">
-                            <?php echo htmlspecialchars($feedback['room_name']); ?>
-                        </a>
-                    </td>
-                    <td style="padding: 10px;"><?php echo htmlspecialchars($feedback['username']); ?></td>
-                    <td style="padding: 10px;"><?php echo htmlspecialchars($feedback['comment_text']); ?></td>
-                    <td style="padding: 10px;"><?php echo $feedback['admin_response'] ? htmlspecialchars($feedback['admin_response']) : 'No response'; ?></td>
-                    <td style="padding: 10px;">
-                        <!-- Reply Form -->
-                        <form action="respond_comment.php" method="POST" style="display:inline;">
-                            <input type="hidden" name="comment_id" value="<?php echo $feedback['comment_id']; ?>">
-                            <input type="text" name="response" placeholder="Reply..." required>
-                            <button type="submit" style="background-color: #4caf50; color: white; padding: 5px 10px; border: none; border-radius: 5px;">Reply</button>
-                        </form>
-                        <!-- Delete Button -->
-                        <form action="delete_comment.php" method="POST" style="display:inline;">
-                            <input type="hidden" name="comment_id" value="<?php echo $feedback['comment_id']; ?>">
-                            <button type="submit" style="background-color: #e74c3c; color: white; padding: 5px 10px; border: none; border-radius: 5px;" onclick="return confirm('Are you sure you want to delete this feedback?');">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
+
+
+
 </div>
 
 </main>

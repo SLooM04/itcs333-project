@@ -1,25 +1,32 @@
 <?php
-session_start();
-require 'db.php'; // Database connection
+// delete_comment.php
 
-// Ensure the user is an admin
-if ($_SESSION['role'] !== 'admin') {
-    die("Unauthorized access.");
+session_start();
+require 'db.php';  // Include the DB connection file
+
+// Ensure the user is logged in and is an admin
+if ($_SESSION['role'] != 'admin' && !isset($_SESSION['user_id'])) {
+    header("Location: combined_login.php");
+    exit();
 }
 
-// Check if comment_id is provided
+// Check if comment_id is set and delete the comment
 if (isset($_POST['comment_id'])) {
-    $comment_id = (int)$_POST['comment_id'];
+    $comment_id = $_POST['comment_id'];
 
-    // Delete the comment from the database
-    $stmt = $pdo->prepare("DELETE FROM comments WHERE comment_id = :comment_id");
-    $stmt->execute([':comment_id' => $comment_id]);
+    // Prepare the delete query
+    $stmt = $pdo->prepare("DELETE FROM comments WHERE comment_id = ?");
+    $stmt->execute([$comment_id]);
 
-    // Redirect back to the admin dashboard with a success message
-    $_SESSION['success_message'] = "Feedback deleted successfully.";
-    header("Location: admin-dashboard.php");
+    // Optionally, set a success message to show after deletion
+    $_SESSION['success_message'] = "Comment deleted successfully.";
+
+    // Redirect back to feedback management page
+    header("Location: Feedback_Managment.php");
     exit();
 } else {
-    die("Invalid request.");
+    // If no comment_id was provided, redirect to the feedback management page
+    header("Location: Feedback_Managment.php");
+    exit();
 }
 ?>
