@@ -94,6 +94,7 @@ for ($i=0 ; $i < count($past_bookings) ; $i++){
          html, body {
             margin: 0;
             padding: 0;
+            min-height: 100%;
             width: 100%;
         }
         body {
@@ -141,7 +142,7 @@ for ($i=0 ; $i < count($past_bookings) ; $i++){
             width: 250px;
             background: linear-gradient(1deg, #1a73e8, #004db3 );  
             color: white;
-            height: 100vh;
+            min-height: 100%;
             display: flex;
             flex-direction: column;
         }

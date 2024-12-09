@@ -55,6 +55,7 @@ $updater->execute([':id' => $userId]);
 <html lang="en">
 
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome, <?php echo htmlspecialchars($username); ?></title>
@@ -989,6 +990,11 @@ $updater->execute([':id' => $userId]);
         }
 
 
+        .dark-mode .sweetalert-logout{
+            background-color: #2e4156;
+            color: white;
+        }
+
     </style>
 
 
@@ -999,7 +1005,7 @@ $updater->execute([':id' => $userId]);
 
     <header>
         <!-- Logo Section -->
-        <a href="homelog.php" class="logo">
+        <a href="Home.php" class="logo">
             <img src="uploads/UOB-Colleges-new-logo.png" alt="Logo">
             UOB
         </a>
@@ -1022,7 +1028,7 @@ $updater->execute([':id' => $userId]);
             <div class="dropdown-content">
                 <a href="profile.php">My Profile</a>
                 <a href="past_bookings.php">Past Bookings</a>
-                <a href="logout.php" class="logout-button" onclick="return confirm('Are you sure you want to log out?')">Logout</a>
+                <a href="#" onclick="confirmLogout()">Logout</a>
 
         <label class="theme-switch">
         <input id="themeToggle" type="checkbox" class="theme-switch__checkbox">
@@ -1046,6 +1052,30 @@ $updater->execute([':id' => $userId]);
         </label> 
             </div>
         </div>
+
+        <script>
+                function confirmLogout() {
+        // Use SweetAlert for confirmation
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Do you really want to log out?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Log out',
+                cancelButtonText: 'Cancel',
+                customClass: {
+                popup: 'sweetalert-logout'
+            }
+            }).then((result) => {
+            if (result.isConfirmed) {
+                // If confirmed, redirect to the cancel_booking.php with the booking ID
+                window.location.href = "logout.php";
+            }
+            });
+    }
+            </script>
     </header>
 
 

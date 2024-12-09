@@ -1219,7 +1219,7 @@ if (isset($_GET['room_type']) && isset($_GET['room_number'])) {
     
     <header>
         <!-- Logo Section -->
-        <a href="homelog.php" class="logo">
+        <a href="Home.php" class="logo">
             <img src="uploads/UOB-Colleges-new-logo.png" alt="Logo">
             UOB
         </a>

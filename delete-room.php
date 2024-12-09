@@ -1,27 +1,38 @@
 <?php
 session_start();
-require 'db.php';
+require 'db.php'; // Database connection file
 
+// Success/error message
+$message = '';
+
+// Check if the request is POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = $_POST['id'] ?? null;
+    // Check if the room name is provided
+    if (!empty($_POST['room_name'])) {
+        $room_name = $_POST['room_name'];
 
-    if ($id) {
-        // Check if the room exists
-        $stmt = $pdo->prepare("SELECT * FROM rooms WHERE id = ?");
-        $stmt->execute([$id]);
-        $room = $stmt->fetch();
+        try {
+            // Prepare the delete query
+            $query = "DELETE FROM rooms WHERE room_name = :room_name";
+            $stmt = $pdo->prepare($query);
 
-        if ($room) {
-            // Delete the room from the database
-            $stmt = $pdo->prepare("DELETE FROM rooms WHERE id = ?");
-            $stmt->execute([$id]);
+            // Bind the room name
+            $stmt->bindParam(':room_name', $room_name, PDO::PARAM_STR);
 
-            $message = "Room with ID $id has been deleted successfully.";
-        } else {
-            $error = "Room with ID $id does not exist.";
+            // Execute the query
+            $stmt->execute();
+
+            // Check if a row was deleted
+            if ($stmt->rowCount() > 0) {
+                $message = "Room '$room_name' has been deleted successfully!";
+            } else {
+                $message = "No room found with the name '$room_name'.";
+            }
+        } catch (PDOException $e) {
+            $message = "Error while deleting the room: " . $e->getMessage();
         }
     } else {
-        $error = "Please enter a valid Room ID.";
+        $message = "Please enter the room name.";
     }
 }
 ?>
@@ -34,94 +45,101 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Delete Room</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #f0f8ff; /* Light blue */
             color: #333;
         }
-
-        main.container {
+        .container {
             max-width: 600px;
             margin: 50px auto;
-            background-color: #fff;
+            padding: 20px;
+            background: #fff;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
         }
-
         h1 {
-            color: #002244;
             text-align: center;
+            color: #007BFF; /* Blue */
         }
-
         form {
-            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
-
-        label {
-            font-weight: bold;
-            color: #555;
-        }
-
-        input[type="number"] {
-            width: 100%;
+        input, button {
             padding: 10px;
-            margin: 10px 0 20px 0;
             border: 1px solid #ddd;
             border-radius: 5px;
             font-size: 16px;
         }
-
+        input:focus {
+            border-color: #007BFF;
+            outline: none;
+        }
         button {
-            background-color: #002244;
+            background: #007BFF;
             color: #fff;
-            padding: 10px 15px;
-            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .message {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .back-button {
+            display: block;
+            width: 200px;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            text-align: center;
             border: none;
             border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
+            text-decoration: none;
+            margin: 20px auto; /* Centers the button horizontally */
         }
-
-        button:hover {
-            background-color: #004080;
-        }
-
-        .success {
-            color: #28a745;
-            font-weight: bold;
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .error {
-            color: #dc3545;
-            font-weight: bold;
-            text-align: center;
-            margin-top: 20px;
+        .back-button:hover {
+            background-color: #218838;
         }
     </style>
+    <script>
+        function confirmDeletion() {
+            return confirm('Are you sure you want to delete this room?');
+        }
+    </script>
 </head>
 <body>
-    <main class="container">
-        <h1>Delete Room</h1>
-        <form method="POST">
-            <label for="id">Enter Room ID to Delete:</label>
-            <input type="number" id="id" name="id" required>
-            <button type="submit" class="primary">Delete Room</button>
-        </form>
 
-        <?php if (isset($message)): ?>
-            <p class="success"><?= htmlspecialchars($message) ?></p>
-        <?php endif; ?>
+<div class="container">
+    <h1>Delete Room</h1>
+    <?php if ($message): ?>
+        <div class="message <?= strpos($message, 'successfully') !== false ? 'success' : 'error' ?>">
+            <?= $message ?>
+        </div>
+    <?php endif; ?>
+    <form action="" method="POST" onsubmit="return confirmDeletion()">
+        <input type="text" name="room_name" placeholder="Enter Room Name" required>
+        <button type="submit">Delete Room</button>
+    </form>
 
-        <?php if (isset($error)): ?>
-            <p class="error"><?= htmlspecialchars($error) ?></p>
-        <?php endif; ?>
+    <!-- Back to Dashboard button -->
+    <a href="admin-dashboard.php" class="back-button">Back to Dashboard</a>
+</div>
 
-        <button style="margin-top:10px; padding:10px 20px;background-color:#b9c6d6;color:white;border:none;border-radius:5px;cursor:pointer;font-size:16px;" onclick="window.history.back()">Go Back</button>
-
-    </main>
 </body>
 </html>

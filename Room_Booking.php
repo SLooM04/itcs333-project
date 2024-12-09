@@ -401,11 +401,11 @@ body.dark-mode a {
 
                     if (duration == "1") {
                         // If 60 minutes is selected, show hourly slots from 8 AM to 10 PM
-                        for (var hour = 8; hour <= 22; hour++) {
+                        for (var hour = 8; hour < 22; hour++) {
                             var startHour = hour;
                             var endHour = hour + 1; // End time is the next hour
                             var startTime = (startHour < 12 ? (startHour < 10 ? "0" + startHour : startHour) + ":00 AM" : (startHour - 12) + ":00 PM");
-                            var endTime = (endHour < 12 ? (endHour < 10 ? "0" + endHour : endHour) + ":00 AM" : (endHour - 12) + ":00 PM");
+                            var endTime = (endHour < 12 ? (endHour <= 10 ? "0" + endHour : endHour) + ":00 AM" : (endHour - 12) + ":00 PM");
 
                             var option = document.createElement("option");
                             option.value = startHour + ":00:00";
@@ -415,9 +415,9 @@ body.dark-mode a {
                     } else if (duration == "1.5") {
                         for (var hour = 8; hour < 22; hour++) {
                             var startHour = hour;
-                            var endHour = hour + 1.5; // End time is 1.5 hours later
+                            var endHour = hour + 1.5; 
 
-                            // Format start time (e.g., 8:00 AM, 9:30 AM)
+                    
                             var startTime = (startHour < 12 ? (startHour < 10 ? "0" + startHour : startHour) + ":00 AM" : (startHour - 12) + ":00 PM");
                             var endTime = ((endHour % 1 === 0.5) ? (Math.floor(endHour) + ":30") : (Math.floor(endHour)) + ":00");
                             endTime = (endHour < 12 ? endTime + " AM" : (Math.floor(endHour) - 12) + ":30 PM");

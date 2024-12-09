@@ -655,7 +655,7 @@ $username = $_SESSION['username'] ?? 'User';
 <body>
 <header>
         <!-- Logo Section -->
-        <a href="homelog.php" class="logo">
+        <a href="Home.php" class="logo">
             <img src="uploads/UOB-Colleges-new-logo.png" alt="Logo">
             UOB
         </a>
@@ -665,7 +665,7 @@ $username = $_SESSION['username'] ?? 'User';
         <nav class="nav-links">
             <a href="homelog.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'homelog.php' ? 'active' : ''; ?>">Home</a>
             <a href="rooms.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'rooms.php' ? 'active' : ''; ?>">Rooms</a>
-            <a href="reporting.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'reservations.php' ? 'active' : ''; ?>">My Reservations</a>
+            <a href="upcoming_bookings.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'reservations.php' ? 'active' : ''; ?>">My Reservations</a>
             <a href="supportFAQ.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'supportFAQ.php' ? 'active' : ''; ?>">Support</a>
         </nav>
 
@@ -752,13 +752,7 @@ $username = $_SESSION['username'] ?? 'User';
                     <div class="accordion-body">
                         <p><strong>How do I book a room?</strong></p>
                         <p>Navigate to the room browsing page, select a room, choose an available timeslot, and confirm your booking. You will receive a confirmation notification.</p>
-
-                        <p><strong>What is the Booking Credit?</strong></p>
-                        <p>The booking credit system is designed to manage room bookings efficiently:
-                        <br><br>•	Students: Each student receives 10 booking credits per month. Each booking reduces the credit by 1. The credits are renewed at the beginning of every month.
-	                    <br><br>•	Teachers: Each teacher receives 30 booking credits per month. Similarly, each booking reduces the credit by 1, and the credits are renewed monthly.
-                        <br><br>This system ensures fair and organized access to room bookings.</p>
-
+                        
                         <p><strong>Can I cancel a booking?</strong></p>
                         <p>Yes, you can cancel a booking from your user dashboard under "Upcoming Bookings".</p>
                     </div>

@@ -91,8 +91,8 @@ else {
             font-family: 'Poppins', sans-serif;
             display: flex;
             text-align: center;
-            min-height: 100vh;
             overflow-x: hidden;
+            min-height: 100%;
         }
 
 
@@ -128,6 +128,10 @@ else {
         body.dark-mode .cancel{
             color: red;
         }
+        .dark-mode .sweetalert-details{
+            background-color: #2e4156;
+            color: white;
+        }
         
 
     
@@ -135,9 +139,9 @@ else {
             width: 250px;
             background: linear-gradient(1deg, #1a73e8, #004db3 );  
             color: white;
-            height: 100vh;
             display: flex;
             flex-direction: column;
+            min-height: 100%;
         }
         .profile {
             text-align: center;
@@ -323,7 +327,10 @@ else {
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
                 confirmButtonText: 'Yes, cancel it!',
-                cancelButtonText: 'No, keep it'
+                cancelButtonText: 'No, keep it',
+                customClass: {
+                popup: 'sweetalert-details'
+            }
             }).then((result) => {
             if (result.isConfirmed) {
                 // If confirmed, redirect to the cancel_booking.php with the booking ID

@@ -4,42 +4,34 @@ require 'db.php';
 
 $bookings = [];
 $message = '';
-$show_no_bookings_message = false;
-$show_message = false;
 
-// Handling search by teacher_id or student_id
+// Handling search by room name
 if (isset($_POST['search'])) {
-    $user_id = $_POST['user_id'];
-    $user_type = $_POST['user_type'];
+    $room_name = $_POST['room_name'];
 
-    // Query based on teacher or student ID
-    if ($user_type == 'teacher') {
-        $query = "SELECT b.booking_id, b.room_id, b.room_name, b.start_time, b.end_time, b.status
-                  FROM bookings b
-                  LEFT JOIN users t ON b.teacher_id = t.id
-                  WHERE b.teacher_id = :user_id AND b.status != 'Cancelled' 
-                  ORDER BY b.start_time ASC";
-    } elseif ($user_type == 'student') {
-        $query = "SELECT b.booking_id, b.room_id, b.room_name, b.start_time, b.end_time, b.status
-                  FROM bookings b
-                  LEFT JOIN users s ON b.student_id = s.id
-                  WHERE b.student_id = :user_id AND b.status != 'Cancelled' 
-                  ORDER BY b.start_time ASC";
-    } else {
-        $message = "Please select a valid user type.";
-    }
+    // Query to fetch bookings based on room name
+    $query = "SELECT b.booking_id, b.room_id, b.room_name, b.start_time, b.end_time, b.status, 
+                     t.username AS teacher_name, s.username AS student_name 
+              FROM bookings b
+              LEFT JOIN users t ON b.teacher_id = t.id   -- Linking teacher_id to users.id
+              LEFT JOIN users s ON b.student_id = s.id   -- Linking student_id to users.id
+              WHERE b.room_name LIKE :room_name AND b.status != 'Cancelled' 
+              ORDER BY b.start_time ASC";
 
-    if (empty($message)) {
-        $stmt = $pdo->prepare($query);
-        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-        $stmt->execute();
-        $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $stmt->closeCursor();
+    // Prepare the query
+    $stmt = $pdo->prepare($query);
 
-        if (empty($bookings)) {
-            $show_no_bookings_message = true;
-        }
-    }
+    // Bind the room name parameter using PDO
+    $stmt->bindValue(':room_name', '%' . $room_name . '%', PDO::PARAM_STR);
+
+    // Execute the query
+    $stmt->execute();
+
+    // Fetch all results
+    $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Close the statement
+    $stmt->closeCursor();
 }
 
 // Cancel booking
@@ -48,21 +40,18 @@ if (isset($_GET['cancel_booking_id'])) {
 
     $delete_query = "UPDATE bookings SET status = 'Cancelled' WHERE booking_id = :id";
     $stmt = $pdo->prepare($delete_query);
+
+    // Bind the booking_id parameter using PDO
     $stmt->bindValue(':id', $cancel_booking_id, PDO::PARAM_INT);
 
     if ($stmt->execute()) {
-        $_SESSION['cancel_message'] = "Booking canceled successfully.";
+        $message = "Booking canceled successfully.";
     } else {
-        $_SESSION['cancel_message'] = "Error canceling booking.";
+        $message = "Error canceling booking.";
     }
 
+    // Close the statement
     $stmt->closeCursor();
-    header("Location: ".$_SERVER['PHP_SELF']);
-    exit;
-}
-
-if (isset($_POST['search']) && isset($_SESSION['cancel_message'])) {
-    unset($_SESSION['cancel_message']);
 }
 ?>
 
@@ -154,11 +143,6 @@ if (isset($_POST['search']) && isset($_SESSION['cancel_message'])) {
             font-size: 1em;
             margin-bottom: 20px;
         }
-        .success-message {
-            color: green;
-            font-size: 1.2em;
-            margin-bottom: 20px;
-        }
         .no-bookings-message {
             color: green;
             font-size: 1.2em;
@@ -171,33 +155,16 @@ if (isset($_POST['search']) && isset($_SESSION['cancel_message'])) {
 <div class="container">
     <h1>Search and Cancel Booking</h1>
 
-    <!-- Search Form for Teacher or Student -->
+    <!-- Search Form for Room Name -->
     <form method="POST" action="">
-        <label for="user_type">Select User Type:</label>
-        <select id="user_type" name="user_type" required>
-            <option value="">Choose User Type</option>
-            <option value="teacher">Teacher</option>
-            <option value="student">Student</option>
-        </select>
-
-        <label for="user_id">Enter User ID:</label>
-        <input type="number" id="user_id" name="user_id" required>
+        <label for="room_name">Search Room by Name:</label>
+        <input type="text" id="room_name" name="room_name" required>
 
         <button type="submit" name="search">Search Bookings</button>
     </form>
 
-    <!-- Display Success Message if booking was canceled -->
-    <?php if (isset($_SESSION['cancel_message'])) { ?>
-        <p class="success-message"><?php echo $_SESSION['cancel_message']; unset($_SESSION['cancel_message']); ?></p>
-    <?php } ?>
-
     <!-- Display Error or Success Message -->
-    <?php if (!empty($message) && !isset($_SESSION['cancel_message'])) { echo "<p class='error-message'>$message</p>"; } ?>
-
-    <!-- Display No Bookings Message only after a search -->
-    <?php if ($show_no_bookings_message) { ?>
-        <p class="no-bookings-message">No bookings found for the specified user.</p>
-    <?php } ?>
+    <?php if (!empty($message)) { echo "<p class='error-message'>$message</p>"; } ?>
 
     <!-- Display Bookings Table if there are results -->
     <?php if (!empty($bookings)) { ?>
@@ -208,7 +175,9 @@ if (isset($_POST['search']) && isset($_SESSION['cancel_message'])) {
                     <th>Start Time</th>
                     <th>End Time</th>
                     <th>Status</th>
-                    <th>Action</th> <!-- Cancel action -->
+                    <th>Teacher</th>
+                    <th>Student</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -218,12 +187,18 @@ if (isset($_POST['search']) && isset($_SESSION['cancel_message'])) {
                         <td><?php echo $booking['start_time']; ?></td>
                         <td><?php echo $booking['end_time']; ?></td>
                         <td><?php echo $booking['status']; ?></td>
+                        <td><?php echo $booking['teacher_name']; ?></td>
+                        <td><?php echo $booking['student_name']; ?></td>
                         <td class="cancel" onclick="confirmCancel(<?= $booking['booking_id']; ?>)">Cancel</td>
                     </tr>
                 <?php } ?>
             </tbody>
         </table>
+
+    <?php } else { ?>
+        <p class="no-bookings-message">No bookings found for the specified room.</p>
     <?php } ?>
+
 </div>
 
 <script>
