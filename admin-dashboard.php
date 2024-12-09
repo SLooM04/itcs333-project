@@ -268,6 +268,11 @@ button:hover {
                 width: 90%;
                 bottom: -70px;
             }
+
+            .sections {
+            
+            gap: 60px;
+        }
         }
 
         
