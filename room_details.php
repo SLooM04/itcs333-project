@@ -1184,7 +1184,7 @@ for ($i =0 ; $i < count($bookings_number) ; $i++){
 <body>
     <header>
         <!-- Logo Section -->
-        <a href="homelog.php" class="logo">
+        <a href="Home.php" class="logo">
             <img src="uploads/UOB-Colleges-new-logo.png" alt="Logo">
             UOB
         </a>
