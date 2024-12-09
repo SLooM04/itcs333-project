@@ -2,71 +2,58 @@
 session_start();
 require 'db.php'; // Include the DB connection file
 
-if (!isset($_SESSION['user_id'])) {
-    $isGuest = true;
-    $username = 'Guest';
-} else {
-    $isGuest = false;
-    $userId = $_SESSION['user_id'];
-    $userRole = $_SESSION['role'];
+// Handle user session and details
+$isGuest = !isset($_SESSION['user_id']);
+$username = $isGuest ? 'Guest' : ($_SESSION['username'] ?? 'User');
+$userId = $_SESSION['user_id'] ?? null;
+$userRole = $_SESSION['role'] ?? null;
 
-    if ($userRole == 'student') {
-        $stmt = $pdo->prepare("SELECT * FROM students WHERE student_id = ?");
-    } else {
-        $stmt = $pdo->prepare("SELECT * FROM teachers WHERE teacher_id = ?");
-    }
+if (!$isGuest) {
+    $stmt = $pdo->prepare($userRole == 'student' ? "SELECT * FROM students WHERE student_id = ?" : "SELECT * FROM teachers WHERE teacher_id = ?");
     $stmt->execute([$userId]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    $username = $_SESSION['username'] ?? 'User';
 }
 
+// Fetch room ID from URL and room details
+$room_id = isset($_GET['id']) ? $_GET['id'] : null;
 
-// Check if room ID is provided in the URL
-if (isset($_GET['id'])) {
-    $room_id = $_GET['id'];
-
-    // Fetch room details from the database
-    $stmt = $pdo->prepare("SELECT * FROM rooms WHERE id = :id");
-    $stmt->execute(['id' => $room_id]);
-    $room = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if (!$room) {
-        echo "Room not found.";
-        exit();
-    }
-} else {
+if (!$room_id) {
     echo "No room selected.";
     exit();
 }
 
-// Fetch the room ID from the URL
-$room_id = isset($_GET['id']) ? intval($_GET['id']) : null;
-
 // Fetch room details
-$stmt = $pdo->prepare("SELECT * FROM rooms WHERE id = :id");
-$stmt->execute(['id' => $room_id]);
+$stmt = $pdo->prepare("SELECT * FROM rooms WHERE id = :room_id");
+$stmt->execute(['room_id' => $room_id]);
 $room = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$room) {
-    die("Invalid room ID");
+    echo "Room not found.";
+    exit();
 }
 
-// Fetch the booking date from the URL or request
-$booking_date = isset($_GET['date']) ? $_GET['date'] : date('Y-m-d');
-
-// Fetch already booked time slots for the selected date
+// Fetch comments for the room
 $stmt = $pdo->prepare("
-    SELECT start_time, end_time 
-    FROM bookings 
-    WHERE room_id = :room_id 
-    AND DATE(start_time) = :booking_date
-    AND status != 'Cancelled'
+    SELECT c.*, 
+           CASE 
+               WHEN c.user_role = 'student' THEN s.username 
+               WHEN c.user_role = 'teacher' THEN t.username 
+           END AS username
+    FROM comments c
+    LEFT JOIN students s ON c.user_id = s.student_id AND c.user_role = 'student'
+    LEFT JOIN teachers t ON c.user_id = t.teacher_id AND c.user_role = 'teacher'
+    WHERE c.room_id = :room_id 
+    ORDER BY c.created_at DESC
 ");
+$stmt->execute(['room_id' => $room_id]);
+$comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Fetch available time slots
+$booking_date = $_GET['date'] ?? date('Y-m-d');
+$stmt = $pdo->prepare("SELECT start_time, end_time FROM bookings WHERE room_id = :room_id AND DATE(start_time) = :booking_date AND status != 'Cancelled'");
 $stmt->execute(['room_id' => $room_id, 'booking_date' => $booking_date]);
 $booked_slots = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Function to check if a time slot is booked
 function isTimeSlotAvailable($start_time, $end_time, $booked_slots)
 {
     foreach ($booked_slots as $slot) {
@@ -81,7 +68,6 @@ function isTimeSlotAvailable($start_time, $end_time, $booked_slots)
     return true;
 }
 
-// Generate available time slots for a day (8 AM to 10 PM, 1-hour slots)
 function generateAvailableSlots($booked_slots)
 {
     $available_slots = [];
@@ -99,39 +85,8 @@ function generateAvailableSlots($booked_slots)
 
     return $available_slots;
 }
-//finding the placement of the room in $room array
 
-
-
-// Get available slots
 $available_slots = generateAvailableSlots($booked_slots);
-?>
-
-<?php
-// Fetch the room ID from the URL
-$room_id = $_GET['id'];
-
-// Fetch room details from the database
-$stmt = $pdo->prepare("SELECT * FROM rooms WHERE id = :room_id");
-$stmt->execute([':room_id' => $room_id]);
-$room = $stmt->fetch(PDO::FETCH_ASSOC);
-
-// Fetch comments for the room
-$stmt = $pdo->prepare("
-    SELECT c.*, 
-           CASE 
-               WHEN c.user_role = 'student' THEN s.username 
-               WHEN c.user_role = 'teacher' THEN t.username 
-           END AS username
-    FROM comments c
-    LEFT JOIN students s ON c.user_id = s.student_id AND c.user_role = 'student'
-    LEFT JOIN teachers t ON c.user_id = t.teacher_id AND c.user_role = 'teacher'
-    WHERE c.room_id = :room_id 
-    ORDER BY c.created_at DESC
-");
-$stmt->execute([':room_id' => $room_id]);
-$comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 
 
 //fetching total count for rooms and ratings
@@ -151,47 +106,12 @@ for ($i = 0; $i < count($bookings_number); $i++) {
     }
 }
 
-// Fetch user details and room details
-$user_id = $_SESSION['user_id'];
-$room_id = $_GET['id'];  // Assuming the room ID is passed as a GET parameter
-
-// Check if the user has a past booking for the room
-$stmt = $pdo->prepare("
-    SELECT * FROM bookings 
-    WHERE room_id = :room_id 
-      AND (student_id = :user_id OR teacher_id = :user_id) 
-      AND end_time < NOW() 
-      AND status IN ('Confirmed', 'Successful')
-");
-$stmt->execute([
-    ':room_id' => $room_id,
-    ':user_id' => $user_id
-]);
-
+// Check for past bookings
+$stmt = $pdo->prepare("SELECT * FROM bookings WHERE room_id = :room_id AND (student_id = :user_id OR teacher_id = :user_id) AND end_time < NOW() AND status IN ('Confirmed', 'Successful')");
+$stmt->execute([":room_id" => $room_id, ":user_id" => $userId]);
 $has_past_booking = $stmt->rowCount() > 0;
-
-
 ?>
 
-<?php
-// Fetch room_id from the URL
-$room_id = $_GET['id'];  // Get room_id from the URL
-
-// Fetch the comments for the current room
-$stmt = $pdo->prepare("
-    SELECT comments.*, 
-           CASE 
-               WHEN comments.user_role = 'student' THEN students.username
-               WHEN comments.user_role = 'teacher' THEN teachers.username
-           END AS username
-    FROM comments
-    LEFT JOIN students ON comments.user_id = students.student_id
-    LEFT JOIN teachers ON comments.user_id = teachers.teacher_id
-    WHERE comments.room_id = :room_id
-");
-$stmt->execute([':room_id' => $room_id]);
-$comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
-?>
 
 <!DOCTYPE html>
 <html lang="en">
