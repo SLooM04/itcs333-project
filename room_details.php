@@ -137,7 +137,7 @@ $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 //fetching total count for rooms and ratings
 $sqlstmt = $pdo->prepare("SELECT b.room_id, COUNT(*) AS total_bookings, 
 (SELECT AVG(c.rating) FROM comments c WHERE c.room_id = b.room_id) AS rating 
-    FROM bookings b GROUP BY b.room_id;");
+    FROM bookings b WHERE b.status != 'Cancelled' GROUP BY b.room_id;");
 $sqlstmt->execute();
 $bookings_number = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -1296,7 +1296,7 @@ body.dark-mode .star-rating input:hover ~ label {
                     <h3 style="color: #000000"><a href="room_statistics.php?id=<?= htmlspecialchars($room_id) ?>">Analytics</a></h3>
                     <p>
                         <strong style="color:#1a73e8">Total bookings</strong> <br><?php if(isset($bookings_number[$roomNum_bookings])) echo htmlspecialchars($bookings_number[$roomNum_bookings]['total_bookings']); else echo 0 ?><br> 
-                        <strong style="color:#1a73e8">Rating</strong><br> <?php if(isset($bookings_number[$roomNum_bookings])){echo htmlspecialchars($bookings_number[$roomNum_bookings]['rating']);} else {echo 'No ratings';} ?>                     
+                        <strong style="color:#1a73e8">Rating:</strong><br> <?php if(isset($bookings_number[$roomNum_bookings])){echo number_format($bookings_number[$roomNum_bookings]['rating'], 1) . "/5";} else {echo 'No ratings';} ?>                     
                     </p>
                 </div>
                 <div class="feature-box">
