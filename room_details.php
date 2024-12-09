@@ -386,9 +386,9 @@ body.dark-mode .comment em {
 /* Admin Response Styling in Dark Mode */
 
 body.dark-mode .admin-response {
-    background-color: #324c39 !important; 
-    border-left-color: #52c476 !important; 
-    color: #d1ffd9 !important; 
+    background-color: #324c39 ; 
+    border-left-color: #52c476; 
+    color: #d1ffd9 ; 
 }
 
 .admin-response {
