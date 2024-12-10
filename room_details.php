@@ -344,10 +344,11 @@ for ($i =0 ; $i < count($bookings_number) ; $i++){
         /* Admin Response Styling in Dark Mode */
 
         body.dark-mode .admin-response {
-            background-color: #324c39;
-            border-left-color: #52c476;
-            color: #d1ffd9;
-        }
+    background-color: #324c39 !important; 
+    border-left-color: #52c476 !important; 
+    color: #d1ffd9 !important; 
+}
+
 
         .admin-response {
             margin-top: 15px;
@@ -357,13 +358,6 @@ for ($i =0 ; $i < count($bookings_number) ; $i++){
             border-radius: 5px;
             font-style: italic;
             color: #333;
-        }
-
-        /* Dark Mode Styling for Admin Response */
-        body.dark-mode .admin-response {
-            background-color: #324c39;
-            border-left-color: #52c476;
-            color: #d1ffd9;
         }
 
         body.dark-mode .admin-response {
