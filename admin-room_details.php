@@ -190,6 +190,75 @@ $has_past_booking = $stmt->rowCount() > 0;
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 
 
+
+
+        /* Dark Mode Styles for Feedback and Comments */
+
+        /* Feedback and Comments Section */
+        body.dark-mode .comments-section {
+            background-color: #2e4156;
+            color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        body.dark-mode .comments-section h2 {
+            color: #1e90ff;
+            border-bottom: 2px solid #1e90ff;
+            padding-bottom: 5px;
+        }
+
+        /* Individual Comment Styling in Dark Mode */
+        body.dark-mode .comment {
+            background-color: #3a4b61 !important;
+            border: 1px solid #555;
+            color: #ffffff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode .comment strong {
+            color: #ffffff;
+        }
+
+        body.dark-mode .comment em {
+            color: #bbbbbb;
+        }
+
+
+        /* Admin Response Styling in Dark Mode */
+
+        body.dark-mode .admin-response {
+    background-color: #324c39 !important; 
+    border-left-color: #52c476 !important; 
+    color: #d1ffd9 !important; 
+}
+
+
+        .admin-response {
+            margin-top: 15px;
+            padding: 10px;
+            border-left: 4px solid #28a745;
+            background-color: #eafbe7;
+            border-radius: 5px;
+            font-style: italic;
+            color: #333;
+        }
+
+        body.dark-mode .admin-response {
+            background-color: #2b4a3f;
+            color: #ffffff;
+            font-style: italic;
+            padding: 15px;
+            margin-top: 15px;
+            border-left: 5px solid #28a745;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        
         /* Styling comments section container */
         
         
