@@ -49,6 +49,30 @@ else if($userRole == 'teacher'){
 $updater = $pdo->prepare($query);
 $updater->execute([':id' => $userId]);
 
+
+// Fetch top 5 most booked rooms
+$sqlstmt = $pdo->prepare("
+    SELECT room_id, room_name, COUNT(*) as total_bookings 
+    FROM bookings 
+    WHERE status != 'Cancelled'
+    GROUP BY room_id, room_name
+    ORDER BY total_bookings DESC 
+    LIMIT 5
+");
+$sqlstmt->execute();
+$rooms = $sqlstmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Calculate total bookings for percentages
+$totalBookings = array_sum(array_column($rooms, 'total_bookings'));
+
+// Update booking statuses for expired bookings
+$query = ($userRole == 'student') 
+    ? "UPDATE bookings SET status = 'Confirmed' WHERE student_id = :id AND end_time < NOW()"
+    : "UPDATE bookings SET status = 'Confirmed' WHERE teacher_id = :id AND end_time < NOW()";
+
+$updater = $pdo->prepare($query);
+$updater->execute([':id' => $userId]);
+
 ?>
 
 <!DOCTYPE html>
@@ -525,7 +549,8 @@ $updater->execute([':id' => $userId]);
         /* Recommendations Section */
         .recommendations {
             text-align: center;
-            margin: 100px 20px;
+            margin: 20px 20px;
+            margin-top: 80px;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
             z-index: 1;
         }
@@ -539,7 +564,7 @@ $updater->execute([':id' => $userId]);
         .recommendation-table {
             text-align: center;
             width: 80%;
-            margin: 20px auto;
+            margin: 0px auto;
             border-collapse: collapse;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
             text-align: left;
@@ -996,6 +1021,75 @@ $updater->execute([':id' => $userId]);
         }
 
     </style>
+    <style>
+        .simple-bar-chart {
+            --line-count: 10;
+            --line-color: currentcolor;
+            --line-opacity: 0.25;
+            --item-gap: 2%;
+            --item-default-color: #060606;
+            width: 78%;
+            height: 10rem;
+            display: grid;
+            grid-auto-flow: column;
+            gap: var(--item-gap);
+            align-items: end;
+            padding-inline: var(--item-gap);
+            padding-block: 1.5rem;
+            position: relative;
+            isolation: isolate;
+            border: 2px solid #0076f3; /* Add a border */
+            border-radius: 8px; /*  rounded corners */
+            margin-left: 11%;
+            background: linear-gradient(1deg, rgba(210, 205, 255, 0.8), rgba(0, 0, 190, 0.1));
+
+
+
+        }
+
+        .simple-bar-chart::after {
+            content: "";
+            position: absolute;
+            inset: 1.5rem 0;
+            z-index: -1;
+            background-image: repeating-linear-gradient(
+                to top,
+                transparent 0 calc(100% / var(--line-count) - 1px),
+                var(--line-color) 0 calc(100% / var(--line-count))
+            );
+            box-shadow: 0 1px 0 var(--line-color);
+            opacity: var(--line-opacity);
+        }
+
+        .simple-bar-chart > .item {
+            height: calc(1% * var(--val));
+            background-color: var(--clr, var(--item-default-color));
+            position: relative;
+            animation: item-height 1s ease forwards;
+        }
+
+        @keyframes item-height {
+            from {
+                height: 0;
+            }
+        }
+
+        .simple-bar-chart > .item > * {
+            position: absolute;
+            text-align: center;
+        }
+
+        .simple-bar-chart > .item > .label {
+            inset: 100% 0 auto 0;
+        }
+
+        .simple-bar-chart > .item > .value {
+            inset: auto 0 100% 0;
+        }
+
+        
+
+    </style>
 
 
 </head>
@@ -1258,6 +1352,25 @@ $updater->execute([':id' => $userId]);
                 </tbody>
             </table>
         </section>
+
+                <!-- Chart -->
+
+         <section>
+    <div class="simple-bar-chart">
+        <?php foreach ($rooms as $index => $room): ?>
+            <?php 
+                $percentage = ($room['total_bookings'] / $totalBookings) * 100;
+                $colors = ['#105cc0', '#719bd3', '#2f7ea6', '#0092dc', '#035680']; // Colors for bars
+            ?>
+            <div class="item" style="--clr: <?php echo $colors[$index % count($colors)]; ?>; --val: <?php echo $percentage; ?>">
+                <div class="label"><?php echo htmlspecialchars($room['room_name']); ?></div>
+                <div class="value"><?php echo round($percentage, 1); ?>%</div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+
+         </section>
+
 
 
 
